@@ -1,0 +1,16 @@
+syntax = "proto3";
+package junction.junction;
+
+option go_package = "github.com/airchains-network/junction/x/junction/types";
+
+message Stations {
+  
+  repeated string tracks = 1; 
+  repeated uint64 votingPower = 2; 
+  uint64 latestPod = 3; 
+  string latestMerkleRootHash = 4; 
+  bytes verificationKey = 5; 
+  string stationInfo = 6; 
+  string id = 7; 
+  string creator = 8; 
+}
