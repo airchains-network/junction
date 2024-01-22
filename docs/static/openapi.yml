@@ -75212,6 +75212,13 @@ definitions:
     description: |-
       Version defines the versioning scheme used to negotiate the IBC verison in
       the connection handshake.
+  junction.junction.MsgInitStationResponse:
+    type: object
+    properties:
+      status:
+        type: boolean
+      stationId:
+        type: string
   junction.junction.Params:
     type: object
     description: Params defines the parameters for the module.

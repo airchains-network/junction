@@ -1,7 +1,22 @@
 syntax = "proto3";
+
 package junction.junction;
 
 option go_package = "github.com/airchains-network/junction/x/junction/types";
 
 // Msg defines the Msg service.
-service Msg {}
+service Msg {
+  rpc InitStation (MsgInitStation) returns (MsgInitStationResponse);
+}
+message MsgInitStation {
+  string creator         = 1;
+  bytes verificationKey = 2;
+  string stationId       = 3;
+  string stationInfo     = 4;
+}
+
+message MsgInitStationResponse {
+  bool   status    = 1;
+  string stationId = 2;
+}
+
