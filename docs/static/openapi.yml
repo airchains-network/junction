@@ -46498,6 +46498,67 @@ paths:
           type: string
       tags:
         - Query
+  /ComputerKeeda/junction/junction/get_station_details_by_address/{address}:
+    get:
+      summary: Queries a list of GetStationDetailsByAddress items.
+      operationId: JunctionJunctionGetStationDetailsByAddress
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              station:
+                type: object
+                properties:
+                  tracks:
+                    type: array
+                    items:
+                      type: string
+                  votingPower:
+                    type: array
+                    items:
+                      type: string
+                      format: uint64
+                  latestPod:
+                    type: string
+                    format: uint64
+                  latestMerkleRootHash:
+                    type: string
+                  verificationKey:
+                    type: string
+                    format: byte
+                  stationInfo:
+                    type: string
+                  id:
+                    type: string
+                  creator:
+                    type: string
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: address
+          in: path
+          required: true
+          type: string
+      tags:
+        - Query
   /ComputerKeeda/junction/junction/list_stations:
     get:
       summary: Queries a list of ListStations items.
@@ -75426,6 +75487,35 @@ definitions:
   junction.junction.Params:
     type: object
     description: Params defines the parameters for the module.
+  junction.junction.QueryGetStationDetailsByAddressResponse:
+    type: object
+    properties:
+      station:
+        type: object
+        properties:
+          tracks:
+            type: array
+            items:
+              type: string
+          votingPower:
+            type: array
+            items:
+              type: string
+              format: uint64
+          latestPod:
+            type: string
+            format: uint64
+          latestMerkleRootHash:
+            type: string
+          verificationKey:
+            type: string
+            format: byte
+          stationInfo:
+            type: string
+          id:
+            type: string
+          creator:
+            type: string
   junction.junction.QueryGetStationResponse:
     type: object
     properties:
