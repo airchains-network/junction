@@ -27,17 +27,15 @@ func (k Keeper) initStationHelper(ctx sdk.Context, station types.Stations, creat
 		return sdkerrors.ErrInvalidAddress
 	}
 
-	stationRegistry.Set([]byte(creator), []byte(byteStationId))
-	//stationVerificationKeyDB := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.StationVerificationKeyKeys))
-
-	//newVerificationKey := types.StationVerificationKey{
-	//	StationId:       station.Id,
-	//	VerificationKey: station.VerificationKey,
-	//}
-	//stationVerificationKeyDB.Set([]byte(station.Id), station.VerificationKey)
-
+	// check if the user is sending the unique id or not
 	stationDataDB := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.StationDataKey))
+	uniqueStationIDCheck := stationDataDB.Get([]byte(station.Id))
+	if uniqueStationIDCheck != nil {
+		return sdkerrors.ErrConflict
+	}
+
 	b := k.cdc.MustMarshal(&station)
+	stationRegistry.Set([]byte(creator), []byte(byteStationId))
 	stationDataDB.Set([]byte(station.Id), b)
 
 	figuresDB := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.FiguresDBPath))

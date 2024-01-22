@@ -1,26 +1,45 @@
 syntax = "proto3";
+
 package junction.junction;
 
 import "gogoproto/gogo.proto";
 import "google/api/annotations.proto";
 import "cosmos/base/query/v1beta1/pagination.proto";
 import "junction/junction/params.proto";
+import "junction/junction/stations.proto";
 
-option go_package = "github.com/airchains-network/junction/x/junction/types";
+option go_package = "github.com/ComputerKeeda/junction/x/junction/types";
 
 // Query defines the gRPC querier service.
 service Query {
+  
   // Parameters queries the parameters of the module.
-  rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {
-    option (google.api.http).get = "/airchains-network/junction/junction/params";
+  rpc Params (QueryParamsRequest) returns (QueryParamsResponse) {
+    option (google.api.http).get = "/ComputerKeeda/junction/junction/params";
+  
+  }
+  
+  // Queries a list of ListStations items.
+  rpc ListStations (QueryListStationsRequest) returns (QueryListStationsResponse) {
+    option (google.api.http).get = "/ComputerKeeda/junction/junction/list_stations";
+  
   }
 }
-
 // QueryParamsRequest is request type for the Query/Params RPC method.
 message QueryParamsRequest {}
 
 // QueryParamsResponse is response type for the Query/Params RPC method.
 message QueryParamsResponse {
+  
   // params holds all the parameters of this module.
   Params params = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryListStationsRequest {
+  cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryListStationsResponse {
+  repeated Stations stationsList = 1 [(gogoproto.nullable) = false];
+  cosmos.base.query.v1beta1.PageResponse pagination   = 2;
 }
