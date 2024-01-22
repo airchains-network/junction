@@ -2,6 +2,8 @@ package keeper
 
 import (
 	"context"
+	"github.com/cosmos/cosmos-sdk/store/prefix"
+	"github.com/cosmos/cosmos-sdk/types/query"
 
 	"github.com/ComputerKeeda/junction/x/junction/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
@@ -16,8 +18,24 @@ func (k Keeper) ListStations(goCtx context.Context, req *types.QueryListStations
 
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
-	// TODO: Process the query
-	_ = ctx
+	var stations []types.Stations
 
-	return &types.QueryListStationsResponse{}, nil
+	stationDataDB := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.StationDataKey))
+
+	pageRes, err := query.Paginate(stationDataDB, req.Pagination, func(key []byte, value []byte) error {
+		var singleStationData types.Stations
+		if err := k.cdc.Unmarshal(value, &singleStationData); err != nil {
+			return err
+		}
+
+		stations = append(stations, singleStationData)
+		return nil
+	})
+
+	// Throw an error if pagination failed
+	if err != nil {
+		return nil, status.Error(codes.Internal, err.Error())
+	}
+
+	return &types.QueryListStationsResponse{StationsList: stations, Pagination: pageRes}, nil
 }

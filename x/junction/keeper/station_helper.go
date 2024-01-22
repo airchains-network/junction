@@ -57,3 +57,14 @@ func (k Keeper) initStationHelper(ctx sdk.Context, station types.Stations, creat
 	}
 	return nil
 }
+
+func (k Keeper) getStationById(ctx sdk.Context, stationId string) (types.Stations, error) {
+	stationDataDB := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.StationDataKey))
+	stationByte := stationDataDB.Get([]byte(stationId))
+	var station types.Stations
+	if stationByte == nil {
+		return station, sdkerrors.ErrInvalidRequest
+	}
+	k.cdc.MustUnmarshal(stationByte, &station)
+	return station, nil
+}
