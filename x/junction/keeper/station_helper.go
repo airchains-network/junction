@@ -10,6 +10,7 @@ import (
 	"strconv"
 )
 
+/* trunk-ignore(golangci-lint/staticcheck) */
 func (k Keeper) initStationHelper(ctx sdk.Context, station types.Stations, creator string) *sdkerrors.Error {
 	var vk bls12381.VerifyingKey
 	err := json.Unmarshal(station.VerificationKey, &vk)
