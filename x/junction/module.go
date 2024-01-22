@@ -11,9 +11,9 @@ import (
 
 	abci "github.com/cometbft/cometbft/abci/types"
 
-	"github.com/airchains-network/junction/x/junction/client/cli"
-	"github.com/airchains-network/junction/x/junction/keeper"
-	"github.com/airchains-network/junction/x/junction/types"
+	"github.com/ComputerKeeda/junction/x/junction/client/cli"
+	"github.com/ComputerKeeda/junction/x/junction/keeper"
+	"github.com/ComputerKeeda/junction/x/junction/types"
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/codec"
 	cdctypes "github.com/cosmos/cosmos-sdk/codec/types"

@@ -3,7 +3,7 @@ package keeper
 import (
 	"context"
 
-	"github.com/airchains-network/junction/x/junction/types"
+	"github.com/ComputerKeeda/junction/x/junction/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"

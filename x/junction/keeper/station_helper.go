@@ -2,8 +2,8 @@ package keeper
 
 import (
 	"encoding/json"
+	"github.com/ComputerKeeda/junction/x/junction/types"
 	bls12381 "github.com/airchains-network/gnark/backend/groth16/bls12-381"
-	"github.com/airchains-network/junction/x/junction/types"
 	"github.com/cosmos/cosmos-sdk/store/prefix"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"

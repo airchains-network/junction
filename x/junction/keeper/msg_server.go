@@ -1,7 +1,7 @@
 package keeper
 
 import (
-	"github.com/airchains-network/junction/x/junction/types"
+	"github.com/ComputerKeeda/junction/x/junction/types"
 )
 
 type msgServer struct {

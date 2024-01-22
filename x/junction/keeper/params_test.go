@@ -3,8 +3,8 @@ package keeper_test
 import (
 	"testing"
 
-	testkeeper "github.com/airchains-network/junction/testutil/keeper"
-	"github.com/airchains-network/junction/x/junction/types"
+	testkeeper "github.com/ComputerKeeda/junction/testutil/keeper"
+	"github.com/ComputerKeeda/junction/x/junction/types"
 	"github.com/stretchr/testify/require"
 )
 
