@@ -9,7 +9,7 @@ const TypeMsgInitStation = "init_station"
 
 var _ sdk.Msg = &MsgInitStation{}
 
-func NewMsgInitStation(creator string, verificationKey string, stationId string, stationInfo string) *MsgInitStation {
+func NewMsgInitStation(creator string, verificationKey []byte, stationId string, stationInfo string) *MsgInitStation {
 	return &MsgInitStation{
 		Creator:         creator,
 		VerificationKey: verificationKey,

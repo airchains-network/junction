@@ -1,0 +1,10 @@
+syntax = "proto3";
+package junction.junction;
+
+option go_package = "github.com/airchains-network/junction/x/junction/types";
+
+message StationVerificationKey {
+  
+  string stationId = 1; 
+  bytes verificationKey = 2;
+}

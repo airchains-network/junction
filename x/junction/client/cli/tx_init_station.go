@@ -18,7 +18,7 @@ func CmdInitStation() *cobra.Command {
 		Short: "Broadcast message init_station",
 		Args:  cobra.ExactArgs(3),
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
-			argVerificationKey := args[0]
+			argVerificationKey := []byte(args[0])
 			argStationId := args[1]
 			argStationInfo := args[2]
 
