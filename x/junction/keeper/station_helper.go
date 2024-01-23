@@ -20,7 +20,6 @@ func (k Keeper) initStationHelper(ctx sdk.Context, station types.Stations, creat
 
 	//	database of list of stations under each creator
 	stationRegistry := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.StationRegistryKeys))
-	byteStationId := []byte(station.Id)
 	// creator is limited to create only one station at this time (this will be changed in future testnet development)
 	checkStationExist := stationRegistry.Get([]byte(creator))
 	if checkStationExist != nil {
@@ -34,9 +33,11 @@ func (k Keeper) initStationHelper(ctx sdk.Context, station types.Stations, creat
 		return sdkerrors.ErrConflict
 	}
 
-	b := k.cdc.MustMarshal(&station)
-	stationRegistry.Set([]byte(creator), []byte(byteStationId))
-	stationDataDB.Set([]byte(station.Id), b)
+	byteStation := k.cdc.MustMarshal(&station)
+	byteStationId := []byte(station.Id)
+	creatorByte := []byte(creator)
+	stationRegistry.Set(creatorByte, byteStationId)
+	stationDataDB.Set(byteStationId, byteStation)
 
 	figuresDB := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.FiguresDBPath))
 	stationCountByte := figuresDB.Get([]byte("station-count"))

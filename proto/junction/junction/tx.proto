@@ -7,10 +7,11 @@ option go_package = "github.com/ComputerKeeda/junction/x/junction/types";
 // Msg defines the Msg service.
 service Msg {
   rpc InitStation (MsgInitStation) returns (MsgInitStationResponse);
+  rpc SubmitPod   (MsgSubmitPod  ) returns (MsgSubmitPodResponse  );
 }
 message MsgInitStation {
   string creator         = 1;
-  bytes verificationKey = 2;
+  bytes  verificationKey = 2;
   string stationId       = 3;
   string stationInfo     = 4;
 }
@@ -18,5 +19,19 @@ message MsgInitStation {
 message MsgInitStationResponse {
   bool   status    = 1;
   string stationId = 2;
+}
+
+message MsgSubmitPod {
+  string creator                = 1;
+  string stationId              = 2;
+  uint64 podNumber              = 3;
+  string merkleRootHash         = 4;
+  string previousMerkleRootHash = 5;
+  bytes publicWitness          = 6;
+  uint64 timestamp              = 7;
+}
+
+message MsgSubmitPodResponse {
+  bool podStatus = 1;
 }
 

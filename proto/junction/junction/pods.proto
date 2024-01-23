@@ -4,9 +4,12 @@ package junction.junction;
 option go_package = "github.com/ComputerKeeda/junction/x/junction/types";
 
 message Pods {
-  
-  uint64 podNumber = 1; 
-  string merkleRootHash = 2; 
-  string previousMerkleRootHash = 3; 
+
+  uint64 podNumber = 1;
+  string merkleRootHash = 2;
+  string previousMerkleRootHash = 3;
   bytes zkProof = 4;
+  bytes witness = 5;
+  uint64 timestamp = 6;
+  bool isVerified = 7;
 }

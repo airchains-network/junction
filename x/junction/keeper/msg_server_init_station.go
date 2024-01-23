@@ -14,18 +14,6 @@ func (k msgServer) InitStation(goCtx context.Context, msg *types.MsgInitStation)
 	var stationID = msg.StationId
 	var stationInfo = msg.StationInfo
 
-	/*
-		type Stations struct {
-		    Tracks               []string
-		    VotingPower          []uint64
-		    LatestPod            uint64
-		    LatestMerkleRootHash string
-		    VerificationKey      []byte
-		    StationInfo          string
-		    Id                   string
-		    Creator              string
-		}
-	*/
 	var newStation = types.Stations{
 		Tracks:               []string{msg.Creator},
 		VotingPower:          []uint64{100},

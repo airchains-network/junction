@@ -75484,6 +75484,11 @@ definitions:
         type: boolean
       stationId:
         type: string
+  junction.junction.MsgSubmitPodResponse:
+    type: object
+    properties:
+      podStatus:
+        type: boolean
   junction.junction.Params:
     type: object
     description: Params defines the parameters for the module.
