@@ -46437,6 +46437,67 @@ paths:
                         }
       tags:
         - Query
+  /ComputerKeeda/junction/junction/get_pod/{stationId}/{podNumber}:
+    get:
+      summary: Queries a list of GetPod items.
+      operationId: JunctionJunctionGetPod
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              pod:
+                type: object
+                properties:
+                  podNumber:
+                    type: string
+                    format: uint64
+                  merkleRootHash:
+                    type: string
+                  previousMerkleRootHash:
+                    type: string
+                  zkProof:
+                    type: string
+                    format: byte
+                  witness:
+                    type: string
+                    format: byte
+                  timestamp:
+                    type: string
+                    format: uint64
+                  isVerified:
+                    type: boolean
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: stationId
+          in: path
+          required: true
+          type: string
+        - name: podNumber
+          in: path
+          required: true
+          type: string
+          format: uint64
+      tags:
+        - Query
   /ComputerKeeda/junction/junction/get_station/{id}:
     get:
       summary: Queries a list of GetStation items.
@@ -75492,6 +75553,51 @@ definitions:
   junction.junction.Params:
     type: object
     description: Params defines the parameters for the module.
+  junction.junction.Pods:
+    type: object
+    properties:
+      podNumber:
+        type: string
+        format: uint64
+      merkleRootHash:
+        type: string
+      previousMerkleRootHash:
+        type: string
+      zkProof:
+        type: string
+        format: byte
+      witness:
+        type: string
+        format: byte
+      timestamp:
+        type: string
+        format: uint64
+      isVerified:
+        type: boolean
+  junction.junction.QueryGetPodResponse:
+    type: object
+    properties:
+      pod:
+        type: object
+        properties:
+          podNumber:
+            type: string
+            format: uint64
+          merkleRootHash:
+            type: string
+          previousMerkleRootHash:
+            type: string
+          zkProof:
+            type: string
+            format: byte
+          witness:
+            type: string
+            format: byte
+          timestamp:
+            type: string
+            format: uint64
+          isVerified:
+            type: boolean
   junction.junction.QueryGetStationDetailsByAddressResponse:
     type: object
     properties:

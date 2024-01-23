@@ -7,6 +7,7 @@ import "google/api/annotations.proto";
 import "cosmos/base/query/v1beta1/pagination.proto";
 import "junction/junction/params.proto";
 import "junction/junction/stations.proto";
+import "junction/junction/pods.proto";
 
 option go_package = "github.com/ComputerKeeda/junction/x/junction/types";
 
@@ -34,6 +35,12 @@ service Query {
   // Queries a list of GetStationDetailsByAddress items.
   rpc GetStationDetailsByAddress (QueryGetStationDetailsByAddressRequest) returns (QueryGetStationDetailsByAddressResponse) {
     option (google.api.http).get = "/ComputerKeeda/junction/junction/get_station_details_by_address/{address}";
+  
+  }
+  
+  // Queries a list of GetPod items.
+  rpc GetPod (QueryGetPodRequest) returns (QueryGetPodResponse) {
+    option (google.api.http).get = "/ComputerKeeda/junction/junction/get_pod/{stationId}/{podNumber}";
   
   }
 }
@@ -71,3 +78,13 @@ message QueryGetStationDetailsByAddressRequest {
 message QueryGetStationDetailsByAddressResponse {
   Stations station = 1;
 }
+
+message QueryGetPodRequest {
+  string stationId = 1;
+  uint64 podNumber = 2;
+}
+
+message QueryGetPodResponse {
+  Pods pod = 1;
+}
+
