@@ -2,7 +2,6 @@ package keeper
 
 import (
 	"context"
-
 	"github.com/ComputerKeeda/junction/x/junction/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"google.golang.org/grpc/codes"
@@ -16,8 +15,21 @@ func (k Keeper) GetPod(goCtx context.Context, req *types.QueryGetPodRequest) (*t
 
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
-	// TODO: Process the query
-	_ = ctx
+	var stationID = req.StationId
+	var podNumber = req.PodNumber
 
-	return &types.QueryGetPodResponse{}, nil
+	// check if station id exists
+	_, err := k.getStationById(ctx, stationID)
+	if err != nil {
+		return nil, status.Error(codes.InvalidArgument, "Station ID do not exists")
+	}
+
+	podDetails, sdkError := k.GetPodHelper(ctx, stationID, podNumber)
+	if sdkError != nil {
+		return nil, status.Error(codes.InvalidArgument, "Pod Not found")
+	}
+
+	return &types.QueryGetPodResponse{
+		Pod: &podDetails,
+	}, nil
 }

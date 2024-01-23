@@ -18,6 +18,7 @@ func GetPodKeyByte(stationId string, podNumber uint64) (string, []byte) {
 	return podStoreKey, podStoreKeyByte
 }
 
+// Submit Pod Helper
 func (k Keeper) SubmitPodHelper(ctx sdk.Context, msg *types.MsgSubmitPod) *sdkerrors.Error {
 
 	var stationId = msg.StationId
@@ -64,4 +65,20 @@ func (k Keeper) SubmitPodHelper(ctx sdk.Context, msg *types.MsgSubmitPod) *sdker
 	podStore.Set(podStoreKeyByte, storingData)
 
 	return nil
+}
+
+func (k Keeper) GetPodHelper(ctx sdk.Context, stationId string, podNumber uint64) (pods types.Pods, sdkErr *sdkerrors.Error) {
+
+	podStoreKey, podStoreKeyByte := GetPodKeyByte(stationId, podNumber) // "pods/{stationId}/{podNumber}
+	podStore := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(podStoreKey))
+	podDetailsByte := podStore.Get(podStoreKeyByte)
+
+	if podDetailsByte != nil {
+		return pods, sdkerrors.ErrKeyNotFound
+	}
+
+	var podDetails types.Pods
+	k.cdc.MustUnmarshal(podDetailsByte, &podDetails)
+
+	return podDetails, nil
 }
