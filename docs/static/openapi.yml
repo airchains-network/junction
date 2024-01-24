@@ -75590,6 +75590,13 @@ definitions:
     properties:
       podStatus:
         type: boolean
+  junction.junction.MsgVerifyPodResponse:
+    type: object
+    properties:
+      isVerified:
+        type: boolean
+      message:
+        type: string
   junction.junction.Params:
     type: object
     description: Params defines the parameters for the module.
