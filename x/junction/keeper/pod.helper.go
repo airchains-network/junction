@@ -95,18 +95,7 @@ func (k Keeper) GetPodHelper(ctx sdk.Context, stationId string, podNumber uint64
 
 // Verify Pod Helper
 func (k Keeper) VerifyPodHelper(ctx sdk.Context, msg *types.MsgVerifyPod) error {
-	/*
-		type MsgVerifyPod struct {
-			Creator                string
-			StationId              string
-			PodNumber              uint64
-			MerkleRootHash         string
-			PreviousMerkleRootHash string
-			ZkProof                []byte
-		}
-	*/
 
-	//creator := msg.Creator
 	stationId := msg.StationId
 	podNumber := msg.PodNumber
 	merkleRootHash := msg.MerkleRootHash
@@ -153,11 +142,16 @@ func (k Keeper) VerifyPodHelper(ctx sdk.Context, msg *types.MsgVerifyPod) error 
 	// check both merkle root hashes are correct
 	// get the currently stored pod data
 	currentlyStoredPod, err := k.GetPodHelper(ctx, stationId, podNumber)
-	if currentlyStoredPod.PreviousMerkleRootHash != previousMerkleRootHash {
-		return status.Error(codes.InvalidArgument, "incorrect previous merkle root hash")
-	}
-	if currentlyStoredPod.MerkleRootHash != merkleRootHash {
-		return status.Error(codes.InvalidArgument, "incorrect merkle root hash")
+	if podNumber > 1 {
+		if err != nil {
+			return status.Error(codes.Unavailable, "unable to get pod details")
+		}
+		if currentlyStoredPod.PreviousMerkleRootHash != previousMerkleRootHash {
+			return status.Error(codes.InvalidArgument, "incorrect previous merkle root hash")
+		}
+		if currentlyStoredPod.MerkleRootHash != merkleRootHash {
+			return status.Error(codes.InvalidArgument, "incorrect merkle root hash")
+		}
 	}
 	// check if pod is already verified
 	if currentlyStoredPod.IsVerified == true {
@@ -226,6 +220,5 @@ func (k Keeper) VerifyPodHelper(ctx sdk.Context, msg *types.MsgVerifyPod) error 
 	byteStationId := []byte(station.Id)
 	stationDataDB.Set(byteStationId, byteStation)
 
-	// 🔥🔥 verification success 🔥🔥
 	return nil
 }
