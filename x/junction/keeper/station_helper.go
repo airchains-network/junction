@@ -2,16 +2,19 @@ package keeper
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/ComputerKeeda/junction/x/junction/types"
 	bls12381 "github.com/airchains-network/gnark/backend/groth16/bls12-381"
 	"github.com/cosmos/cosmos-sdk/store/prefix"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 	"strconv"
 )
 
 /* trunk-ignore(golangci-lint/staticcheck) */
-func (k Keeper) initStationHelper(ctx sdk.Context, station types.Stations, creator string) *sdkerrors.Error {
+func (k Keeper) initStationHelper(ctx sdk.Context, station types.Stations, creator string) error {
 	var vk bls12381.VerifyingKey
 	err := json.Unmarshal(station.VerificationKey, &vk)
 	if err != nil {
@@ -23,7 +26,8 @@ func (k Keeper) initStationHelper(ctx sdk.Context, station types.Stations, creat
 	// creator is limited to create only one station at this time (this will be changed in future testnet development)
 	checkStationExist := stationRegistry.Get([]byte(creator))
 	if checkStationExist != nil {
-		return sdkerrors.ErrInvalidAddress
+		errorMsg := fmt.Sprintf("station already exist for %s", creator)
+		return status.Error(codes.InvalidArgument, errorMsg)
 	}
 
 	// check if the user is sending the unique id or not

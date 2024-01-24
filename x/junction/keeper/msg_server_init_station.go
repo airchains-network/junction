@@ -27,7 +27,10 @@ func (k msgServer) InitStation(goCtx context.Context, msg *types.MsgInitStation)
 
 	Error := k.initStationHelper(ctx, newStation, msg.Creator)
 	if Error != nil {
-		return nil, Error
+		return &types.MsgInitStationResponse{
+			StationId: "nil",
+			Status:    false,
+		}, Error
 	}
 
 	return &types.MsgInitStationResponse{
