@@ -2,9 +2,12 @@ package keeper
 
 import (
 	"context"
+	"fmt"
 	"github.com/ComputerKeeda/junction/x/junction/types"
+	"github.com/cosmos/cosmos-sdk/store/prefix"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+	"strconv"
 )
 
 func (k msgServer) SubmitPod(goCtx context.Context, msg *types.MsgSubmitPod) (*types.MsgSubmitPodResponse, error) {
@@ -26,7 +29,6 @@ func (k msgServer) SubmitPod(goCtx context.Context, msg *types.MsgSubmitPod) (*t
 			isTrackMember = true
 		}
 	}
-
 	if !isTrackMember {
 		// sender is not the Track Member
 		return &types.MsgSubmitPodResponse{
@@ -41,16 +43,22 @@ func (k msgServer) SubmitPod(goCtx context.Context, msg *types.MsgSubmitPod) (*t
 		}, sdkerrors.ErrInvalidHeight
 	}
 
+	// submit pod
 	Error := k.SubmitPodHelper(
 		ctx,
 		msg,
 	)
-
 	if Error != nil {
 		return &types.MsgSubmitPodResponse{
 			PodStatus: true,
 		}, Error
 	}
+
+	// update pod submitted count
+	figureDBStore := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(types.FiguresDBPath))
+	podSubmittedCountKey := fmt.Sprintf("pod-submitted-count__%s", station.Id)
+	newPodCount := strconv.FormatUint(msg.PodNumber, 10)
+	figureDBStore.Set([]byte(podSubmittedCountKey), []byte(newPodCount))
 
 	return &types.MsgSubmitPodResponse{
 		PodStatus: true,
