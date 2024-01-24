@@ -43,6 +43,12 @@ service Query {
     option (google.api.http).get = "/ComputerKeeda/junction/junction/get_pod/{stationId}/{podNumber}";
   
   }
+  
+  // Queries a list of GetLatestSubmittedPodNumber items.
+  rpc GetLatestSubmittedPodNumber (QueryGetLatestSubmittedPodNumberRequest) returns (QueryGetLatestSubmittedPodNumberResponse) {
+    option (google.api.http).get = "/ComputerKeeda/junction/junction/get_latest_submitted_pod_number/{stationId}";
+  
+  }
 }
 // QueryParamsRequest is request type for the Query/Params RPC method.
 message QueryParamsRequest {}
@@ -86,5 +92,14 @@ message QueryGetPodRequest {
 
 message QueryGetPodResponse {
   Pods pod = 1;
+}
+
+message QueryGetLatestSubmittedPodNumberRequest {
+  string stationId = 1;
+}
+
+message QueryGetLatestSubmittedPodNumberResponse {
+  uint64 podNumber = 1;
+  string message   = 2;
 }
 

@@ -46437,6 +46437,46 @@ paths:
                         }
       tags:
         - Query
+  /ComputerKeeda/junction/junction/get_latest_submitted_pod_number/{stationId}:
+    get:
+      summary: Queries a list of GetLatestSubmittedPodNumber items.
+      operationId: JunctionJunctionGetLatestSubmittedPodNumber
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              podNumber:
+                type: string
+                format: uint64
+              message:
+                type: string
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: stationId
+          in: path
+          required: true
+          type: string
+      tags:
+        - Query
   /ComputerKeeda/junction/junction/get_pod/{stationId}/{podNumber}:
     get:
       summary: Queries a list of GetPod items.
@@ -75574,6 +75614,14 @@ definitions:
         format: uint64
       isVerified:
         type: boolean
+  junction.junction.QueryGetLatestSubmittedPodNumberResponse:
+    type: object
+    properties:
+      podNumber:
+        type: string
+        format: uint64
+      message:
+        type: string
   junction.junction.QueryGetPodResponse:
     type: object
     properties:
