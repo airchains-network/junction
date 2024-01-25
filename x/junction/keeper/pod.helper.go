@@ -93,55 +93,8 @@ func (k Keeper) GetPodHelper(ctx sdk.Context, stationId string, podNumber uint64
 	return podDetails, nil
 }
 
-// // Logger function that logs data to specific files
-// func logData(proof *bls12381.Proof, witness *fr.Vector, vk *bls12381.VerifyingKey) error {
-// 	// Clear and log Proof
-// 	if err := logToFile("proof.log", proof); err != nil {
-// 		return status.Error(codes.Internal, "failed to log proof")
-// 	}
-
-// 	// Clear and log Witness
-// 	if err := logToFile("witness.log", witness); err != nil {
-// 		return status.Error(codes.Internal, "failed to log witness")
-// 	}
-
-// 	// Clear and log Verification Key
-// 	if err := logToFile("vk.log", vk); err != nil {
-// 		return status.Error(codes.Internal, "failed to log verification key")
-// 	}
-
-// 	return nil
-// }
-
-// // Function to log data to a file after clearing it
-// func logToFile(filename string, data interface{}) error {
-// 	file, err := os.Create(filename) // os.Create opens a file for writing, creating it if necessary
-// 	if err != nil {
-// 		return err
-// 	}
-// 	defer file.Close()
-
-// 	jsonData, err := json.MarshalIndent(data, "", "  ") // Converts the data to a pretty JSON format
-// 	if err != nil {
-// 		return err
-// 	}
-
-// 	_, err = file.Write(jsonData)
-// 	return err
-// }
-
 func (k Keeper) VerifyPodHelper(ctx sdk.Context, msg *types.MsgVerifyPod) error {
 
-	/*
-		MsgVerifyPod struct {
-		    Creator                string
-		    StationId              string
-		    PodNumber              uint64
-		    MerkleRootHash         string
-		    PreviousMerkleRootHash string
-		    ZkProof                []byte
-		}
-	*/
 	stationId := msg.StationId
 	podNumber := msg.PodNumber
 	merkleRootHash := msg.MerkleRootHash
@@ -184,14 +137,6 @@ func (k Keeper) VerifyPodHelper(ctx sdk.Context, msg *types.MsgVerifyPod) error 
 		return status.Error(codes.InvalidArgument, "incorrect pod number")
 	}
 
-	// check both merkle root hashes are correct
-	// get the currently stored pod data
-	//old codes
-	//currentlyStoredPod, err := k.GetPodHelper(ctx, stationId, podNumber)
-	//if err != nil {
-	//	return status.Error(codes.Unavailable, "unable to get pod details")
-	//}
-	// new codes
 	podStoreKey, podStoreKeyByte := GetPodKeyByte(stationId, podNumber) // "pods/{stationId}/{podNumber}
 	podStore := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(podStoreKey))
 	podDetailsByte := podStore.Get(podStoreKeyByte)
@@ -244,16 +189,6 @@ func (k Keeper) VerifyPodHelper(ctx sdk.Context, msg *types.MsgVerifyPod) error 
 		return status.Error(codes.Aborted, "verification failed"+verifyErr.Error())
 	}
 
-	// Pods struct {
-	//	PodNumber              uint64
-	//	MerkleRootHash         string
-	//	PreviousMerkleRootHash string
-	//	ZkProof                []byte
-	//	Witness                []byte
-	//	Timestamp              uint64
-	//	IsVerified             bool
-	// }
-	// update pods data: zk-proof and isVerified
 	newPod := types.Pods{
 		PodNumber:              currentlyStoredPod.PodNumber,
 		MerkleRootHash:         currentlyStoredPod.MerkleRootHash,
@@ -290,6 +225,69 @@ func (k Keeper) VerifyPodHelper(ctx sdk.Context, msg *types.MsgVerifyPod) error 
 	byteStation := k.cdc.MustMarshal(&updatedStationDetails)
 	byteStationId := []byte(station.Id)
 	stationDataDB.Set(byteStationId, byteStation)
+
+	return nil
+}
+
+func (k Keeper) ConfirmPodVerificationHelper(ctx sdk.Context, request *types.QueryConfirmPodVerificationRequest) error {
+
+	stationId := request.StationId
+	podNumber := request.PodNumber
+	merkleRootHash := request.MerkleRootHash
+	previousMerkleRootHash := request.PreviousMerkleRootHash
+	zkProof := request.ZkProof
+
+	// get station details by id
+	station, err := k.getStationById(ctx, stationId)
+	if err != nil {
+		return status.Error(codes.NotFound, "station not found")
+	}
+
+	podStoreKey, podStoreKeyByte := GetPodKeyByte(stationId, podNumber) // "pods/{stationId}/{podNumber}
+	podStore := prefix.NewStore(ctx.KVStore(k.storeKey), types.KeyPrefix(podStoreKey))
+	podDetailsByte := podStore.Get(podStoreKeyByte)
+
+	if podDetailsByte == nil {
+		return status.Error(codes.DataLoss, "pod detail byte conversion failed")
+	}
+
+	var currentlyStoredPod types.Pods
+	k.cdc.MustUnmarshal(podDetailsByte, &currentlyStoredPod)
+	if podNumber > 1 {
+		if currentlyStoredPod.PreviousMerkleRootHash != previousMerkleRootHash {
+			return status.Error(codes.InvalidArgument, "incorrect previous merkle root hash")
+		}
+		if currentlyStoredPod.MerkleRootHash != merkleRootHash {
+			return status.Error(codes.InvalidArgument, "incorrect merkle root hash")
+		}
+	}
+
+	// Verification Variables requirement and unmarshal codes below
+	var proof *bls12381.Proof
+	var witness fr.Vector
+	var vk bls12381.VerifyingKey
+
+	proofErr := json.Unmarshal(zkProof, &proof)
+	if proofErr != nil {
+		return status.Error(codes.InvalidArgument, "invalid proof provided in argument")
+	}
+
+	podWitness := currentlyStoredPod.Witness
+	witnessErr := json.Unmarshal(podWitness, &witness)
+	if witnessErr != nil {
+		return status.Error(codes.Unavailable, "error in unmarshalling witness")
+	}
+
+	currentStationVerificationKey := station.VerificationKey
+	unmarshalVkError := json.Unmarshal(currentStationVerificationKey, &vk)
+	if unmarshalVkError != nil {
+		return status.Error(codes.Unavailable, "error in unmarshalling verification key")
+	}
+
+	verifyErr := bls12381.Verify(proof, &vk, witness)
+	if verifyErr != nil {
+		return status.Error(codes.Aborted, "verification failed"+verifyErr.Error())
+	}
 
 	return nil
 }

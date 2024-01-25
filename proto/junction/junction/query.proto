@@ -55,6 +55,12 @@ service Query {
     option (google.api.http).get = "/ComputerKeeda/junction/junction/get_latest_verified_pod_number/{stationId}";
   
   }
+  
+  // Queries a list of ConfirmPodVerification items.
+  rpc ConfirmPodVerification (QueryConfirmPodVerificationRequest) returns (QueryConfirmPodVerificationResponse) {
+    option (google.api.http).get = "/ComputerKeeda/junction/junction/confirm_pod_verification/{stationId}/{podNumber}/{merkleRootHash}/{previousMerkleRootHash}/{zkProof}";
+  
+  }
 }
 // QueryParamsRequest is request type for the Query/Params RPC method.
 message QueryParamsRequest {}
@@ -116,5 +122,18 @@ message QueryGetLatestVerifiedPodNumberRequest {
 message QueryGetLatestVerifiedPodNumberResponse {
   uint64 podNumber = 1;
   string message   = 2;
+}
+
+message QueryConfirmPodVerificationRequest {
+  string stationId              = 1;
+  uint64 podNumber              = 2;
+  string merkleRootHash         = 3;
+  string previousMerkleRootHash = 4;
+  bytes zkProof                = 5;
+}
+
+message QueryConfirmPodVerificationResponse {
+  bool   isVerified = 1;
+  string message    = 2;
 }
 

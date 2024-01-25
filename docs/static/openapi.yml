@@ -46437,6 +46437,63 @@ paths:
                         }
       tags:
         - Query
+  /ComputerKeeda/junction/junction/confirm_pod_verification/{stationId}/{podNumber}/{merkleRootHash}/{previousMerkleRootHash}/{zkProof}:
+    get:
+      summary: Queries a list of ConfirmPodVerification items.
+      operationId: JunctionJunctionConfirmPodVerification
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              isVerified:
+                type: boolean
+              message:
+                type: string
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: stationId
+          in: path
+          required: true
+          type: string
+        - name: podNumber
+          in: path
+          required: true
+          type: string
+          format: uint64
+        - name: merkleRootHash
+          in: path
+          required: true
+          type: string
+        - name: previousMerkleRootHash
+          in: path
+          required: true
+          type: string
+        - name: zkProof
+          in: path
+          required: true
+          type: string
+          format: byte
+      tags:
+        - Query
   /ComputerKeeda/junction/junction/get_latest_submitted_pod_number/{stationId}:
     get:
       summary: Queries a list of GetLatestSubmittedPodNumber items.
@@ -75661,6 +75718,13 @@ definitions:
         format: uint64
       isVerified:
         type: boolean
+  junction.junction.QueryConfirmPodVerificationResponse:
+    type: object
+    properties:
+      isVerified:
+        type: boolean
+      message:
+        type: string
   junction.junction.QueryGetLatestSubmittedPodNumberResponse:
     type: object
     properties:
