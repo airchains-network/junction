@@ -11,7 +11,6 @@ import (
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
-	"os"
 	"strconv"
 )
 
@@ -94,45 +93,55 @@ func (k Keeper) GetPodHelper(ctx sdk.Context, stationId string, podNumber uint64
 	return podDetails, nil
 }
 
-// Logger function that logs data to specific files
-func logData(proof *bls12381.Proof, witness *fr.Vector, vk *bls12381.VerifyingKey) error {
-	// Clear and log Proof
-	if err := logToFile("proof.log", proof); err != nil {
-		return status.Error(codes.Internal, "failed to log proof")
-	}
+// // Logger function that logs data to specific files
+// func logData(proof *bls12381.Proof, witness *fr.Vector, vk *bls12381.VerifyingKey) error {
+// 	// Clear and log Proof
+// 	if err := logToFile("proof.log", proof); err != nil {
+// 		return status.Error(codes.Internal, "failed to log proof")
+// 	}
 
-	// Clear and log Witness
-	if err := logToFile("witness.log", witness); err != nil {
-		return status.Error(codes.Internal, "failed to log witness")
-	}
+// 	// Clear and log Witness
+// 	if err := logToFile("witness.log", witness); err != nil {
+// 		return status.Error(codes.Internal, "failed to log witness")
+// 	}
 
-	// Clear and log Verification Key
-	if err := logToFile("vk.log", vk); err != nil {
-		return status.Error(codes.Internal, "failed to log verification key")
-	}
+// 	// Clear and log Verification Key
+// 	if err := logToFile("vk.log", vk); err != nil {
+// 		return status.Error(codes.Internal, "failed to log verification key")
+// 	}
 
-	return nil
-}
+// 	return nil
+// }
 
-// Function to log data to a file after clearing it
-func logToFile(filename string, data interface{}) error {
-	file, err := os.Create(filename) // os.Create opens a file for writing, creating it if necessary
-	if err != nil {
-		return err
-	}
-	defer file.Close()
+// // Function to log data to a file after clearing it
+// func logToFile(filename string, data interface{}) error {
+// 	file, err := os.Create(filename) // os.Create opens a file for writing, creating it if necessary
+// 	if err != nil {
+// 		return err
+// 	}
+// 	defer file.Close()
 
-	jsonData, err := json.MarshalIndent(data, "", "  ") // Converts the data to a pretty JSON format
-	if err != nil {
-		return err
-	}
+// 	jsonData, err := json.MarshalIndent(data, "", "  ") // Converts the data to a pretty JSON format
+// 	if err != nil {
+// 		return err
+// 	}
 
-	_, err = file.Write(jsonData)
-	return err
-}
+// 	_, err = file.Write(jsonData)
+// 	return err
+// }
 
 func (k Keeper) VerifyPodHelper(ctx sdk.Context, msg *types.MsgVerifyPod) error {
 
+	/*
+		MsgVerifyPod struct {
+		    Creator                string
+		    StationId              string
+		    PodNumber              uint64
+		    MerkleRootHash         string
+		    PreviousMerkleRootHash string
+		    ZkProof                []byte
+		}
+	*/
 	stationId := msg.StationId
 	podNumber := msg.PodNumber
 	merkleRootHash := msg.MerkleRootHash
@@ -157,9 +166,8 @@ func (k Keeper) VerifyPodHelper(ctx sdk.Context, msg *types.MsgVerifyPod) error 
 		return status.Error(codes.Unauthenticated, "sender is not the track member")
 	}
 
-	// check if pod number is correct or not
+	// Check if pod number is correct or not
 	if station.LatestPod+1 != podNumber {
-
 		return status.Error(codes.Unavailable, "incorrect pod number")
 	}
 
@@ -203,7 +211,7 @@ func (k Keeper) VerifyPodHelper(ctx sdk.Context, msg *types.MsgVerifyPod) error 
 		}
 	}
 	// check if pod is already verified
-	if currentlyStoredPod.IsVerified == true {
+	if currentlyStoredPod.IsVerified {
 		return nil // already verified
 	}
 
@@ -236,15 +244,24 @@ func (k Keeper) VerifyPodHelper(ctx sdk.Context, msg *types.MsgVerifyPod) error 
 		return status.Error(codes.Aborted, "verification failed"+verifyErr.Error())
 	}
 
+	// Pods struct {
+	//	PodNumber              uint64
+	//	MerkleRootHash         string
+	//	PreviousMerkleRootHash string
+	//	ZkProof                []byte
+	//	Witness                []byte
+	//	Timestamp              uint64
+	//	IsVerified             bool
+	// }
 	// update pods data: zk-proof and isVerified
 	newPod := types.Pods{
 		PodNumber:              currentlyStoredPod.PodNumber,
 		MerkleRootHash:         currentlyStoredPod.MerkleRootHash,
 		PreviousMerkleRootHash: currentlyStoredPod.PreviousMerkleRootHash,
-
-		Witness:    currentlyStoredPod.Witness,
-		Timestamp:  currentlyStoredPod.Timestamp,
-		IsVerified: true,
+		ZkProof:                zkProof,
+		Witness:                currentlyStoredPod.Witness,
+		Timestamp:              currentlyStoredPod.Timestamp,
+		IsVerified:             true,
 	}
 	storingData := k.cdc.MustMarshal(&newPod)
 	podStoreKey, podStoreKeyByte = GetPodKeyByte(stationId, currentlyStoredPod.PodNumber) // "pods/{stationId}/{podNumber}
@@ -254,7 +271,9 @@ func (k Keeper) VerifyPodHelper(ctx sdk.Context, msg *types.MsgVerifyPod) error 
 	// update latest_verified_pod_count
 	podSubmittedCountKey = fmt.Sprintf("pod-verified-count__%s", stationId)
 	podNumberString := strconv.FormatUint(podNumber, 10)
-	figureDBStore.Set([]byte(podSubmittedCountKey), []byte(podNumberString))
+	figureDBStoreKey := []byte(podSubmittedCountKey)
+	figureDBStoreValue := []byte(podNumberString)
+	figureDBStore.Set(figureDBStoreKey, figureDBStoreValue)
 
 	// update station's latest merkle root hash and latest pod number
 	updatedStationDetails := types.Stations{

@@ -79,18 +79,6 @@ func (k msgServer) SubmitPod(goCtx context.Context, msg *types.MsgSubmitPod) (*t
 		var previousPodDetails types.Pods
 		k.cdc.MustUnmarshal(previousPodDetailsByte, &previousPodDetails)
 
-		// testing
-		if err := logToFile("previousPodDetailsMerkleRootHash.log", previousPodDetails.MerkleRootHash); err != nil {
-			return &types.MsgSubmitPodResponse{
-				PodStatus: false,
-			}, sdkerrors.ErrInvalidRequest
-		}
-		if err := logToFile("previousMerkleRootHash.log", previousMerkleRootHash); err != nil {
-			return &types.MsgSubmitPodResponse{
-				PodStatus: false,
-			}, sdkerrors.ErrInvalidRequest
-		}
-
 		if previousPodDetails.MerkleRootHash != previousMerkleRootHash {
 			return &types.MsgSubmitPodResponse{
 				PodStatus: false,
