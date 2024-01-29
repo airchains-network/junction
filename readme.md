@@ -29,7 +29,7 @@ Welcome to Junction, a blockchain platform focused on secure and efficient data 
 
 #### 3. Switch to the DevNet Release
 
-    git checkout v0.0.1-beta
+    git checkout v0.0.2-beta
 
 #### 4. Set Environment Variable
 
