@@ -17,12 +17,10 @@ import (
 func GetPodKeyByte(stationId string, podNumber uint64) (string, []byte) {
 	podStoreKey := "pods/" + stationId
 	podNumberString := strconv.FormatUint(podNumber, 10)
-	//newPodStoreKey := podStoreKey + "/" + podNumberString
 	podStoreKeyByte := []byte(podNumberString)
 	return podStoreKey, podStoreKeyByte
 }
 
-// Submit Pod Helper
 func (k Keeper) SubmitPodHelper(ctx sdk.Context, msg *types.MsgSubmitPod) *sdkerrors.Error {
 
 	var stationId = msg.StationId
