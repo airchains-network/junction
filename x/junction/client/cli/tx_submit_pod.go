@@ -1,13 +1,14 @@
 package cli
 
 import (
-	"github.com/ComputerKeeda/junction/x/junction/types"
+	"strconv"
+
+	"github.com/airchains-network/junction/x/junction/types"
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/cosmos/cosmos-sdk/client/tx"
 	"github.com/spf13/cast"
 	"github.com/spf13/cobra"
-	"strconv"
 )
 
 var _ = strconv.Itoa(0)

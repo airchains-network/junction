@@ -4,7 +4,7 @@ package junction.junction;
 import "gogoproto/gogo.proto";
 import "junction/junction/params.proto";
 
-option go_package = "github.com/ComputerKeeda/junction/x/junction/types";
+option go_package = "github.com/airchains-network/junction/x/junction/types";
 
 // GenesisState defines the junction module's genesis state.
 message GenesisState {

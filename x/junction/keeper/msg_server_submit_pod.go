@@ -4,12 +4,13 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/ComputerKeeda/junction/x/junction/types"
+	"strconv"
+
+	"github.com/airchains-network/junction/x/junction/types"
 	"github.com/consensys/gnark-crypto/ecc/bls12-381/fr"
 	"github.com/cosmos/cosmos-sdk/store/prefix"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
-	"strconv"
 )
 
 func (k msgServer) SubmitPod(goCtx context.Context, msg *types.MsgSubmitPod) (*types.MsgSubmitPodResponse, error) {

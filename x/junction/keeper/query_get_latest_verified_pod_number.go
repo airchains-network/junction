@@ -3,10 +3,11 @@ package keeper
 import (
 	"context"
 	"fmt"
-	"github.com/cosmos/cosmos-sdk/store/prefix"
 	"strconv"
 
-	"github.com/ComputerKeeda/junction/x/junction/types"
+	"github.com/cosmos/cosmos-sdk/store/prefix"
+
+	"github.com/airchains-network/junction/x/junction/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"

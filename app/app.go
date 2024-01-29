@@ -110,13 +110,14 @@ import (
 	ibctm "github.com/cosmos/ibc-go/v7/modules/light-clients/07-tendermint"
 	"github.com/spf13/cast"
 
-	junctionmodule "github.com/ComputerKeeda/junction/x/junction"
-	junctionmodulekeeper "github.com/ComputerKeeda/junction/x/junction/keeper"
-	junctionmoduletypes "github.com/ComputerKeeda/junction/x/junction/types"
+	junctionmodule "github.com/airchains-network/junction/x/junction"
+	junctionmodulekeeper "github.com/airchains-network/junction/x/junction/keeper"
+	junctionmoduletypes "github.com/airchains-network/junction/x/junction/types"
+
 	// this line is used by starport scaffolding # stargate/app/moduleImport
 
-	appparams "github.com/ComputerKeeda/junction/app/params"
-	"github.com/ComputerKeeda/junction/docs"
+	appparams "github.com/airchains-network/junction/app/params"
+	"github.com/airchains-network/junction/docs"
 )
 
 const (

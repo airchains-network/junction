@@ -46437,7 +46437,7 @@ paths:
                         }
       tags:
         - Query
-  /ComputerKeeda/junction/junction/confirm_pod_verification/{stationId}/{podNumber}/{merkleRootHash}/{previousMerkleRootHash}/{zkProof}:
+  /airchains-network/junction/junction/confirm_pod_verification/{stationId}/{podNumber}/{merkleRootHash}/{previousMerkleRootHash}/{zkProof}:
     get:
       summary: Queries a list of ConfirmPodVerification items.
       operationId: JunctionJunctionConfirmPodVerification
@@ -46494,7 +46494,7 @@ paths:
           format: byte
       tags:
         - Query
-  /ComputerKeeda/junction/junction/get_latest_submitted_pod_number/{stationId}:
+  /airchains-network/junction/junction/get_latest_submitted_pod_number/{stationId}:
     get:
       summary: Queries a list of GetLatestSubmittedPodNumber items.
       operationId: JunctionJunctionGetLatestSubmittedPodNumber
@@ -46534,7 +46534,7 @@ paths:
           type: string
       tags:
         - Query
-  /ComputerKeeda/junction/junction/get_latest_verified_pod_number/{stationId}:
+  /airchains-network/junction/junction/get_latest_verified_pod_number/{stationId}:
     get:
       summary: Queries a list of GetLatestVerifiedPodNumber items.
       operationId: JunctionJunctionGetLatestVerifiedPodNumber
@@ -46574,7 +46574,7 @@ paths:
           type: string
       tags:
         - Query
-  /ComputerKeeda/junction/junction/get_pod/{stationId}/{podNumber}:
+  /airchains-network/junction/junction/get_pod/{stationId}/{podNumber}:
     get:
       summary: Queries a list of GetPod items.
       operationId: JunctionJunctionGetPod
@@ -46635,7 +46635,7 @@ paths:
           format: uint64
       tags:
         - Query
-  /ComputerKeeda/junction/junction/get_station/{id}:
+  /airchains-network/junction/junction/get_station/{id}:
     get:
       summary: Queries a list of GetStation items.
       operationId: JunctionJunctionGetStation
@@ -46696,7 +46696,7 @@ paths:
           type: string
       tags:
         - Query
-  /ComputerKeeda/junction/junction/get_station_details_by_address/{address}:
+  /airchains-network/junction/junction/get_station_details_by_address/{address}:
     get:
       summary: Queries a list of GetStationDetailsByAddress items.
       operationId: JunctionJunctionGetStationDetailsByAddress
@@ -46757,7 +46757,7 @@ paths:
           type: string
       tags:
         - Query
-  /ComputerKeeda/junction/junction/list_stations:
+  /airchains-network/junction/junction/list_stations:
     get:
       summary: Queries a list of ListStations items.
       operationId: JunctionJunctionListStations
@@ -46900,7 +46900,7 @@ paths:
           type: boolean
       tags:
         - Query
-  /ComputerKeeda/junction/junction/params:
+  /airchains-network/junction/junction/params:
     get:
       summary: Parameters queries the parameters of the module.
       operationId: JunctionJunctionParams

@@ -4,9 +4,9 @@ import (
 	"context"
 	"testing"
 
-	keepertest "github.com/ComputerKeeda/junction/testutil/keeper"
-	"github.com/ComputerKeeda/junction/x/junction/keeper"
-	"github.com/ComputerKeeda/junction/x/junction/types"
+	keepertest "github.com/airchains-network/junction/testutil/keeper"
+	"github.com/airchains-network/junction/x/junction/keeper"
+	"github.com/airchains-network/junction/x/junction/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/stretchr/testify/require"
 )

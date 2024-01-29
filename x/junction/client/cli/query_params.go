@@ -5,7 +5,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/client/flags"
 	"github.com/spf13/cobra"
 
-	"github.com/ComputerKeeda/junction/x/junction/types"
+	"github.com/airchains-network/junction/x/junction/types"
 )
 
 func CmdQueryParams() *cobra.Command {

@@ -1,7 +1,7 @@
 package keeper
 
 import (
-	"github.com/ComputerKeeda/junction/x/junction/types"
+	"github.com/airchains-network/junction/x/junction/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 

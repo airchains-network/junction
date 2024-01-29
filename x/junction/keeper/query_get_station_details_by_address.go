@@ -2,9 +2,10 @@ package keeper
 
 import (
 	"context"
+
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 
-	"github.com/ComputerKeeda/junction/x/junction/types"
+	"github.com/airchains-network/junction/x/junction/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"

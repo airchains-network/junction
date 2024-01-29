@@ -3,9 +3,9 @@ package junction
 import (
 	"math/rand"
 
-	"github.com/ComputerKeeda/junction/testutil/sample"
-	junctionsimulation "github.com/ComputerKeeda/junction/x/junction/simulation"
-	"github.com/ComputerKeeda/junction/x/junction/types"
+	"github.com/airchains-network/junction/testutil/sample"
+	junctionsimulation "github.com/airchains-network/junction/x/junction/simulation"
+	"github.com/airchains-network/junction/x/junction/types"
 	"github.com/cosmos/cosmos-sdk/baseapp"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/module"

@@ -9,56 +9,56 @@ import "junction/junction/params.proto";
 import "junction/junction/stations.proto";
 import "junction/junction/pods.proto";
 
-option go_package = "github.com/ComputerKeeda/junction/x/junction/types";
+option go_package = "github.com/airchains-network/junction/x/junction/types";
 
 // Query defines the gRPC querier service.
 service Query {
   
   // Parameters queries the parameters of the module.
   rpc Params (QueryParamsRequest) returns (QueryParamsResponse) {
-    option (google.api.http).get = "/ComputerKeeda/junction/junction/params";
+    option (google.api.http).get = "/airchains-network/junction/junction/params";
   
   }
   
   // Queries a list of ListStations items.
   rpc ListStations (QueryListStationsRequest) returns (QueryListStationsResponse) {
-    option (google.api.http).get = "/ComputerKeeda/junction/junction/list_stations";
+    option (google.api.http).get = "/airchains-network/junction/junction/list_stations";
   
   }
   
   // Queries a list of GetStation items.
   rpc GetStation (QueryGetStationRequest) returns (QueryGetStationResponse) {
-    option (google.api.http).get = "/ComputerKeeda/junction/junction/get_station/{id}";
+    option (google.api.http).get = "/airchains-network/junction/junction/get_station/{id}";
   
   }
   
   // Queries a list of GetStationDetailsByAddress items.
   rpc GetStationDetailsByAddress (QueryGetStationDetailsByAddressRequest) returns (QueryGetStationDetailsByAddressResponse) {
-    option (google.api.http).get = "/ComputerKeeda/junction/junction/get_station_details_by_address/{address}";
+    option (google.api.http).get = "/airchains-network/junction/junction/get_station_details_by_address/{address}";
   
   }
   
   // Queries a list of GetPod items.
   rpc GetPod (QueryGetPodRequest) returns (QueryGetPodResponse) {
-    option (google.api.http).get = "/ComputerKeeda/junction/junction/get_pod/{stationId}/{podNumber}";
+    option (google.api.http).get = "/airchains-network/junction/junction/get_pod/{stationId}/{podNumber}";
   
   }
   
   // Queries a list of GetLatestSubmittedPodNumber items.
   rpc GetLatestSubmittedPodNumber (QueryGetLatestSubmittedPodNumberRequest) returns (QueryGetLatestSubmittedPodNumberResponse) {
-    option (google.api.http).get = "/ComputerKeeda/junction/junction/get_latest_submitted_pod_number/{stationId}";
+    option (google.api.http).get = "/airchains-network/junction/junction/get_latest_submitted_pod_number/{stationId}";
   
   }
   
   // Queries a list of GetLatestVerifiedPodNumber items.
   rpc GetLatestVerifiedPodNumber (QueryGetLatestVerifiedPodNumberRequest) returns (QueryGetLatestVerifiedPodNumberResponse) {
-    option (google.api.http).get = "/ComputerKeeda/junction/junction/get_latest_verified_pod_number/{stationId}";
+    option (google.api.http).get = "/airchains-network/junction/junction/get_latest_verified_pod_number/{stationId}";
   
   }
   
   // Queries a list of ConfirmPodVerification items.
   rpc ConfirmPodVerification (QueryConfirmPodVerificationRequest) returns (QueryConfirmPodVerificationResponse) {
-    option (google.api.http).get = "/ComputerKeeda/junction/junction/confirm_pod_verification/{stationId}/{podNumber}/{merkleRootHash}/{previousMerkleRootHash}/{zkProof}";
+    option (google.api.http).get = "/airchains-network/junction/junction/confirm_pod_verification/{stationId}/{podNumber}/{merkleRootHash}/{previousMerkleRootHash}/{zkProof}";
   
   }
 }
