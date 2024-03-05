@@ -15,7 +15,7 @@ func (k msgServer) InitStation(goCtx context.Context, msg *types.MsgInitStation)
 	var stationInfo = msg.StationInfo
 
 	var newStation = types.Stations{
-		Tracks:               []string{msg.Creator},
+		Tracks:               msg.Tracks,
 		VotingPower:          []uint64{100},
 		LatestPod:            0,
 		LatestMerkleRootHash: "0",
