@@ -79,3 +79,15 @@ func (k Keeper) getStationById(ctx sdk.Context, stationId string) (types.Station
 	k.cdc.MustUnmarshal(stationByte, &station)
 	return station, nil
 }
+
+func (k Keeper) GetStationIdByAddressHelper(ctx sdk.Context, address string) (stationId string, found bool) {
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+
+	store := prefix.NewStore(storeAdapter, types.KeyPrefix(types.StationRegistryKeys))
+	stationIdByte := store.Get([]byte(address))
+	if stationIdByte == nil {
+		return "nil", false
+	}
+
+	return string(stationIdByte), true
+}

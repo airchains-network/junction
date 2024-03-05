@@ -5,11 +5,11 @@ import (
 
 	"cosmossdk.io/store/prefix"
 	"github.com/ComputerKeeda/junction/x/junction/types"
-	"github.com/cosmos/cosmos-sdk/types/query"
+	"github.com/cosmos/cosmos-sdk/runtime"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	"github.com/cosmos/cosmos-sdk/types/query"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
-	"github.com/cosmos/cosmos-sdk/runtime"
 )
 
 func (k Keeper) ListStations(goCtx context.Context, req *types.QueryListStationsRequest) (*types.QueryListStationsResponse, error) {
@@ -19,11 +19,9 @@ func (k Keeper) ListStations(goCtx context.Context, req *types.QueryListStations
 		return nil, status.Error(codes.InvalidArgument, "invalid request")
 	}
 
-
 	var stations []types.Stations
 
 	stationDataDB := prefix.NewStore(storeAdapter, types.KeyPrefix(types.StationDataKey))
-
 
 	pageRes, err := query.Paginate(stationDataDB, req.Pagination, func(key []byte, value []byte) error {
 		var singleStationData types.Stations

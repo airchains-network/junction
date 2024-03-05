@@ -31,6 +31,13 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{},
 				},
 
+				{
+					RpcMethod:      "GetStationDetailsByAddress",
+					Use:            "get-station-details-by-address [address]",
+					Short:          "Query get_station_details_by_address",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "address"}},
+				},
+
 				// this line is used by ignite scaffolding # autocli/query
 			},
 		},

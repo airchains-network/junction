@@ -31,6 +31,12 @@ service Query {
     option (google.api.http).get = "/ComputerKeeda/junction/junction/list_stations";
   
   }
+  
+  // Queries a list of GetStationDetailsByAddress items.
+  rpc GetStationDetailsByAddress (QueryGetStationDetailsByAddressRequest) returns (QueryGetStationDetailsByAddressResponse) {
+    option (google.api.http).get = "/ComputerKeeda/junction/junction/get_station_details_by_address/{address}";
+  
+  }
 }
 // QueryParamsRequest is request type for the Query/Params RPC method.
 message QueryParamsRequest {}
@@ -55,7 +61,15 @@ message QueryListStationsRequest {
 }
 
 message QueryListStationsResponse {
-  repeated Stations                                stationsList = 1 [(gogoproto.nullable) = false];
-  cosmos.base.query.v1beta1.PageResponse pagination   = 2;
+  repeated Stations                               stationsList = 1 [(gogoproto.nullable) = false];
+           cosmos.base.query.v1beta1.PageResponse pagination   = 2;
+}
+
+message QueryGetStationDetailsByAddressRequest {
+  string address = 1;
+}
+
+message QueryGetStationDetailsByAddressResponse {
+  Stations station = 1;
 }
 
