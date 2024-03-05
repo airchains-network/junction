@@ -52,6 +52,13 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "stationId"}},
 				},
 
+				{
+					RpcMethod:      "GetLatestVerifiedPodNumber",
+					Use:            "get-latest-verified-pod-number [station-id]",
+					Short:          "Query get_latest_verified_pod_number",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "stationId"}},
+				},
+
 				// this line is used by ignite scaffolding # autocli/query
 			},
 		},
