@@ -19,11 +19,12 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	Query_Params_FullMethodName                     = "/junction.junction.Query/Params"
-	Query_GetStation_FullMethodName                 = "/junction.junction.Query/GetStation"
-	Query_ListStations_FullMethodName               = "/junction.junction.Query/ListStations"
-	Query_GetStationDetailsByAddress_FullMethodName = "/junction.junction.Query/GetStationDetailsByAddress"
-	Query_GetPod_FullMethodName                     = "/junction.junction.Query/GetPod"
+	Query_Params_FullMethodName                      = "/junction.junction.Query/Params"
+	Query_GetStation_FullMethodName                  = "/junction.junction.Query/GetStation"
+	Query_ListStations_FullMethodName                = "/junction.junction.Query/ListStations"
+	Query_GetStationDetailsByAddress_FullMethodName  = "/junction.junction.Query/GetStationDetailsByAddress"
+	Query_GetPod_FullMethodName                      = "/junction.junction.Query/GetPod"
+	Query_GetLatestSubmittedPodNumber_FullMethodName = "/junction.junction.Query/GetLatestSubmittedPodNumber"
 )
 
 // QueryClient is the client API for Query service.
@@ -40,6 +41,8 @@ type QueryClient interface {
 	GetStationDetailsByAddress(ctx context.Context, in *QueryGetStationDetailsByAddressRequest, opts ...grpc.CallOption) (*QueryGetStationDetailsByAddressResponse, error)
 	// Queries a list of GetPod items.
 	GetPod(ctx context.Context, in *QueryGetPodRequest, opts ...grpc.CallOption) (*QueryGetPodResponse, error)
+	// Queries a list of GetLatestSubmittedPodNumber items.
+	GetLatestSubmittedPodNumber(ctx context.Context, in *QueryGetLatestSubmittedPodNumberRequest, opts ...grpc.CallOption) (*QueryGetLatestSubmittedPodNumberResponse, error)
 }
 
 type queryClient struct {
@@ -95,6 +98,15 @@ func (c *queryClient) GetPod(ctx context.Context, in *QueryGetPodRequest, opts .
 	return out, nil
 }
 
+func (c *queryClient) GetLatestSubmittedPodNumber(ctx context.Context, in *QueryGetLatestSubmittedPodNumberRequest, opts ...grpc.CallOption) (*QueryGetLatestSubmittedPodNumberResponse, error) {
+	out := new(QueryGetLatestSubmittedPodNumberResponse)
+	err := c.cc.Invoke(ctx, Query_GetLatestSubmittedPodNumber_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // QueryServer is the server API for Query service.
 // All implementations must embed UnimplementedQueryServer
 // for forward compatibility
@@ -109,6 +121,8 @@ type QueryServer interface {
 	GetStationDetailsByAddress(context.Context, *QueryGetStationDetailsByAddressRequest) (*QueryGetStationDetailsByAddressResponse, error)
 	// Queries a list of GetPod items.
 	GetPod(context.Context, *QueryGetPodRequest) (*QueryGetPodResponse, error)
+	// Queries a list of GetLatestSubmittedPodNumber items.
+	GetLatestSubmittedPodNumber(context.Context, *QueryGetLatestSubmittedPodNumberRequest) (*QueryGetLatestSubmittedPodNumberResponse, error)
 	mustEmbedUnimplementedQueryServer()
 }
 
@@ -130,6 +144,9 @@ func (UnimplementedQueryServer) GetStationDetailsByAddress(context.Context, *Que
 }
 func (UnimplementedQueryServer) GetPod(context.Context, *QueryGetPodRequest) (*QueryGetPodResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetPod not implemented")
+}
+func (UnimplementedQueryServer) GetLatestSubmittedPodNumber(context.Context, *QueryGetLatestSubmittedPodNumberRequest) (*QueryGetLatestSubmittedPodNumberResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetLatestSubmittedPodNumber not implemented")
 }
 func (UnimplementedQueryServer) mustEmbedUnimplementedQueryServer() {}
 
@@ -234,6 +251,24 @@ func _Query_GetPod_Handler(srv interface{}, ctx context.Context, dec func(interf
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Query_GetLatestSubmittedPodNumber_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryGetLatestSubmittedPodNumberRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).GetLatestSubmittedPodNumber(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Query_GetLatestSubmittedPodNumber_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).GetLatestSubmittedPodNumber(ctx, req.(*QueryGetLatestSubmittedPodNumberRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Query_ServiceDesc is the grpc.ServiceDesc for Query service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -260,6 +295,10 @@ var Query_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetPod",
 			Handler:    _Query_GetPod_Handler,
+		},
+		{
+			MethodName: "GetLatestSubmittedPodNumber",
+			Handler:    _Query_GetLatestSubmittedPodNumber_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
