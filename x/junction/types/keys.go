@@ -9,6 +9,12 @@ const (
 
 	// MemStoreKey defines the in-memory store key
 	MemStoreKey = "mem_junction"
+
+	// StationRegistryKeys
+	StationRegistryKeys = "Station/StationRegistry/"
+	//StationVerificationKeyKeys = "Station/VerificationKey/"
+	StationDataKey = "Station/Data/"
+	FiguresDBPath  = "Figure/Data/"
 )
 
 var (

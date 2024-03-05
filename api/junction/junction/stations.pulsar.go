@@ -3,14 +3,13 @@ package junction
 
 import (
 	fmt "fmt"
-	io "io"
-	reflect "reflect"
-	sync "sync"
-
 	runtime "github.com/cosmos/cosmos-proto/runtime"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoiface "google.golang.org/protobuf/runtime/protoiface"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	io "io"
+	reflect "reflect"
+	sync "sync"
 )
 
 var _ protoreflect.List = (*_Stations_1_list)(nil)
@@ -221,8 +220,8 @@ func (x *fastReflection_Stations) Range(f func(protoreflect.FieldDescriptor, pro
 			return
 		}
 	}
-	if x.VerificationKey != "" {
-		value := protoreflect.ValueOfString(x.VerificationKey)
+	if len(x.VerificationKey) != 0 {
+		value := protoreflect.ValueOfBytes(x.VerificationKey)
 		if !f(fd_Stations_verificationKey, value) {
 			return
 		}
@@ -275,7 +274,7 @@ func (x *fastReflection_Stations) Has(fd protoreflect.FieldDescriptor) bool {
 	case "junction.junction.Stations.latestMerkleRootHash":
 		return x.LatestMerkleRootHash != ""
 	case "junction.junction.Stations.verificationKey":
-		return x.VerificationKey != ""
+		return len(x.VerificationKey) != 0
 	case "junction.junction.Stations.stationInfo":
 		return x.StationInfo != ""
 	case "junction.junction.Stations.id":
@@ -309,7 +308,7 @@ func (x *fastReflection_Stations) Clear(fd protoreflect.FieldDescriptor) {
 	case "junction.junction.Stations.latestMerkleRootHash":
 		x.LatestMerkleRootHash = ""
 	case "junction.junction.Stations.verificationKey":
-		x.VerificationKey = ""
+		x.VerificationKey = nil
 	case "junction.junction.Stations.stationInfo":
 		x.StationInfo = ""
 	case "junction.junction.Stations.id":
@@ -354,7 +353,7 @@ func (x *fastReflection_Stations) Get(descriptor protoreflect.FieldDescriptor) p
 		return protoreflect.ValueOfString(value)
 	case "junction.junction.Stations.verificationKey":
 		value := x.VerificationKey
-		return protoreflect.ValueOfString(value)
+		return protoreflect.ValueOfBytes(value)
 	case "junction.junction.Stations.stationInfo":
 		value := x.StationInfo
 		return protoreflect.ValueOfString(value)
@@ -400,7 +399,7 @@ func (x *fastReflection_Stations) Set(fd protoreflect.FieldDescriptor, value pro
 	case "junction.junction.Stations.latestMerkleRootHash":
 		x.LatestMerkleRootHash = value.Interface().(string)
 	case "junction.junction.Stations.verificationKey":
-		x.VerificationKey = value.Interface().(string)
+		x.VerificationKey = value.Bytes()
 	case "junction.junction.Stations.stationInfo":
 		x.StationInfo = value.Interface().(string)
 	case "junction.junction.Stations.id":
@@ -479,7 +478,7 @@ func (x *fastReflection_Stations) NewField(fd protoreflect.FieldDescriptor) prot
 	case "junction.junction.Stations.latestMerkleRootHash":
 		return protoreflect.ValueOfString("")
 	case "junction.junction.Stations.verificationKey":
-		return protoreflect.ValueOfString("")
+		return protoreflect.ValueOfBytes(nil)
 	case "junction.junction.Stations.stationInfo":
 		return protoreflect.ValueOfString("")
 	case "junction.junction.Stations.id":
@@ -914,7 +913,7 @@ func (x *fastReflection_Stations) ProtoMethods() *protoiface.Methods {
 				if wireType != 2 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field VerificationKey", wireType)
 				}
-				var stringLen uint64
+				var byteLen int
 				for shift := uint(0); ; shift += 7 {
 					if shift >= 64 {
 						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
@@ -924,23 +923,25 @@ func (x *fastReflection_Stations) ProtoMethods() *protoiface.Methods {
 					}
 					b := dAtA[iNdEx]
 					iNdEx++
-					stringLen |= uint64(b&0x7F) << shift
+					byteLen |= int(b&0x7F) << shift
 					if b < 0x80 {
 						break
 					}
 				}
-				intStringLen := int(stringLen)
-				if intStringLen < 0 {
+				if byteLen < 0 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
 				}
-				postIndex := iNdEx + intStringLen
+				postIndex := iNdEx + byteLen
 				if postIndex < 0 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
 				}
 				if postIndex > l {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
 				}
-				x.VerificationKey = string(dAtA[iNdEx:postIndex])
+				x.VerificationKey = append(x.VerificationKey[:0], dAtA[iNdEx:postIndex]...)
+				if x.VerificationKey == nil {
+					x.VerificationKey = []byte{}
+				}
 				iNdEx = postIndex
 			case 6:
 				if wireType != 2 {
@@ -1127,7 +1128,7 @@ type Stations struct {
 	VotingPower          []uint64 `protobuf:"varint,2,rep,packed,name=votingPower,proto3" json:"votingPower,omitempty"`
 	LatestPod            uint64   `protobuf:"varint,3,opt,name=latestPod,proto3" json:"latestPod,omitempty"`
 	LatestMerkleRootHash string   `protobuf:"bytes,4,opt,name=latestMerkleRootHash,proto3" json:"latestMerkleRootHash,omitempty"`
-	VerificationKey      string   `protobuf:"bytes,5,opt,name=verificationKey,proto3" json:"verificationKey,omitempty"`
+	VerificationKey      []byte   `protobuf:"bytes,5,opt,name=verificationKey,proto3" json:"verificationKey,omitempty"`
 	StationInfo          string   `protobuf:"bytes,6,opt,name=stationInfo,proto3" json:"stationInfo,omitempty"`
 	Id                   string   `protobuf:"bytes,7,opt,name=id,proto3" json:"id,omitempty"`
 	Creator              string   `protobuf:"bytes,8,opt,name=creator,proto3" json:"creator,omitempty"`
@@ -1182,11 +1183,11 @@ func (x *Stations) GetLatestMerkleRootHash() string {
 	return ""
 }
 
-func (x *Stations) GetVerificationKey() string {
+func (x *Stations) GetVerificationKey() []byte {
 	if x != nil {
 		return x.VerificationKey
 	}
-	return ""
+	return nil
 }
 
 func (x *Stations) GetStationInfo() string {
@@ -1234,7 +1235,7 @@ var file_junction_junction_stations_proto_rawDesc = []byte{
 	0x73, 0x68, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x14, 0x6c, 0x61, 0x74, 0x65, 0x73, 0x74,
 	0x4d, 0x65, 0x72, 0x6b, 0x6c, 0x65, 0x52, 0x6f, 0x6f, 0x74, 0x48, 0x61, 0x73, 0x68, 0x12, 0x28,
 	0x0a, 0x0f, 0x76, 0x65, 0x72, 0x69, 0x66, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x4b, 0x65,
-	0x79, 0x18, 0x05, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0f, 0x76, 0x65, 0x72, 0x69, 0x66, 0x69, 0x63,
+	0x79, 0x18, 0x05, 0x20, 0x01, 0x28, 0x0c, 0x52, 0x0f, 0x76, 0x65, 0x72, 0x69, 0x66, 0x69, 0x63,
 	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x4b, 0x65, 0x79, 0x12, 0x20, 0x0a, 0x0b, 0x73, 0x74, 0x61, 0x74,
 	0x69, 0x6f, 0x6e, 0x49, 0x6e, 0x66, 0x6f, 0x18, 0x06, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0b, 0x73,
 	0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x49, 0x6e, 0x66, 0x6f, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64,

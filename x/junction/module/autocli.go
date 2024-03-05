@@ -28,6 +28,12 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					RpcMethod: "UpdateParams",
 					Skip:      true, // skipped because authority gated
 				},
+				{
+					RpcMethod:      "InitStation",
+					Use:            "init-station [tracks] [verification-key] [station-id] [station-info]",
+					Short:          "Send a init_station tx",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "tracks"}, {ProtoField: "verificationKey"}, {ProtoField: "stationId"}, {ProtoField: "stationInfo"}},
+				},
 				// this line is used by ignite scaffolding # autocli/tx
 			},
 		},
