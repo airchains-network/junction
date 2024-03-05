@@ -8,8 +8,8 @@ message Pods {
   uint64 podNumber = 1; 
   string merkleRootHash = 2; 
   string previousMerkleRootHash = 3; 
-  string zkProof = 4; 
-  string witness = 5; 
+  bytes zkProof = 4; 
+  bytes witness = 5; 
   string timestamp = 6; 
   bool isVerified = 7; 
 }

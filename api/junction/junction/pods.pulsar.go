@@ -118,14 +118,14 @@ func (x *fastReflection_Pods) Range(f func(protoreflect.FieldDescriptor, protore
 			return
 		}
 	}
-	if x.ZkProof != "" {
-		value := protoreflect.ValueOfString(x.ZkProof)
+	if len(x.ZkProof) != 0 {
+		value := protoreflect.ValueOfBytes(x.ZkProof)
 		if !f(fd_Pods_zkProof, value) {
 			return
 		}
 	}
-	if x.Witness != "" {
-		value := protoreflect.ValueOfString(x.Witness)
+	if len(x.Witness) != 0 {
+		value := protoreflect.ValueOfBytes(x.Witness)
 		if !f(fd_Pods_witness, value) {
 			return
 		}
@@ -164,9 +164,9 @@ func (x *fastReflection_Pods) Has(fd protoreflect.FieldDescriptor) bool {
 	case "junction.junction.Pods.previousMerkleRootHash":
 		return x.PreviousMerkleRootHash != ""
 	case "junction.junction.Pods.zkProof":
-		return x.ZkProof != ""
+		return len(x.ZkProof) != 0
 	case "junction.junction.Pods.witness":
-		return x.Witness != ""
+		return len(x.Witness) != 0
 	case "junction.junction.Pods.timestamp":
 		return x.Timestamp != ""
 	case "junction.junction.Pods.isVerified":
@@ -194,9 +194,9 @@ func (x *fastReflection_Pods) Clear(fd protoreflect.FieldDescriptor) {
 	case "junction.junction.Pods.previousMerkleRootHash":
 		x.PreviousMerkleRootHash = ""
 	case "junction.junction.Pods.zkProof":
-		x.ZkProof = ""
+		x.ZkProof = nil
 	case "junction.junction.Pods.witness":
-		x.Witness = ""
+		x.Witness = nil
 	case "junction.junction.Pods.timestamp":
 		x.Timestamp = ""
 	case "junction.junction.Pods.isVerified":
@@ -228,10 +228,10 @@ func (x *fastReflection_Pods) Get(descriptor protoreflect.FieldDescriptor) proto
 		return protoreflect.ValueOfString(value)
 	case "junction.junction.Pods.zkProof":
 		value := x.ZkProof
-		return protoreflect.ValueOfString(value)
+		return protoreflect.ValueOfBytes(value)
 	case "junction.junction.Pods.witness":
 		value := x.Witness
-		return protoreflect.ValueOfString(value)
+		return protoreflect.ValueOfBytes(value)
 	case "junction.junction.Pods.timestamp":
 		value := x.Timestamp
 		return protoreflect.ValueOfString(value)
@@ -265,9 +265,9 @@ func (x *fastReflection_Pods) Set(fd protoreflect.FieldDescriptor, value protore
 	case "junction.junction.Pods.previousMerkleRootHash":
 		x.PreviousMerkleRootHash = value.Interface().(string)
 	case "junction.junction.Pods.zkProof":
-		x.ZkProof = value.Interface().(string)
+		x.ZkProof = value.Bytes()
 	case "junction.junction.Pods.witness":
-		x.Witness = value.Interface().(string)
+		x.Witness = value.Bytes()
 	case "junction.junction.Pods.timestamp":
 		x.Timestamp = value.Interface().(string)
 	case "junction.junction.Pods.isVerified":
@@ -326,9 +326,9 @@ func (x *fastReflection_Pods) NewField(fd protoreflect.FieldDescriptor) protoref
 	case "junction.junction.Pods.previousMerkleRootHash":
 		return protoreflect.ValueOfString("")
 	case "junction.junction.Pods.zkProof":
-		return protoreflect.ValueOfString("")
+		return protoreflect.ValueOfBytes(nil)
 	case "junction.junction.Pods.witness":
-		return protoreflect.ValueOfString("")
+		return protoreflect.ValueOfBytes(nil)
 	case "junction.junction.Pods.timestamp":
 		return protoreflect.ValueOfString("")
 	case "junction.junction.Pods.isVerified":
@@ -643,7 +643,7 @@ func (x *fastReflection_Pods) ProtoMethods() *protoiface.Methods {
 				if wireType != 2 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field ZkProof", wireType)
 				}
-				var stringLen uint64
+				var byteLen int
 				for shift := uint(0); ; shift += 7 {
 					if shift >= 64 {
 						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
@@ -653,29 +653,31 @@ func (x *fastReflection_Pods) ProtoMethods() *protoiface.Methods {
 					}
 					b := dAtA[iNdEx]
 					iNdEx++
-					stringLen |= uint64(b&0x7F) << shift
+					byteLen |= int(b&0x7F) << shift
 					if b < 0x80 {
 						break
 					}
 				}
-				intStringLen := int(stringLen)
-				if intStringLen < 0 {
+				if byteLen < 0 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
 				}
-				postIndex := iNdEx + intStringLen
+				postIndex := iNdEx + byteLen
 				if postIndex < 0 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
 				}
 				if postIndex > l {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
 				}
-				x.ZkProof = string(dAtA[iNdEx:postIndex])
+				x.ZkProof = append(x.ZkProof[:0], dAtA[iNdEx:postIndex]...)
+				if x.ZkProof == nil {
+					x.ZkProof = []byte{}
+				}
 				iNdEx = postIndex
 			case 5:
 				if wireType != 2 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Witness", wireType)
 				}
-				var stringLen uint64
+				var byteLen int
 				for shift := uint(0); ; shift += 7 {
 					if shift >= 64 {
 						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
@@ -685,23 +687,25 @@ func (x *fastReflection_Pods) ProtoMethods() *protoiface.Methods {
 					}
 					b := dAtA[iNdEx]
 					iNdEx++
-					stringLen |= uint64(b&0x7F) << shift
+					byteLen |= int(b&0x7F) << shift
 					if b < 0x80 {
 						break
 					}
 				}
-				intStringLen := int(stringLen)
-				if intStringLen < 0 {
+				if byteLen < 0 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
 				}
-				postIndex := iNdEx + intStringLen
+				postIndex := iNdEx + byteLen
 				if postIndex < 0 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
 				}
 				if postIndex > l {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
 				}
-				x.Witness = string(dAtA[iNdEx:postIndex])
+				x.Witness = append(x.Witness[:0], dAtA[iNdEx:postIndex]...)
+				if x.Witness == nil {
+					x.Witness = []byte{}
+				}
 				iNdEx = postIndex
 			case 6:
 				if wireType != 2 {
@@ -811,8 +815,8 @@ type Pods struct {
 	PodNumber              uint64 `protobuf:"varint,1,opt,name=podNumber,proto3" json:"podNumber,omitempty"`
 	MerkleRootHash         string `protobuf:"bytes,2,opt,name=merkleRootHash,proto3" json:"merkleRootHash,omitempty"`
 	PreviousMerkleRootHash string `protobuf:"bytes,3,opt,name=previousMerkleRootHash,proto3" json:"previousMerkleRootHash,omitempty"`
-	ZkProof                string `protobuf:"bytes,4,opt,name=zkProof,proto3" json:"zkProof,omitempty"`
-	Witness                string `protobuf:"bytes,5,opt,name=witness,proto3" json:"witness,omitempty"`
+	ZkProof                []byte `protobuf:"bytes,4,opt,name=zkProof,proto3" json:"zkProof,omitempty"`
+	Witness                []byte `protobuf:"bytes,5,opt,name=witness,proto3" json:"witness,omitempty"`
 	Timestamp              string `protobuf:"bytes,6,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
 	IsVerified             bool   `protobuf:"varint,7,opt,name=isVerified,proto3" json:"isVerified,omitempty"`
 }
@@ -858,18 +862,18 @@ func (x *Pods) GetPreviousMerkleRootHash() string {
 	return ""
 }
 
-func (x *Pods) GetZkProof() string {
+func (x *Pods) GetZkProof() []byte {
 	if x != nil {
 		return x.ZkProof
 	}
-	return ""
+	return nil
 }
 
-func (x *Pods) GetWitness() string {
+func (x *Pods) GetWitness() []byte {
 	if x != nil {
 		return x.Witness
 	}
-	return ""
+	return nil
 }
 
 func (x *Pods) GetTimestamp() string {
@@ -901,9 +905,9 @@ var file_junction_junction_pods_proto_rawDesc = []byte{
 	0x6c, 0x65, 0x52, 0x6f, 0x6f, 0x74, 0x48, 0x61, 0x73, 0x68, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09,
 	0x52, 0x16, 0x70, 0x72, 0x65, 0x76, 0x69, 0x6f, 0x75, 0x73, 0x4d, 0x65, 0x72, 0x6b, 0x6c, 0x65,
 	0x52, 0x6f, 0x6f, 0x74, 0x48, 0x61, 0x73, 0x68, 0x12, 0x18, 0x0a, 0x07, 0x7a, 0x6b, 0x50, 0x72,
-	0x6f, 0x6f, 0x66, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x7a, 0x6b, 0x50, 0x72, 0x6f,
+	0x6f, 0x6f, 0x66, 0x18, 0x04, 0x20, 0x01, 0x28, 0x0c, 0x52, 0x07, 0x7a, 0x6b, 0x50, 0x72, 0x6f,
 	0x6f, 0x66, 0x12, 0x18, 0x0a, 0x07, 0x77, 0x69, 0x74, 0x6e, 0x65, 0x73, 0x73, 0x18, 0x05, 0x20,
-	0x01, 0x28, 0x09, 0x52, 0x07, 0x77, 0x69, 0x74, 0x6e, 0x65, 0x73, 0x73, 0x12, 0x1c, 0x0a, 0x09,
+	0x01, 0x28, 0x0c, 0x52, 0x07, 0x77, 0x69, 0x74, 0x6e, 0x65, 0x73, 0x73, 0x12, 0x1c, 0x0a, 0x09,
 	0x74, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x18, 0x06, 0x20, 0x01, 0x28, 0x09, 0x52,
 	0x09, 0x74, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x12, 0x1e, 0x0a, 0x0a, 0x69, 0x73,
 	0x56, 0x65, 0x72, 0x69, 0x66, 0x69, 0x65, 0x64, 0x18, 0x07, 0x20, 0x01, 0x28, 0x08, 0x52, 0x0a,

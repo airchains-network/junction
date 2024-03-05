@@ -19325,6 +19325,69 @@ paths:
           type: string
       tags:
         - Query
+  /ComputerKeeda/junction/junction/get_station_details_by_address/{address}:
+    get:
+      summary: Queries a list of GetStationDetailsByAddress items.
+      operationId: JunctionJunctionQuery_GetStationDetailsByAddress
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              station:
+                type: object
+                properties:
+                  tracks:
+                    type: array
+                    items:
+                      type: string
+                  votingPower:
+                    type: array
+                    items:
+                      type: string
+                      format: uint64
+                  latestPod:
+                    type: string
+                    format: uint64
+                  latestMerkleRootHash:
+                    type: string
+                  verificationKey:
+                    type: string
+                    format: byte
+                  stationInfo:
+                    type: string
+                  id:
+                    type: string
+                  creator:
+                    type: string
+                  spsp:
+                    type: string
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: address
+          in: path
+          required: true
+          type: string
+      tags:
+        - Query
   /ComputerKeeda/junction/junction/list_stations:
     get:
       summary: Queries a list of ListStations items.
@@ -19556,6 +19619,60 @@ paths:
               stationId:
                 type: string
               stationInfo:
+                type: string
+      tags:
+        - Msg
+  /junction.junction.Msg/SubmitPod:
+    post:
+      operationId: JunctionJunctionMsg_SubmitPod
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              podStatus:
+                type: boolean
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              creator:
+                type: string
+              stationId:
+                type: string
+              podNumber:
+                type: string
+                format: uint64
+              merkleRootHash:
+                type: string
+              previousMerkleRootHash:
+                type: string
+              publicWitness:
+                type: string
+                format: byte
+              timestamp:
                 type: string
       tags:
         - Msg
@@ -27432,6 +27549,37 @@ definitions:
   junction.junction.Params:
     type: object
     description: Params defines the parameters for the module.
+  junction.junction.QueryGetStationDetailsByAddressResponse:
+    type: object
+    properties:
+      station:
+        type: object
+        properties:
+          tracks:
+            type: array
+            items:
+              type: string
+          votingPower:
+            type: array
+            items:
+              type: string
+              format: uint64
+          latestPod:
+            type: string
+            format: uint64
+          latestMerkleRootHash:
+            type: string
+          verificationKey:
+            type: string
+            format: byte
+          stationInfo:
+            type: string
+          id:
+            type: string
+          creator:
+            type: string
+          spsp:
+            type: string
   junction.junction.QueryGetStationResponse:
     type: object
     properties:
@@ -27580,6 +27728,30 @@ definitions:
         type: boolean
       stationId:
         type: string
+  junction.junction.MsgSubmitPod:
+    type: object
+    properties:
+      creator:
+        type: string
+      stationId:
+        type: string
+      podNumber:
+        type: string
+        format: uint64
+      merkleRootHash:
+        type: string
+      previousMerkleRootHash:
+        type: string
+      publicWitness:
+        type: string
+        format: byte
+      timestamp:
+        type: string
+  junction.junction.MsgSubmitPodResponse:
+    type: object
+    properties:
+      podStatus:
+        type: boolean
   junction.junction.MsgUpdateParams:
     type: object
     properties:

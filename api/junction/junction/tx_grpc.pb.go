@@ -21,6 +21,7 @@ const _ = grpc.SupportPackageIsVersion7
 const (
 	Msg_UpdateParams_FullMethodName = "/junction.junction.Msg/UpdateParams"
 	Msg_InitStation_FullMethodName  = "/junction.junction.Msg/InitStation"
+	Msg_SubmitPod_FullMethodName    = "/junction.junction.Msg/SubmitPod"
 )
 
 // MsgClient is the client API for Msg service.
@@ -31,6 +32,7 @@ type MsgClient interface {
 	// parameters. The authority defaults to the x/gov module account.
 	UpdateParams(ctx context.Context, in *MsgUpdateParams, opts ...grpc.CallOption) (*MsgUpdateParamsResponse, error)
 	InitStation(ctx context.Context, in *MsgInitStation, opts ...grpc.CallOption) (*MsgInitStationResponse, error)
+	SubmitPod(ctx context.Context, in *MsgSubmitPod, opts ...grpc.CallOption) (*MsgSubmitPodResponse, error)
 }
 
 type msgClient struct {
@@ -59,6 +61,15 @@ func (c *msgClient) InitStation(ctx context.Context, in *MsgInitStation, opts ..
 	return out, nil
 }
 
+func (c *msgClient) SubmitPod(ctx context.Context, in *MsgSubmitPod, opts ...grpc.CallOption) (*MsgSubmitPodResponse, error) {
+	out := new(MsgSubmitPodResponse)
+	err := c.cc.Invoke(ctx, Msg_SubmitPod_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MsgServer is the server API for Msg service.
 // All implementations must embed UnimplementedMsgServer
 // for forward compatibility
@@ -67,6 +78,7 @@ type MsgServer interface {
 	// parameters. The authority defaults to the x/gov module account.
 	UpdateParams(context.Context, *MsgUpdateParams) (*MsgUpdateParamsResponse, error)
 	InitStation(context.Context, *MsgInitStation) (*MsgInitStationResponse, error)
+	SubmitPod(context.Context, *MsgSubmitPod) (*MsgSubmitPodResponse, error)
 	mustEmbedUnimplementedMsgServer()
 }
 
@@ -79,6 +91,9 @@ func (UnimplementedMsgServer) UpdateParams(context.Context, *MsgUpdateParams) (*
 }
 func (UnimplementedMsgServer) InitStation(context.Context, *MsgInitStation) (*MsgInitStationResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method InitStation not implemented")
+}
+func (UnimplementedMsgServer) SubmitPod(context.Context, *MsgSubmitPod) (*MsgSubmitPodResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SubmitPod not implemented")
 }
 func (UnimplementedMsgServer) mustEmbedUnimplementedMsgServer() {}
 
@@ -129,6 +144,24 @@ func _Msg_InitStation_Handler(srv interface{}, ctx context.Context, dec func(int
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Msg_SubmitPod_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgSubmitPod)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).SubmitPod(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Msg_SubmitPod_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).SubmitPod(ctx, req.(*MsgSubmitPod))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Msg_ServiceDesc is the grpc.ServiceDesc for Msg service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -143,6 +176,10 @@ var Msg_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "InitStation",
 			Handler:    _Msg_InitStation_Handler,
+		},
+		{
+			MethodName: "SubmitPod",
+			Handler:    _Msg_SubmitPod_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

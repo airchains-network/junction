@@ -55,6 +55,12 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					Short:          "Send a init_station tx",
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "tracks"}, {ProtoField: "verificationKey"}, {ProtoField: "stationId"}, {ProtoField: "stationInfo"}},
 				},
+				{
+					RpcMethod:      "SubmitPod",
+					Use:            "submit-pod [station-id] [pod-number] [merkle-root-hash] [previous-merkle-root-hash] [public-witness] [timestamp]",
+					Short:          "Send a submit_pod tx",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "stationId"}, {ProtoField: "podNumber"}, {ProtoField: "merkleRootHash"}, {ProtoField: "previousMerkleRootHash"}, {ProtoField: "publicWitness"}, {ProtoField: "timestamp"}},
+				},
 				// this line is used by ignite scaffolding # autocli/tx
 			},
 		},

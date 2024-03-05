@@ -18,6 +18,7 @@ service Msg {
   // parameters. The authority defaults to the x/gov module account.
   rpc UpdateParams (MsgUpdateParams) returns (MsgUpdateParamsResponse);
   rpc InitStation  (MsgInitStation ) returns (MsgInitStationResponse );
+  rpc SubmitPod    (MsgSubmitPod   ) returns (MsgSubmitPodResponse   );
 }
 // MsgUpdateParams is the Msg/UpdateParams request type.
 message MsgUpdateParams {
@@ -41,7 +42,7 @@ message MsgInitStation {
   option (cosmos.msg.v1.signer) = "creator";
            string creator         = 1;
   repeated string tracks          = 2;
-           bytes verificationKey = 3;
+           bytes  verificationKey = 3;
            string stationId       = 4;
            string stationInfo     = 5;
 }
@@ -49,5 +50,20 @@ message MsgInitStation {
 message MsgInitStationResponse {
   bool   status    = 1;
   string stationId = 2;
+}
+
+message MsgSubmitPod {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator                = 1;
+  string stationId              = 2;
+  uint64 podNumber              = 3;
+  string merkleRootHash         = 4;
+  string previousMerkleRootHash = 5;
+  bytes publicWitness          = 6;
+  string timestamp              = 7;
+}
+
+message MsgSubmitPodResponse {
+  bool podStatus = 1;
 }
 
