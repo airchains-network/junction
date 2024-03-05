@@ -1,51 +1,17 @@
 # junction
-**junction** is a blockchain built using Cosmos SDK and Tendermint and created with [Ignite CLI](https://ignite.com/cli).
 
-## Get started
-
+This junction version is made in latest ignite cli version which is 28.2.0
+```bash
+Ignite CLI version:		v28.2.0
+Ignite CLI build date:		2024-02-06T11:21:56Z
+Ignite CLI source hash:		af25183a2d312aa4d679e65e3d627025b17a7120
+Ignite CLI config version:	v1
+Cosmos SDK version:		v0.50.3
+Your OS:			darwin
+Your arch:			amd64
+Your Node.js version:		v19.2.0
+Your go version:		go version go1.21.3 darwin/arm64
+Your uname -a:			Darwin 192.168.1.17 23.3.0 Darwin Kernel Version 23.3.0: Wed Dec 20 21:30:44 PST 2023; root:xnu-10002.81.5~7/RELEASE_ARM64_T6000 x86_64
+Your cwd:			/Volumes/Code/Office_Work/blockchain/Testnet/junction-new
+Is on Gitpod:			false
 ```
-ignite chain serve
-```
-
-`serve` command installs dependencies, builds, initializes, and starts your blockchain in development.
-
-### Configure
-
-Your blockchain in development can be configured with `config.yml`. To learn more, see the [Ignite CLI docs](https://docs.ignite.com).
-
-### Web Frontend
-
-Additionally, Ignite CLI offers both Vue and React options for frontend scaffolding:
-
-For a Vue frontend, use: `ignite scaffold vue`
-For a React frontend, use: `ignite scaffold react`
-These commands can be run within your scaffolded blockchain project. 
-
-
-For more information see the [monorepo for Ignite front-end development](https://github.com/ignite/web).
-
-## Release
-To release a new version of your blockchain, create and push a new tag with `v` prefix. A new draft release with the configured targets will be created.
-
-```
-git tag v0.1
-git push origin v0.1
-```
-
-After a draft release is created, make your final changes from the release page and publish it.
-
-### Install
-To install the latest version of your blockchain node's binary, execute the following command on your machine:
-
-```
-curl https://get.ignite.com/ComputerKeeda/junction@latest! | sudo bash
-```
-`ComputerKeeda/junction` should match the `username` and `repo_name` of the Github repository to which the source code was pushed. Learn more about [the install process](https://github.com/allinbits/starport-installer).
-
-## Learn more
-
-- [Ignite CLI](https://ignite.com/cli)
-- [Tutorials](https://docs.ignite.com/guide)
-- [Ignite CLI docs](https://docs.ignite.com)
-- [Cosmos SDK docs](https://docs.cosmos.network)
-- [Developer Chat](https://discord.gg/ignite)
