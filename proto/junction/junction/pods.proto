@@ -1,0 +1,15 @@
+syntax = "proto3";
+package junction.junction;
+
+option go_package = "github.com/ComputerKeeda/junction/x/junction/types";
+
+message Pods {
+  
+  uint64 podNumber = 1; 
+  string merkleRootHash = 2; 
+  string previousMerkleRootHash = 3; 
+  string zkProof = 4; 
+  string witness = 5; 
+  string timestamp = 6; 
+  bool isVerified = 7; 
+}
