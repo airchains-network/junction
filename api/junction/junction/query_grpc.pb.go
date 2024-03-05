@@ -19,8 +19,9 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	Query_Params_FullMethodName     = "/junction.junction.Query/Params"
-	Query_GetStation_FullMethodName = "/junction.junction.Query/GetStation"
+	Query_Params_FullMethodName       = "/junction.junction.Query/Params"
+	Query_GetStation_FullMethodName   = "/junction.junction.Query/GetStation"
+	Query_ListStations_FullMethodName = "/junction.junction.Query/ListStations"
 )
 
 // QueryClient is the client API for Query service.
@@ -31,6 +32,8 @@ type QueryClient interface {
 	Params(ctx context.Context, in *QueryParamsRequest, opts ...grpc.CallOption) (*QueryParamsResponse, error)
 	// Queries a list of GetStation items.
 	GetStation(ctx context.Context, in *QueryGetStationRequest, opts ...grpc.CallOption) (*QueryGetStationResponse, error)
+	// Queries a list of ListStations items.
+	ListStations(ctx context.Context, in *QueryListStationsRequest, opts ...grpc.CallOption) (*QueryListStationsResponse, error)
 }
 
 type queryClient struct {
@@ -59,6 +62,15 @@ func (c *queryClient) GetStation(ctx context.Context, in *QueryGetStationRequest
 	return out, nil
 }
 
+func (c *queryClient) ListStations(ctx context.Context, in *QueryListStationsRequest, opts ...grpc.CallOption) (*QueryListStationsResponse, error) {
+	out := new(QueryListStationsResponse)
+	err := c.cc.Invoke(ctx, Query_ListStations_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // QueryServer is the server API for Query service.
 // All implementations must embed UnimplementedQueryServer
 // for forward compatibility
@@ -67,6 +79,8 @@ type QueryServer interface {
 	Params(context.Context, *QueryParamsRequest) (*QueryParamsResponse, error)
 	// Queries a list of GetStation items.
 	GetStation(context.Context, *QueryGetStationRequest) (*QueryGetStationResponse, error)
+	// Queries a list of ListStations items.
+	ListStations(context.Context, *QueryListStationsRequest) (*QueryListStationsResponse, error)
 	mustEmbedUnimplementedQueryServer()
 }
 
@@ -79,6 +93,9 @@ func (UnimplementedQueryServer) Params(context.Context, *QueryParamsRequest) (*Q
 }
 func (UnimplementedQueryServer) GetStation(context.Context, *QueryGetStationRequest) (*QueryGetStationResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetStation not implemented")
+}
+func (UnimplementedQueryServer) ListStations(context.Context, *QueryListStationsRequest) (*QueryListStationsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListStations not implemented")
 }
 func (UnimplementedQueryServer) mustEmbedUnimplementedQueryServer() {}
 
@@ -129,6 +146,24 @@ func _Query_GetStation_Handler(srv interface{}, ctx context.Context, dec func(in
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Query_ListStations_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryListStationsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).ListStations(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Query_ListStations_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).ListStations(ctx, req.(*QueryListStationsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Query_ServiceDesc is the grpc.ServiceDesc for Query service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -143,6 +178,10 @@ var Query_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetStation",
 			Handler:    _Query_GetStation_Handler,
+		},
+		{
+			MethodName: "ListStations",
+			Handler:    _Query_ListStations_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

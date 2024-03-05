@@ -25,6 +25,12 @@ service Query {
     option (google.api.http).get = "/ComputerKeeda/junction/junction/get_station/{id}";
   
   }
+  
+  // Queries a list of ListStations items.
+  rpc ListStations (QueryListStationsRequest) returns (QueryListStationsResponse) {
+    option (google.api.http).get = "/ComputerKeeda/junction/junction/list_stations";
+  
+  }
 }
 // QueryParamsRequest is request type for the Query/Params RPC method.
 message QueryParamsRequest {}
@@ -42,5 +48,14 @@ message QueryGetStationRequest {
 
 message QueryGetStationResponse {
   Stations stations = 1;
+}
+
+message QueryListStationsRequest {
+  cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryListStationsResponse {
+  repeated Stations                                stationsList = 1 [(gogoproto.nullable) = false];
+  cosmos.base.query.v1beta1.PageResponse pagination   = 2;
 }
 
