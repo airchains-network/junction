@@ -23,6 +23,7 @@ const (
 	Query_GetStation_FullMethodName                 = "/junction.junction.Query/GetStation"
 	Query_ListStations_FullMethodName               = "/junction.junction.Query/ListStations"
 	Query_GetStationDetailsByAddress_FullMethodName = "/junction.junction.Query/GetStationDetailsByAddress"
+	Query_GetPod_FullMethodName                     = "/junction.junction.Query/GetPod"
 )
 
 // QueryClient is the client API for Query service.
@@ -37,6 +38,8 @@ type QueryClient interface {
 	ListStations(ctx context.Context, in *QueryListStationsRequest, opts ...grpc.CallOption) (*QueryListStationsResponse, error)
 	// Queries a list of GetStationDetailsByAddress items.
 	GetStationDetailsByAddress(ctx context.Context, in *QueryGetStationDetailsByAddressRequest, opts ...grpc.CallOption) (*QueryGetStationDetailsByAddressResponse, error)
+	// Queries a list of GetPod items.
+	GetPod(ctx context.Context, in *QueryGetPodRequest, opts ...grpc.CallOption) (*QueryGetPodResponse, error)
 }
 
 type queryClient struct {
@@ -83,6 +86,15 @@ func (c *queryClient) GetStationDetailsByAddress(ctx context.Context, in *QueryG
 	return out, nil
 }
 
+func (c *queryClient) GetPod(ctx context.Context, in *QueryGetPodRequest, opts ...grpc.CallOption) (*QueryGetPodResponse, error) {
+	out := new(QueryGetPodResponse)
+	err := c.cc.Invoke(ctx, Query_GetPod_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // QueryServer is the server API for Query service.
 // All implementations must embed UnimplementedQueryServer
 // for forward compatibility
@@ -95,6 +107,8 @@ type QueryServer interface {
 	ListStations(context.Context, *QueryListStationsRequest) (*QueryListStationsResponse, error)
 	// Queries a list of GetStationDetailsByAddress items.
 	GetStationDetailsByAddress(context.Context, *QueryGetStationDetailsByAddressRequest) (*QueryGetStationDetailsByAddressResponse, error)
+	// Queries a list of GetPod items.
+	GetPod(context.Context, *QueryGetPodRequest) (*QueryGetPodResponse, error)
 	mustEmbedUnimplementedQueryServer()
 }
 
@@ -113,6 +127,9 @@ func (UnimplementedQueryServer) ListStations(context.Context, *QueryListStations
 }
 func (UnimplementedQueryServer) GetStationDetailsByAddress(context.Context, *QueryGetStationDetailsByAddressRequest) (*QueryGetStationDetailsByAddressResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetStationDetailsByAddress not implemented")
+}
+func (UnimplementedQueryServer) GetPod(context.Context, *QueryGetPodRequest) (*QueryGetPodResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetPod not implemented")
 }
 func (UnimplementedQueryServer) mustEmbedUnimplementedQueryServer() {}
 
@@ -199,6 +216,24 @@ func _Query_GetStationDetailsByAddress_Handler(srv interface{}, ctx context.Cont
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Query_GetPod_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryGetPodRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).GetPod(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Query_GetPod_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).GetPod(ctx, req.(*QueryGetPodRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Query_ServiceDesc is the grpc.ServiceDesc for Query service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -221,6 +256,10 @@ var Query_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetStationDetailsByAddress",
 			Handler:    _Query_GetStationDetailsByAddress_Handler,
+		},
+		{
+			MethodName: "GetPod",
+			Handler:    _Query_GetPod_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
