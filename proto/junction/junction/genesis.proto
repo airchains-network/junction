@@ -1,0 +1,17 @@
+syntax = "proto3";
+package junction.junction;
+
+import "amino/amino.proto";
+import "gogoproto/gogo.proto";
+import "junction/junction/params.proto";
+
+option go_package = "github.com/ComputerKeeda/junction/x/junction/types";
+
+// GenesisState defines the junction module's genesis state.
+message GenesisState {
+  // params defines all the parameters of the module.
+  Params params = 1 [
+    (gogoproto.nullable) = false,
+    (amino.dont_omitempty) = true
+  ];
+}
