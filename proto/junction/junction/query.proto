@@ -1,4 +1,5 @@
 syntax = "proto3";
+
 package junction.junction;
 
 import "amino/amino.proto";
@@ -6,25 +7,40 @@ import "gogoproto/gogo.proto";
 import "google/api/annotations.proto";
 import "cosmos/base/query/v1beta1/pagination.proto";
 import "junction/junction/params.proto";
+import "junction/junction/stations.proto";
 
 option go_package = "github.com/ComputerKeeda/junction/x/junction/types";
 
 // Query defines the gRPC querier service.
 service Query {
+  
   // Parameters queries the parameters of the module.
-  rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {
+  rpc Params (QueryParamsRequest) returns (QueryParamsResponse) {
     option (google.api.http).get = "/ComputerKeeda/junction/junction/params";
+  
+  }
+  
+  // Queries a list of GetStation items.
+  rpc GetStation (QueryGetStationRequest) returns (QueryGetStationResponse) {
+    option (google.api.http).get = "/ComputerKeeda/junction/junction/get_station/{id}";
+  
   }
 }
-
 // QueryParamsRequest is request type for the Query/Params RPC method.
 message QueryParamsRequest {}
 
 // QueryParamsResponse is response type for the Query/Params RPC method.
 message QueryParamsResponse {
+  
   // params holds all the parameters of this module.
-  Params params = 1 [
-    (gogoproto.nullable) = false,
-    (amino.dont_omitempty) = true
-  ];
+  Params params = 1 [(gogoproto.nullable) = false, (amino.dont_omitempty) = true];
 }
+
+message QueryGetStationRequest {
+  string id = 1;
+}
+
+message QueryGetStationResponse {
+  Stations stations = 1;
+}
+
