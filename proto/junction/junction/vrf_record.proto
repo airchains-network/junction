@@ -1,0 +1,20 @@
+syntax = "proto3";
+package junction.junction;
+
+option go_package = "github.com/ComputerKeeda/junction/x/junction/types";
+
+message VrfRecord {
+  
+  string vrfCreatorAddr = 1; 
+  string vrfVerifierAddr = 2; 
+  string podNumber = 3; 
+  string stationId = 4; 
+  string occupancy = 5; 
+  string creatorsVrfKey = 6; 
+  bytes serializedRcFromCreator = 7; 
+  bytes serializedRcFromVerifier = 8; 
+  bytes proof = 9; 
+  bytes vrfOutput = 10; 
+  bool isVerified = 11; 
+  bytes vrn = 12;
+}

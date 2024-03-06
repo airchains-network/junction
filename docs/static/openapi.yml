@@ -19262,6 +19262,453 @@ paths:
               parameters.
       tags:
         - Msg
+  /ComputerKeeda/junction/junction/get_latest_submitted_pod_number/{stationId}:
+    get:
+      summary: Queries a list of GetLatestSubmittedPodNumber items.
+      operationId: JunctionJunctionQuery_GetLatestSubmittedPodNumber
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+              podNumber:
+                type: string
+                format: uint64
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: stationId
+          in: path
+          required: true
+          type: string
+      tags:
+        - Query
+  /ComputerKeeda/junction/junction/get_latest_verified_pod_number/{stationId}:
+    get:
+      summary: Queries a list of GetLatestVerifiedPodNumber items.
+      operationId: JunctionJunctionQuery_GetLatestVerifiedPodNumber
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+              podNumber:
+                type: string
+                format: uint64
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: stationId
+          in: path
+          required: true
+          type: string
+      tags:
+        - Query
+  /ComputerKeeda/junction/junction/get_pod/{stationId}/{podNumber}:
+    get:
+      summary: Queries a list of GetPod items.
+      operationId: JunctionJunctionQuery_GetPod
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              pod:
+                type: object
+                properties:
+                  podNumber:
+                    type: string
+                    format: uint64
+                  merkleRootHash:
+                    type: string
+                  previousMerkleRootHash:
+                    type: string
+                  zkProof:
+                    type: string
+                    format: byte
+                  witness:
+                    type: string
+                    format: byte
+                  timestamp:
+                    type: string
+                  isVerified:
+                    type: boolean
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: stationId
+          in: path
+          required: true
+          type: string
+        - name: podNumber
+          in: path
+          required: true
+          type: string
+          format: uint64
+      tags:
+        - Query
+  /ComputerKeeda/junction/junction/get_station/{id}:
+    get:
+      summary: Queries a list of GetStation items.
+      operationId: JunctionJunctionQuery_GetStation
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              stations:
+                type: object
+                properties:
+                  tracks:
+                    type: array
+                    items:
+                      type: string
+                  votingPower:
+                    type: array
+                    items:
+                      type: string
+                      format: uint64
+                  latestPod:
+                    type: string
+                    format: uint64
+                  latestMerkleRootHash:
+                    type: string
+                  verificationKey:
+                    type: string
+                    format: byte
+                  stationInfo:
+                    type: string
+                  id:
+                    type: string
+                  creator:
+                    type: string
+                  spsp:
+                    type: string
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: string
+      tags:
+        - Query
+  /ComputerKeeda/junction/junction/get_station_details_by_address/{address}:
+    get:
+      summary: Queries a list of GetStationDetailsByAddress items.
+      operationId: JunctionJunctionQuery_GetStationDetailsByAddress
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              station:
+                type: object
+                properties:
+                  tracks:
+                    type: array
+                    items:
+                      type: string
+                  votingPower:
+                    type: array
+                    items:
+                      type: string
+                      format: uint64
+                  latestPod:
+                    type: string
+                    format: uint64
+                  latestMerkleRootHash:
+                    type: string
+                  verificationKey:
+                    type: string
+                    format: byte
+                  stationInfo:
+                    type: string
+                  id:
+                    type: string
+                  creator:
+                    type: string
+                  spsp:
+                    type: string
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: address
+          in: path
+          required: true
+          type: string
+      tags:
+        - Query
+  /ComputerKeeda/junction/junction/list_stations:
+    get:
+      summary: Queries a list of ListStations items.
+      operationId: JunctionJunctionQuery_ListStations
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              stationsList:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    tracks:
+                      type: array
+                      items:
+                        type: string
+                    votingPower:
+                      type: array
+                      items:
+                        type: string
+                        format: uint64
+                    latestPod:
+                      type: string
+                      format: uint64
+                    latestMerkleRootHash:
+                      type: string
+                    verificationKey:
+                      type: string
+                      format: byte
+                    stationInfo:
+                      type: string
+                    id:
+                      type: string
+                    creator:
+                      type: string
+                    spsp:
+                      type: string
+              pagination:
+                type: object
+                properties:
+                  next_key:
+                    type: string
+                    format: byte
+                    description: |-
+                      next_key is the key to be passed to PageRequest.key to
+                      query the next page most efficiently. It will be empty if
+                      there are no more results.
+                  total:
+                    type: string
+                    format: uint64
+                    title: >-
+                      total is total number of results available if
+                      PageRequest.count_total
+
+                      was set, its value is undefined otherwise
+                description: >-
+                  PageResponse is to be embedded in gRPC response messages where
+                  the
+
+                  corresponding request message has used PageRequest.
+
+                   message SomeResponse {
+                           repeated Bar results = 1;
+                           PageResponse page = 2;
+                   }
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: pagination.key
+          description: |-
+            key is a value returned in PageResponse.next_key to begin
+            querying the next page most efficiently. Only one of offset or key
+            should be set.
+          in: query
+          required: false
+          type: string
+          format: byte
+        - name: pagination.offset
+          description: >-
+            offset is a numeric offset that can be used when key is unavailable.
+
+            It is less efficient than using key. Only one of offset or key
+            should
+
+            be set.
+          in: query
+          required: false
+          type: string
+          format: uint64
+        - name: pagination.limit
+          description: >-
+            limit is the total number of results to be returned in the result
+            page.
+
+            If left empty it will default to a value to be set by each app.
+          in: query
+          required: false
+          type: string
+          format: uint64
+        - name: pagination.count_total
+          description: >-
+            count_total is set to true  to indicate that the result set should
+            include
+
+            a count of the total number of items available for pagination in
+            UIs.
+
+            count_total is only respected when offset is used. It is ignored
+            when key
+
+            is set.
+          in: query
+          required: false
+          type: boolean
+        - name: pagination.reverse
+          description: >-
+            reverse is set to true if results are to be returned in the
+            descending order.
+
+
+            Since: cosmos-sdk 0.43
+          in: query
+          required: false
+          type: boolean
+      tags:
+        - Query
+  /ComputerKeeda/junction/junction/params:
+    get:
+      summary: Parameters queries the parameters of the module.
+      operationId: JunctionJunctionQuery_Params
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              params:
+                description: params holds all the parameters of this module.
+                type: object
+            description: >-
+              QueryParamsResponse is response type for the Query/Params RPC
+              method.
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      tags:
+        - Query
   /junction.junction.Msg/InitStation:
     post:
       operationId: JunctionJunctionMsg_InitStation
@@ -19364,6 +19811,7 @@ paths:
                 type: string
               extraArg:
                 type: string
+                format: byte
       tags:
         - Msg
   /junction.junction.Msg/SubmitPod:
@@ -27267,6 +27715,301 @@ definitions:
     description: |-
       Version defines the versioning scheme used to negotiate the IBC verison in
       the connection handshake.
+  cosmos.base.query.v1beta1.PageRequest:
+    type: object
+    properties:
+      key:
+        type: string
+        format: byte
+        description: |-
+          key is a value returned in PageResponse.next_key to begin
+          querying the next page most efficiently. Only one of offset or key
+          should be set.
+      offset:
+        type: string
+        format: uint64
+        description: |-
+          offset is a numeric offset that can be used when key is unavailable.
+          It is less efficient than using key. Only one of offset or key should
+          be set.
+      limit:
+        type: string
+        format: uint64
+        description: >-
+          limit is the total number of results to be returned in the result
+          page.
+
+          If left empty it will default to a value to be set by each app.
+      count_total:
+        type: boolean
+        description: >-
+          count_total is set to true  to indicate that the result set should
+          include
+
+          a count of the total number of items available for pagination in UIs.
+
+          count_total is only respected when offset is used. It is ignored when
+          key
+
+          is set.
+      reverse:
+        type: boolean
+        description: >-
+          reverse is set to true if results are to be returned in the descending
+          order.
+
+
+          Since: cosmos-sdk 0.43
+    description: |-
+      message SomeRequest {
+               Foo some_parameter = 1;
+               PageRequest pagination = 2;
+       }
+    title: |-
+      PageRequest is to be embedded in gRPC request messages for efficient
+      pagination. Ex:
+  cosmos.base.query.v1beta1.PageResponse:
+    type: object
+    properties:
+      next_key:
+        type: string
+        format: byte
+        description: |-
+          next_key is the key to be passed to PageRequest.key to
+          query the next page most efficiently. It will be empty if
+          there are no more results.
+      total:
+        type: string
+        format: uint64
+        title: |-
+          total is total number of results available if PageRequest.count_total
+          was set, its value is undefined otherwise
+    description: |-
+      PageResponse is to be embedded in gRPC response messages where the
+      corresponding request message has used PageRequest.
+
+       message SomeResponse {
+               repeated Bar results = 1;
+               PageResponse page = 2;
+       }
+  junction.junction.Params:
+    type: object
+    description: Params defines the parameters for the module.
+  junction.junction.Pods:
+    type: object
+    properties:
+      podNumber:
+        type: string
+        format: uint64
+      merkleRootHash:
+        type: string
+      previousMerkleRootHash:
+        type: string
+      zkProof:
+        type: string
+        format: byte
+      witness:
+        type: string
+        format: byte
+      timestamp:
+        type: string
+      isVerified:
+        type: boolean
+  junction.junction.QueryGetLatestSubmittedPodNumberResponse:
+    type: object
+    properties:
+      message:
+        type: string
+      podNumber:
+        type: string
+        format: uint64
+  junction.junction.QueryGetLatestVerifiedPodNumberResponse:
+    type: object
+    properties:
+      message:
+        type: string
+      podNumber:
+        type: string
+        format: uint64
+  junction.junction.QueryGetPodResponse:
+    type: object
+    properties:
+      pod:
+        type: object
+        properties:
+          podNumber:
+            type: string
+            format: uint64
+          merkleRootHash:
+            type: string
+          previousMerkleRootHash:
+            type: string
+          zkProof:
+            type: string
+            format: byte
+          witness:
+            type: string
+            format: byte
+          timestamp:
+            type: string
+          isVerified:
+            type: boolean
+  junction.junction.QueryGetStationDetailsByAddressResponse:
+    type: object
+    properties:
+      station:
+        type: object
+        properties:
+          tracks:
+            type: array
+            items:
+              type: string
+          votingPower:
+            type: array
+            items:
+              type: string
+              format: uint64
+          latestPod:
+            type: string
+            format: uint64
+          latestMerkleRootHash:
+            type: string
+          verificationKey:
+            type: string
+            format: byte
+          stationInfo:
+            type: string
+          id:
+            type: string
+          creator:
+            type: string
+          spsp:
+            type: string
+  junction.junction.QueryGetStationResponse:
+    type: object
+    properties:
+      stations:
+        type: object
+        properties:
+          tracks:
+            type: array
+            items:
+              type: string
+          votingPower:
+            type: array
+            items:
+              type: string
+              format: uint64
+          latestPod:
+            type: string
+            format: uint64
+          latestMerkleRootHash:
+            type: string
+          verificationKey:
+            type: string
+            format: byte
+          stationInfo:
+            type: string
+          id:
+            type: string
+          creator:
+            type: string
+          spsp:
+            type: string
+  junction.junction.QueryListStationsResponse:
+    type: object
+    properties:
+      stationsList:
+        type: array
+        items:
+          type: object
+          properties:
+            tracks:
+              type: array
+              items:
+                type: string
+            votingPower:
+              type: array
+              items:
+                type: string
+                format: uint64
+            latestPod:
+              type: string
+              format: uint64
+            latestMerkleRootHash:
+              type: string
+            verificationKey:
+              type: string
+              format: byte
+            stationInfo:
+              type: string
+            id:
+              type: string
+            creator:
+              type: string
+            spsp:
+              type: string
+      pagination:
+        type: object
+        properties:
+          next_key:
+            type: string
+            format: byte
+            description: |-
+              next_key is the key to be passed to PageRequest.key to
+              query the next page most efficiently. It will be empty if
+              there are no more results.
+          total:
+            type: string
+            format: uint64
+            title: >-
+              total is total number of results available if
+              PageRequest.count_total
+
+              was set, its value is undefined otherwise
+        description: |-
+          PageResponse is to be embedded in gRPC response messages where the
+          corresponding request message has used PageRequest.
+
+           message SomeResponse {
+                   repeated Bar results = 1;
+                   PageResponse page = 2;
+           }
+  junction.junction.QueryParamsResponse:
+    type: object
+    properties:
+      params:
+        description: params holds all the parameters of this module.
+        type: object
+    description: QueryParamsResponse is response type for the Query/Params RPC method.
+  junction.junction.Stations:
+    type: object
+    properties:
+      tracks:
+        type: array
+        items:
+          type: string
+      votingPower:
+        type: array
+        items:
+          type: string
+          format: uint64
+      latestPod:
+        type: string
+        format: uint64
+      latestMerkleRootHash:
+        type: string
+      verificationKey:
+        type: string
+        format: byte
+      stationInfo:
+        type: string
+      id:
+        type: string
+      creator:
+        type: string
+      spsp:
+        type: string
   junction.junction.MsgInitStation:
     type: object
     properties:
@@ -27306,6 +28049,7 @@ definitions:
         type: string
       extraArg:
         type: string
+        format: byte
   junction.junction.MsgInitiateVrfResponse:
     type: object
     properties:
@@ -27376,6 +28120,3 @@ definitions:
         type: string
       isVerified:
         type: boolean
-  junction.junction.Params:
-    type: object
-    description: Params defines the parameters for the module.

@@ -1,11 +1,21 @@
 package keeper
 
-import "crypto/sha256"
+import (
+	"crypto/sha256"
+	"strconv"
+)
 
 type ExtraArg struct {
 	SerializedRc []byte `json:"serializedRc"`
 	Proof        []byte `json:"proof"`
 	VrfOutput    []byte `json:"vrfOutput"`
+}
+
+func GetVRFKeyByte(stationId string, podNumber uint64) (string, []byte) {
+	podStoreKey := "vrf/" + stationId
+	podNumberString := strconv.FormatUint(podNumber, 10)
+	podStoreKeyByte := []byte(podNumberString)
+	return podStoreKey, podStoreKeyByte
 }
 
 // Function to generate a deterministic random number from a proof
