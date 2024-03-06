@@ -23,6 +23,7 @@ func (k msgServer) InitStation(goCtx context.Context, msg *types.MsgInitStation)
 		StationInfo:          stationInfo,
 		Id:                   stationID,
 		Creator:              msg.Creator,
+		Spsp:                 "nil",
 	}
 
 	Error := k.initStationHelper(ctx, newStation, msg.Creator)
