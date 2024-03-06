@@ -82,6 +82,12 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					Short:          "Send a submit_pod tx",
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "stationId"}, {ProtoField: "podNumber"}, {ProtoField: "merkleRootHash"}, {ProtoField: "previousMerkleRootHash"}, {ProtoField: "publicWitness"}, {ProtoField: "timestamp"}},
 				},
+				{
+					RpcMethod:      "VerifyPod",
+					Use:            "verify-pod [station-id] [pod-number] [merkle-root-hash] [previous-merkle-root-hash] [zk-proof]",
+					Short:          "Send a verify_pod tx",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "stationId"}, {ProtoField: "podNumber"}, {ProtoField: "merkleRootHash"}, {ProtoField: "previousMerkleRootHash"}, {ProtoField: "zkProof"}},
+				},
 				// this line is used by ignite scaffolding # autocli/tx
 			},
 		},

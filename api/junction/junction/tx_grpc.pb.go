@@ -22,6 +22,7 @@ const (
 	Msg_UpdateParams_FullMethodName = "/junction.junction.Msg/UpdateParams"
 	Msg_InitStation_FullMethodName  = "/junction.junction.Msg/InitStation"
 	Msg_SubmitPod_FullMethodName    = "/junction.junction.Msg/SubmitPod"
+	Msg_VerifyPod_FullMethodName    = "/junction.junction.Msg/VerifyPod"
 )
 
 // MsgClient is the client API for Msg service.
@@ -33,6 +34,7 @@ type MsgClient interface {
 	UpdateParams(ctx context.Context, in *MsgUpdateParams, opts ...grpc.CallOption) (*MsgUpdateParamsResponse, error)
 	InitStation(ctx context.Context, in *MsgInitStation, opts ...grpc.CallOption) (*MsgInitStationResponse, error)
 	SubmitPod(ctx context.Context, in *MsgSubmitPod, opts ...grpc.CallOption) (*MsgSubmitPodResponse, error)
+	VerifyPod(ctx context.Context, in *MsgVerifyPod, opts ...grpc.CallOption) (*MsgVerifyPodResponse, error)
 }
 
 type msgClient struct {
@@ -70,6 +72,15 @@ func (c *msgClient) SubmitPod(ctx context.Context, in *MsgSubmitPod, opts ...grp
 	return out, nil
 }
 
+func (c *msgClient) VerifyPod(ctx context.Context, in *MsgVerifyPod, opts ...grpc.CallOption) (*MsgVerifyPodResponse, error) {
+	out := new(MsgVerifyPodResponse)
+	err := c.cc.Invoke(ctx, Msg_VerifyPod_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MsgServer is the server API for Msg service.
 // All implementations must embed UnimplementedMsgServer
 // for forward compatibility
@@ -79,6 +90,7 @@ type MsgServer interface {
 	UpdateParams(context.Context, *MsgUpdateParams) (*MsgUpdateParamsResponse, error)
 	InitStation(context.Context, *MsgInitStation) (*MsgInitStationResponse, error)
 	SubmitPod(context.Context, *MsgSubmitPod) (*MsgSubmitPodResponse, error)
+	VerifyPod(context.Context, *MsgVerifyPod) (*MsgVerifyPodResponse, error)
 	mustEmbedUnimplementedMsgServer()
 }
 
@@ -94,6 +106,9 @@ func (UnimplementedMsgServer) InitStation(context.Context, *MsgInitStation) (*Ms
 }
 func (UnimplementedMsgServer) SubmitPod(context.Context, *MsgSubmitPod) (*MsgSubmitPodResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SubmitPod not implemented")
+}
+func (UnimplementedMsgServer) VerifyPod(context.Context, *MsgVerifyPod) (*MsgVerifyPodResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method VerifyPod not implemented")
 }
 func (UnimplementedMsgServer) mustEmbedUnimplementedMsgServer() {}
 
@@ -162,6 +177,24 @@ func _Msg_SubmitPod_Handler(srv interface{}, ctx context.Context, dec func(inter
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Msg_VerifyPod_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgVerifyPod)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).VerifyPod(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Msg_VerifyPod_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).VerifyPod(ctx, req.(*MsgVerifyPod))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Msg_ServiceDesc is the grpc.ServiceDesc for Msg service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -180,6 +213,10 @@ var Msg_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SubmitPod",
 			Handler:    _Msg_SubmitPod_Handler,
+		},
+		{
+			MethodName: "VerifyPod",
+			Handler:    _Msg_VerifyPod_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

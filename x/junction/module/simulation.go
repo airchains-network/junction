@@ -31,6 +31,10 @@ const (
 	// TODO: Determine the simulation weight value
 	defaultWeightMsgSubmitPod int = 100
 
+	opWeightMsgVerifyPod = "op_weight_msg_verify_pod"
+	// TODO: Determine the simulation weight value
+	defaultWeightMsgVerifyPod int = 100
+
 	// this line is used by starport scaffolding # simapp/module/const
 )
 
@@ -81,6 +85,17 @@ func (am AppModule) WeightedOperations(simState module.SimulationState) []simtyp
 		junctionsimulation.SimulateMsgSubmitPod(am.accountKeeper, am.bankKeeper, am.keeper),
 	))
 
+	var weightMsgVerifyPod int
+	simState.AppParams.GetOrGenerate(opWeightMsgVerifyPod, &weightMsgVerifyPod, nil,
+		func(_ *rand.Rand) {
+			weightMsgVerifyPod = defaultWeightMsgVerifyPod
+		},
+	)
+	operations = append(operations, simulation.NewWeightedOperation(
+		weightMsgVerifyPod,
+		junctionsimulation.SimulateMsgVerifyPod(am.accountKeeper, am.bankKeeper, am.keeper),
+	))
+
 	// this line is used by starport scaffolding # simapp/module/operation
 
 	return operations
@@ -102,6 +117,14 @@ func (am AppModule) ProposalMsgs(simState module.SimulationState) []simtypes.Wei
 			defaultWeightMsgSubmitPod,
 			func(r *rand.Rand, ctx sdk.Context, accs []simtypes.Account) sdk.Msg {
 				junctionsimulation.SimulateMsgSubmitPod(am.accountKeeper, am.bankKeeper, am.keeper)
+				return nil
+			},
+		),
+		simulation.NewWeightedProposalMsg(
+			opWeightMsgVerifyPod,
+			defaultWeightMsgVerifyPod,
+			func(r *rand.Rand, ctx sdk.Context, accs []simtypes.Account) sdk.Msg {
+				junctionsimulation.SimulateMsgVerifyPod(am.accountKeeper, am.bankKeeper, am.keeper)
 				return nil
 			},
 		),

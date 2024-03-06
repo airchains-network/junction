@@ -388,6 +388,142 @@ func (m *MsgSubmitPodResponse) GetPodStatus() bool {
 	return false
 }
 
+type MsgVerifyPod struct {
+	Creator                string `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
+	StationId              string `protobuf:"bytes,2,opt,name=stationId,proto3" json:"stationId,omitempty"`
+	PodNumber              uint64 `protobuf:"varint,3,opt,name=podNumber,proto3" json:"podNumber,omitempty"`
+	MerkleRootHash         string `protobuf:"bytes,4,opt,name=merkleRootHash,proto3" json:"merkleRootHash,omitempty"`
+	PreviousMerkleRootHash string `protobuf:"bytes,5,opt,name=previousMerkleRootHash,proto3" json:"previousMerkleRootHash,omitempty"`
+	ZkProof                []byte `protobuf:"bytes,6,opt,name=zkProof,proto3" json:"zkProof,omitempty"`
+}
+
+func (m *MsgVerifyPod) Reset()         { *m = MsgVerifyPod{} }
+func (m *MsgVerifyPod) String() string { return proto.CompactTextString(m) }
+func (*MsgVerifyPod) ProtoMessage()    {}
+func (*MsgVerifyPod) Descriptor() ([]byte, []int) {
+	return fileDescriptor_04349ac28bbdc1dc, []int{6}
+}
+func (m *MsgVerifyPod) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *MsgVerifyPod) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_MsgVerifyPod.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *MsgVerifyPod) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgVerifyPod.Merge(m, src)
+}
+func (m *MsgVerifyPod) XXX_Size() int {
+	return m.Size()
+}
+func (m *MsgVerifyPod) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgVerifyPod.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MsgVerifyPod proto.InternalMessageInfo
+
+func (m *MsgVerifyPod) GetCreator() string {
+	if m != nil {
+		return m.Creator
+	}
+	return ""
+}
+
+func (m *MsgVerifyPod) GetStationId() string {
+	if m != nil {
+		return m.StationId
+	}
+	return ""
+}
+
+func (m *MsgVerifyPod) GetPodNumber() uint64 {
+	if m != nil {
+		return m.PodNumber
+	}
+	return 0
+}
+
+func (m *MsgVerifyPod) GetMerkleRootHash() string {
+	if m != nil {
+		return m.MerkleRootHash
+	}
+	return ""
+}
+
+func (m *MsgVerifyPod) GetPreviousMerkleRootHash() string {
+	if m != nil {
+		return m.PreviousMerkleRootHash
+	}
+	return ""
+}
+
+func (m *MsgVerifyPod) GetZkProof() []byte {
+	if m != nil {
+		return m.ZkProof
+	}
+	return nil
+}
+
+type MsgVerifyPodResponse struct {
+	Message    string `protobuf:"bytes,1,opt,name=message,proto3" json:"message,omitempty"`
+	IsVerified bool   `protobuf:"varint,2,opt,name=isVerified,proto3" json:"isVerified,omitempty"`
+}
+
+func (m *MsgVerifyPodResponse) Reset()         { *m = MsgVerifyPodResponse{} }
+func (m *MsgVerifyPodResponse) String() string { return proto.CompactTextString(m) }
+func (*MsgVerifyPodResponse) ProtoMessage()    {}
+func (*MsgVerifyPodResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_04349ac28bbdc1dc, []int{7}
+}
+func (m *MsgVerifyPodResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *MsgVerifyPodResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_MsgVerifyPodResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *MsgVerifyPodResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_MsgVerifyPodResponse.Merge(m, src)
+}
+func (m *MsgVerifyPodResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *MsgVerifyPodResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_MsgVerifyPodResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_MsgVerifyPodResponse proto.InternalMessageInfo
+
+func (m *MsgVerifyPodResponse) GetMessage() string {
+	if m != nil {
+		return m.Message
+	}
+	return ""
+}
+
+func (m *MsgVerifyPodResponse) GetIsVerified() bool {
+	if m != nil {
+		return m.IsVerified
+	}
+	return false
+}
+
 func init() {
 	proto.RegisterType((*MsgUpdateParams)(nil), "junction.junction.MsgUpdateParams")
 	proto.RegisterType((*MsgUpdateParamsResponse)(nil), "junction.junction.MsgUpdateParamsResponse")
@@ -395,52 +531,58 @@ func init() {
 	proto.RegisterType((*MsgInitStationResponse)(nil), "junction.junction.MsgInitStationResponse")
 	proto.RegisterType((*MsgSubmitPod)(nil), "junction.junction.MsgSubmitPod")
 	proto.RegisterType((*MsgSubmitPodResponse)(nil), "junction.junction.MsgSubmitPodResponse")
+	proto.RegisterType((*MsgVerifyPod)(nil), "junction.junction.MsgVerifyPod")
+	proto.RegisterType((*MsgVerifyPodResponse)(nil), "junction.junction.MsgVerifyPodResponse")
 }
 
 func init() { proto.RegisterFile("junction/junction/tx.proto", fileDescriptor_04349ac28bbdc1dc) }
 
 var fileDescriptor_04349ac28bbdc1dc = []byte{
-	// 630 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x84, 0x54, 0xbf, 0x6f, 0xd3, 0x40,
-	0x14, 0x8e, 0xd3, 0x36, 0xc5, 0xd7, 0xd0, 0xaa, 0xa7, 0xaa, 0x75, 0x2d, 0xe4, 0x06, 0x83, 0x20,
-	0x44, 0x22, 0x16, 0x05, 0x65, 0xa8, 0x58, 0x08, 0x0b, 0x55, 0x49, 0x55, 0x39, 0xaa, 0x90, 0x40,
-	0x02, 0x39, 0xf6, 0xd5, 0x39, 0x5a, 0xfb, 0xac, 0xbb, 0x73, 0xd4, 0x6c, 0x88, 0x91, 0x89, 0x89,
-	0x99, 0x91, 0x31, 0x03, 0x13, 0x0b, 0x6b, 0xc7, 0x8a, 0x89, 0x09, 0xa1, 0x64, 0xc8, 0xbf, 0x81,
-	0xfc, 0x3b, 0x71, 0x43, 0xb3, 0x24, 0xf7, 0xbe, 0xf7, 0xbd, 0xf7, 0xbe, 0xf7, 0xe5, 0x2e, 0x40,
-	0x7e, 0xef, 0xbb, 0x26, 0xc7, 0xc4, 0xd5, 0xd2, 0x03, 0x3f, 0xaf, 0x7b, 0x94, 0x70, 0x02, 0xd7,
-	0x13, 0xa8, 0x9e, 0x1c, 0xe4, 0x75, 0xc3, 0xc1, 0x2e, 0xd1, 0xc2, 0xcf, 0x88, 0x25, 0x6f, 0x99,
-	0x84, 0x39, 0x84, 0x69, 0x0e, 0xb3, 0xb5, 0xde, 0xa3, 0xe0, 0x2b, 0x4e, 0x6c, 0x47, 0x89, 0x77,
-	0x61, 0xa4, 0x45, 0x41, 0x9c, 0xda, 0xb0, 0x89, 0x4d, 0x22, 0x3c, 0x38, 0xc5, 0xa8, 0x72, 0x55,
-	0x8b, 0x67, 0x50, 0xc3, 0x89, 0xab, 0xd4, 0x9f, 0x02, 0x58, 0x6b, 0x31, 0xfb, 0xd8, 0xb3, 0x0c,
-	0x8e, 0x8e, 0xc2, 0x0c, 0x6c, 0x00, 0xd1, 0xf0, 0x79, 0x97, 0x50, 0xcc, 0xfb, 0x92, 0x50, 0x11,
-	0xaa, 0x62, 0x53, 0xfa, 0xf5, 0xfd, 0xe1, 0x46, 0x3c, 0xee, 0x99, 0x65, 0x51, 0xc4, 0x58, 0x9b,
-	0x53, 0xec, 0xda, 0x7a, 0x46, 0x85, 0x4f, 0x41, 0x29, 0xea, 0x2d, 0x15, 0x2b, 0x42, 0x75, 0x65,
-	0x77, 0xbb, 0x7e, 0x65, 0xd9, 0x7a, 0x34, 0xa2, 0x29, 0x5e, 0xfc, 0xd9, 0x29, 0x7c, 0x1b, 0x0f,
-	0x6a, 0x82, 0x1e, 0xd7, 0xec, 0x35, 0x3e, 0x8e, 0x07, 0xb5, 0xac, 0xdb, 0xa7, 0xf1, 0xa0, 0x76,
-	0x27, 0xd5, 0x7c, 0x9e, 0xc9, 0xcf, 0xa9, 0x55, 0xb7, 0xc1, 0x56, 0x0e, 0xd2, 0x11, 0xf3, 0x88,
-	0xcb, 0x90, 0xfa, 0x43, 0x00, 0xab, 0x2d, 0x66, 0xef, 0xbb, 0x98, 0xb7, 0xb9, 0x11, 0x54, 0x43,
-	0x09, 0x2c, 0x9b, 0x14, 0x19, 0x9c, 0xd0, 0x68, 0x33, 0x3d, 0x09, 0xe1, 0x26, 0x28, 0x71, 0x6a,
-	0x98, 0xa7, 0x81, 0xfa, 0x85, 0xaa, 0xa8, 0xc7, 0x11, 0xac, 0x82, 0xb5, 0x1e, 0xa2, 0xf8, 0x04,
-	0x9b, 0x61, 0x87, 0x03, 0xd4, 0x97, 0x16, 0x2a, 0x42, 0xb5, 0xac, 0xe7, 0x61, 0x78, 0x0b, 0x88,
-	0x2c, 0x1a, 0xb3, 0x6f, 0x49, 0x8b, 0x61, 0xf7, 0x0c, 0x80, 0x15, 0xb0, 0x92, 0x04, 0xee, 0x09,
-	0x91, 0x96, 0xc2, 0xfc, 0x24, 0xb4, 0x57, 0x0e, 0x1c, 0x48, 0xf4, 0xa8, 0x87, 0x60, 0x73, 0x5a,
-	0x7b, 0xb2, 0x56, 0xa0, 0x34, 0x28, 0xf3, 0x59, 0xb8, 0xc2, 0x0d, 0x3d, 0x8e, 0xa6, 0xe7, 0x17,
-	0x73, 0xf3, 0xd5, 0x2f, 0x45, 0x50, 0x6e, 0x31, 0xbb, 0xed, 0x77, 0x1c, 0xcc, 0x8f, 0x88, 0x75,
-	0x8d, 0x15, 0xd7, 0x36, 0x0a, 0xb2, 0x1e, 0xb1, 0x0e, 0x7d, 0xa7, 0x83, 0x68, 0x68, 0xc5, 0xa2,
-	0x9e, 0x01, 0xf0, 0x1e, 0x58, 0x75, 0x10, 0x3d, 0x3d, 0x43, 0x3a, 0x21, 0xfc, 0x85, 0xc1, 0xba,
-	0xb1, 0x13, 0x39, 0x14, 0x36, 0xc0, 0xa6, 0x47, 0x51, 0x0f, 0x13, 0x9f, 0xb5, 0xa6, 0xf9, 0x91,
-	0x33, 0xff, 0xc9, 0xc2, 0xbb, 0xe0, 0xa6, 0xe7, 0x77, 0xce, 0xb0, 0xf9, 0x0a, 0x73, 0x17, 0x31,
-	0x26, 0x95, 0xc2, 0x1f, 0x63, 0x1a, 0x0c, 0x34, 0x72, 0xec, 0x20, 0xc6, 0x0d, 0xc7, 0x93, 0x96,
-	0xa3, 0x0d, 0x52, 0x20, 0x67, 0xf4, 0x13, 0xb0, 0x31, 0xe9, 0x4b, 0x6a, 0x73, 0xb4, 0x67, 0x7b,
-	0xd2, 0xe9, 0x0c, 0xd8, 0xfd, 0x5a, 0x04, 0x0b, 0x2d, 0x66, 0xc3, 0xb7, 0xa0, 0x3c, 0xf5, 0x78,
-	0xd4, 0x19, 0x97, 0x3e, 0x77, 0x3f, 0xe5, 0xda, 0x7c, 0x4e, 0xaa, 0xe2, 0x0d, 0x58, 0x99, 0xbc,
-	0xbf, 0xb7, 0x67, 0x97, 0x4e, 0x50, 0xe4, 0x07, 0x73, 0x29, 0x69, 0xf3, 0x63, 0x20, 0x66, 0xf7,
-	0x61, 0x67, 0x76, 0x5d, 0x4a, 0x90, 0xef, 0xcf, 0x21, 0x24, 0x6d, 0xe5, 0xa5, 0x0f, 0xc1, 0xcb,
-	0x6e, 0xbe, 0xbc, 0x18, 0x2a, 0xc2, 0xe5, 0x50, 0x11, 0xfe, 0x0e, 0x15, 0xe1, 0xf3, 0x48, 0x29,
-	0x5c, 0x8e, 0x94, 0xc2, 0xef, 0x91, 0x52, 0x78, 0xbd, 0x6b, 0x63, 0xde, 0xf5, 0x3b, 0x75, 0x93,
-	0x38, 0xda, 0x73, 0xe2, 0x78, 0x3e, 0x47, 0xf4, 0x00, 0x21, 0xcb, 0xd0, 0x66, 0xbd, 0x78, 0xde,
-	0xf7, 0x10, 0xeb, 0x94, 0xc2, 0x3f, 0xac, 0xc7, 0xff, 0x02, 0x00, 0x00, 0xff, 0xff, 0xdd, 0x94,
-	0xbf, 0x12, 0x5e, 0x05, 0x00, 0x00,
+	// 701 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xd4, 0x55, 0xbf, 0x6f, 0xd3, 0x40,
+	0x14, 0x8e, 0xd3, 0x36, 0x69, 0xae, 0xa1, 0x55, 0x4f, 0x55, 0xeb, 0x5a, 0xc8, 0x0d, 0x06, 0x41,
+	0x88, 0x44, 0x2c, 0x0a, 0xea, 0x50, 0xb1, 0x50, 0x16, 0xaa, 0x92, 0x2a, 0x72, 0x54, 0x90, 0x40,
+	0x02, 0x39, 0xf6, 0xd5, 0x3d, 0x5a, 0xfb, 0xac, 0xbb, 0x73, 0xd5, 0x30, 0x21, 0x46, 0x26, 0x26,
+	0xfe, 0x06, 0xc6, 0x0e, 0x4c, 0x2c, 0xac, 0x1d, 0x2b, 0x26, 0x26, 0x84, 0xda, 0xa1, 0x0b, 0x3b,
+	0x2b, 0xf2, 0xf9, 0x67, 0xdc, 0xb4, 0x9d, 0x59, 0x92, 0x7b, 0xdf, 0xfb, 0xf5, 0xbd, 0xcf, 0xbe,
+	0x67, 0xa0, 0xbc, 0x0d, 0x3c, 0x8b, 0x63, 0xe2, 0xe9, 0xe9, 0x81, 0x1f, 0xb4, 0x7d, 0x4a, 0x38,
+	0x81, 0xb3, 0x09, 0xd4, 0x4e, 0x0e, 0xca, 0xac, 0xe9, 0x62, 0x8f, 0xe8, 0xe2, 0x37, 0x8a, 0x52,
+	0x16, 0x2c, 0xc2, 0x5c, 0xc2, 0x74, 0x97, 0x39, 0xfa, 0xfe, 0xfd, 0xf0, 0x2f, 0x76, 0x2c, 0x46,
+	0x8e, 0x37, 0xc2, 0xd2, 0x23, 0x23, 0x76, 0xcd, 0x39, 0xc4, 0x21, 0x11, 0x1e, 0x9e, 0x62, 0x54,
+	0x3d, 0xcf, 0xc5, 0x37, 0xa9, 0xe9, 0xc6, 0x59, 0xda, 0x77, 0x09, 0xcc, 0x74, 0x98, 0xb3, 0xe5,
+	0xdb, 0x26, 0x47, 0x5d, 0xe1, 0x81, 0x2b, 0xa0, 0x66, 0x06, 0x7c, 0x87, 0x50, 0xcc, 0x07, 0xb2,
+	0xd4, 0x90, 0x9a, 0xb5, 0x35, 0xf9, 0xc7, 0xd7, 0x7b, 0x73, 0x71, 0xbb, 0xc7, 0xb6, 0x4d, 0x11,
+	0x63, 0x3d, 0x4e, 0xb1, 0xe7, 0x18, 0x59, 0x28, 0x7c, 0x04, 0x2a, 0x51, 0x6d, 0xb9, 0xdc, 0x90,
+	0x9a, 0x53, 0xcb, 0x8b, 0xed, 0x73, 0xc3, 0xb6, 0xa3, 0x16, 0x6b, 0xb5, 0xa3, 0x5f, 0x4b, 0xa5,
+	0x2f, 0x67, 0x87, 0x2d, 0xc9, 0x88, 0x73, 0x56, 0x57, 0x3e, 0x9c, 0x1d, 0xb6, 0xb2, 0x6a, 0x1f,
+	0xcf, 0x0e, 0x5b, 0x37, 0x53, 0xce, 0x07, 0x19, 0xfd, 0x02, 0x5b, 0x6d, 0x11, 0x2c, 0x14, 0x20,
+	0x03, 0x31, 0x9f, 0x78, 0x0c, 0x69, 0xdf, 0x24, 0x30, 0xdd, 0x61, 0xce, 0xba, 0x87, 0x79, 0x8f,
+	0x9b, 0x61, 0x36, 0x94, 0x41, 0xd5, 0xa2, 0xc8, 0xe4, 0x84, 0x46, 0x93, 0x19, 0x89, 0x09, 0xe7,
+	0x41, 0x85, 0x53, 0xd3, 0xda, 0x0d, 0xd9, 0x8f, 0x35, 0x6b, 0x46, 0x6c, 0xc1, 0x26, 0x98, 0xd9,
+	0x47, 0x14, 0x6f, 0x63, 0x4b, 0x54, 0xd8, 0x40, 0x03, 0x79, 0xac, 0x21, 0x35, 0xeb, 0x46, 0x11,
+	0x86, 0xd7, 0x41, 0x8d, 0x45, 0x6d, 0xd6, 0x6d, 0x79, 0x5c, 0x54, 0xcf, 0x00, 0xd8, 0x00, 0x53,
+	0x89, 0xe1, 0x6d, 0x13, 0x79, 0x42, 0xf8, 0xf3, 0xd0, 0x6a, 0x3d, 0x54, 0x20, 0xe1, 0xa3, 0x6d,
+	0x82, 0xf9, 0x61, 0xee, 0xc9, 0x58, 0x21, 0xd3, 0x30, 0x2d, 0x60, 0x62, 0x84, 0x49, 0x23, 0xb6,
+	0x86, 0xfb, 0x97, 0x0b, 0xfd, 0xb5, 0xcf, 0x65, 0x50, 0xef, 0x30, 0xa7, 0x17, 0xf4, 0x5d, 0xcc,
+	0xbb, 0xc4, 0xbe, 0x44, 0x8a, 0x4b, 0x0b, 0x85, 0x5e, 0x9f, 0xd8, 0x9b, 0x81, 0xdb, 0x47, 0x54,
+	0x48, 0x31, 0x6e, 0x64, 0x00, 0xbc, 0x0d, 0xa6, 0x5d, 0x44, 0x77, 0xf7, 0x90, 0x41, 0x08, 0x7f,
+	0x6a, 0xb2, 0x9d, 0x58, 0x89, 0x02, 0x0a, 0x57, 0xc0, 0xbc, 0x4f, 0xd1, 0x3e, 0x26, 0x01, 0xeb,
+	0x0c, 0xc7, 0x47, 0xca, 0x5c, 0xe0, 0x85, 0xb7, 0xc0, 0x35, 0x3f, 0xe8, 0xef, 0x61, 0xeb, 0x05,
+	0xe6, 0x1e, 0x62, 0x4c, 0xae, 0x88, 0x87, 0x31, 0x0c, 0x86, 0x1c, 0x39, 0x76, 0x11, 0xe3, 0xa6,
+	0xeb, 0xcb, 0xd5, 0x68, 0x82, 0x14, 0x28, 0x08, 0xfd, 0x10, 0xcc, 0xe5, 0x75, 0x49, 0x65, 0x8e,
+	0xe6, 0xec, 0xe5, 0x95, 0xce, 0x00, 0xed, 0x8f, 0x24, 0xe4, 0x7c, 0x1e, 0xbe, 0x03, 0x83, 0xff,
+	0x57, 0x4e, 0x19, 0x54, 0xdf, 0xed, 0x76, 0x29, 0x21, 0xdb, 0xb1, 0x90, 0x89, 0x59, 0x10, 0xa9,
+	0x2b, 0x44, 0x4a, 0xa7, 0x4d, 0x45, 0x92, 0x41, 0xd5, 0x45, 0x8c, 0x99, 0x0e, 0x4a, 0xa6, 0x8e,
+	0x4d, 0xa8, 0x02, 0x80, 0x99, 0x48, 0xc0, 0x28, 0x1a, 0x7b, 0xd2, 0xc8, 0x21, 0xcb, 0x7f, 0xcb,
+	0x60, 0xac, 0xc3, 0x1c, 0xf8, 0x1a, 0xd4, 0x87, 0xb6, 0x8f, 0x36, 0x62, 0x6b, 0x14, 0x2e, 0xb8,
+	0xd2, 0xba, 0x3a, 0x26, 0x65, 0xf8, 0x0a, 0x4c, 0xe5, 0x17, 0xc0, 0x8d, 0xd1, 0xa9, 0xb9, 0x10,
+	0xe5, 0xee, 0x95, 0x21, 0x69, 0xf1, 0x2d, 0x50, 0xcb, 0x2e, 0xd4, 0xd2, 0xe8, 0xbc, 0x34, 0x40,
+	0xb9, 0x73, 0x45, 0x40, 0xbe, 0x6c, 0xf6, 0x62, 0x5d, 0x50, 0x36, 0x0d, 0xb8, 0xa8, 0xec, 0xb9,
+	0x87, 0xa5, 0x4c, 0xbc, 0x0f, 0x37, 0xee, 0xda, 0xb3, 0xa3, 0x13, 0x55, 0x3a, 0x3e, 0x51, 0xa5,
+	0xdf, 0x27, 0xaa, 0xf4, 0xe9, 0x54, 0x2d, 0x1d, 0x9f, 0xaa, 0xa5, 0x9f, 0xa7, 0x6a, 0xe9, 0xe5,
+	0xb2, 0x83, 0xf9, 0x4e, 0xd0, 0x6f, 0x5b, 0xc4, 0xd5, 0x9f, 0x10, 0xd7, 0x0f, 0x38, 0xa2, 0x1b,
+	0x08, 0xd9, 0xa6, 0x3e, 0x6a, 0x13, 0xf3, 0x81, 0x8f, 0x58, 0xbf, 0x22, 0x3e, 0x24, 0x0f, 0xfe,
+	0x05, 0x00, 0x00, 0xff, 0xff, 0x32, 0xc7, 0x6c, 0x52, 0xf6, 0x06, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -460,6 +602,7 @@ type MsgClient interface {
 	UpdateParams(ctx context.Context, in *MsgUpdateParams, opts ...grpc.CallOption) (*MsgUpdateParamsResponse, error)
 	InitStation(ctx context.Context, in *MsgInitStation, opts ...grpc.CallOption) (*MsgInitStationResponse, error)
 	SubmitPod(ctx context.Context, in *MsgSubmitPod, opts ...grpc.CallOption) (*MsgSubmitPodResponse, error)
+	VerifyPod(ctx context.Context, in *MsgVerifyPod, opts ...grpc.CallOption) (*MsgVerifyPodResponse, error)
 }
 
 type msgClient struct {
@@ -497,6 +640,15 @@ func (c *msgClient) SubmitPod(ctx context.Context, in *MsgSubmitPod, opts ...grp
 	return out, nil
 }
 
+func (c *msgClient) VerifyPod(ctx context.Context, in *MsgVerifyPod, opts ...grpc.CallOption) (*MsgVerifyPodResponse, error) {
+	out := new(MsgVerifyPodResponse)
+	err := c.cc.Invoke(ctx, "/junction.junction.Msg/VerifyPod", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MsgServer is the server API for Msg service.
 type MsgServer interface {
 	// UpdateParams defines a (governance) operation for updating the module
@@ -504,6 +656,7 @@ type MsgServer interface {
 	UpdateParams(context.Context, *MsgUpdateParams) (*MsgUpdateParamsResponse, error)
 	InitStation(context.Context, *MsgInitStation) (*MsgInitStationResponse, error)
 	SubmitPod(context.Context, *MsgSubmitPod) (*MsgSubmitPodResponse, error)
+	VerifyPod(context.Context, *MsgVerifyPod) (*MsgVerifyPodResponse, error)
 }
 
 // UnimplementedMsgServer can be embedded to have forward compatible implementations.
@@ -518,6 +671,9 @@ func (*UnimplementedMsgServer) InitStation(ctx context.Context, req *MsgInitStat
 }
 func (*UnimplementedMsgServer) SubmitPod(ctx context.Context, req *MsgSubmitPod) (*MsgSubmitPodResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SubmitPod not implemented")
+}
+func (*UnimplementedMsgServer) VerifyPod(ctx context.Context, req *MsgVerifyPod) (*MsgVerifyPodResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method VerifyPod not implemented")
 }
 
 func RegisterMsgServer(s grpc1.Server, srv MsgServer) {
@@ -578,6 +734,24 @@ func _Msg_SubmitPod_Handler(srv interface{}, ctx context.Context, dec func(inter
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Msg_VerifyPod_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgVerifyPod)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).VerifyPod(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/junction.junction.Msg/VerifyPod",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).VerifyPod(ctx, req.(*MsgVerifyPod))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _Msg_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "junction.junction.Msg",
 	HandlerType: (*MsgServer)(nil),
@@ -593,6 +767,10 @@ var _Msg_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SubmitPod",
 			Handler:    _Msg_SubmitPod_Handler,
+		},
+		{
+			MethodName: "VerifyPod",
+			Handler:    _Msg_VerifyPod_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
@@ -865,6 +1043,109 @@ func (m *MsgSubmitPodResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
+func (m *MsgVerifyPod) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MsgVerifyPod) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *MsgVerifyPod) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.ZkProof) > 0 {
+		i -= len(m.ZkProof)
+		copy(dAtA[i:], m.ZkProof)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.ZkProof)))
+		i--
+		dAtA[i] = 0x32
+	}
+	if len(m.PreviousMerkleRootHash) > 0 {
+		i -= len(m.PreviousMerkleRootHash)
+		copy(dAtA[i:], m.PreviousMerkleRootHash)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.PreviousMerkleRootHash)))
+		i--
+		dAtA[i] = 0x2a
+	}
+	if len(m.MerkleRootHash) > 0 {
+		i -= len(m.MerkleRootHash)
+		copy(dAtA[i:], m.MerkleRootHash)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.MerkleRootHash)))
+		i--
+		dAtA[i] = 0x22
+	}
+	if m.PodNumber != 0 {
+		i = encodeVarintTx(dAtA, i, uint64(m.PodNumber))
+		i--
+		dAtA[i] = 0x18
+	}
+	if len(m.StationId) > 0 {
+		i -= len(m.StationId)
+		copy(dAtA[i:], m.StationId)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.StationId)))
+		i--
+		dAtA[i] = 0x12
+	}
+	if len(m.Creator) > 0 {
+		i -= len(m.Creator)
+		copy(dAtA[i:], m.Creator)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.Creator)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *MsgVerifyPodResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *MsgVerifyPodResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *MsgVerifyPodResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.IsVerified {
+		i--
+		if m.IsVerified {
+			dAtA[i] = 1
+		} else {
+			dAtA[i] = 0
+		}
+		i--
+		dAtA[i] = 0x10
+	}
+	if len(m.Message) > 0 {
+		i -= len(m.Message)
+		copy(dAtA[i:], m.Message)
+		i = encodeVarintTx(dAtA, i, uint64(len(m.Message)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
 func encodeVarintTx(dAtA []byte, offset int, v uint64) int {
 	offset -= sovTx(v)
 	base := offset
@@ -990,6 +1271,54 @@ func (m *MsgSubmitPodResponse) Size() (n int) {
 	var l int
 	_ = l
 	if m.PodStatus {
+		n += 2
+	}
+	return n
+}
+
+func (m *MsgVerifyPod) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.Creator)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	l = len(m.StationId)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	if m.PodNumber != 0 {
+		n += 1 + sovTx(uint64(m.PodNumber))
+	}
+	l = len(m.MerkleRootHash)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	l = len(m.PreviousMerkleRootHash)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	l = len(m.ZkProof)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	return n
+}
+
+func (m *MsgVerifyPodResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.Message)
+	if l > 0 {
+		n += 1 + l + sovTx(uint64(l))
+	}
+	if m.IsVerified {
 		n += 2
 	}
 	return n
@@ -1792,6 +2121,339 @@ func (m *MsgSubmitPodResponse) Unmarshal(dAtA []byte) error {
 				}
 			}
 			m.PodStatus = bool(v != 0)
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTx(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthTx
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *MsgVerifyPod) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTx
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MsgVerifyPod: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MsgVerifyPod: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Creator", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Creator = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field StationId", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.StationId = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 3:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field PodNumber", wireType)
+			}
+			m.PodNumber = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.PodNumber |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 4:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field MerkleRootHash", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.MerkleRootHash = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 5:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field PreviousMerkleRootHash", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.PreviousMerkleRootHash = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 6:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ZkProof", wireType)
+			}
+			var byteLen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				byteLen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if byteLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + byteLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.ZkProof = append(m.ZkProof[:0], dAtA[iNdEx:postIndex]...)
+			if m.ZkProof == nil {
+				m.ZkProof = []byte{}
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipTx(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthTx
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *MsgVerifyPodResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowTx
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: MsgVerifyPodResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: MsgVerifyPodResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Message", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthTx
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthTx
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Message = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field IsVerified", wireType)
+			}
+			var v int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowTx
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				v |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			m.IsVerified = bool(v != 0)
 		default:
 			iNdEx = preIndex
 			skippy, err := skipTx(dAtA[iNdEx:])
