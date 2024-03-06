@@ -20,6 +20,7 @@ service Msg {
   rpc InitStation  (MsgInitStation ) returns (MsgInitStationResponse );
   rpc SubmitPod    (MsgSubmitPod   ) returns (MsgSubmitPodResponse   );
   rpc VerifyPod    (MsgVerifyPod   ) returns (MsgVerifyPodResponse   );
+  rpc InitiateVrf  (MsgInitiateVrf ) returns (MsgInitiateVrfResponse );
 }
 // MsgUpdateParams is the Msg/UpdateParams request type.
 message MsgUpdateParams {
@@ -75,11 +76,25 @@ message MsgVerifyPod {
   uint64 podNumber              = 3;
   string merkleRootHash         = 4;
   string previousMerkleRootHash = 5;
-  bytes zkProof                = 6;
+  bytes  zkProof                = 6;
 }
 
 message MsgVerifyPodResponse {
   string message    = 1;
   bool   isVerified = 2;
+}
+
+message MsgInitiateVrf {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator        = 1;
+  uint64 podNumber      = 2;
+  string stationId      = 3;
+  string occupancy      = 4;
+  string creatorsVrfKey = 5;
+  bytes extraArg       = 6;
+}
+
+message MsgInitiateVrfResponse {
+  bool success = 1;
 }
 

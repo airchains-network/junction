@@ -88,6 +88,12 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					Short:          "Send a verify_pod tx",
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "stationId"}, {ProtoField: "podNumber"}, {ProtoField: "merkleRootHash"}, {ProtoField: "previousMerkleRootHash"}, {ProtoField: "zkProof"}},
 				},
+				{
+					RpcMethod:      "InitiateVrf",
+					Use:            "initiate-vrf [pod-number] [station-id] [occupancy] [creators-vrf-key] [extra-arg]",
+					Short:          "Send a initiate_vrf tx",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "podNumber"}, {ProtoField: "stationId"}, {ProtoField: "occupancy"}, {ProtoField: "creatorsVrfKey"}, {ProtoField: "extraArg"}},
+				},
 				// this line is used by ignite scaffolding # autocli/tx
 			},
 		},
