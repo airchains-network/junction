@@ -26,6 +26,7 @@ const (
 	Query_GetPod_FullMethodName                      = "/junction.junction.Query/GetPod"
 	Query_GetLatestSubmittedPodNumber_FullMethodName = "/junction.junction.Query/GetLatestSubmittedPodNumber"
 	Query_GetLatestVerifiedPodNumber_FullMethodName  = "/junction.junction.Query/GetLatestVerifiedPodNumber"
+	Query_FetchVrn_FullMethodName                    = "/junction.junction.Query/FetchVrn"
 )
 
 // QueryClient is the client API for Query service.
@@ -46,6 +47,8 @@ type QueryClient interface {
 	GetLatestSubmittedPodNumber(ctx context.Context, in *QueryGetLatestSubmittedPodNumberRequest, opts ...grpc.CallOption) (*QueryGetLatestSubmittedPodNumberResponse, error)
 	// Queries a list of GetLatestVerifiedPodNumber items.
 	GetLatestVerifiedPodNumber(ctx context.Context, in *QueryGetLatestVerifiedPodNumberRequest, opts ...grpc.CallOption) (*QueryGetLatestVerifiedPodNumberResponse, error)
+	// Queries a list of FetchVrn items.
+	FetchVrn(ctx context.Context, in *QueryFetchVrnRequest, opts ...grpc.CallOption) (*QueryFetchVrnResponse, error)
 }
 
 type queryClient struct {
@@ -119,6 +122,15 @@ func (c *queryClient) GetLatestVerifiedPodNumber(ctx context.Context, in *QueryG
 	return out, nil
 }
 
+func (c *queryClient) FetchVrn(ctx context.Context, in *QueryFetchVrnRequest, opts ...grpc.CallOption) (*QueryFetchVrnResponse, error) {
+	out := new(QueryFetchVrnResponse)
+	err := c.cc.Invoke(ctx, Query_FetchVrn_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // QueryServer is the server API for Query service.
 // All implementations must embed UnimplementedQueryServer
 // for forward compatibility
@@ -137,6 +149,8 @@ type QueryServer interface {
 	GetLatestSubmittedPodNumber(context.Context, *QueryGetLatestSubmittedPodNumberRequest) (*QueryGetLatestSubmittedPodNumberResponse, error)
 	// Queries a list of GetLatestVerifiedPodNumber items.
 	GetLatestVerifiedPodNumber(context.Context, *QueryGetLatestVerifiedPodNumberRequest) (*QueryGetLatestVerifiedPodNumberResponse, error)
+	// Queries a list of FetchVrn items.
+	FetchVrn(context.Context, *QueryFetchVrnRequest) (*QueryFetchVrnResponse, error)
 	mustEmbedUnimplementedQueryServer()
 }
 
@@ -164,6 +178,9 @@ func (UnimplementedQueryServer) GetLatestSubmittedPodNumber(context.Context, *Qu
 }
 func (UnimplementedQueryServer) GetLatestVerifiedPodNumber(context.Context, *QueryGetLatestVerifiedPodNumberRequest) (*QueryGetLatestVerifiedPodNumberResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetLatestVerifiedPodNumber not implemented")
+}
+func (UnimplementedQueryServer) FetchVrn(context.Context, *QueryFetchVrnRequest) (*QueryFetchVrnResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FetchVrn not implemented")
 }
 func (UnimplementedQueryServer) mustEmbedUnimplementedQueryServer() {}
 
@@ -304,6 +321,24 @@ func _Query_GetLatestVerifiedPodNumber_Handler(srv interface{}, ctx context.Cont
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Query_FetchVrn_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryFetchVrnRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).FetchVrn(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Query_FetchVrn_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).FetchVrn(ctx, req.(*QueryFetchVrnRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Query_ServiceDesc is the grpc.ServiceDesc for Query service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -338,6 +373,10 @@ var Query_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetLatestVerifiedPodNumber",
 			Handler:    _Query_GetLatestVerifiedPodNumber_Handler,
+		},
+		{
+			MethodName: "FetchVrn",
+			Handler:    _Query_FetchVrn_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

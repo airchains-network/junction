@@ -9,6 +9,7 @@ import "cosmos/base/query/v1beta1/pagination.proto";
 import "junction/junction/params.proto";
 import "junction/junction/stations.proto";
 import "junction/junction/pods.proto";
+import "junction/junction/vrf_record.proto";
 
 option go_package = "github.com/ComputerKeeda/junction/x/junction/types";
 
@@ -54,6 +55,12 @@ service Query {
   // Queries a list of GetLatestVerifiedPodNumber items.
   rpc GetLatestVerifiedPodNumber (QueryGetLatestVerifiedPodNumberRequest) returns (QueryGetLatestVerifiedPodNumberResponse) {
     option (google.api.http).get = "/ComputerKeeda/junction/junction/get_latest_verified_pod_number/{stationId}";
+  
+  }
+  
+  // Queries a list of FetchVrn items.
+  rpc FetchVrn (QueryFetchVrnRequest) returns (QueryFetchVrnResponse) {
+    option (google.api.http).get = "/ComputerKeeda/junction/junction/fetch_vrn/{podNumber}/{stationId}";
   
   }
 }
@@ -117,5 +124,14 @@ message QueryGetLatestVerifiedPodNumberRequest {
 message QueryGetLatestVerifiedPodNumberResponse {
   string message   = 1;
   uint64 podNumber = 2;
+}
+
+message QueryFetchVrnRequest {
+  uint64 podNumber = 1;
+  string stationId = 2;
+}
+
+message QueryFetchVrnResponse {
+  VrfRecord details = 1;
 }
 

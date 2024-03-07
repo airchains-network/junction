@@ -59,6 +59,13 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "stationId"}},
 				},
 
+				{
+					RpcMethod:      "FetchVrn",
+					Use:            "fetch-vrn [pod-number] [station-id]",
+					Short:          "Query fetch_vrn",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "podNumber"}, {ProtoField: "stationId"}},
+				},
+
 				// this line is used by ignite scaffolding # autocli/query
 			},
 		},

@@ -45,6 +45,7 @@ func (k msgServer) ValidateVrf(goCtx context.Context, msg *types.MsgValidateVrf)
 	}
 
 	// check if pod number is correct or not
+	
 	if station.LatestPod != podNumber {
 		return &types.MsgValidateVrfResponse{
 			Success: false,
@@ -82,9 +83,9 @@ func (k msgServer) ValidateVrf(goCtx context.Context, msg *types.MsgValidateVrf)
 
 	var vrfDetails types.VrfRecord
 	k.cdc.MustUnmarshal(vrfDetailsByte, &vrfDetails)
-	
+
 	if vrfDetails.IsVerified == true {
-		// already verified 
+		// already verified
 		return &types.MsgValidateVrfResponse{
 			Success: false,
 		}, status.Error(codes.AlreadyExists, "vrf details already verified")

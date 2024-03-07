@@ -19262,6 +19262,78 @@ paths:
               parameters.
       tags:
         - Msg
+  /ComputerKeeda/junction/junction/fetch_vrn/{podNumber}/{stationId}:
+    get:
+      summary: Queries a list of FetchVrn items.
+      operationId: JunctionJunctionQuery_FetchVrn
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              details:
+                type: object
+                properties:
+                  vrfCreatorAddr:
+                    type: string
+                  vrfVerifierAddr:
+                    type: string
+                  podNumber:
+                    type: string
+                  stationId:
+                    type: string
+                  occupancy:
+                    type: string
+                  creatorsVrfKey:
+                    type: string
+                  serializedRcFromCreator:
+                    type: string
+                    format: byte
+                  serializedRcFromVerifier:
+                    type: string
+                    format: byte
+                  proof:
+                    type: string
+                    format: byte
+                  vrfOutput:
+                    type: string
+                    format: byte
+                  isVerified:
+                    type: boolean
+                  vrn:
+                    type: string
+                    format: byte
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: podNumber
+          in: path
+          required: true
+          type: string
+          format: uint64
+        - name: stationId
+          in: path
+          required: true
+          type: string
+      tags:
+        - Query
   /ComputerKeeda/junction/junction/get_latest_submitted_pod_number/{stationId}:
     get:
       summary: Queries a list of GetLatestSubmittedPodNumber items.
@@ -27863,6 +27935,41 @@ definitions:
         type: string
       isVerified:
         type: boolean
+  junction.junction.QueryFetchVrnResponse:
+    type: object
+    properties:
+      details:
+        type: object
+        properties:
+          vrfCreatorAddr:
+            type: string
+          vrfVerifierAddr:
+            type: string
+          podNumber:
+            type: string
+          stationId:
+            type: string
+          occupancy:
+            type: string
+          creatorsVrfKey:
+            type: string
+          serializedRcFromCreator:
+            type: string
+            format: byte
+          serializedRcFromVerifier:
+            type: string
+            format: byte
+          proof:
+            type: string
+            format: byte
+          vrfOutput:
+            type: string
+            format: byte
+          isVerified:
+            type: boolean
+          vrn:
+            type: string
+            format: byte
   junction.junction.QueryGetLatestSubmittedPodNumberResponse:
     type: object
     properties:
@@ -28058,6 +28165,38 @@ definitions:
         type: string
       spsp:
         type: string
+  junction.junction.VrfRecord:
+    type: object
+    properties:
+      vrfCreatorAddr:
+        type: string
+      vrfVerifierAddr:
+        type: string
+      podNumber:
+        type: string
+      stationId:
+        type: string
+      occupancy:
+        type: string
+      creatorsVrfKey:
+        type: string
+      serializedRcFromCreator:
+        type: string
+        format: byte
+      serializedRcFromVerifier:
+        type: string
+        format: byte
+      proof:
+        type: string
+        format: byte
+      vrfOutput:
+        type: string
+        format: byte
+      isVerified:
+        type: boolean
+      vrn:
+        type: string
+        format: byte
   junction.junction.MsgInitStation:
     type: object
     properties:
