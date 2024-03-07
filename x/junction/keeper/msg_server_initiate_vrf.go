@@ -63,7 +63,6 @@ func (k msgServer) InitiateVrf(goCtx context.Context, msg *types.MsgInitiateVrf)
 		return &types.MsgInitiateVrfResponse{
 			Success: false,
 		}, status.Error(codes.AlreadyExists, "vrf details already present")
-
 	}
 
 	// data is not present in the store, so we can store the data

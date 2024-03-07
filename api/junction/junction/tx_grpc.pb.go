@@ -24,6 +24,7 @@ const (
 	Msg_SubmitPod_FullMethodName    = "/junction.junction.Msg/SubmitPod"
 	Msg_VerifyPod_FullMethodName    = "/junction.junction.Msg/VerifyPod"
 	Msg_InitiateVrf_FullMethodName  = "/junction.junction.Msg/InitiateVrf"
+	Msg_ValidateVrf_FullMethodName  = "/junction.junction.Msg/ValidateVrf"
 )
 
 // MsgClient is the client API for Msg service.
@@ -37,6 +38,7 @@ type MsgClient interface {
 	SubmitPod(ctx context.Context, in *MsgSubmitPod, opts ...grpc.CallOption) (*MsgSubmitPodResponse, error)
 	VerifyPod(ctx context.Context, in *MsgVerifyPod, opts ...grpc.CallOption) (*MsgVerifyPodResponse, error)
 	InitiateVrf(ctx context.Context, in *MsgInitiateVrf, opts ...grpc.CallOption) (*MsgInitiateVrfResponse, error)
+	ValidateVrf(ctx context.Context, in *MsgValidateVrf, opts ...grpc.CallOption) (*MsgValidateVrfResponse, error)
 }
 
 type msgClient struct {
@@ -92,6 +94,15 @@ func (c *msgClient) InitiateVrf(ctx context.Context, in *MsgInitiateVrf, opts ..
 	return out, nil
 }
 
+func (c *msgClient) ValidateVrf(ctx context.Context, in *MsgValidateVrf, opts ...grpc.CallOption) (*MsgValidateVrfResponse, error) {
+	out := new(MsgValidateVrfResponse)
+	err := c.cc.Invoke(ctx, Msg_ValidateVrf_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MsgServer is the server API for Msg service.
 // All implementations must embed UnimplementedMsgServer
 // for forward compatibility
@@ -103,6 +114,7 @@ type MsgServer interface {
 	SubmitPod(context.Context, *MsgSubmitPod) (*MsgSubmitPodResponse, error)
 	VerifyPod(context.Context, *MsgVerifyPod) (*MsgVerifyPodResponse, error)
 	InitiateVrf(context.Context, *MsgInitiateVrf) (*MsgInitiateVrfResponse, error)
+	ValidateVrf(context.Context, *MsgValidateVrf) (*MsgValidateVrfResponse, error)
 	mustEmbedUnimplementedMsgServer()
 }
 
@@ -124,6 +136,9 @@ func (UnimplementedMsgServer) VerifyPod(context.Context, *MsgVerifyPod) (*MsgVer
 }
 func (UnimplementedMsgServer) InitiateVrf(context.Context, *MsgInitiateVrf) (*MsgInitiateVrfResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method InitiateVrf not implemented")
+}
+func (UnimplementedMsgServer) ValidateVrf(context.Context, *MsgValidateVrf) (*MsgValidateVrfResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ValidateVrf not implemented")
 }
 func (UnimplementedMsgServer) mustEmbedUnimplementedMsgServer() {}
 
@@ -228,6 +243,24 @@ func _Msg_InitiateVrf_Handler(srv interface{}, ctx context.Context, dec func(int
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Msg_ValidateVrf_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgValidateVrf)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).ValidateVrf(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Msg_ValidateVrf_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).ValidateVrf(ctx, req.(*MsgValidateVrf))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Msg_ServiceDesc is the grpc.ServiceDesc for Msg service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -254,6 +287,10 @@ var Msg_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "InitiateVrf",
 			Handler:    _Msg_InitiateVrf_Handler,
+		},
+		{
+			MethodName: "ValidateVrf",
+			Handler:    _Msg_ValidateVrf_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

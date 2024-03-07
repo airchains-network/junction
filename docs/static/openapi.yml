@@ -19921,6 +19921,54 @@ paths:
             description: MsgUpdateParams is the Msg/UpdateParams request type.
       tags:
         - Msg
+  /junction.junction.Msg/ValidateVrf:
+    post:
+      operationId: JunctionJunctionMsg_ValidateVrf
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              creator:
+                type: string
+              stationId:
+                type: string
+              podNumber:
+                type: string
+                format: uint64
+              serializedRc:
+                type: string
+                format: byte
+      tags:
+        - Msg
   /junction.junction.Msg/VerifyPod:
     post:
       operationId: JunctionJunctionMsg_VerifyPod
@@ -28096,6 +28144,24 @@ definitions:
     description: |-
       MsgUpdateParamsResponse defines the response structure for executing a
       MsgUpdateParams message.
+  junction.junction.MsgValidateVrf:
+    type: object
+    properties:
+      creator:
+        type: string
+      stationId:
+        type: string
+      podNumber:
+        type: string
+        format: uint64
+      serializedRc:
+        type: string
+        format: byte
+  junction.junction.MsgValidateVrfResponse:
+    type: object
+    properties:
+      success:
+        type: boolean
   junction.junction.MsgVerifyPod:
     type: object
     properties:

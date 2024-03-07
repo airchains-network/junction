@@ -94,6 +94,12 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					Short:          "Send a initiate_vrf tx",
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "podNumber"}, {ProtoField: "stationId"}, {ProtoField: "occupancy"}, {ProtoField: "creatorsVrfKey"}, {ProtoField: "extraArg"}},
 				},
+				{
+					RpcMethod:      "ValidateVrf",
+					Use:            "validate-vrf [station-id] [pod-number] [serialized-rc]",
+					Short:          "Send a validate_vrf tx",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "stationId"}, {ProtoField: "podNumber"}, {ProtoField: "serializedRc"}},
+				},
 				// this line is used by ignite scaffolding # autocli/tx
 			},
 		},
