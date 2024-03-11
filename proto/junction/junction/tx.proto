@@ -16,12 +16,13 @@ service Msg {
   
   // UpdateParams defines a (governance) operation for updating the module
   // parameters. The authority defaults to the x/gov module account.
-  rpc UpdateParams (MsgUpdateParams) returns (MsgUpdateParamsResponse);
-  rpc InitStation  (MsgInitStation ) returns (MsgInitStationResponse );
-  rpc SubmitPod    (MsgSubmitPod   ) returns (MsgSubmitPodResponse   );
-  rpc VerifyPod    (MsgVerifyPod   ) returns (MsgVerifyPodResponse   );
-  rpc InitiateVrf  (MsgInitiateVrf ) returns (MsgInitiateVrfResponse );
-  rpc ValidateVrf  (MsgValidateVrf ) returns (MsgValidateVrfResponse );
+  rpc UpdateParams      (MsgUpdateParams     ) returns (MsgUpdateParamsResponse     );
+  rpc InitStation       (MsgInitStation      ) returns (MsgInitStationResponse      );
+  rpc SubmitPod         (MsgSubmitPod        ) returns (MsgSubmitPodResponse        );
+  rpc VerifyPod         (MsgVerifyPod        ) returns (MsgVerifyPodResponse        );
+  rpc InitiateVrf       (MsgInitiateVrf      ) returns (MsgInitiateVrfResponse      );
+  rpc ValidateVrf       (MsgValidateVrf      ) returns (MsgValidateVrfResponse      );
+  rpc ProcessVrfDispute (MsgProcessVrfDispute) returns (MsgProcessVrfDisputeResponse);
 }
 // MsgUpdateParams is the Msg/UpdateParams request type.
 message MsgUpdateParams {
@@ -104,10 +105,24 @@ message MsgValidateVrf {
   string creator      = 1;
   string stationId    = 2;
   uint64 podNumber    = 3;
-  bytes serializedRc = 4;
+  bytes  serializedRc = 4;
 }
 
 message MsgValidateVrfResponse {
+  bool success = 1;
+}
+
+message MsgProcessVrfDispute {
+  option (cosmos.msg.v1.signer) = "creator";
+           string creator    = 1;
+           uint64 podNumber  = 2;
+           string stationId  = 3;
+  repeated bytes signatures = 4;
+  repeated bool votes      = 5;
+  repeated bytes publicKeys = 6;
+}
+
+message MsgProcessVrfDisputeResponse {
   bool success = 1;
 }
 
