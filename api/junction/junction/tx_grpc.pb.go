@@ -19,12 +19,13 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	Msg_UpdateParams_FullMethodName = "/junction.junction.Msg/UpdateParams"
-	Msg_InitStation_FullMethodName  = "/junction.junction.Msg/InitStation"
-	Msg_SubmitPod_FullMethodName    = "/junction.junction.Msg/SubmitPod"
-	Msg_VerifyPod_FullMethodName    = "/junction.junction.Msg/VerifyPod"
-	Msg_InitiateVrf_FullMethodName  = "/junction.junction.Msg/InitiateVrf"
-	Msg_ValidateVrf_FullMethodName  = "/junction.junction.Msg/ValidateVrf"
+	Msg_UpdateParams_FullMethodName      = "/junction.junction.Msg/UpdateParams"
+	Msg_InitStation_FullMethodName       = "/junction.junction.Msg/InitStation"
+	Msg_SubmitPod_FullMethodName         = "/junction.junction.Msg/SubmitPod"
+	Msg_VerifyPod_FullMethodName         = "/junction.junction.Msg/VerifyPod"
+	Msg_InitiateVrf_FullMethodName       = "/junction.junction.Msg/InitiateVrf"
+	Msg_ValidateVrf_FullMethodName       = "/junction.junction.Msg/ValidateVrf"
+	Msg_ProcessVrfDispute_FullMethodName = "/junction.junction.Msg/ProcessVrfDispute"
 )
 
 // MsgClient is the client API for Msg service.
@@ -39,6 +40,7 @@ type MsgClient interface {
 	VerifyPod(ctx context.Context, in *MsgVerifyPod, opts ...grpc.CallOption) (*MsgVerifyPodResponse, error)
 	InitiateVrf(ctx context.Context, in *MsgInitiateVrf, opts ...grpc.CallOption) (*MsgInitiateVrfResponse, error)
 	ValidateVrf(ctx context.Context, in *MsgValidateVrf, opts ...grpc.CallOption) (*MsgValidateVrfResponse, error)
+	ProcessVrfDispute(ctx context.Context, in *MsgProcessVrfDispute, opts ...grpc.CallOption) (*MsgProcessVrfDisputeResponse, error)
 }
 
 type msgClient struct {
@@ -103,6 +105,15 @@ func (c *msgClient) ValidateVrf(ctx context.Context, in *MsgValidateVrf, opts ..
 	return out, nil
 }
 
+func (c *msgClient) ProcessVrfDispute(ctx context.Context, in *MsgProcessVrfDispute, opts ...grpc.CallOption) (*MsgProcessVrfDisputeResponse, error) {
+	out := new(MsgProcessVrfDisputeResponse)
+	err := c.cc.Invoke(ctx, Msg_ProcessVrfDispute_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MsgServer is the server API for Msg service.
 // All implementations must embed UnimplementedMsgServer
 // for forward compatibility
@@ -115,6 +126,7 @@ type MsgServer interface {
 	VerifyPod(context.Context, *MsgVerifyPod) (*MsgVerifyPodResponse, error)
 	InitiateVrf(context.Context, *MsgInitiateVrf) (*MsgInitiateVrfResponse, error)
 	ValidateVrf(context.Context, *MsgValidateVrf) (*MsgValidateVrfResponse, error)
+	ProcessVrfDispute(context.Context, *MsgProcessVrfDispute) (*MsgProcessVrfDisputeResponse, error)
 	mustEmbedUnimplementedMsgServer()
 }
 
@@ -139,6 +151,9 @@ func (UnimplementedMsgServer) InitiateVrf(context.Context, *MsgInitiateVrf) (*Ms
 }
 func (UnimplementedMsgServer) ValidateVrf(context.Context, *MsgValidateVrf) (*MsgValidateVrfResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ValidateVrf not implemented")
+}
+func (UnimplementedMsgServer) ProcessVrfDispute(context.Context, *MsgProcessVrfDispute) (*MsgProcessVrfDisputeResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ProcessVrfDispute not implemented")
 }
 func (UnimplementedMsgServer) mustEmbedUnimplementedMsgServer() {}
 
@@ -261,6 +276,24 @@ func _Msg_ValidateVrf_Handler(srv interface{}, ctx context.Context, dec func(int
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Msg_ProcessVrfDispute_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgProcessVrfDispute)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).ProcessVrfDispute(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Msg_ProcessVrfDispute_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).ProcessVrfDispute(ctx, req.(*MsgProcessVrfDispute))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Msg_ServiceDesc is the grpc.ServiceDesc for Msg service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -291,6 +324,10 @@ var Msg_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ValidateVrf",
 			Handler:    _Msg_ValidateVrf_Handler,
+		},
+		{
+			MethodName: "ProcessVrfDispute",
+			Handler:    _Msg_ProcessVrfDispute_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

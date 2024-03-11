@@ -43,6 +43,10 @@ const (
 	// TODO: Determine the simulation weight value
 	defaultWeightMsgValidateVrf int = 100
 
+	opWeightMsgProcessVrfDispute = "op_weight_msg_process_vrf_dispute"
+	// TODO: Determine the simulation weight value
+	defaultWeightMsgProcessVrfDispute int = 100
+
 	// this line is used by starport scaffolding # simapp/module/const
 )
 
@@ -126,6 +130,17 @@ func (am AppModule) WeightedOperations(simState module.SimulationState) []simtyp
 		junctionsimulation.SimulateMsgValidateVrf(am.accountKeeper, am.bankKeeper, am.keeper),
 	))
 
+	var weightMsgProcessVrfDispute int
+	simState.AppParams.GetOrGenerate(opWeightMsgProcessVrfDispute, &weightMsgProcessVrfDispute, nil,
+		func(_ *rand.Rand) {
+			weightMsgProcessVrfDispute = defaultWeightMsgProcessVrfDispute
+		},
+	)
+	operations = append(operations, simulation.NewWeightedOperation(
+		weightMsgProcessVrfDispute,
+		junctionsimulation.SimulateMsgProcessVrfDispute(am.accountKeeper, am.bankKeeper, am.keeper),
+	))
+
 	// this line is used by starport scaffolding # simapp/module/operation
 
 	return operations
@@ -171,6 +186,14 @@ func (am AppModule) ProposalMsgs(simState module.SimulationState) []simtypes.Wei
 			defaultWeightMsgValidateVrf,
 			func(r *rand.Rand, ctx sdk.Context, accs []simtypes.Account) sdk.Msg {
 				junctionsimulation.SimulateMsgValidateVrf(am.accountKeeper, am.bankKeeper, am.keeper)
+				return nil
+			},
+		),
+		simulation.NewWeightedProposalMsg(
+			opWeightMsgProcessVrfDispute,
+			defaultWeightMsgProcessVrfDispute,
+			func(r *rand.Rand, ctx sdk.Context, accs []simtypes.Account) sdk.Msg {
+				junctionsimulation.SimulateMsgProcessVrfDispute(am.accountKeeper, am.bankKeeper, am.keeper)
 				return nil
 			},
 		),

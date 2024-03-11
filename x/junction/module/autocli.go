@@ -107,6 +107,12 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					Short:          "Send a validate_vrf tx",
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "stationId"}, {ProtoField: "podNumber"}, {ProtoField: "serializedRc"}},
 				},
+				{
+					RpcMethod:      "ProcessVrfDispute",
+					Use:            "process-vrf-dispute [pod-number] [station-id] [signatures] [votes] [public-keys]",
+					Short:          "Send a process_vrf_dispute tx",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "podNumber"}, {ProtoField: "stationId"}, {ProtoField: "signatures"}, {ProtoField: "votes"}, {ProtoField: "publicKeys"}},
+				},
 				// this line is used by ignite scaffolding # autocli/tx
 			},
 		},

@@ -7,6 +7,17 @@ import (
 	"fmt"
 	"strconv"
 
+	"github.com/cosmos/cosmos-sdk/codec"
+	codecTypes "github.com/cosmos/cosmos-sdk/codec/types"
+	cryptocodec "github.com/cosmos/cosmos-sdk/crypto/codec"
+	cryptotypes "github.com/cosmos/cosmos-sdk/crypto/types"
+
+	"cosmossdk.io/store/prefix"
+	"github.com/ComputerKeeda/junction/x/junction/types"
+	"github.com/cosmos/cosmos-sdk/runtime"
+	sdk "github.com/cosmos/cosmos-sdk/types"
+	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+
 	"go.dedis.ch/kyber/v3"
 	"go.dedis.ch/kyber/v3/group/edwards25519"
 )
@@ -22,6 +33,13 @@ func GetVRFKeyByte(stationId string, podNumber uint64) (string, []byte) {
 	podNumberString := strconv.FormatUint(podNumber, 10)
 	podStoreKeyByte := []byte(podNumberString)
 	return podStoreKey, podStoreKeyByte
+}
+
+func GetVRFDisputeKeyByte(stationId string, podNumber uint64) (string, []byte) {
+	disputeStoreKey := "vrfDispute/" + stationId
+	podNumberString := strconv.FormatUint(podNumber, 10)
+	disputeStoreKeyByte := []byte(podNumberString)
+	return disputeStoreKey, disputeStoreKeyByte
 }
 
 // Function to generate a deterministic random number from a proof
@@ -95,4 +113,152 @@ func VerifyVRFProof(hexPublicKey string, serializedRC []byte, proof []byte, bloc
 	}
 
 	return true, nil
+}
+
+func (k Keeper) GetVrfDisputeHelper(ctx sdk.Context, stationId string, podNumber uint64) (vrfDispute types.VrfDisputeResult, sdkErr error) {
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+
+	vrfDisputeStoreKey, vrfDisputeStoreKeyByte := GetVRFKeyByte(stationId, podNumber)
+	vrfDisputeStore := prefix.NewStore(storeAdapter, types.KeyPrefix(vrfDisputeStoreKey))
+	vrfDisputeDetailsByte := vrfDisputeStore.Get(vrfDisputeStoreKeyByte)
+
+	if vrfDisputeDetailsByte == nil {
+		return vrfDispute, sdkerrors.ErrKeyNotFound
+	}
+
+	var vrfDetails types.VrfDisputeResult
+	k.cdc.MustUnmarshal(vrfDisputeDetailsByte, &vrfDetails)
+
+	return vrfDetails, nil
+}
+
+// signature verification
+func VerifyVrfDisputeSignatures(tracks []string, signatures [][]byte, pubKeys [][]byte, message [][]byte) (votes []bool, signers []string, success bool, err error) {
+
+	pubKeysLength := len(pubKeys)
+	signaturesLength := len(signatures)
+	messageLength := len(message)
+	tracksLength := len(tracks)
+
+	if pubKeysLength == 0 {
+		return nil, nil, false, fmt.Errorf("no public keys")
+	}
+	if tracksLength == 0 {
+		return nil, nil, false, fmt.Errorf("no tracks")
+	}
+	if signaturesLength == 0 {
+		return nil, nil, false, fmt.Errorf("no signatures")
+	}
+	if messageLength == 0 {
+		return nil, nil, false, fmt.Errorf("no message")
+	}
+
+	// make sure the length of the public keys, signatures, and message are the same
+	if pubKeysLength != signaturesLength || pubKeysLength != messageLength || signaturesLength != messageLength {
+		return nil, nil, false, fmt.Errorf("invalid input length")
+	}
+
+	pubKeysMap := make(map[string]bool)
+	for _, key := range pubKeys {
+		if pubKeysMap[string(key)] {
+			return nil, nil, false, fmt.Errorf("duplicate public keys")
+		}
+		pubKeysMap[string(key)] = true
+	}
+
+	for i := 0; i < pubKeysLength; i++ {
+
+		publicKeyBytes := pubKeys[i] // byte{/* your public key bytes here */}
+
+		// Initialize a Protobuf codec for Amino
+		interfaceRegistry := codecTypes.NewInterfaceRegistry()
+		cryptocodec.RegisterInterfaces(interfaceRegistry)
+		marshaler := codec.NewProtoCodec(interfaceRegistry)
+
+		// Attempt to unmarshal the public key bytes into a PubKey interface
+		var pubKey cryptotypes.PubKey
+		err := marshaler.UnmarshalInterface(publicKeyBytes, &pubKey)
+		if err != nil {
+			return nil, nil, false, fmt.Errorf("error unmarshalling public key: %w", err)
+		}
+
+		// check if pubKey.Address() exists in stationsAddresses
+		isExists := false
+		for _, address := range tracks {
+			if address == pubKey.Address().String() {
+				isExists = true
+				break
+			}
+		}
+		if !isExists {
+			return nil, nil, false, fmt.Errorf("public key address does not exist in stationsAddresses: %s", pubKey.Address().String())
+		}
+
+		verificationResult := pubKey.VerifySignature(message[i], signatures[i])
+		if !verificationResult {
+			return nil, nil, false, fmt.Errorf("signature verification failed")
+		}
+
+		vote := byteToBool(message[i][0])
+
+		votes = append(votes, vote)
+		signers = append(signers, pubKey.Address().String())
+	}
+
+	return votes, signers, true, nil
+}
+
+func boolToByte(b bool) byte {
+	if b {
+		return 1
+	}
+	return 0
+}
+
+func byteToBool(b byte) bool {
+	return b != 0
+}
+
+// count votes in the dispute
+func countDisputeVotes(votes []bool, addr []string) (voteResults types.VrfDisputeResult) {
+
+	totalVotes := len(votes)
+	consentVote := 0
+	dissentVote := 0
+	agreementPercentage := 0.0
+	result := false
+	voteMsg := ""
+
+	for _, vote := range votes {
+		if vote {
+			consentVote++
+		} else {
+			dissentVote++
+		}
+	}
+
+	agreementPercentage = (float64(consentVote) / float64(totalVotes)) * 100
+	agreementPercentage = float64(int(agreementPercentage*10000)) / 10000
+
+	if consentVote > (66*totalVotes)/100 {
+		result = true
+	}
+
+	if result {
+		voteMsg = "VRN is invalid and the dispute result is inclined in favor of the verifier"
+	} else {
+		voteMsg = "VRN is valid and the dispute result is inclined in favor of the creator"
+	}
+
+	voteResults = types.VrfDisputeResult{
+		Votes:               votes,
+		AddressList:         addr,
+		ConsentVote:         uint64(consentVote),
+		DissentVote:         uint64(dissentVote),
+		AgreementPercentage: float32(agreementPercentage),
+		Result:              result,
+		Message:             voteMsg,
+	}
+
+	return voteResults
 }
