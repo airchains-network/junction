@@ -2,17 +2,17 @@ version: 1
 accounts:
 - name: alice
   coins:
-  - 1000000000samf
+  - 1000000000stake
 - name: bob
   coins:
-  - 1000000000samf
+  - 1000000000stake
 client:
   openapi:
     path: docs/static/openapi.yml
 faucet:
   name: bob
   coins:
-  - 5samf
+  - 5stake
 validators:
 - name: alice
-  bonded: 100000000samf
+  bonded: 100000000stake
