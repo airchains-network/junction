@@ -27,6 +27,7 @@ const (
 	Query_GetLatestSubmittedPodNumber_FullMethodName = "/junction.junction.Query/GetLatestSubmittedPodNumber"
 	Query_GetLatestVerifiedPodNumber_FullMethodName  = "/junction.junction.Query/GetLatestVerifiedPodNumber"
 	Query_FetchVrn_FullMethodName                    = "/junction.junction.Query/FetchVrn"
+	Query_GetTracks_FullMethodName                   = "/junction.junction.Query/GetTracks"
 )
 
 // QueryClient is the client API for Query service.
@@ -49,6 +50,8 @@ type QueryClient interface {
 	GetLatestVerifiedPodNumber(ctx context.Context, in *QueryGetLatestVerifiedPodNumberRequest, opts ...grpc.CallOption) (*QueryGetLatestVerifiedPodNumberResponse, error)
 	// Queries a list of FetchVrn items.
 	FetchVrn(ctx context.Context, in *QueryFetchVrnRequest, opts ...grpc.CallOption) (*QueryFetchVrnResponse, error)
+	// Queries a list of GetTracks items.
+	GetTracks(ctx context.Context, in *QueryGetTracksRequest, opts ...grpc.CallOption) (*QueryGetTracksResponse, error)
 }
 
 type queryClient struct {
@@ -131,6 +134,15 @@ func (c *queryClient) FetchVrn(ctx context.Context, in *QueryFetchVrnRequest, op
 	return out, nil
 }
 
+func (c *queryClient) GetTracks(ctx context.Context, in *QueryGetTracksRequest, opts ...grpc.CallOption) (*QueryGetTracksResponse, error) {
+	out := new(QueryGetTracksResponse)
+	err := c.cc.Invoke(ctx, Query_GetTracks_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // QueryServer is the server API for Query service.
 // All implementations must embed UnimplementedQueryServer
 // for forward compatibility
@@ -151,6 +163,8 @@ type QueryServer interface {
 	GetLatestVerifiedPodNumber(context.Context, *QueryGetLatestVerifiedPodNumberRequest) (*QueryGetLatestVerifiedPodNumberResponse, error)
 	// Queries a list of FetchVrn items.
 	FetchVrn(context.Context, *QueryFetchVrnRequest) (*QueryFetchVrnResponse, error)
+	// Queries a list of GetTracks items.
+	GetTracks(context.Context, *QueryGetTracksRequest) (*QueryGetTracksResponse, error)
 	mustEmbedUnimplementedQueryServer()
 }
 
@@ -181,6 +195,9 @@ func (UnimplementedQueryServer) GetLatestVerifiedPodNumber(context.Context, *Que
 }
 func (UnimplementedQueryServer) FetchVrn(context.Context, *QueryFetchVrnRequest) (*QueryFetchVrnResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FetchVrn not implemented")
+}
+func (UnimplementedQueryServer) GetTracks(context.Context, *QueryGetTracksRequest) (*QueryGetTracksResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTracks not implemented")
 }
 func (UnimplementedQueryServer) mustEmbedUnimplementedQueryServer() {}
 
@@ -339,6 +356,24 @@ func _Query_FetchVrn_Handler(srv interface{}, ctx context.Context, dec func(inte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Query_GetTracks_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryGetTracksRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).GetTracks(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Query_GetTracks_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).GetTracks(ctx, req.(*QueryGetTracksRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Query_ServiceDesc is the grpc.ServiceDesc for Query service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -377,6 +412,10 @@ var Query_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "FetchVrn",
 			Handler:    _Query_FetchVrn_Handler,
+		},
+		{
+			MethodName: "GetTracks",
+			Handler:    _Query_GetTracks_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

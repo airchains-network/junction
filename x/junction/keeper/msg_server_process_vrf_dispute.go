@@ -71,7 +71,7 @@ func (k msgServer) ProcessVrfDispute(goCtx context.Context, msg *types.MsgProces
 	byteResult := k.cdc.MustMarshal(&voteResult)
 	vrfDisputeStore.Set(vrfDisputeStoreKeyByte, byteResult)
 
-	/* 
+	/*
 		voteResult.result == true then VRN is invalid and the dispute result is inclined in favor of the verifier
 		else VRN is valid and the dispute result is inclined in favor of the creator
 	*/

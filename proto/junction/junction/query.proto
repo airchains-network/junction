@@ -63,6 +63,12 @@ service Query {
     option (google.api.http).get = "/ComputerKeeda/junction/junction/fetch_vrn/{podNumber}/{stationId}";
   
   }
+  
+  // Queries a list of GetTracks items.
+  rpc GetTracks (QueryGetTracksRequest) returns (QueryGetTracksResponse) {
+    option (google.api.http).get = "/ComputerKeeda/junction/junction/get_tracks/{stationId}";
+  
+  }
 }
 // QueryParamsRequest is request type for the Query/Params RPC method.
 message QueryParamsRequest {}
@@ -133,5 +139,15 @@ message QueryFetchVrnRequest {
 
 message QueryFetchVrnResponse {
   VrfRecord details = 1;
+}
+
+message QueryGetTracksRequest {
+  string                                stationId  = 1;
+  cosmos.base.query.v1beta1.PageRequest pagination = 2;
+}
+
+message QueryGetTracksResponse {
+  repeated string                                 tracks     = 1;
+           cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 
