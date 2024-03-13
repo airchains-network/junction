@@ -13,6 +13,6 @@ message Stations {
   string stationInfo = 6; 
   string id = 7; 
   string creator = 8; 
-  string spsp = 9; 
-  
+  string spsp = 9;
 }
+// here spsp is selectedPodSubmitterPiolet

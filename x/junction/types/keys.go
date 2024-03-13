@@ -11,6 +11,7 @@ const (
 	MemStoreKey = "mem_junction"
 
 	// StationRegistryKeys
+	//	database of list of stations under each track member
 	StationRegistryKeys = "Station/StationRegistry/"
 	//StationVerificationKeyKeys = "Station/VerificationKey/"
 	StationDataKey = "Station/Data/"

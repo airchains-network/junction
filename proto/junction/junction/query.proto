@@ -102,7 +102,8 @@ message QueryGetStationDetailsByAddressRequest {
 }
 
 message QueryGetStationDetailsByAddressResponse {
-  Stations station = 1;
+  repeated Stations stations = 1 [(gogoproto.nullable) = false];
+  cosmos.base.query.v1beta1.PageResponse pagination   = 2;
 }
 
 message QueryGetPodRequest {

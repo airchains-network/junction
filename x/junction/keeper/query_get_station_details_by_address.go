@@ -5,7 +5,6 @@ import (
 
 	"github.com/ComputerKeeda/junction/x/junction/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
@@ -16,16 +15,24 @@ func (k Keeper) GetStationDetailsByAddress(goCtx context.Context, req *types.Que
 	}
 	ctx := sdk.UnwrapSDKContext(goCtx)
 	address := req.Address
-	stationId, found := k.GetStationIdByAddressHelper(ctx, address)
-	if stationId == "nil" || !found {
+	stationIds, found := k.GetStationsIdByAddressHelper(ctx, address)
+
+	if len(stationIds) == 0 || !found {
 		// No station found on this address
-		return nil, sdkerrors.ErrKeyNotFound
+		return nil, status.Error(codes.NotFound, "station not found")
 	}
-	station, err := k.getStationById(ctx, stationId)
-	if err != nil {
-		return nil, err
+
+	var stations []types.Stations
+
+	for _, stationId := range stationIds {
+		station, err := k.getStationById(ctx, stationId)
+		if err != nil {
+			return nil, err
+		}
+		stations = append(stations, station)
 	}
+
 	return &types.QueryGetStationDetailsByAddressResponse{
-		Station: &station,
+		Stations: stations,
 	}, nil
 }
