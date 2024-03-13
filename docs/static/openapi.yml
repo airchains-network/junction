@@ -19262,385 +19262,6 @@ paths:
               parameters.
       tags:
         - Msg
-  /junction.junction.Msg/InitStation:
-    post:
-      operationId: JunctionJunctionMsg_InitStation
-      responses:
-        '200':
-          description: A successful response.
-          schema:
-            type: object
-            properties:
-              status:
-                type: boolean
-              stationId:
-                type: string
-        default:
-          description: An unexpected error response.
-          schema:
-            type: object
-            properties:
-              code:
-                type: integer
-                format: int32
-              message:
-                type: string
-              details:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    '@type':
-                      type: string
-                  additionalProperties: {}
-      parameters:
-        - name: body
-          in: body
-          required: true
-          schema:
-            type: object
-            properties:
-              creator:
-                type: string
-              tracks:
-                type: array
-                items:
-                  type: string
-              verificationKey:
-                type: string
-                format: byte
-              stationId:
-                type: string
-              stationInfo:
-                type: string
-              tracksVotingPower:
-                type: array
-                items:
-                  type: string
-                  format: uint64
-      tags:
-        - Msg
-  /junction.junction.Msg/InitiateVrf:
-    post:
-      operationId: JunctionJunctionMsg_InitiateVrf
-      responses:
-        '200':
-          description: A successful response.
-          schema:
-            type: object
-            properties:
-              success:
-                type: boolean
-        default:
-          description: An unexpected error response.
-          schema:
-            type: object
-            properties:
-              code:
-                type: integer
-                format: int32
-              message:
-                type: string
-              details:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    '@type':
-                      type: string
-                  additionalProperties: {}
-      parameters:
-        - name: body
-          in: body
-          required: true
-          schema:
-            type: object
-            properties:
-              creator:
-                type: string
-              podNumber:
-                type: string
-                format: uint64
-              stationId:
-                type: string
-              occupancy:
-                type: string
-                format: uint64
-              creatorsVrfKey:
-                type: string
-              extraArg:
-                type: string
-                format: byte
-      tags:
-        - Msg
-  /junction.junction.Msg/ProcessVrfDispute:
-    post:
-      operationId: JunctionJunctionMsg_ProcessVrfDispute
-      responses:
-        '200':
-          description: A successful response.
-          schema:
-            type: object
-            properties:
-              success:
-                type: boolean
-        default:
-          description: An unexpected error response.
-          schema:
-            type: object
-            properties:
-              code:
-                type: integer
-                format: int32
-              message:
-                type: string
-              details:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    '@type':
-                      type: string
-                  additionalProperties: {}
-      parameters:
-        - name: body
-          in: body
-          required: true
-          schema:
-            type: object
-            properties:
-              creator:
-                type: string
-              podNumber:
-                type: string
-                format: uint64
-              stationId:
-                type: string
-              signatures:
-                type: array
-                items:
-                  type: string
-                  format: byte
-              votes:
-                type: array
-                items:
-                  type: boolean
-              publicKeys:
-                type: array
-                items:
-                  type: string
-                  format: byte
-      tags:
-        - Msg
-  /junction.junction.Msg/SubmitPod:
-    post:
-      operationId: JunctionJunctionMsg_SubmitPod
-      responses:
-        '200':
-          description: A successful response.
-          schema:
-            type: object
-            properties:
-              podStatus:
-                type: boolean
-        default:
-          description: An unexpected error response.
-          schema:
-            type: object
-            properties:
-              code:
-                type: integer
-                format: int32
-              message:
-                type: string
-              details:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    '@type':
-                      type: string
-                  additionalProperties: {}
-      parameters:
-        - name: body
-          in: body
-          required: true
-          schema:
-            type: object
-            properties:
-              creator:
-                type: string
-              stationId:
-                type: string
-              podNumber:
-                type: string
-                format: uint64
-              merkleRootHash:
-                type: string
-              previousMerkleRootHash:
-                type: string
-              publicWitness:
-                type: string
-                format: byte
-              timestamp:
-                type: string
-      tags:
-        - Msg
-  /junction.junction.Msg/UpdateParams:
-    post:
-      summary: |-
-        UpdateParams defines a (governance) operation for updating the module
-        parameters. The authority defaults to the x/gov module account.
-      operationId: JunctionJunctionMsg_UpdateParams
-      responses:
-        '200':
-          description: A successful response.
-          schema:
-            type: object
-            description: >-
-              MsgUpdateParamsResponse defines the response structure for
-              executing a
-
-              MsgUpdateParams message.
-        default:
-          description: An unexpected error response.
-          schema:
-            type: object
-            properties:
-              code:
-                type: integer
-                format: int32
-              message:
-                type: string
-              details:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    '@type':
-                      type: string
-                  additionalProperties: {}
-      parameters:
-        - name: body
-          description: MsgUpdateParams is the Msg/UpdateParams request type.
-          in: body
-          required: true
-          schema:
-            type: object
-            properties:
-              authority:
-                type: string
-                description: >-
-                  authority is the address that controls the module (defaults to
-                  x/gov unless overwritten).
-              params:
-                description: 'NOTE: All parameters must be supplied.'
-                type: object
-            description: MsgUpdateParams is the Msg/UpdateParams request type.
-      tags:
-        - Msg
-  /junction.junction.Msg/ValidateVrf:
-    post:
-      operationId: JunctionJunctionMsg_ValidateVrf
-      responses:
-        '200':
-          description: A successful response.
-          schema:
-            type: object
-            properties:
-              success:
-                type: boolean
-        default:
-          description: An unexpected error response.
-          schema:
-            type: object
-            properties:
-              code:
-                type: integer
-                format: int32
-              message:
-                type: string
-              details:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    '@type':
-                      type: string
-                  additionalProperties: {}
-      parameters:
-        - name: body
-          in: body
-          required: true
-          schema:
-            type: object
-            properties:
-              creator:
-                type: string
-              stationId:
-                type: string
-              podNumber:
-                type: string
-                format: uint64
-              serializedRc:
-                type: string
-                format: byte
-      tags:
-        - Msg
-  /junction.junction.Msg/VerifyPod:
-    post:
-      operationId: JunctionJunctionMsg_VerifyPod
-      responses:
-        '200':
-          description: A successful response.
-          schema:
-            type: object
-            properties:
-              message:
-                type: string
-              isVerified:
-                type: boolean
-        default:
-          description: An unexpected error response.
-          schema:
-            type: object
-            properties:
-              code:
-                type: integer
-                format: int32
-              message:
-                type: string
-              details:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    '@type':
-                      type: string
-                  additionalProperties: {}
-      parameters:
-        - name: body
-          in: body
-          required: true
-          schema:
-            type: object
-            properties:
-              creator:
-                type: string
-              stationId:
-                type: string
-              podNumber:
-                type: string
-                format: uint64
-              merkleRootHash:
-                type: string
-              previousMerkleRootHash:
-                type: string
-              zkProof:
-                type: string
-                format: byte
-      tags:
-        - Msg
   /ComputerKeeda/junction/junction/fetch_vrn/{podNumber}/{stationId}:
     get:
       summary: Queries a list of FetchVrn items.
@@ -20317,6 +19938,388 @@ paths:
                   additionalProperties: {}
       tags:
         - Query
+  /junction.junction.Msg/InitStation:
+    post:
+      operationId: JunctionJunctionMsg_InitStation
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              status:
+                type: boolean
+              stationId:
+                type: string
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              creator:
+                type: string
+              tracks:
+                type: array
+                items:
+                  type: string
+              verificationKey:
+                type: string
+                format: byte
+              stationId:
+                type: string
+              stationInfo:
+                type: string
+              tracksVotingPower:
+                type: array
+                items:
+                  type: string
+                  format: uint64
+              extraArg:
+                type: string
+                format: byte
+      tags:
+        - Msg
+  /junction.junction.Msg/InitiateVrf:
+    post:
+      operationId: JunctionJunctionMsg_InitiateVrf
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              creator:
+                type: string
+              podNumber:
+                type: string
+                format: uint64
+              stationId:
+                type: string
+              occupancy:
+                type: string
+                format: uint64
+              creatorsVrfKey:
+                type: string
+              extraArg:
+                type: string
+                format: byte
+      tags:
+        - Msg
+  /junction.junction.Msg/ProcessVrfDispute:
+    post:
+      operationId: JunctionJunctionMsg_ProcessVrfDispute
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              creator:
+                type: string
+              podNumber:
+                type: string
+                format: uint64
+              stationId:
+                type: string
+              signatures:
+                type: array
+                items:
+                  type: string
+                  format: byte
+              votes:
+                type: array
+                items:
+                  type: boolean
+              publicKeys:
+                type: array
+                items:
+                  type: string
+                  format: byte
+      tags:
+        - Msg
+  /junction.junction.Msg/SubmitPod:
+    post:
+      operationId: JunctionJunctionMsg_SubmitPod
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              podStatus:
+                type: boolean
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              creator:
+                type: string
+              stationId:
+                type: string
+              podNumber:
+                type: string
+                format: uint64
+              merkleRootHash:
+                type: string
+              previousMerkleRootHash:
+                type: string
+              publicWitness:
+                type: string
+                format: byte
+              timestamp:
+                type: string
+      tags:
+        - Msg
+  /junction.junction.Msg/UpdateParams:
+    post:
+      summary: |-
+        UpdateParams defines a (governance) operation for updating the module
+        parameters. The authority defaults to the x/gov module account.
+      operationId: JunctionJunctionMsg_UpdateParams
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            description: >-
+              MsgUpdateParamsResponse defines the response structure for
+              executing a
+
+              MsgUpdateParams message.
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: body
+          description: MsgUpdateParams is the Msg/UpdateParams request type.
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              authority:
+                type: string
+                description: >-
+                  authority is the address that controls the module (defaults to
+                  x/gov unless overwritten).
+              params:
+                description: 'NOTE: All parameters must be supplied.'
+                type: object
+            description: MsgUpdateParams is the Msg/UpdateParams request type.
+      tags:
+        - Msg
+  /junction.junction.Msg/ValidateVrf:
+    post:
+      operationId: JunctionJunctionMsg_ValidateVrf
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              creator:
+                type: string
+              stationId:
+                type: string
+              podNumber:
+                type: string
+                format: uint64
+              serializedRc:
+                type: string
+                format: byte
+      tags:
+        - Msg
+  /junction.junction.Msg/VerifyPod:
+    post:
+      operationId: JunctionJunctionMsg_VerifyPod
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+              isVerified:
+                type: boolean
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              creator:
+                type: string
+              stationId:
+                type: string
+              podNumber:
+                type: string
+                format: uint64
+              merkleRootHash:
+                type: string
+              previousMerkleRootHash:
+                type: string
+              zkProof:
+                type: string
+                format: byte
+      tags:
+        - Msg
 definitions:
   cosmos.auth.v1beta1.MsgUpdateParams:
     type: object
@@ -28057,172 +28060,6 @@ definitions:
     description: |-
       Version defines the versioning scheme used to negotiate the IBC verison in
       the connection handshake.
-  junction.junction.MsgInitStation:
-    type: object
-    properties:
-      creator:
-        type: string
-      tracks:
-        type: array
-        items:
-          type: string
-      verificationKey:
-        type: string
-        format: byte
-      stationId:
-        type: string
-      stationInfo:
-        type: string
-      tracksVotingPower:
-        type: array
-        items:
-          type: string
-          format: uint64
-  junction.junction.MsgInitStationResponse:
-    type: object
-    properties:
-      status:
-        type: boolean
-      stationId:
-        type: string
-  junction.junction.MsgInitiateVrf:
-    type: object
-    properties:
-      creator:
-        type: string
-      podNumber:
-        type: string
-        format: uint64
-      stationId:
-        type: string
-      occupancy:
-        type: string
-        format: uint64
-      creatorsVrfKey:
-        type: string
-      extraArg:
-        type: string
-        format: byte
-  junction.junction.MsgInitiateVrfResponse:
-    type: object
-    properties:
-      success:
-        type: boolean
-  junction.junction.MsgProcessVrfDispute:
-    type: object
-    properties:
-      creator:
-        type: string
-      podNumber:
-        type: string
-        format: uint64
-      stationId:
-        type: string
-      signatures:
-        type: array
-        items:
-          type: string
-          format: byte
-      votes:
-        type: array
-        items:
-          type: boolean
-      publicKeys:
-        type: array
-        items:
-          type: string
-          format: byte
-  junction.junction.MsgProcessVrfDisputeResponse:
-    type: object
-    properties:
-      success:
-        type: boolean
-  junction.junction.MsgSubmitPod:
-    type: object
-    properties:
-      creator:
-        type: string
-      stationId:
-        type: string
-      podNumber:
-        type: string
-        format: uint64
-      merkleRootHash:
-        type: string
-      previousMerkleRootHash:
-        type: string
-      publicWitness:
-        type: string
-        format: byte
-      timestamp:
-        type: string
-  junction.junction.MsgSubmitPodResponse:
-    type: object
-    properties:
-      podStatus:
-        type: boolean
-  junction.junction.MsgUpdateParams:
-    type: object
-    properties:
-      authority:
-        type: string
-        description: >-
-          authority is the address that controls the module (defaults to x/gov
-          unless overwritten).
-      params:
-        description: 'NOTE: All parameters must be supplied.'
-        type: object
-    description: MsgUpdateParams is the Msg/UpdateParams request type.
-  junction.junction.MsgUpdateParamsResponse:
-    type: object
-    description: |-
-      MsgUpdateParamsResponse defines the response structure for executing a
-      MsgUpdateParams message.
-  junction.junction.MsgValidateVrf:
-    type: object
-    properties:
-      creator:
-        type: string
-      stationId:
-        type: string
-      podNumber:
-        type: string
-        format: uint64
-      serializedRc:
-        type: string
-        format: byte
-  junction.junction.MsgValidateVrfResponse:
-    type: object
-    properties:
-      success:
-        type: boolean
-  junction.junction.MsgVerifyPod:
-    type: object
-    properties:
-      creator:
-        type: string
-      stationId:
-        type: string
-      podNumber:
-        type: string
-        format: uint64
-      merkleRootHash:
-        type: string
-      previousMerkleRootHash:
-        type: string
-      zkProof:
-        type: string
-        format: byte
-  junction.junction.MsgVerifyPodResponse:
-    type: object
-    properties:
-      message:
-        type: string
-      isVerified:
-        type: boolean
-  junction.junction.Params:
-    type: object
-    description: Params defines the parameters for the module.
   cosmos.base.query.v1beta1.PageRequest:
     type: object
     properties:
@@ -28300,6 +28137,9 @@ definitions:
                repeated Bar results = 1;
                PageResponse page = 2;
        }
+  junction.junction.Params:
+    type: object
+    description: Params defines the parameters for the module.
   junction.junction.Pods:
     type: object
     properties:
@@ -28651,3 +28491,169 @@ definitions:
       selectedTrackIndex:
         type: string
         format: uint64
+  junction.junction.MsgInitStation:
+    type: object
+    properties:
+      creator:
+        type: string
+      tracks:
+        type: array
+        items:
+          type: string
+      verificationKey:
+        type: string
+        format: byte
+      stationId:
+        type: string
+      stationInfo:
+        type: string
+      tracksVotingPower:
+        type: array
+        items:
+          type: string
+          format: uint64
+      extraArg:
+        type: string
+        format: byte
+  junction.junction.MsgInitStationResponse:
+    type: object
+    properties:
+      status:
+        type: boolean
+      stationId:
+        type: string
+  junction.junction.MsgInitiateVrf:
+    type: object
+    properties:
+      creator:
+        type: string
+      podNumber:
+        type: string
+        format: uint64
+      stationId:
+        type: string
+      occupancy:
+        type: string
+        format: uint64
+      creatorsVrfKey:
+        type: string
+      extraArg:
+        type: string
+        format: byte
+  junction.junction.MsgInitiateVrfResponse:
+    type: object
+    properties:
+      success:
+        type: boolean
+  junction.junction.MsgProcessVrfDispute:
+    type: object
+    properties:
+      creator:
+        type: string
+      podNumber:
+        type: string
+        format: uint64
+      stationId:
+        type: string
+      signatures:
+        type: array
+        items:
+          type: string
+          format: byte
+      votes:
+        type: array
+        items:
+          type: boolean
+      publicKeys:
+        type: array
+        items:
+          type: string
+          format: byte
+  junction.junction.MsgProcessVrfDisputeResponse:
+    type: object
+    properties:
+      success:
+        type: boolean
+  junction.junction.MsgSubmitPod:
+    type: object
+    properties:
+      creator:
+        type: string
+      stationId:
+        type: string
+      podNumber:
+        type: string
+        format: uint64
+      merkleRootHash:
+        type: string
+      previousMerkleRootHash:
+        type: string
+      publicWitness:
+        type: string
+        format: byte
+      timestamp:
+        type: string
+  junction.junction.MsgSubmitPodResponse:
+    type: object
+    properties:
+      podStatus:
+        type: boolean
+  junction.junction.MsgUpdateParams:
+    type: object
+    properties:
+      authority:
+        type: string
+        description: >-
+          authority is the address that controls the module (defaults to x/gov
+          unless overwritten).
+      params:
+        description: 'NOTE: All parameters must be supplied.'
+        type: object
+    description: MsgUpdateParams is the Msg/UpdateParams request type.
+  junction.junction.MsgUpdateParamsResponse:
+    type: object
+    description: |-
+      MsgUpdateParamsResponse defines the response structure for executing a
+      MsgUpdateParams message.
+  junction.junction.MsgValidateVrf:
+    type: object
+    properties:
+      creator:
+        type: string
+      stationId:
+        type: string
+      podNumber:
+        type: string
+        format: uint64
+      serializedRc:
+        type: string
+        format: byte
+  junction.junction.MsgValidateVrfResponse:
+    type: object
+    properties:
+      success:
+        type: boolean
+  junction.junction.MsgVerifyPod:
+    type: object
+    properties:
+      creator:
+        type: string
+      stationId:
+        type: string
+      podNumber:
+        type: string
+        format: uint64
+      merkleRootHash:
+        type: string
+      previousMerkleRootHash:
+        type: string
+      zkProof:
+        type: string
+        format: byte
+  junction.junction.MsgVerifyPodResponse:
+    type: object
+    properties:
+      message:
+        type: string
+      isVerified:
+        type: boolean

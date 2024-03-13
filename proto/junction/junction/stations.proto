@@ -14,5 +14,8 @@ message Stations {
   string id = 7; 
   string creator = 8; 
   string spsp = 9;
+  string trackType = 10;
+  string daType = 11;
+  string prover = 12;
 }
 // here spsp is selectedPodSubmitterPiolet

@@ -1,0 +1,11 @@
+syntax = "proto3";
+package junction.junction;
+
+option go_package = "github.com/ComputerKeeda/junction/x/junction/types";
+
+message StationArg {
+  
+  string trackType = 1; 
+  string daType = 2; 
+  string prover = 3; 
+}

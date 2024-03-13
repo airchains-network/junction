@@ -168,6 +168,9 @@ func (k Keeper) VerifyPodHelper(ctx sdk.Context, msg *types.MsgVerifyPod) error 
 		Id:                   station.Id,
 		Creator:              station.Creator,
 		Spsp:                 "Reset",
+		TrackType:            station.TrackType,
+		DaType:               station.DaType,
+		Prover:               station.Prover,
 	}
 	stationDataDB := prefix.NewStore(storeAdapter, types.KeyPrefix(types.StationDataKey))
 	byteStation := k.cdc.MustMarshal(&updatedStationDetails)

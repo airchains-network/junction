@@ -115,6 +115,9 @@ var (
 	fd_Stations_id                   protoreflect.FieldDescriptor
 	fd_Stations_creator              protoreflect.FieldDescriptor
 	fd_Stations_spsp                 protoreflect.FieldDescriptor
+	fd_Stations_trackType            protoreflect.FieldDescriptor
+	fd_Stations_daType               protoreflect.FieldDescriptor
+	fd_Stations_prover               protoreflect.FieldDescriptor
 )
 
 func init() {
@@ -129,6 +132,9 @@ func init() {
 	fd_Stations_id = md_Stations.Fields().ByName("id")
 	fd_Stations_creator = md_Stations.Fields().ByName("creator")
 	fd_Stations_spsp = md_Stations.Fields().ByName("spsp")
+	fd_Stations_trackType = md_Stations.Fields().ByName("trackType")
+	fd_Stations_daType = md_Stations.Fields().ByName("daType")
+	fd_Stations_prover = md_Stations.Fields().ByName("prover")
 }
 
 var _ protoreflect.Message = (*fastReflection_Stations)(nil)
@@ -250,6 +256,24 @@ func (x *fastReflection_Stations) Range(f func(protoreflect.FieldDescriptor, pro
 			return
 		}
 	}
+	if x.TrackType != "" {
+		value := protoreflect.ValueOfString(x.TrackType)
+		if !f(fd_Stations_trackType, value) {
+			return
+		}
+	}
+	if x.DaType != "" {
+		value := protoreflect.ValueOfString(x.DaType)
+		if !f(fd_Stations_daType, value) {
+			return
+		}
+	}
+	if x.Prover != "" {
+		value := protoreflect.ValueOfString(x.Prover)
+		if !f(fd_Stations_prover, value) {
+			return
+		}
+	}
 }
 
 // Has reports whether a field is populated.
@@ -283,6 +307,12 @@ func (x *fastReflection_Stations) Has(fd protoreflect.FieldDescriptor) bool {
 		return x.Creator != ""
 	case "junction.junction.Stations.spsp":
 		return x.Spsp != ""
+	case "junction.junction.Stations.trackType":
+		return x.TrackType != ""
+	case "junction.junction.Stations.daType":
+		return x.DaType != ""
+	case "junction.junction.Stations.prover":
+		return x.Prover != ""
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: junction.junction.Stations"))
@@ -317,6 +347,12 @@ func (x *fastReflection_Stations) Clear(fd protoreflect.FieldDescriptor) {
 		x.Creator = ""
 	case "junction.junction.Stations.spsp":
 		x.Spsp = ""
+	case "junction.junction.Stations.trackType":
+		x.TrackType = ""
+	case "junction.junction.Stations.daType":
+		x.DaType = ""
+	case "junction.junction.Stations.prover":
+		x.Prover = ""
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: junction.junction.Stations"))
@@ -366,6 +402,15 @@ func (x *fastReflection_Stations) Get(descriptor protoreflect.FieldDescriptor) p
 	case "junction.junction.Stations.spsp":
 		value := x.Spsp
 		return protoreflect.ValueOfString(value)
+	case "junction.junction.Stations.trackType":
+		value := x.TrackType
+		return protoreflect.ValueOfString(value)
+	case "junction.junction.Stations.daType":
+		value := x.DaType
+		return protoreflect.ValueOfString(value)
+	case "junction.junction.Stations.prover":
+		value := x.Prover
+		return protoreflect.ValueOfString(value)
 	default:
 		if descriptor.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: junction.junction.Stations"))
@@ -408,6 +453,12 @@ func (x *fastReflection_Stations) Set(fd protoreflect.FieldDescriptor, value pro
 		x.Creator = value.Interface().(string)
 	case "junction.junction.Stations.spsp":
 		x.Spsp = value.Interface().(string)
+	case "junction.junction.Stations.trackType":
+		x.TrackType = value.Interface().(string)
+	case "junction.junction.Stations.daType":
+		x.DaType = value.Interface().(string)
+	case "junction.junction.Stations.prover":
+		x.Prover = value.Interface().(string)
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: junction.junction.Stations"))
@@ -454,6 +505,12 @@ func (x *fastReflection_Stations) Mutable(fd protoreflect.FieldDescriptor) proto
 		panic(fmt.Errorf("field creator of message junction.junction.Stations is not mutable"))
 	case "junction.junction.Stations.spsp":
 		panic(fmt.Errorf("field spsp of message junction.junction.Stations is not mutable"))
+	case "junction.junction.Stations.trackType":
+		panic(fmt.Errorf("field trackType of message junction.junction.Stations is not mutable"))
+	case "junction.junction.Stations.daType":
+		panic(fmt.Errorf("field daType of message junction.junction.Stations is not mutable"))
+	case "junction.junction.Stations.prover":
+		panic(fmt.Errorf("field prover of message junction.junction.Stations is not mutable"))
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: junction.junction.Stations"))
@@ -486,6 +543,12 @@ func (x *fastReflection_Stations) NewField(fd protoreflect.FieldDescriptor) prot
 	case "junction.junction.Stations.creator":
 		return protoreflect.ValueOfString("")
 	case "junction.junction.Stations.spsp":
+		return protoreflect.ValueOfString("")
+	case "junction.junction.Stations.trackType":
+		return protoreflect.ValueOfString("")
+	case "junction.junction.Stations.daType":
+		return protoreflect.ValueOfString("")
+	case "junction.junction.Stations.prover":
 		return protoreflect.ValueOfString("")
 	default:
 		if fd.IsExtension() {
@@ -596,6 +659,18 @@ func (x *fastReflection_Stations) ProtoMethods() *protoiface.Methods {
 		if l > 0 {
 			n += 1 + l + runtime.Sov(uint64(l))
 		}
+		l = len(x.TrackType)
+		if l > 0 {
+			n += 1 + l + runtime.Sov(uint64(l))
+		}
+		l = len(x.DaType)
+		if l > 0 {
+			n += 1 + l + runtime.Sov(uint64(l))
+		}
+		l = len(x.Prover)
+		if l > 0 {
+			n += 1 + l + runtime.Sov(uint64(l))
+		}
 		if x.unknownFields != nil {
 			n += len(x.unknownFields)
 		}
@@ -624,6 +699,27 @@ func (x *fastReflection_Stations) ProtoMethods() *protoiface.Methods {
 		if x.unknownFields != nil {
 			i -= len(x.unknownFields)
 			copy(dAtA[i:], x.unknownFields)
+		}
+		if len(x.Prover) > 0 {
+			i -= len(x.Prover)
+			copy(dAtA[i:], x.Prover)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.Prover)))
+			i--
+			dAtA[i] = 0x62
+		}
+		if len(x.DaType) > 0 {
+			i -= len(x.DaType)
+			copy(dAtA[i:], x.DaType)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.DaType)))
+			i--
+			dAtA[i] = 0x5a
+		}
+		if len(x.TrackType) > 0 {
+			i -= len(x.TrackType)
+			copy(dAtA[i:], x.TrackType)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.TrackType)))
+			i--
+			dAtA[i] = 0x52
 		}
 		if len(x.Spsp) > 0 {
 			i -= len(x.Spsp)
@@ -1071,6 +1167,102 @@ func (x *fastReflection_Stations) ProtoMethods() *protoiface.Methods {
 				}
 				x.Spsp = string(dAtA[iNdEx:postIndex])
 				iNdEx = postIndex
+			case 10:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field TrackType", wireType)
+				}
+				var stringLen uint64
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					stringLen |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				intStringLen := int(stringLen)
+				if intStringLen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + intStringLen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				x.TrackType = string(dAtA[iNdEx:postIndex])
+				iNdEx = postIndex
+			case 11:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field DaType", wireType)
+				}
+				var stringLen uint64
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					stringLen |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				intStringLen := int(stringLen)
+				if intStringLen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + intStringLen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				x.DaType = string(dAtA[iNdEx:postIndex])
+				iNdEx = postIndex
+			case 12:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Prover", wireType)
+				}
+				var stringLen uint64
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					stringLen |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				intStringLen := int(stringLen)
+				if intStringLen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + intStringLen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				x.Prover = string(dAtA[iNdEx:postIndex])
+				iNdEx = postIndex
 			default:
 				iNdEx = preIndex
 				skippy, err := runtime.Skip(dAtA[iNdEx:])
@@ -1133,6 +1325,9 @@ type Stations struct {
 	Id                   string   `protobuf:"bytes,7,opt,name=id,proto3" json:"id,omitempty"`
 	Creator              string   `protobuf:"bytes,8,opt,name=creator,proto3" json:"creator,omitempty"`
 	Spsp                 string   `protobuf:"bytes,9,opt,name=spsp,proto3" json:"spsp,omitempty"`
+	TrackType            string   `protobuf:"bytes,10,opt,name=trackType,proto3" json:"trackType,omitempty"`
+	DaType               string   `protobuf:"bytes,11,opt,name=daType,proto3" json:"daType,omitempty"`
+	Prover               string   `protobuf:"bytes,12,opt,name=prover,proto3" json:"prover,omitempty"`
 }
 
 func (x *Stations) Reset() {
@@ -1218,13 +1413,34 @@ func (x *Stations) GetSpsp() string {
 	return ""
 }
 
+func (x *Stations) GetTrackType() string {
+	if x != nil {
+		return x.TrackType
+	}
+	return ""
+}
+
+func (x *Stations) GetDaType() string {
+	if x != nil {
+		return x.DaType
+	}
+	return ""
+}
+
+func (x *Stations) GetProver() string {
+	if x != nil {
+		return x.Prover
+	}
+	return ""
+}
+
 var File_junction_junction_stations_proto protoreflect.FileDescriptor
 
 var file_junction_junction_stations_proto_rawDesc = []byte{
 	0x0a, 0x20, 0x6a, 0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x2f, 0x6a, 0x75, 0x6e, 0x63, 0x74,
 	0x69, 0x6f, 0x6e, 0x2f, 0x73, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x2e, 0x70, 0x72, 0x6f,
 	0x74, 0x6f, 0x12, 0x11, 0x6a, 0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x6a, 0x75, 0x6e,
-	0x63, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0xa0, 0x02, 0x0a, 0x08, 0x53, 0x74, 0x61, 0x74, 0x69, 0x6f,
+	0x63, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0xee, 0x02, 0x0a, 0x08, 0x53, 0x74, 0x61, 0x74, 0x69, 0x6f,
 	0x6e, 0x73, 0x12, 0x16, 0x0a, 0x06, 0x74, 0x72, 0x61, 0x63, 0x6b, 0x73, 0x18, 0x01, 0x20, 0x03,
 	0x28, 0x09, 0x52, 0x06, 0x74, 0x72, 0x61, 0x63, 0x6b, 0x73, 0x12, 0x20, 0x0a, 0x0b, 0x76, 0x6f,
 	0x74, 0x69, 0x6e, 0x67, 0x50, 0x6f, 0x77, 0x65, 0x72, 0x18, 0x02, 0x20, 0x03, 0x28, 0x04, 0x52,
@@ -1242,19 +1458,23 @@ var file_junction_junction_stations_proto_rawDesc = []byte{
 	0x18, 0x07, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x69, 0x64, 0x12, 0x18, 0x0a, 0x07, 0x63, 0x72,
 	0x65, 0x61, 0x74, 0x6f, 0x72, 0x18, 0x08, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x63, 0x72, 0x65,
 	0x61, 0x74, 0x6f, 0x72, 0x12, 0x12, 0x0a, 0x04, 0x73, 0x70, 0x73, 0x70, 0x18, 0x09, 0x20, 0x01,
-	0x28, 0x09, 0x52, 0x04, 0x73, 0x70, 0x73, 0x70, 0x42, 0xaf, 0x01, 0x0a, 0x15, 0x63, 0x6f, 0x6d,
-	0x2e, 0x6a, 0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x6a, 0x75, 0x6e, 0x63, 0x74, 0x69,
-	0x6f, 0x6e, 0x42, 0x0d, 0x53, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x50, 0x72, 0x6f, 0x74,
-	0x6f, 0x50, 0x01, 0x5a, 0x22, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x73, 0x64, 0x6b, 0x2e, 0x69,
-	0x6f, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x6a, 0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x2f, 0x6a,
-	0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0xa2, 0x02, 0x03, 0x4a, 0x4a, 0x58, 0xaa, 0x02, 0x11,
-	0x4a, 0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x4a, 0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f,
-	0x6e, 0xca, 0x02, 0x11, 0x4a, 0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x5c, 0x4a, 0x75, 0x6e,
-	0x63, 0x74, 0x69, 0x6f, 0x6e, 0xe2, 0x02, 0x1d, 0x4a, 0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e,
-	0x5c, 0x4a, 0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x5c, 0x47, 0x50, 0x42, 0x4d, 0x65, 0x74,
-	0x61, 0x64, 0x61, 0x74, 0x61, 0xea, 0x02, 0x12, 0x4a, 0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e,
-	0x3a, 0x3a, 0x4a, 0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74,
-	0x6f, 0x33,
+	0x28, 0x09, 0x52, 0x04, 0x73, 0x70, 0x73, 0x70, 0x12, 0x1c, 0x0a, 0x09, 0x74, 0x72, 0x61, 0x63,
+	0x6b, 0x54, 0x79, 0x70, 0x65, 0x18, 0x0a, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x74, 0x72, 0x61,
+	0x63, 0x6b, 0x54, 0x79, 0x70, 0x65, 0x12, 0x16, 0x0a, 0x06, 0x64, 0x61, 0x54, 0x79, 0x70, 0x65,
+	0x18, 0x0b, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x64, 0x61, 0x54, 0x79, 0x70, 0x65, 0x12, 0x16,
+	0x0a, 0x06, 0x70, 0x72, 0x6f, 0x76, 0x65, 0x72, 0x18, 0x0c, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06,
+	0x70, 0x72, 0x6f, 0x76, 0x65, 0x72, 0x42, 0xaf, 0x01, 0x0a, 0x15, 0x63, 0x6f, 0x6d, 0x2e, 0x6a,
+	0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x6a, 0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e,
+	0x42, 0x0d, 0x53, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50,
+	0x01, 0x5a, 0x22, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x73, 0x64, 0x6b, 0x2e, 0x69, 0x6f, 0x2f,
+	0x61, 0x70, 0x69, 0x2f, 0x6a, 0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x2f, 0x6a, 0x75, 0x6e,
+	0x63, 0x74, 0x69, 0x6f, 0x6e, 0xa2, 0x02, 0x03, 0x4a, 0x4a, 0x58, 0xaa, 0x02, 0x11, 0x4a, 0x75,
+	0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x4a, 0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0xca,
+	0x02, 0x11, 0x4a, 0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x5c, 0x4a, 0x75, 0x6e, 0x63, 0x74,
+	0x69, 0x6f, 0x6e, 0xe2, 0x02, 0x1d, 0x4a, 0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x5c, 0x4a,
+	0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x5c, 0x47, 0x50, 0x42, 0x4d, 0x65, 0x74, 0x61, 0x64,
+	0x61, 0x74, 0x61, 0xea, 0x02, 0x12, 0x4a, 0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x3a, 0x3a,
+	0x4a, 0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (

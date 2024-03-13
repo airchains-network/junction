@@ -50,6 +50,7 @@ message MsgInitStation {
   string stationId = 4;
   string stationInfo = 5;
   repeated uint64 tracksVotingPower = 6;
+  bytes extraArg = 7;
 }
 
 message MsgInitStationResponse {

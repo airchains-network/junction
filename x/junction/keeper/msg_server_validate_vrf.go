@@ -125,6 +125,9 @@ func (k msgServer) ValidateVrf(goCtx context.Context, msg *types.MsgValidateVrf)
 			Id:                   station.Id,
 			Creator:              station.Creator,
 			Spsp:                 spsp,
+			TrackType:            station.TrackType,
+			DaType:               station.DaType,
+			Prover:               station.Prover,
 		}
 		stationDataDB := prefix.NewStore(storeAdapter, types.KeyPrefix(types.StationDataKey))
 		byteStationId := []byte(station.Id)
