@@ -21,6 +21,10 @@ func (k Keeper) initStationHelper(ctx sdk.Context, station types.Stations, creat
 	if err != nil {
 		return status.Error(codes.InvalidArgument, "invalid verification key")
 	}
+	// checking len of tracks and voting power
+	if len(station.Tracks) != len(station.VotingPower) {
+		return status.Error(codes.InvalidArgument, "invalid tracks and voting power")
+	}
 
 	//	database of list of stations under each track member
 	stationRegistry := prefix.NewStore(storeAdapter, types.KeyPrefix(types.StationRegistryKeys))
