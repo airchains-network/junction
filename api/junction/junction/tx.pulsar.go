@@ -4767,8 +4767,8 @@ func (x *fastReflection_MsgInitiateVrf) Range(f func(protoreflect.FieldDescripto
 			return
 		}
 	}
-	if x.Occupancy != "" {
-		value := protoreflect.ValueOfString(x.Occupancy)
+	if x.Occupancy != uint64(0) {
+		value := protoreflect.ValueOfUint64(x.Occupancy)
 		if !f(fd_MsgInitiateVrf_occupancy, value) {
 			return
 		}
@@ -4807,7 +4807,7 @@ func (x *fastReflection_MsgInitiateVrf) Has(fd protoreflect.FieldDescriptor) boo
 	case "junction.junction.MsgInitiateVrf.stationId":
 		return x.StationId != ""
 	case "junction.junction.MsgInitiateVrf.occupancy":
-		return x.Occupancy != ""
+		return x.Occupancy != uint64(0)
 	case "junction.junction.MsgInitiateVrf.creatorsVrfKey":
 		return x.CreatorsVrfKey != ""
 	case "junction.junction.MsgInitiateVrf.extraArg":
@@ -4835,7 +4835,7 @@ func (x *fastReflection_MsgInitiateVrf) Clear(fd protoreflect.FieldDescriptor) {
 	case "junction.junction.MsgInitiateVrf.stationId":
 		x.StationId = ""
 	case "junction.junction.MsgInitiateVrf.occupancy":
-		x.Occupancy = ""
+		x.Occupancy = uint64(0)
 	case "junction.junction.MsgInitiateVrf.creatorsVrfKey":
 		x.CreatorsVrfKey = ""
 	case "junction.junction.MsgInitiateVrf.extraArg":
@@ -4867,7 +4867,7 @@ func (x *fastReflection_MsgInitiateVrf) Get(descriptor protoreflect.FieldDescrip
 		return protoreflect.ValueOfString(value)
 	case "junction.junction.MsgInitiateVrf.occupancy":
 		value := x.Occupancy
-		return protoreflect.ValueOfString(value)
+		return protoreflect.ValueOfUint64(value)
 	case "junction.junction.MsgInitiateVrf.creatorsVrfKey":
 		value := x.CreatorsVrfKey
 		return protoreflect.ValueOfString(value)
@@ -4901,7 +4901,7 @@ func (x *fastReflection_MsgInitiateVrf) Set(fd protoreflect.FieldDescriptor, val
 	case "junction.junction.MsgInitiateVrf.stationId":
 		x.StationId = value.Interface().(string)
 	case "junction.junction.MsgInitiateVrf.occupancy":
-		x.Occupancy = value.Interface().(string)
+		x.Occupancy = value.Uint()
 	case "junction.junction.MsgInitiateVrf.creatorsVrfKey":
 		x.CreatorsVrfKey = value.Interface().(string)
 	case "junction.junction.MsgInitiateVrf.extraArg":
@@ -4958,7 +4958,7 @@ func (x *fastReflection_MsgInitiateVrf) NewField(fd protoreflect.FieldDescriptor
 	case "junction.junction.MsgInitiateVrf.stationId":
 		return protoreflect.ValueOfString("")
 	case "junction.junction.MsgInitiateVrf.occupancy":
-		return protoreflect.ValueOfString("")
+		return protoreflect.ValueOfUint64(uint64(0))
 	case "junction.junction.MsgInitiateVrf.creatorsVrfKey":
 		return protoreflect.ValueOfString("")
 	case "junction.junction.MsgInitiateVrf.extraArg":
@@ -5043,9 +5043,8 @@ func (x *fastReflection_MsgInitiateVrf) ProtoMethods() *protoiface.Methods {
 		if l > 0 {
 			n += 1 + l + runtime.Sov(uint64(l))
 		}
-		l = len(x.Occupancy)
-		if l > 0 {
-			n += 1 + l + runtime.Sov(uint64(l))
+		if x.Occupancy != 0 {
+			n += 1 + runtime.Sov(uint64(x.Occupancy))
 		}
 		l = len(x.CreatorsVrfKey)
 		if l > 0 {
@@ -5098,12 +5097,10 @@ func (x *fastReflection_MsgInitiateVrf) ProtoMethods() *protoiface.Methods {
 			i--
 			dAtA[i] = 0x2a
 		}
-		if len(x.Occupancy) > 0 {
-			i -= len(x.Occupancy)
-			copy(dAtA[i:], x.Occupancy)
-			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.Occupancy)))
+		if x.Occupancy != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.Occupancy))
 			i--
-			dAtA[i] = 0x22
+			dAtA[i] = 0x20
 		}
 		if len(x.StationId) > 0 {
 			i -= len(x.StationId)
@@ -5257,10 +5254,10 @@ func (x *fastReflection_MsgInitiateVrf) ProtoMethods() *protoiface.Methods {
 				x.StationId = string(dAtA[iNdEx:postIndex])
 				iNdEx = postIndex
 			case 4:
-				if wireType != 2 {
+				if wireType != 0 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Occupancy", wireType)
 				}
-				var stringLen uint64
+				x.Occupancy = 0
 				for shift := uint(0); ; shift += 7 {
 					if shift >= 64 {
 						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
@@ -5270,24 +5267,11 @@ func (x *fastReflection_MsgInitiateVrf) ProtoMethods() *protoiface.Methods {
 					}
 					b := dAtA[iNdEx]
 					iNdEx++
-					stringLen |= uint64(b&0x7F) << shift
+					x.Occupancy |= uint64(b&0x7F) << shift
 					if b < 0x80 {
 						break
 					}
 				}
-				intStringLen := int(stringLen)
-				if intStringLen < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				postIndex := iNdEx + intStringLen
-				if postIndex < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				if postIndex > l {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-				}
-				x.Occupancy = string(dAtA[iNdEx:postIndex])
-				iNdEx = postIndex
 			case 5:
 				if wireType != 2 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field CreatorsVrfKey", wireType)
@@ -8609,7 +8593,7 @@ type MsgInitiateVrf struct {
 	Creator        string `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
 	PodNumber      uint64 `protobuf:"varint,2,opt,name=podNumber,proto3" json:"podNumber,omitempty"`
 	StationId      string `protobuf:"bytes,3,opt,name=stationId,proto3" json:"stationId,omitempty"`
-	Occupancy      string `protobuf:"bytes,4,opt,name=occupancy,proto3" json:"occupancy,omitempty"`
+	Occupancy      uint64 `protobuf:"varint,4,opt,name=occupancy,proto3" json:"occupancy,omitempty"`
 	CreatorsVrfKey string `protobuf:"bytes,5,opt,name=creatorsVrfKey,proto3" json:"creatorsVrfKey,omitempty"`
 	ExtraArg       []byte `protobuf:"bytes,6,opt,name=extraArg,proto3" json:"extraArg,omitempty"`
 }
@@ -8655,11 +8639,11 @@ func (x *MsgInitiateVrf) GetStationId() string {
 	return ""
 }
 
-func (x *MsgInitiateVrf) GetOccupancy() string {
+func (x *MsgInitiateVrf) GetOccupancy() uint64 {
 	if x != nil {
 		return x.Occupancy
 	}
-	return ""
+	return 0
 }
 
 func (x *MsgInitiateVrf) GetCreatorsVrfKey() string {
@@ -9010,7 +8994,7 @@ var file_junction_junction_tx_proto_rawDesc = []byte{
 	0x20, 0x01, 0x28, 0x04, 0x52, 0x09, 0x70, 0x6f, 0x64, 0x4e, 0x75, 0x6d, 0x62, 0x65, 0x72, 0x12,
 	0x1c, 0x0a, 0x09, 0x73, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x49, 0x64, 0x18, 0x03, 0x20, 0x01,
 	0x28, 0x09, 0x52, 0x09, 0x73, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x49, 0x64, 0x12, 0x1c, 0x0a,
-	0x09, 0x6f, 0x63, 0x63, 0x75, 0x70, 0x61, 0x6e, 0x63, 0x79, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09,
+	0x09, 0x6f, 0x63, 0x63, 0x75, 0x70, 0x61, 0x6e, 0x63, 0x79, 0x18, 0x04, 0x20, 0x01, 0x28, 0x04,
 	0x52, 0x09, 0x6f, 0x63, 0x63, 0x75, 0x70, 0x61, 0x6e, 0x63, 0x79, 0x12, 0x26, 0x0a, 0x0e, 0x63,
 	0x72, 0x65, 0x61, 0x74, 0x6f, 0x72, 0x73, 0x56, 0x72, 0x66, 0x4b, 0x65, 0x79, 0x18, 0x05, 0x20,
 	0x01, 0x28, 0x09, 0x52, 0x0e, 0x63, 0x72, 0x65, 0x61, 0x74, 0x6f, 0x72, 0x73, 0x56, 0x72, 0x66,

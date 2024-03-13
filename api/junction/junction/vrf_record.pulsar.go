@@ -26,6 +26,7 @@ var (
 	fd_VrfRecord_vrfOutput                protoreflect.FieldDescriptor
 	fd_VrfRecord_isVerified               protoreflect.FieldDescriptor
 	fd_VrfRecord_vrn                      protoreflect.FieldDescriptor
+	fd_VrfRecord_selectedTrackIndex       protoreflect.FieldDescriptor
 )
 
 func init() {
@@ -43,6 +44,7 @@ func init() {
 	fd_VrfRecord_vrfOutput = md_VrfRecord.Fields().ByName("vrfOutput")
 	fd_VrfRecord_isVerified = md_VrfRecord.Fields().ByName("isVerified")
 	fd_VrfRecord_vrn = md_VrfRecord.Fields().ByName("vrn")
+	fd_VrfRecord_selectedTrackIndex = md_VrfRecord.Fields().ByName("selectedTrackIndex")
 }
 
 var _ protoreflect.Message = (*fastReflection_VrfRecord)(nil)
@@ -134,8 +136,8 @@ func (x *fastReflection_VrfRecord) Range(f func(protoreflect.FieldDescriptor, pr
 			return
 		}
 	}
-	if x.Occupancy != "" {
-		value := protoreflect.ValueOfString(x.Occupancy)
+	if x.Occupancy != uint64(0) {
+		value := protoreflect.ValueOfUint64(x.Occupancy)
 		if !f(fd_VrfRecord_occupancy, value) {
 			return
 		}
@@ -182,6 +184,12 @@ func (x *fastReflection_VrfRecord) Range(f func(protoreflect.FieldDescriptor, pr
 			return
 		}
 	}
+	if x.SelectedTrackIndex != uint64(0) {
+		value := protoreflect.ValueOfUint64(x.SelectedTrackIndex)
+		if !f(fd_VrfRecord_selectedTrackIndex, value) {
+			return
+		}
+	}
 }
 
 // Has reports whether a field is populated.
@@ -206,7 +214,7 @@ func (x *fastReflection_VrfRecord) Has(fd protoreflect.FieldDescriptor) bool {
 	case "junction.junction.VrfRecord.stationId":
 		return x.StationId != ""
 	case "junction.junction.VrfRecord.occupancy":
-		return x.Occupancy != ""
+		return x.Occupancy != uint64(0)
 	case "junction.junction.VrfRecord.creatorsVrfKey":
 		return x.CreatorsVrfKey != ""
 	case "junction.junction.VrfRecord.serializedRcFromCreator":
@@ -221,6 +229,8 @@ func (x *fastReflection_VrfRecord) Has(fd protoreflect.FieldDescriptor) bool {
 		return x.IsVerified != false
 	case "junction.junction.VrfRecord.vrn":
 		return len(x.Vrn) != 0
+	case "junction.junction.VrfRecord.selectedTrackIndex":
+		return x.SelectedTrackIndex != uint64(0)
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: junction.junction.VrfRecord"))
@@ -246,7 +256,7 @@ func (x *fastReflection_VrfRecord) Clear(fd protoreflect.FieldDescriptor) {
 	case "junction.junction.VrfRecord.stationId":
 		x.StationId = ""
 	case "junction.junction.VrfRecord.occupancy":
-		x.Occupancy = ""
+		x.Occupancy = uint64(0)
 	case "junction.junction.VrfRecord.creatorsVrfKey":
 		x.CreatorsVrfKey = ""
 	case "junction.junction.VrfRecord.serializedRcFromCreator":
@@ -261,6 +271,8 @@ func (x *fastReflection_VrfRecord) Clear(fd protoreflect.FieldDescriptor) {
 		x.IsVerified = false
 	case "junction.junction.VrfRecord.vrn":
 		x.Vrn = nil
+	case "junction.junction.VrfRecord.selectedTrackIndex":
+		x.SelectedTrackIndex = uint64(0)
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: junction.junction.VrfRecord"))
@@ -291,7 +303,7 @@ func (x *fastReflection_VrfRecord) Get(descriptor protoreflect.FieldDescriptor) 
 		return protoreflect.ValueOfString(value)
 	case "junction.junction.VrfRecord.occupancy":
 		value := x.Occupancy
-		return protoreflect.ValueOfString(value)
+		return protoreflect.ValueOfUint64(value)
 	case "junction.junction.VrfRecord.creatorsVrfKey":
 		value := x.CreatorsVrfKey
 		return protoreflect.ValueOfString(value)
@@ -313,6 +325,9 @@ func (x *fastReflection_VrfRecord) Get(descriptor protoreflect.FieldDescriptor) 
 	case "junction.junction.VrfRecord.vrn":
 		value := x.Vrn
 		return protoreflect.ValueOfBytes(value)
+	case "junction.junction.VrfRecord.selectedTrackIndex":
+		value := x.SelectedTrackIndex
+		return protoreflect.ValueOfUint64(value)
 	default:
 		if descriptor.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: junction.junction.VrfRecord"))
@@ -342,7 +357,7 @@ func (x *fastReflection_VrfRecord) Set(fd protoreflect.FieldDescriptor, value pr
 	case "junction.junction.VrfRecord.stationId":
 		x.StationId = value.Interface().(string)
 	case "junction.junction.VrfRecord.occupancy":
-		x.Occupancy = value.Interface().(string)
+		x.Occupancy = value.Uint()
 	case "junction.junction.VrfRecord.creatorsVrfKey":
 		x.CreatorsVrfKey = value.Interface().(string)
 	case "junction.junction.VrfRecord.serializedRcFromCreator":
@@ -357,6 +372,8 @@ func (x *fastReflection_VrfRecord) Set(fd protoreflect.FieldDescriptor, value pr
 		x.IsVerified = value.Bool()
 	case "junction.junction.VrfRecord.vrn":
 		x.Vrn = value.Bytes()
+	case "junction.junction.VrfRecord.selectedTrackIndex":
+		x.SelectedTrackIndex = value.Uint()
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: junction.junction.VrfRecord"))
@@ -401,6 +418,8 @@ func (x *fastReflection_VrfRecord) Mutable(fd protoreflect.FieldDescriptor) prot
 		panic(fmt.Errorf("field isVerified of message junction.junction.VrfRecord is not mutable"))
 	case "junction.junction.VrfRecord.vrn":
 		panic(fmt.Errorf("field vrn of message junction.junction.VrfRecord is not mutable"))
+	case "junction.junction.VrfRecord.selectedTrackIndex":
+		panic(fmt.Errorf("field selectedTrackIndex of message junction.junction.VrfRecord is not mutable"))
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: junction.junction.VrfRecord"))
@@ -423,7 +442,7 @@ func (x *fastReflection_VrfRecord) NewField(fd protoreflect.FieldDescriptor) pro
 	case "junction.junction.VrfRecord.stationId":
 		return protoreflect.ValueOfString("")
 	case "junction.junction.VrfRecord.occupancy":
-		return protoreflect.ValueOfString("")
+		return protoreflect.ValueOfUint64(uint64(0))
 	case "junction.junction.VrfRecord.creatorsVrfKey":
 		return protoreflect.ValueOfString("")
 	case "junction.junction.VrfRecord.serializedRcFromCreator":
@@ -438,6 +457,8 @@ func (x *fastReflection_VrfRecord) NewField(fd protoreflect.FieldDescriptor) pro
 		return protoreflect.ValueOfBool(false)
 	case "junction.junction.VrfRecord.vrn":
 		return protoreflect.ValueOfBytes(nil)
+	case "junction.junction.VrfRecord.selectedTrackIndex":
+		return protoreflect.ValueOfUint64(uint64(0))
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: junction.junction.VrfRecord"))
@@ -523,9 +544,8 @@ func (x *fastReflection_VrfRecord) ProtoMethods() *protoiface.Methods {
 		if l > 0 {
 			n += 1 + l + runtime.Sov(uint64(l))
 		}
-		l = len(x.Occupancy)
-		if l > 0 {
-			n += 1 + l + runtime.Sov(uint64(l))
+		if x.Occupancy != 0 {
+			n += 1 + runtime.Sov(uint64(x.Occupancy))
 		}
 		l = len(x.CreatorsVrfKey)
 		if l > 0 {
@@ -553,6 +573,9 @@ func (x *fastReflection_VrfRecord) ProtoMethods() *protoiface.Methods {
 		l = len(x.Vrn)
 		if l > 0 {
 			n += 1 + l + runtime.Sov(uint64(l))
+		}
+		if x.SelectedTrackIndex != 0 {
+			n += 1 + runtime.Sov(uint64(x.SelectedTrackIndex))
 		}
 		if x.unknownFields != nil {
 			n += len(x.unknownFields)
@@ -582,6 +605,11 @@ func (x *fastReflection_VrfRecord) ProtoMethods() *protoiface.Methods {
 		if x.unknownFields != nil {
 			i -= len(x.unknownFields)
 			copy(dAtA[i:], x.unknownFields)
+		}
+		if x.SelectedTrackIndex != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.SelectedTrackIndex))
+			i--
+			dAtA[i] = 0x68
 		}
 		if len(x.Vrn) > 0 {
 			i -= len(x.Vrn)
@@ -635,12 +663,10 @@ func (x *fastReflection_VrfRecord) ProtoMethods() *protoiface.Methods {
 			i--
 			dAtA[i] = 0x32
 		}
-		if len(x.Occupancy) > 0 {
-			i -= len(x.Occupancy)
-			copy(dAtA[i:], x.Occupancy)
-			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.Occupancy)))
+		if x.Occupancy != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.Occupancy))
 			i--
-			dAtA[i] = 0x2a
+			dAtA[i] = 0x28
 		}
 		if len(x.StationId) > 0 {
 			i -= len(x.StationId)
@@ -848,10 +874,10 @@ func (x *fastReflection_VrfRecord) ProtoMethods() *protoiface.Methods {
 				x.StationId = string(dAtA[iNdEx:postIndex])
 				iNdEx = postIndex
 			case 5:
-				if wireType != 2 {
+				if wireType != 0 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Occupancy", wireType)
 				}
-				var stringLen uint64
+				x.Occupancy = 0
 				for shift := uint(0); ; shift += 7 {
 					if shift >= 64 {
 						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
@@ -861,24 +887,11 @@ func (x *fastReflection_VrfRecord) ProtoMethods() *protoiface.Methods {
 					}
 					b := dAtA[iNdEx]
 					iNdEx++
-					stringLen |= uint64(b&0x7F) << shift
+					x.Occupancy |= uint64(b&0x7F) << shift
 					if b < 0x80 {
 						break
 					}
 				}
-				intStringLen := int(stringLen)
-				if intStringLen < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				postIndex := iNdEx + intStringLen
-				if postIndex < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				if postIndex > l {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-				}
-				x.Occupancy = string(dAtA[iNdEx:postIndex])
-				iNdEx = postIndex
 			case 6:
 				if wireType != 2 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field CreatorsVrfKey", wireType)
@@ -1101,6 +1114,25 @@ func (x *fastReflection_VrfRecord) ProtoMethods() *protoiface.Methods {
 					x.Vrn = []byte{}
 				}
 				iNdEx = postIndex
+			case 13:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field SelectedTrackIndex", wireType)
+				}
+				x.SelectedTrackIndex = 0
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					x.SelectedTrackIndex |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
 			default:
 				iNdEx = preIndex
 				skippy, err := runtime.Skip(dAtA[iNdEx:])
@@ -1158,7 +1190,7 @@ type VrfRecord struct {
 	VrfVerifierAddr          string `protobuf:"bytes,2,opt,name=vrfVerifierAddr,proto3" json:"vrfVerifierAddr,omitempty"`
 	PodNumber                string `protobuf:"bytes,3,opt,name=podNumber,proto3" json:"podNumber,omitempty"`
 	StationId                string `protobuf:"bytes,4,opt,name=stationId,proto3" json:"stationId,omitempty"`
-	Occupancy                string `protobuf:"bytes,5,opt,name=occupancy,proto3" json:"occupancy,omitempty"`
+	Occupancy                uint64 `protobuf:"varint,5,opt,name=occupancy,proto3" json:"occupancy,omitempty"`
 	CreatorsVrfKey           string `protobuf:"bytes,6,opt,name=creatorsVrfKey,proto3" json:"creatorsVrfKey,omitempty"`
 	SerializedRcFromCreator  []byte `protobuf:"bytes,7,opt,name=serializedRcFromCreator,proto3" json:"serializedRcFromCreator,omitempty"`
 	SerializedRcFromVerifier []byte `protobuf:"bytes,8,opt,name=serializedRcFromVerifier,proto3" json:"serializedRcFromVerifier,omitempty"`
@@ -1166,6 +1198,7 @@ type VrfRecord struct {
 	VrfOutput                []byte `protobuf:"bytes,10,opt,name=vrfOutput,proto3" json:"vrfOutput,omitempty"`
 	IsVerified               bool   `protobuf:"varint,11,opt,name=isVerified,proto3" json:"isVerified,omitempty"`
 	Vrn                      []byte `protobuf:"bytes,12,opt,name=vrn,proto3" json:"vrn,omitempty"`
+	SelectedTrackIndex       uint64 `protobuf:"varint,13,opt,name=selectedTrackIndex,proto3" json:"selectedTrackIndex,omitempty"`
 }
 
 func (x *VrfRecord) Reset() {
@@ -1216,11 +1249,11 @@ func (x *VrfRecord) GetStationId() string {
 	return ""
 }
 
-func (x *VrfRecord) GetOccupancy() string {
+func (x *VrfRecord) GetOccupancy() uint64 {
 	if x != nil {
 		return x.Occupancy
 	}
-	return ""
+	return 0
 }
 
 func (x *VrfRecord) GetCreatorsVrfKey() string {
@@ -1272,13 +1305,20 @@ func (x *VrfRecord) GetVrn() []byte {
 	return nil
 }
 
+func (x *VrfRecord) GetSelectedTrackIndex() uint64 {
+	if x != nil {
+		return x.SelectedTrackIndex
+	}
+	return 0
+}
+
 var File_junction_junction_vrf_record_proto protoreflect.FileDescriptor
 
 var file_junction_junction_vrf_record_proto_rawDesc = []byte{
 	0x0a, 0x22, 0x6a, 0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x2f, 0x6a, 0x75, 0x6e, 0x63, 0x74,
 	0x69, 0x6f, 0x6e, 0x2f, 0x76, 0x72, 0x66, 0x5f, 0x72, 0x65, 0x63, 0x6f, 0x72, 0x64, 0x2e, 0x70,
 	0x72, 0x6f, 0x74, 0x6f, 0x12, 0x11, 0x6a, 0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x6a,
-	0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0xbb, 0x03, 0x0a, 0x09, 0x56, 0x72, 0x66, 0x52,
+	0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0xeb, 0x03, 0x0a, 0x09, 0x56, 0x72, 0x66, 0x52,
 	0x65, 0x63, 0x6f, 0x72, 0x64, 0x12, 0x26, 0x0a, 0x0e, 0x76, 0x72, 0x66, 0x43, 0x72, 0x65, 0x61,
 	0x74, 0x6f, 0x72, 0x41, 0x64, 0x64, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0e, 0x76,
 	0x72, 0x66, 0x43, 0x72, 0x65, 0x61, 0x74, 0x6f, 0x72, 0x41, 0x64, 0x64, 0x72, 0x12, 0x28, 0x0a,
@@ -1289,7 +1329,7 @@ var file_junction_junction_vrf_record_proto_rawDesc = []byte{
 	0x75, 0x6d, 0x62, 0x65, 0x72, 0x12, 0x1c, 0x0a, 0x09, 0x73, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e,
 	0x49, 0x64, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x73, 0x74, 0x61, 0x74, 0x69, 0x6f,
 	0x6e, 0x49, 0x64, 0x12, 0x1c, 0x0a, 0x09, 0x6f, 0x63, 0x63, 0x75, 0x70, 0x61, 0x6e, 0x63, 0x79,
-	0x18, 0x05, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x6f, 0x63, 0x63, 0x75, 0x70, 0x61, 0x6e, 0x63,
+	0x18, 0x05, 0x20, 0x01, 0x28, 0x04, 0x52, 0x09, 0x6f, 0x63, 0x63, 0x75, 0x70, 0x61, 0x6e, 0x63,
 	0x79, 0x12, 0x26, 0x0a, 0x0e, 0x63, 0x72, 0x65, 0x61, 0x74, 0x6f, 0x72, 0x73, 0x56, 0x72, 0x66,
 	0x4b, 0x65, 0x79, 0x18, 0x06, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0e, 0x63, 0x72, 0x65, 0x61, 0x74,
 	0x6f, 0x72, 0x73, 0x56, 0x72, 0x66, 0x4b, 0x65, 0x79, 0x12, 0x38, 0x0a, 0x17, 0x73, 0x65, 0x72,
@@ -1306,7 +1346,10 @@ var file_junction_junction_vrf_record_proto_rawDesc = []byte{
 	0x70, 0x75, 0x74, 0x12, 0x1e, 0x0a, 0x0a, 0x69, 0x73, 0x56, 0x65, 0x72, 0x69, 0x66, 0x69, 0x65,
 	0x64, 0x18, 0x0b, 0x20, 0x01, 0x28, 0x08, 0x52, 0x0a, 0x69, 0x73, 0x56, 0x65, 0x72, 0x69, 0x66,
 	0x69, 0x65, 0x64, 0x12, 0x10, 0x0a, 0x03, 0x76, 0x72, 0x6e, 0x18, 0x0c, 0x20, 0x01, 0x28, 0x0c,
-	0x52, 0x03, 0x76, 0x72, 0x6e, 0x42, 0xb0, 0x01, 0x0a, 0x15, 0x63, 0x6f, 0x6d, 0x2e, 0x6a, 0x75,
+	0x52, 0x03, 0x76, 0x72, 0x6e, 0x12, 0x2e, 0x0a, 0x12, 0x73, 0x65, 0x6c, 0x65, 0x63, 0x74, 0x65,
+	0x64, 0x54, 0x72, 0x61, 0x63, 0x6b, 0x49, 0x6e, 0x64, 0x65, 0x78, 0x18, 0x0d, 0x20, 0x01, 0x28,
+	0x04, 0x52, 0x12, 0x73, 0x65, 0x6c, 0x65, 0x63, 0x74, 0x65, 0x64, 0x54, 0x72, 0x61, 0x63, 0x6b,
+	0x49, 0x6e, 0x64, 0x65, 0x78, 0x42, 0xb0, 0x01, 0x0a, 0x15, 0x63, 0x6f, 0x6d, 0x2e, 0x6a, 0x75,
 	0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x6a, 0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x42,
 	0x0e, 0x56, 0x72, 0x66, 0x52, 0x65, 0x63, 0x6f, 0x72, 0x64, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50,
 	0x01, 0x5a, 0x22, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x73, 0x64, 0x6b, 0x2e, 0x69, 0x6f, 0x2f,

@@ -8,7 +8,7 @@ import (
 
 var _ sdk.Msg = &MsgInitiateVrf{}
 
-func NewMsgInitiateVrf(creator string, podNumber uint64, stationId string, occupancy string, creatorsVrfKey string, extraArg []byte) *MsgInitiateVrf {
+func NewMsgInitiateVrf(creator string, podNumber uint64, stationId string, occupancy uint64, creatorsVrfKey string, extraArg []byte) *MsgInitiateVrf {
 	return &MsgInitiateVrf{
 		Creator:        creator,
 		PodNumber:      podNumber,

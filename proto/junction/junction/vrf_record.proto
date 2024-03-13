@@ -9,7 +9,7 @@ message VrfRecord {
   string vrfVerifierAddr = 2; 
   string podNumber = 3; 
   string stationId = 4; 
-  string occupancy = 5; 
+  uint64 occupancy = 5;
   string creatorsVrfKey = 6; 
   bytes serializedRcFromCreator = 7; 
   bytes serializedRcFromVerifier = 8; 
@@ -17,4 +17,5 @@ message VrfRecord {
   bytes vrfOutput = 10; 
   bool isVerified = 11; 
   bytes vrn = 12;
+  uint64 selectedTrackIndex = 13;
 }

@@ -4,6 +4,8 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 	"strconv"
 
 	"cosmossdk.io/store/prefix"
@@ -18,6 +20,7 @@ func (k msgServer) SubmitPod(goCtx context.Context, msg *types.MsgSubmitPod) (*t
 	ctx := sdk.UnwrapSDKContext(goCtx)
 	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
 	var stationId = msg.StationId
+	var creator = msg.Creator
 
 	// check if station exists
 	station, err := k.getStationById(ctx, stationId)
@@ -45,23 +48,37 @@ func (k msgServer) SubmitPod(goCtx context.Context, msg *types.MsgSubmitPod) (*t
 	if station.LatestPod+1 != msg.PodNumber {
 		return &types.MsgSubmitPodResponse{
 			PodStatus: false,
-		}, sdkerrors.ErrInvalidHeight
+		}, status.Error(codes.FailedPrecondition, "pod number is not correct")
 	}
-
-	// submit pod
-	//Error := k.SubmitPodHelper(
-	//	ctx,
-	//	msg,
-	//)
-	//if Error != nil {
-	//	return &types.MsgSubmitPodResponse{
-	//		PodStatus: false,
-	//	}, Error
-	//}
 
 	var podNumber = msg.PodNumber
 	var previousMerkleRootHash = msg.PreviousMerkleRootHash
 	var publicWitness = msg.PublicWitness
+
+	vrfStoreKey, vrfStoreKeyByte := GetVRFKeyByte(stationId, podNumber) // "vrf/{stationId}/{podNumber}
+	vrfStore := prefix.NewStore(storeAdapter, types.KeyPrefix(vrfStoreKey))
+	vrfDetailsByte := vrfStore.Get(vrfStoreKeyByte)
+
+	if vrfDetailsByte == nil {
+		return &types.MsgSubmitPodResponse{
+			PodStatus: false,
+		}, status.Error(codes.NotFound, "vrf details not found")
+	}
+
+	var vrfDetails types.VrfRecord
+	k.cdc.MustUnmarshal(vrfDetailsByte, &vrfDetails)
+
+	if vrfDetails.IsVerified == false {
+		return &types.MsgSubmitPodResponse{
+			PodStatus: false,
+		}, status.Error(codes.FailedPrecondition, "vrf not verified")
+	}
+
+	if station.Spsp != creator {
+		return &types.MsgSubmitPodResponse{
+			PodStatus: false,
+		}, status.Error(codes.PermissionDenied, "not the selected pod submitter")
+	}
 
 	// check if witness format is correct
 	var witness fr.Vector
@@ -112,6 +129,4 @@ func (k msgServer) SubmitPod(goCtx context.Context, msg *types.MsgSubmitPod) (*t
 	return &types.MsgSubmitPodResponse{
 		PodStatus: true,
 	}, nil
-
-	return &types.MsgSubmitPodResponse{}, nil
 }

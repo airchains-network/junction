@@ -92,7 +92,7 @@ message MsgInitiateVrf {
   string creator = 1;
   uint64 podNumber = 2;
   string stationId = 3;
-  string occupancy = 4;
+  uint64 occupancy = 4;
   string creatorsVrfKey = 5;
   bytes  extraArg = 6;
 }

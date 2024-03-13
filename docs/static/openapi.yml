@@ -19365,6 +19365,7 @@ paths:
                 type: string
               occupancy:
                 type: string
+                format: uint64
               creatorsVrfKey:
                 type: string
               extraArg:
@@ -19663,6 +19664,7 @@ paths:
                     type: string
                   occupancy:
                     type: string
+                    format: uint64
                   creatorsVrfKey:
                     type: string
                   serializedRcFromCreator:
@@ -19682,6 +19684,9 @@ paths:
                   vrn:
                     type: string
                     format: byte
+                  selectedTrackIndex:
+                    type: string
+                    format: uint64
         default:
           description: An unexpected error response.
           schema:
@@ -28092,6 +28097,7 @@ definitions:
         type: string
       occupancy:
         type: string
+        format: uint64
       creatorsVrfKey:
         type: string
       extraArg:
@@ -28330,6 +28336,7 @@ definitions:
             type: string
           occupancy:
             type: string
+            format: uint64
           creatorsVrfKey:
             type: string
           serializedRcFromCreator:
@@ -28349,6 +28356,9 @@ definitions:
           vrn:
             type: string
             format: byte
+          selectedTrackIndex:
+            type: string
+            format: uint64
   junction.junction.QueryGetLatestSubmittedPodNumberResponse:
     type: object
     properties:
@@ -28618,6 +28628,7 @@ definitions:
         type: string
       occupancy:
         type: string
+        format: uint64
       creatorsVrfKey:
         type: string
       serializedRcFromCreator:
@@ -28637,3 +28648,6 @@ definitions:
       vrn:
         type: string
         format: byte
+      selectedTrackIndex:
+        type: string
+        format: uint64

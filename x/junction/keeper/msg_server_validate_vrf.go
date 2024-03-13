@@ -46,27 +46,11 @@ func (k msgServer) ValidateVrf(goCtx context.Context, msg *types.MsgValidateVrf)
 
 	// check if pod number is correct or not
 
-	if station.LatestPod != podNumber {
+	if station.LatestPod+1 != podNumber {
 		return &types.MsgValidateVrfResponse{
 			Success: false,
 		}, sdkerrors.ErrInvalidHeight
 	}
-
-	// !come here after completing the vrf validation logic
-	/*
-		here we have to first of all change the stations related messages and queries to the new structure
-		after that we have to add a new key in station type
-		which will tell us about the latest pod validated or not
-		after that we have to check here if the pod is already validated or not
-		if not then we have to validate the pod and then update the station
-		else we have to return the error
-	*/
-	// check if pod is already validated
-	// if station.LatestPodValidated {
-	// 	return &types.MsgValidateVrfResponse{
-	// 		Success: false,
-	// 	}, sdkerrors.ErrUnauthorized
-	// }
 
 	// get the vrf details from the store
 	vrfStoreKey, vrfStoreKeyByte := GetVRFKeyByte(stationId, podNumber) // "vrf/{stationId}/{podNumber}
@@ -109,6 +93,44 @@ func (k msgServer) ValidateVrf(goCtx context.Context, msg *types.MsgValidateVrf)
 			Success: false,
 		}, status.Error(codes.Internal, "error verifying proof")
 	} else {
+		//update the vrf details
+		var updateVrfRecord types.VrfRecord
+		updateVrfRecord.VrfCreatorAddr = vrfDetails.VrfCreatorAddr
+		updateVrfRecord.VrfVerifierAddr = creator
+		updateVrfRecord.PodNumber = vrfDetails.PodNumber
+		updateVrfRecord.StationId = vrfDetails.StationId
+		updateVrfRecord.Occupancy = vrfDetails.Occupancy
+		updateVrfRecord.CreatorsVrfKey = vrfDetails.CreatorsVrfKey
+		updateVrfRecord.SerializedRcFromCreator = vrfDetails.SerializedRcFromCreator
+		updateVrfRecord.SerializedRcFromVerifier = serializedRc
+		updateVrfRecord.Proof = vrfDetails.Proof
+		updateVrfRecord.VrfOutput = vrfDetails.VrfOutput
+		updateVrfRecord.IsVerified = true
+		updateVrfRecord.Vrn = vrfDetails.Vrn
+		updateVrfRecord.SelectedTrackIndex = vrfDetails.SelectedTrackIndex
+
+		vrfRecordByte := k.cdc.MustMarshal(&updateVrfRecord)
+		vrfStore.Set(vrfStoreKeyByte, vrfRecordByte)
+
+		stationTrack := station.Tracks
+		spsp := stationTrack[vrfDetails.SelectedTrackIndex]
+
+		updateStation := types.Stations{
+			Tracks:               stationTrack,
+			VotingPower:          station.VotingPower,
+			LatestPod:            station.LatestPod,
+			LatestMerkleRootHash: station.LatestMerkleRootHash,
+			VerificationKey:      station.VerificationKey,
+			StationInfo:          station.StationInfo,
+			Id:                   station.Id,
+			Creator:              station.Creator,
+			Spsp:                 spsp,
+		}
+		stationDataDB := prefix.NewStore(storeAdapter, types.KeyPrefix(types.StationDataKey))
+		byteStationId := []byte(station.Id)
+		byteStation := k.cdc.MustMarshal(&updateStation)
+		stationDataDB.Set(byteStationId, byteStation)
+
 		return &types.MsgValidateVrfResponse{
 			Success: true,
 		}, nil
