@@ -19516,6 +19516,12 @@ paths:
                     type: string
                   spsp:
                     type: string
+                  trackType:
+                    type: string
+                  daType:
+                    type: string
+                  prover:
+                    type: string
         default:
           description: An unexpected error response.
           schema:
@@ -19580,6 +19586,12 @@ paths:
                     creator:
                       type: string
                     spsp:
+                      type: string
+                    trackType:
+                      type: string
+                    daType:
+                      type: string
+                    prover:
                       type: string
               pagination:
                 type: object
@@ -19796,6 +19808,12 @@ paths:
                     creator:
                       type: string
                     spsp:
+                      type: string
+                    trackType:
+                      type: string
+                    daType:
+                      type: string
+                    prover:
                       type: string
               pagination:
                 type: object
@@ -28271,6 +28289,12 @@ definitions:
               type: string
             spsp:
               type: string
+            trackType:
+              type: string
+            daType:
+              type: string
+            prover:
+              type: string
       pagination:
         type: object
         properties:
@@ -28327,6 +28351,12 @@ definitions:
           creator:
             type: string
           spsp:
+            type: string
+          trackType:
+            type: string
+          daType:
+            type: string
+          prover:
             type: string
   junction.junction.QueryGetTracksResponse:
     type: object
@@ -28394,6 +28424,12 @@ definitions:
               type: string
             spsp:
               type: string
+            trackType:
+              type: string
+            daType:
+              type: string
+            prover:
+              type: string
       pagination:
         type: object
         properties:
@@ -28454,6 +28490,12 @@ definitions:
       creator:
         type: string
       spsp:
+        type: string
+      trackType:
+        type: string
+      daType:
+        type: string
+      prover:
         type: string
   junction.junction.VrfRecord:
     type: object
