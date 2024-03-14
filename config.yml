@@ -10,6 +10,7 @@ accounts:
       - 10000000000000000uevmos
       - 10000000000000000usdt
       - 10000000000000000utia
+      - 10000000000000000luna
   - name: diana
     coins:
       - 10000000000000000amf
@@ -20,6 +21,7 @@ accounts:
       - 10000000000000000uevmos
       - 10000000000000000usdt
       - 10000000000000000utia
+      - 10000000000000000luna
   - name: ethan
     coins:
       - 10000000000000000amf
@@ -30,6 +32,7 @@ accounts:
       - 10000000000000000uevmos
       - 10000000000000000usdt
       - 10000000000000000utia
+      - 10000000000000000luna
   - name: fiona
     coins:
       - 10000000000000000amf
@@ -40,6 +43,7 @@ accounts:
       - 10000000000000000uevmos
       - 10000000000000000usdt
       - 10000000000000000utia
+      - 10000000000000000luna
   - name: george
     coins:
       - 10000000000000000amf
@@ -50,6 +54,7 @@ accounts:
       - 10000000000000000uevmos
       - 10000000000000000usdt
       - 10000000000000000utia
+      - 10000000000000000luna
 client:
   openapi:
     path: docs/static/openapi.yml
