@@ -15,3 +15,7 @@ Your uname -a:			Darwin 192.168.1.17 23.3.0 Darwin Kernel Version 23.3.0: Wed De
 Your cwd:			/Volumes/Code/Office_Work/blockchain/Testnet/junction-new
 Is on Gitpod:			false
 ```
+
+
+The versioning of this junction is `tdctv1`  
+it means `testnet development cloud testing version 1

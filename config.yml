@@ -1,18 +1,34 @@
 version: 1
 accounts:
-- name: alice
-  coins:
-  - 1000000000stake
-- name: bob
-  coins:
-  - 1000000000stake
+  - name: charlie
+    coins:
+      - 10000000000000000amf
+      - 10000000000000000stake
+  - name: diana
+    coins:
+      - 10000000000000000amf
+      - 10000000000000000stake
+  - name: ethan
+    coins:
+      - 10000000000000000amf
+      - 10000000000000000stake
+  - name: fiona
+    coins:
+      - 10000000000000000amf
+      - 10000000000000000stake
+  - name: george
+    coins:
+      - 10000000000000000amf
+      - 10000000000000000stake
 client:
   openapi:
     path: docs/static/openapi.yml
 faucet:
-  name: bob
+  name: diana
   coins:
-  - 5stake
+    - 500000amf
+    - 500000stake
+  coins_max: ["100000000amf", "10000000stake"]
 validators:
-- name: alice
-  bonded: 100000000stake
+  - name: charlie
+    bonded: 1000000000000000stake
