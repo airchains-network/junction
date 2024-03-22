@@ -3,8 +3,8 @@ package junction
 import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/ComputerKeeda/junction/x/junction/keeper"
-	"github.com/ComputerKeeda/junction/x/junction/types"
+	"github.com/airchains-network/junction/x/junction/keeper"
+	"github.com/airchains-network/junction/x/junction/types"
 )
 
 // InitGenesis initializes the module's state from a provided genesis state.

@@ -20,9 +20,9 @@ import (
 
 	// this line is used by starport scaffolding # 1
 
-	modulev1 "github.com/ComputerKeeda/junction/api/junction/junction/module"
-	"github.com/ComputerKeeda/junction/x/junction/keeper"
-	"github.com/ComputerKeeda/junction/x/junction/types"
+	modulev1 "github.com/airchains-network/junction/api/junction/junction/module"
+	"github.com/airchains-network/junction/x/junction/keeper"
+	"github.com/airchains-network/junction/x/junction/types"
 )
 
 var (

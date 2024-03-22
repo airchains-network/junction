@@ -53,9 +53,9 @@ import (
 	ibcexported "github.com/cosmos/ibc-go/v8/modules/core/exported"
 	"google.golang.org/protobuf/types/known/durationpb"
 
-	junctionmodulev1 "github.com/ComputerKeeda/junction/api/junction/junction/module"
-	_ "github.com/ComputerKeeda/junction/x/junction/module" // import for side-effects
-	junctionmoduletypes "github.com/ComputerKeeda/junction/x/junction/types"
+	junctionmodulev1 "github.com/airchains-network/junction/api/junction/junction/module"
+	_ "github.com/airchains-network/junction/x/junction/module" // import for side-effects
+	junctionmoduletypes "github.com/airchains-network/junction/x/junction/types"
 	// this line is used by starport scaffolding # stargate/app/moduleImport
 )
 

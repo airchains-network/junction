@@ -3,7 +3,7 @@ package keeper
 import (
 	"context"
 	"encoding/json"
-	"github.com/ComputerKeeda/junction/x/junction/types"
+	"github.com/airchains-network/junction/x/junction/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 )
 

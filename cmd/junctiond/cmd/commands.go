@@ -25,7 +25,7 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 
-	"github.com/ComputerKeeda/junction/app"
+	"github.com/airchains-network/junction/app"
 )
 
 func initRootCmd(

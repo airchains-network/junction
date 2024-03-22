@@ -3,8 +3,8 @@ package simulation
 import (
 	"math/rand"
 
-	"github.com/ComputerKeeda/junction/x/junction/keeper"
-	"github.com/ComputerKeeda/junction/x/junction/types"
+	"github.com/airchains-network/junction/x/junction/keeper"
+	"github.com/airchains-network/junction/x/junction/types"
 	"github.com/cosmos/cosmos-sdk/baseapp"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"

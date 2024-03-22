@@ -17,8 +17,8 @@ import (
 	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
 	"github.com/stretchr/testify/require"
 
-	"github.com/ComputerKeeda/junction/x/junction/keeper"
-	"github.com/ComputerKeeda/junction/x/junction/types"
+	"github.com/airchains-network/junction/x/junction/keeper"
+	"github.com/airchains-network/junction/x/junction/types"
 )
 
 func JunctionKeeper(t testing.TB) (keeper.Keeper, sdk.Context) {

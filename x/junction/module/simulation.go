@@ -8,9 +8,9 @@ import (
 	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
 	"github.com/cosmos/cosmos-sdk/x/simulation"
 
-	"github.com/ComputerKeeda/junction/testutil/sample"
-	junctionsimulation "github.com/ComputerKeeda/junction/x/junction/simulation"
-	"github.com/ComputerKeeda/junction/x/junction/types"
+	"github.com/airchains-network/junction/testutil/sample"
+	junctionsimulation "github.com/airchains-network/junction/x/junction/simulation"
+	"github.com/airchains-network/junction/x/junction/types"
 )
 
 // avoid unused import issue

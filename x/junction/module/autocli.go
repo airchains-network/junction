@@ -3,7 +3,7 @@ package junction
 import (
 	autocliv1 "cosmossdk.io/api/cosmos/autocli/v1"
 
-	modulev1 "github.com/ComputerKeeda/junction/api/junction/junction"
+	modulev1 "github.com/airchains-network/junction/api/junction/junction"
 )
 
 // AutoCLIOptions implements the autocli.HasAutoCLIConfig interface.

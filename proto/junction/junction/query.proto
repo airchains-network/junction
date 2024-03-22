@@ -11,7 +11,7 @@ import "junction/junction/stations.proto";
 import "junction/junction/pods.proto";
 import "junction/junction/vrf_record.proto";
 
-option go_package = "github.com/ComputerKeeda/junction/x/junction/types";
+option go_package = "github.com/airchains-network/junction/x/junction/types";
 
 // Query defines the gRPC querier service.
 service Query {

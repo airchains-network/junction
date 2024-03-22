@@ -1,7 +1,7 @@
 syntax = "proto3";
 package junction.junction;
 
-option go_package = "github.com/ComputerKeeda/junction/x/junction/types";
+option go_package = "github.com/airchains-network/junction/x/junction/types";
 
 message Pods {
   

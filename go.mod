@@ -1,4 +1,4 @@
-module github.com/ComputerKeeda/junction
+module github.com/airchains-network/junction
 
 go 1.21
 

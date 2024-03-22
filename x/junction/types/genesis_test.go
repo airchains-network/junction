@@ -3,7 +3,7 @@ package types_test
 import (
 	"testing"
 
-	"github.com/ComputerKeeda/junction/x/junction/types"
+	"github.com/airchains-network/junction/x/junction/types"
 	"github.com/stretchr/testify/require"
 )
 

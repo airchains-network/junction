@@ -5,8 +5,8 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	keepertest "github.com/ComputerKeeda/junction/testutil/keeper"
-	"github.com/ComputerKeeda/junction/x/junction/types"
+	keepertest "github.com/airchains-network/junction/testutil/keeper"
+	"github.com/airchains-network/junction/x/junction/types"
 )
 
 func TestParamsQuery(t *testing.T) {

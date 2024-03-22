@@ -6,8 +6,8 @@ import (
 	"strconv"
 
 	"cosmossdk.io/store/prefix"
-	"github.com/ComputerKeeda/junction/x/junction/types"
 	bls12381 "github.com/airchains-network/gnark/backend/groth16/bls12-381"
+	"github.com/airchains-network/junction/x/junction/types"
 	"github.com/consensys/gnark-crypto/ecc/bls12-381/fr"
 	"github.com/cosmos/cosmos-sdk/runtime"
 	sdk "github.com/cosmos/cosmos-sdk/types"
