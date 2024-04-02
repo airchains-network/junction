@@ -51,6 +51,10 @@ const (
 	// TODO: Determine the simulation weight value
 	defaultWeightMsgAddNewTrack int = 100
 
+	opWeightMsgRemoveTrack = "op_weight_msg_remove_track"
+	// TODO: Determine the simulation weight value
+	defaultWeightMsgRemoveTrack int = 100
+
 	// this line is used by starport scaffolding # simapp/module/const
 )
 
@@ -156,6 +160,17 @@ func (am AppModule) WeightedOperations(simState module.SimulationState) []simtyp
 		junctionsimulation.SimulateMsgAddNewTrack(am.accountKeeper, am.bankKeeper, am.keeper),
 	))
 
+	var weightMsgRemoveTrack int
+	simState.AppParams.GetOrGenerate(opWeightMsgRemoveTrack, &weightMsgRemoveTrack, nil,
+		func(_ *rand.Rand) {
+			weightMsgRemoveTrack = defaultWeightMsgRemoveTrack
+		},
+	)
+	operations = append(operations, simulation.NewWeightedOperation(
+		weightMsgRemoveTrack,
+		junctionsimulation.SimulateMsgRemoveTrack(am.accountKeeper, am.bankKeeper, am.keeper),
+	))
+
 	// this line is used by starport scaffolding # simapp/module/operation
 
 	return operations
@@ -217,6 +232,14 @@ func (am AppModule) ProposalMsgs(simState module.SimulationState) []simtypes.Wei
 			defaultWeightMsgAddNewTrack,
 			func(r *rand.Rand, ctx sdk.Context, accs []simtypes.Account) sdk.Msg {
 				junctionsimulation.SimulateMsgAddNewTrack(am.accountKeeper, am.bankKeeper, am.keeper)
+				return nil
+			},
+		),
+		simulation.NewWeightedProposalMsg(
+			opWeightMsgRemoveTrack,
+			defaultWeightMsgRemoveTrack,
+			func(r *rand.Rand, ctx sdk.Context, accs []simtypes.Account) sdk.Msg {
+				junctionsimulation.SimulateMsgRemoveTrack(am.accountKeeper, am.bankKeeper, am.keeper)
 				return nil
 			},
 		),

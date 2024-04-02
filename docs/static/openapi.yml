@@ -20000,18 +20000,21 @@ paths:
                 type: string
               newTrackVotingPower:
                 type: string
+                format: uint64
               signatures:
                 type: array
                 items:
                   type: string
+                  format: byte
               votes:
                 type: array
                 items:
-                  type: string
+                  type: boolean
               publicKeys:
                 type: array
                 items:
                   type: string
+                  format: byte
       tags:
         - Msg
   /junction.junction.Msg/InitStation:
@@ -20185,6 +20188,62 @@ paths:
                 items:
                   type: string
                   format: byte
+      tags:
+        - Msg
+  /junction.junction.Msg/RemoveTrack:
+    post:
+      operationId: JunctionJunctionMsg_RemoveTrack
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              creator:
+                type: string
+              stationId:
+                type: string
+              trackAddress:
+                type: string
+              signatures:
+                type: array
+                items:
+                  type: string
+              votes:
+                type: array
+                items:
+                  type: string
+              publicKeys:
+                type: array
+                items:
+                  type: string
       tags:
         - Msg
   /junction.junction.Msg/SubmitPod:
@@ -28602,18 +28661,21 @@ definitions:
         type: string
       newTrackVotingPower:
         type: string
+        format: uint64
       signatures:
         type: array
         items:
           type: string
+          format: byte
       votes:
         type: array
         items:
-          type: string
+          type: boolean
       publicKeys:
         type: array
         items:
           type: string
+          format: byte
   junction.junction.MsgAddNewTrackResponse:
     type: object
     properties:
@@ -28698,6 +28760,32 @@ definitions:
           type: string
           format: byte
   junction.junction.MsgProcessVrfDisputeResponse:
+    type: object
+    properties:
+      success:
+        type: boolean
+  junction.junction.MsgRemoveTrack:
+    type: object
+    properties:
+      creator:
+        type: string
+      stationId:
+        type: string
+      trackAddress:
+        type: string
+      signatures:
+        type: array
+        items:
+          type: string
+      votes:
+        type: array
+        items:
+          type: string
+      publicKeys:
+        type: array
+        items:
+          type: string
+  junction.junction.MsgRemoveTrackResponse:
     type: object
     properties:
       success:

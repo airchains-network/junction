@@ -126,6 +126,12 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					Short:          "Send a add_new_track tx",
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "stationId"}, {ProtoField: "newTrackAddress"}, {ProtoField: "newTrackVotingPower"}, {ProtoField: "signatures"}, {ProtoField: "votes"}, {ProtoField: "publicKeys"}},
 				},
+				{
+					RpcMethod:      "RemoveTrack",
+					Use:            "remove-track [station-id] [track-address] [signatures] [votes] [public-keys]",
+					Short:          "Send a remove_track tx",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "stationId"}, {ProtoField: "trackAddress"}, {ProtoField: "signatures"}, {ProtoField: "votes"}, {ProtoField: "publicKeys"}},
+				},
 				// this line is used by ignite scaffolding # autocli/tx
 			},
 		},
