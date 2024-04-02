@@ -25,14 +25,14 @@ func (k Keeper) initStationHelper(ctx sdk.Context, station types.Stations, creat
 	if len(station.Tracks) != len(station.VotingPower) {
 		return status.Error(codes.InvalidArgument, "invalid tracks and voting power")
 	}
-	// checking the sum of voting power
-	var sum uint64
-	for _, vp := range station.VotingPower {
-		sum += vp
-	}
-	if sum != 100 {
-		return status.Error(codes.InvalidArgument, "invalid voting power")
-	}
+	//// checking the sum of voting power
+	//var sum uint64
+	//for _, vp := range station.VotingPower {
+	//	sum += vp
+	//}
+	//if sum != 100 {
+	//	return status.Error(codes.InvalidArgument, "invalid voting power")
+	//}
 
 	//	database of list of stations under each track member
 	stationRegistry := prefix.NewStore(storeAdapter, types.KeyPrefix(types.StationRegistryKeys))

@@ -120,6 +120,12 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					Short:          "Send a process_vrf_dispute tx",
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "podNumber"}, {ProtoField: "stationId"}, {ProtoField: "signatures"}, {ProtoField: "votes"}, {ProtoField: "publicKeys"}},
 				},
+				{
+					RpcMethod:      "AddNewTrack",
+					Use:            "add-new-track [station-id] [new-track-address] [new-track-voting-power] [signatures] [votes] [public-keys]",
+					Short:          "Send a add_new_track tx",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "stationId"}, {ProtoField: "newTrackAddress"}, {ProtoField: "newTrackVotingPower"}, {ProtoField: "signatures"}, {ProtoField: "votes"}, {ProtoField: "publicKeys"}},
+				},
 				// this line is used by ignite scaffolding # autocli/tx
 			},
 		},

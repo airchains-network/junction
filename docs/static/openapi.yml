@@ -19956,6 +19956,64 @@ paths:
                   additionalProperties: {}
       tags:
         - Query
+  /junction.junction.Msg/AddNewTrack:
+    post:
+      operationId: JunctionJunctionMsg_AddNewTrack
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              creator:
+                type: string
+              stationId:
+                type: string
+              newTrackAddress:
+                type: string
+              newTrackVotingPower:
+                type: string
+              signatures:
+                type: array
+                items:
+                  type: string
+              votes:
+                type: array
+                items:
+                  type: string
+              publicKeys:
+                type: array
+                items:
+                  type: string
+      tags:
+        - Msg
   /junction.junction.Msg/InitStation:
     post:
       operationId: JunctionJunctionMsg_InitStation
@@ -28533,6 +28591,34 @@ definitions:
       selectedTrackIndex:
         type: string
         format: uint64
+  junction.junction.MsgAddNewTrack:
+    type: object
+    properties:
+      creator:
+        type: string
+      stationId:
+        type: string
+      newTrackAddress:
+        type: string
+      newTrackVotingPower:
+        type: string
+      signatures:
+        type: array
+        items:
+          type: string
+      votes:
+        type: array
+        items:
+          type: string
+      publicKeys:
+        type: array
+        items:
+          type: string
+  junction.junction.MsgAddNewTrackResponse:
+    type: object
+    properties:
+      success:
+        type: boolean
   junction.junction.MsgInitStation:
     type: object
     properties:

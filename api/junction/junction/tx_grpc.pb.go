@@ -26,6 +26,7 @@ const (
 	Msg_InitiateVrf_FullMethodName       = "/junction.junction.Msg/InitiateVrf"
 	Msg_ValidateVrf_FullMethodName       = "/junction.junction.Msg/ValidateVrf"
 	Msg_ProcessVrfDispute_FullMethodName = "/junction.junction.Msg/ProcessVrfDispute"
+	Msg_AddNewTrack_FullMethodName       = "/junction.junction.Msg/AddNewTrack"
 )
 
 // MsgClient is the client API for Msg service.
@@ -41,6 +42,7 @@ type MsgClient interface {
 	InitiateVrf(ctx context.Context, in *MsgInitiateVrf, opts ...grpc.CallOption) (*MsgInitiateVrfResponse, error)
 	ValidateVrf(ctx context.Context, in *MsgValidateVrf, opts ...grpc.CallOption) (*MsgValidateVrfResponse, error)
 	ProcessVrfDispute(ctx context.Context, in *MsgProcessVrfDispute, opts ...grpc.CallOption) (*MsgProcessVrfDisputeResponse, error)
+	AddNewTrack(ctx context.Context, in *MsgAddNewTrack, opts ...grpc.CallOption) (*MsgAddNewTrackResponse, error)
 }
 
 type msgClient struct {
@@ -114,6 +116,15 @@ func (c *msgClient) ProcessVrfDispute(ctx context.Context, in *MsgProcessVrfDisp
 	return out, nil
 }
 
+func (c *msgClient) AddNewTrack(ctx context.Context, in *MsgAddNewTrack, opts ...grpc.CallOption) (*MsgAddNewTrackResponse, error) {
+	out := new(MsgAddNewTrackResponse)
+	err := c.cc.Invoke(ctx, Msg_AddNewTrack_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MsgServer is the server API for Msg service.
 // All implementations must embed UnimplementedMsgServer
 // for forward compatibility
@@ -127,6 +138,7 @@ type MsgServer interface {
 	InitiateVrf(context.Context, *MsgInitiateVrf) (*MsgInitiateVrfResponse, error)
 	ValidateVrf(context.Context, *MsgValidateVrf) (*MsgValidateVrfResponse, error)
 	ProcessVrfDispute(context.Context, *MsgProcessVrfDispute) (*MsgProcessVrfDisputeResponse, error)
+	AddNewTrack(context.Context, *MsgAddNewTrack) (*MsgAddNewTrackResponse, error)
 	mustEmbedUnimplementedMsgServer()
 }
 
@@ -154,6 +166,9 @@ func (UnimplementedMsgServer) ValidateVrf(context.Context, *MsgValidateVrf) (*Ms
 }
 func (UnimplementedMsgServer) ProcessVrfDispute(context.Context, *MsgProcessVrfDispute) (*MsgProcessVrfDisputeResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ProcessVrfDispute not implemented")
+}
+func (UnimplementedMsgServer) AddNewTrack(context.Context, *MsgAddNewTrack) (*MsgAddNewTrackResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddNewTrack not implemented")
 }
 func (UnimplementedMsgServer) mustEmbedUnimplementedMsgServer() {}
 
@@ -294,6 +309,24 @@ func _Msg_ProcessVrfDispute_Handler(srv interface{}, ctx context.Context, dec fu
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Msg_AddNewTrack_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgAddNewTrack)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).AddNewTrack(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Msg_AddNewTrack_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).AddNewTrack(ctx, req.(*MsgAddNewTrack))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Msg_ServiceDesc is the grpc.ServiceDesc for Msg service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -328,6 +361,10 @@ var Msg_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ProcessVrfDispute",
 			Handler:    _Msg_ProcessVrfDispute_Handler,
+		},
+		{
+			MethodName: "AddNewTrack",
+			Handler:    _Msg_AddNewTrack_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

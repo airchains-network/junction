@@ -13,27 +13,28 @@ option go_package = "github.com/airchains-network/junction/x/junction/types";
 // Msg defines the Msg service.
 service Msg {
   option (cosmos.msg.v1.service) = true;
-
+  
   // UpdateParams defines a (governance) operation for updating the module
   // parameters. The authority defaults to the x/gov module account.
-  rpc UpdateParams      (MsgUpdateParams) returns (MsgUpdateParamsResponse);
-  rpc InitStation       (MsgInitStation) returns (MsgInitStationResponse);
-  rpc SubmitPod         (MsgSubmitPod) returns (MsgSubmitPodResponse);
-  rpc VerifyPod         (MsgVerifyPod) returns (MsgVerifyPodResponse);
-  rpc InitiateVrf       (MsgInitiateVrf) returns (MsgInitiateVrfResponse);
-  rpc ValidateVrf       (MsgValidateVrf) returns (MsgValidateVrfResponse);
+  rpc UpdateParams      (MsgUpdateParams     ) returns (MsgUpdateParamsResponse     );
+  rpc InitStation       (MsgInitStation      ) returns (MsgInitStationResponse      );
+  rpc SubmitPod         (MsgSubmitPod        ) returns (MsgSubmitPodResponse        );
+  rpc VerifyPod         (MsgVerifyPod        ) returns (MsgVerifyPodResponse        );
+  rpc InitiateVrf       (MsgInitiateVrf      ) returns (MsgInitiateVrfResponse      );
+  rpc ValidateVrf       (MsgValidateVrf      ) returns (MsgValidateVrfResponse      );
   rpc ProcessVrfDispute (MsgProcessVrfDispute) returns (MsgProcessVrfDisputeResponse);
+  rpc AddNewTrack       (MsgAddNewTrack      ) returns (MsgAddNewTrackResponse      );
 }
 // MsgUpdateParams is the Msg/UpdateParams request type.
 message MsgUpdateParams {
-  option (cosmos.msg.v1.signer) = "authority";
+  option (cosmos.msg.v1.signer) =                           "authority";
   option           (amino.name) = "junction/x/junction/MsgUpdateParams";
-
+  
   // authority is the address that controls the module (defaults to x/gov unless overwritten).
   string authority = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
 
   // params defines the module parameters to update.
-
+  
   // NOTE: All parameters must be supplied.
   Params params = 2 [(gogoproto.nullable) = false, (amino.dont_omitempty) = true];
 }
@@ -44,29 +45,29 @@ message MsgUpdateParamsResponse {}
 
 message MsgInitStation {
   option (cosmos.msg.v1.signer) = "creator";
-  string creator = 1;
-  repeated string tracks = 2;
-  bytes  verificationKey = 3;
-  string stationId = 4;
-  string stationInfo = 5;
+           string creator           = 1;
+  repeated string tracks            = 2;
+           bytes  verificationKey   = 3;
+           string stationId         = 4;
+           string stationInfo       = 5;
   repeated uint64 tracksVotingPower = 6;
-  bytes extraArg = 7;
+           bytes  extraArg          = 7;
 }
 
 message MsgInitStationResponse {
-  bool   status = 1;
+  bool   status    = 1;
   string stationId = 2;
 }
 
 message MsgSubmitPod {
   option (cosmos.msg.v1.signer) = "creator";
-  string creator = 1;
-  string stationId = 2;
-  uint64 podNumber = 3;
-  string merkleRootHash = 4;
+  string creator                = 1;
+  string stationId              = 2;
+  uint64 podNumber              = 3;
+  string merkleRootHash         = 4;
   string previousMerkleRootHash = 5;
-  bytes  publicWitness = 6;
-  string timestamp = 7;
+  bytes  publicWitness          = 6;
+  string timestamp              = 7;
 }
 
 message MsgSubmitPodResponse {
@@ -75,27 +76,27 @@ message MsgSubmitPodResponse {
 
 message MsgVerifyPod {
   option (cosmos.msg.v1.signer) = "creator";
-  string creator = 1;
-  string stationId = 2;
-  uint64 podNumber = 3;
-  string merkleRootHash = 4;
+  string creator                = 1;
+  string stationId              = 2;
+  uint64 podNumber              = 3;
+  string merkleRootHash         = 4;
   string previousMerkleRootHash = 5;
-  bytes  zkProof = 6;
+  bytes  zkProof                = 6;
 }
 
 message MsgVerifyPodResponse {
-  string message = 1;
+  string message    = 1;
   bool   isVerified = 2;
 }
 
 message MsgInitiateVrf {
   option (cosmos.msg.v1.signer) = "creator";
-  string creator = 1;
-  uint64 podNumber = 2;
-  string stationId = 3;
-  uint64 occupancy = 4;
+  string creator        = 1;
+  uint64 podNumber      = 2;
+  string stationId      = 3;
+  uint64 occupancy      = 4;
   string creatorsVrfKey = 5;
-  bytes  extraArg = 6;
+  bytes  extraArg       = 6;
 }
 
 message MsgInitiateVrfResponse {
@@ -104,9 +105,9 @@ message MsgInitiateVrfResponse {
 
 message MsgValidateVrf {
   option (cosmos.msg.v1.signer) = "creator";
-  string creator = 1;
-  string stationId = 2;
-  uint64 podNumber = 3;
+  string creator      = 1;
+  string stationId    = 2;
+  uint64 podNumber    = 3;
   bytes  serializedRc = 4;
 }
 
@@ -116,15 +117,30 @@ message MsgValidateVrfResponse {
 
 message MsgProcessVrfDispute {
   option (cosmos.msg.v1.signer) = "creator";
-  string creator = 1;
-  uint64 podNumber = 2;
-  string stationId = 3;
-  repeated bytes signatures = 4;
-  repeated bool votes = 5;
-  repeated bytes publicKeys = 6;
+           string creator    = 1;
+           uint64 podNumber  = 2;
+           string stationId  = 3;
+  repeated bytes  signatures = 4;
+  repeated bool   votes      = 5;
+  repeated bytes  publicKeys = 6;
 }
 
 message MsgProcessVrfDisputeResponse {
+  bool success = 1;
+}
+
+message MsgAddNewTrack {
+  option (cosmos.msg.v1.signer) = "creator";
+           string creator             = 1;
+           string stationId           = 2;
+           string newTrackAddress     = 3;
+           uint64 newTrackVotingPower = 4;
+  repeated bytes signatures          = 5;
+  repeated bool votes               = 6;
+  repeated bytes publicKeys          = 7;
+}
+
+message MsgAddNewTrackResponse {
   bool success = 1;
 }
 

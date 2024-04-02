@@ -47,6 +47,10 @@ const (
 	// TODO: Determine the simulation weight value
 	defaultWeightMsgProcessVrfDispute int = 100
 
+	opWeightMsgAddNewTrack = "op_weight_msg_add_new_track"
+	// TODO: Determine the simulation weight value
+	defaultWeightMsgAddNewTrack int = 100
+
 	// this line is used by starport scaffolding # simapp/module/const
 )
 
@@ -141,6 +145,17 @@ func (am AppModule) WeightedOperations(simState module.SimulationState) []simtyp
 		junctionsimulation.SimulateMsgProcessVrfDispute(am.accountKeeper, am.bankKeeper, am.keeper),
 	))
 
+	var weightMsgAddNewTrack int
+	simState.AppParams.GetOrGenerate(opWeightMsgAddNewTrack, &weightMsgAddNewTrack, nil,
+		func(_ *rand.Rand) {
+			weightMsgAddNewTrack = defaultWeightMsgAddNewTrack
+		},
+	)
+	operations = append(operations, simulation.NewWeightedOperation(
+		weightMsgAddNewTrack,
+		junctionsimulation.SimulateMsgAddNewTrack(am.accountKeeper, am.bankKeeper, am.keeper),
+	))
+
 	// this line is used by starport scaffolding # simapp/module/operation
 
 	return operations
@@ -194,6 +209,14 @@ func (am AppModule) ProposalMsgs(simState module.SimulationState) []simtypes.Wei
 			defaultWeightMsgProcessVrfDispute,
 			func(r *rand.Rand, ctx sdk.Context, accs []simtypes.Account) sdk.Msg {
 				junctionsimulation.SimulateMsgProcessVrfDispute(am.accountKeeper, am.bankKeeper, am.keeper)
+				return nil
+			},
+		),
+		simulation.NewWeightedProposalMsg(
+			opWeightMsgAddNewTrack,
+			defaultWeightMsgAddNewTrack,
+			func(r *rand.Rand, ctx sdk.Context, accs []simtypes.Account) sdk.Msg {
+				junctionsimulation.SimulateMsgAddNewTrack(am.accountKeeper, am.bankKeeper, am.keeper)
 				return nil
 			},
 		),
