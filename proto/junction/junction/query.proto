@@ -69,6 +69,12 @@ service Query {
     option (google.api.http).get = "/ComputerKeeda/junction/junction/get_tracks/{stationId}";
   
   }
+  
+  // Queries a list of IsTrackMember items.
+  rpc IsTrackMember (QueryIsTrackMemberRequest) returns (QueryIsTrackMemberResponse) {
+    option (google.api.http).get = "/airchains-network/junction/junction/is_track_member/{trackAddress}/{stationId}";
+  
+  }
 }
 // QueryParamsRequest is request type for the Query/Params RPC method.
 message QueryParamsRequest {}
@@ -102,8 +108,8 @@ message QueryGetStationDetailsByAddressRequest {
 }
 
 message QueryGetStationDetailsByAddressResponse {
-  repeated Stations stations = 1 [(gogoproto.nullable) = false];
-  cosmos.base.query.v1beta1.PageResponse pagination   = 2;
+  repeated Stations                               stations   = 1 [(gogoproto.nullable) = false];
+           cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 
 message QueryGetPodRequest {
@@ -150,5 +156,14 @@ message QueryGetTracksRequest {
 message QueryGetTracksResponse {
   repeated string                                 tracks     = 1;
            cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+message QueryIsTrackMemberRequest {
+  string trackAddress = 1;
+  string stationId    = 2;
+}
+
+message QueryIsTrackMemberResponse {
+  bool result = 1;
 }
 

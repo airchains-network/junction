@@ -8,6 +8,7 @@ package junction
 
 import (
 	context "context"
+
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -28,6 +29,7 @@ const (
 	Query_GetLatestVerifiedPodNumber_FullMethodName  = "/junction.junction.Query/GetLatestVerifiedPodNumber"
 	Query_FetchVrn_FullMethodName                    = "/junction.junction.Query/FetchVrn"
 	Query_GetTracks_FullMethodName                   = "/junction.junction.Query/GetTracks"
+	Query_IsTrackMember_FullMethodName               = "/junction.junction.Query/IsTrackMember"
 )
 
 // QueryClient is the client API for Query service.
@@ -52,6 +54,8 @@ type QueryClient interface {
 	FetchVrn(ctx context.Context, in *QueryFetchVrnRequest, opts ...grpc.CallOption) (*QueryFetchVrnResponse, error)
 	// Queries a list of GetTracks items.
 	GetTracks(ctx context.Context, in *QueryGetTracksRequest, opts ...grpc.CallOption) (*QueryGetTracksResponse, error)
+	// Queries a list of IsTrackMember items.
+	IsTrackMember(ctx context.Context, in *QueryIsTrackMemberRequest, opts ...grpc.CallOption) (*QueryIsTrackMemberResponse, error)
 }
 
 type queryClient struct {
@@ -143,6 +147,15 @@ func (c *queryClient) GetTracks(ctx context.Context, in *QueryGetTracksRequest, 
 	return out, nil
 }
 
+func (c *queryClient) IsTrackMember(ctx context.Context, in *QueryIsTrackMemberRequest, opts ...grpc.CallOption) (*QueryIsTrackMemberResponse, error) {
+	out := new(QueryIsTrackMemberResponse)
+	err := c.cc.Invoke(ctx, Query_IsTrackMember_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // QueryServer is the server API for Query service.
 // All implementations must embed UnimplementedQueryServer
 // for forward compatibility
@@ -165,6 +178,8 @@ type QueryServer interface {
 	FetchVrn(context.Context, *QueryFetchVrnRequest) (*QueryFetchVrnResponse, error)
 	// Queries a list of GetTracks items.
 	GetTracks(context.Context, *QueryGetTracksRequest) (*QueryGetTracksResponse, error)
+	// Queries a list of IsTrackMember items.
+	IsTrackMember(context.Context, *QueryIsTrackMemberRequest) (*QueryIsTrackMemberResponse, error)
 	mustEmbedUnimplementedQueryServer()
 }
 
@@ -198,6 +213,9 @@ func (UnimplementedQueryServer) FetchVrn(context.Context, *QueryFetchVrnRequest)
 }
 func (UnimplementedQueryServer) GetTracks(context.Context, *QueryGetTracksRequest) (*QueryGetTracksResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetTracks not implemented")
+}
+func (UnimplementedQueryServer) IsTrackMember(context.Context, *QueryIsTrackMemberRequest) (*QueryIsTrackMemberResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method IsTrackMember not implemented")
 }
 func (UnimplementedQueryServer) mustEmbedUnimplementedQueryServer() {}
 
@@ -374,6 +392,24 @@ func _Query_GetTracks_Handler(srv interface{}, ctx context.Context, dec func(int
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Query_IsTrackMember_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryIsTrackMemberRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).IsTrackMember(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Query_IsTrackMember_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).IsTrackMember(ctx, req.(*QueryIsTrackMemberRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Query_ServiceDesc is the grpc.ServiceDesc for Query service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -416,6 +452,10 @@ var Query_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetTracks",
 			Handler:    _Query_GetTracks_Handler,
+		},
+		{
+			MethodName: "IsTrackMember",
+			Handler:    _Query_IsTrackMember_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
