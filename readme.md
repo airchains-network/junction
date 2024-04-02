@@ -1,12 +1,13 @@
-# Junction - Testnet Development (testnet-dev-1.0.0)
+# Junction - Testnet Development (testnet-dev-1.0.1)
 
 Welcome to the new version of Junction, a cutting-edge blockchain platform designed for secure and efficient data management. Building on our robust foundation, this version introduces significant enhancements and compatibility with the latest Ignite CLI, aiming to further streamline project structure, execution layers, and validator management.
 
 What's New
 ----------
 
--   Upgraded to Ignite CLI v28.2.0: Ensuring compatibility with the latest blockchain development standards and tools.
--   Versioning System `testnet-dev-1.0.0`: Introducing a new versioning scheme focused on testnet development and cloud testing, marking a significant step in our project's evolution.
+-   New Feature: Adding Tracks to an Active Station
+-   New Feature: Removing Tracks from an Active Station
+-   New Feature: Track Membership Verification
 
 ### Key Features
 
