@@ -8,7 +8,7 @@ import (
 
 var _ sdk.Msg = &MsgRemoveTrack{}
 
-func NewMsgRemoveTrack(creator string, stationId string, trackAddress string, signatures []string, votes []string, publicKeys []string) *MsgRemoveTrack {
+func NewMsgRemoveTrack(creator string, stationId string, trackAddress string, signatures [][]byte, votes []bool, publicKeys [][]byte) *MsgRemoveTrack {
 	return &MsgRemoveTrack{
 		Creator:      creator,
 		StationId:    stationId,

@@ -8,7 +8,7 @@ import (
 
 var _ sdk.Msg = &MsgAddNewTrack{}
 
-func NewMsgAddNewTrack(creator string, stationId string, newTrackAddress string, newTrackVotingPower string, signatures []string, votes []string, publicKeys []string) *MsgAddNewTrack {
+func NewMsgAddNewTrack(creator string, stationId string, newTrackAddress string, newTrackVotingPower uint64, signatures [][]byte, votes []bool, publicKeys [][]byte) *MsgAddNewTrack {
 	return &MsgAddNewTrack{
 		Creator:             creator,
 		StationId:           stationId,
