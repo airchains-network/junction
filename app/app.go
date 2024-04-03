@@ -358,7 +358,7 @@ func New(
 	configurator := app.Configurator()
 	UpgradeHandleFunc := CreateDefaultUpgradeHandler(app.ModuleManager, configurator)
 	app.UpgradeKeeper.SetUpgradeHandler(
-		"jip-69",
+		"jip-1",
 		UpgradeHandleFunc, // Upgrade handler function
 	)
 

@@ -13,7 +13,7 @@ func CreateDefaultUpgradeHandler(
 ) upgradetypes.UpgradeHandler {
 	return func(ctx context.Context, plan upgradetypes.Plan, fromVM module.VersionMap) (module.VersionMap, error) {
 		versionMap := module.VersionMap{
-			"junction": 101, // version 1.0.1
+			"junction": 100, // version 1.0.0
 		}
 
 		return versionMap, nil
