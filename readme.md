@@ -25,7 +25,6 @@ junctiond init <moniker> --chain-id junction --default-denom amf
 junctiond start
 ```
 
-
 ## Additional Information
 
 For detailed instructions, configurations, and updates, refer to the [docs]("https://docs.airchains.io"). Stay connected with our community for the latest developments and support.
