@@ -1,38 +1,31 @@
-# Junction - Testnet Development (testnet-dev-1.0.1)
+# Junction
 
 Welcome to the new version of Junction, a cutting-edge blockchain platform designed for secure and efficient data management. Building on our robust foundation, this version introduces significant enhancements and compatibility with the latest Ignite CLI, aiming to further streamline project structure, execution layers, and validator management.
 
-What's New
-----------
+## Key Features
 
--   New Feature: Adding Tracks to an Active Station
--   New Feature: Removing Tracks from an Active Station
--   New Feature: Track Membership Verification
+- Custom execution layers, batch processing, and a democratic validator system for enhanced data management.
+- Efficient management of verification keys and dynamic track pilots selection.
+- Enhanced query functionalities and robust batch handling.
 
-### Key Features
+## Installation & Initialization
 
--   Custom execution layers, batch processing, and a democratic validator system for enhanced data management.
--   Efficient management of verification keys and dynamic track pilots selection.
--   Enhanced query functionalities and robust batch handling.
-
-
-This junction version is made in latest ignite cli version which is `28.2.0`
 ```bash
-Ignite CLI version:		v28.2.0
-Ignite CLI build date:		2024-02-06T11:21:56Z
-Ignite CLI source hash:		af25183a2d312aa4d679e65e3d627025b17a7120
-Ignite CLI config version:	v1
-Cosmos SDK version:		v0.50.3
-Your OS:			darwin
-Your arch:			amd64
-Your Node.js version:		v19.2.0
-Your go version:		go version go1.21.3 darwin/arm64
-Your uname -a:			Darwin 192.168.1.17 23.3.0 Darwin Kernel Version 23.3.0: Wed Dec 20 21:30:44 PST 2023; root:xnu-10002.81.5~7/RELEASE_ARM64_T6000 x86_64
-Your cwd:			/Volumes/Code/Office_Work/blockchain/Testnet/junction-new
-Is on Gitpod:			false
+wget https://github.com/airchains-network/junction/releases/download/v0.1.0/junctiond
+chmod +x junctiond
+sudo mv junctiond /usr/local/bin
+```
+```bash
+junctiond init <moniker> --chain-id junction --default-denom amf
 ```
 
-Additional Information
-----------------------
+### Start Junction
+
+```bash
+junctiond start
+```
+
+
+## Additional Information
 
 For detailed instructions, configurations, and updates, refer to the [docs]("https://docs.airchains.io"). Stay connected with our community for the latest developments and support.
