@@ -14,7 +14,10 @@ Build from source:
 ```bash
 git clone https://github.com/airchains-network/junction.git
 cd ~/junction/cmd
-env CGO_ENABLED=1 GOOS=linux GOARCH=arm64 go build -o ./build/junctiond main.go
+env CGO_ENABLED=1 GOOS=linux GOARCH=amd64 go build -o ./build/junctiond main.go # For x84-64
+
+env CGO_ENABLED=1 GOOS=linux GOARCH=arm64 go build -o ./build/junctiond main.go # For ARM64
+
 # Find your binary in ~/junction/cmd/build/
 ```
 
