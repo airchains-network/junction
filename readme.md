@@ -10,6 +10,14 @@ Welcome to the new version of Junction, a cutting-edge blockchain platform desig
 
 ## Installation & Initialization
 
+Build from source:
+```bash
+git clone https://github.com/airchains-network/junction.git
+cd ~/junction/cmd
+env CGO_ENABLED=1 GOOS=linux GOARCH=arm64 go build -o ./build/junctiond main.go
+# Find your binary in ~/junction/cmd/build/
+```
+
 ```bash
 wget https://github.com/airchains-network/junction/releases/download/v0.1.0/junctiond
 chmod +x junctiond
