@@ -76,6 +76,7 @@ import (
 	ibckeeper "github.com/cosmos/ibc-go/v8/modules/core/keeper"
 
 	junctionmodulekeeper "github.com/airchains-network/junction/x/junction/keeper"
+	wasmkeeper "github.com/airchains-network/junction/x/wasm/keeper"
 	// this line is used by starport scaffolding # stargate/app/moduleImport
 
 	"github.com/airchains-network/junction/docs"
@@ -140,6 +141,7 @@ type App struct {
 	ScopedICAControllerKeeper capabilitykeeper.ScopedKeeper
 	ScopedICAHostKeeper       capabilitykeeper.ScopedKeeper
 
+	WasmKeeper     wasmkeeper.Keeper
 	JunctionKeeper junctionmodulekeeper.Keeper
 	// this line is used by starport scaffolding # stargate/app/keeperDeclaration
 
@@ -193,6 +195,7 @@ func New(
 	traceStore io.Writer,
 	loadLatest bool,
 	appOpts servertypes.AppOptions,
+	wasmOpts []wasmkeeper.Option,
 	baseAppOptions ...func(*baseapp.BaseApp),
 ) (*App, error) {
 	var (
@@ -205,6 +208,7 @@ func New(
 			depinject.Supply(
 				// Supply the application options
 				appOpts,
+				wasmOpts,
 				// Supply with IBC keeper getter for the IBC modules with App Wiring.
 				// The IBC Keeper cannot be passed because it has not been initiated yet.
 				// Passing the getter, the app IBC Keeper will always be accessible.
@@ -279,6 +283,7 @@ func New(
 		&app.NFTKeeper,
 		&app.GroupKeeper,
 		&app.CircuitBreakerKeeper,
+		&app.WasmKeeper,
 		&app.JunctionKeeper,
 		// this line is used by starport scaffolding # stargate/app/keeperDefinition
 	); err != nil {
@@ -371,6 +376,15 @@ func New(
 // for modules to register their own custom testing types.
 func (app *App) LegacyAmino() *codec.LegacyAmino {
 	return app.legacyAmino
+}
+
+func (app *App) TxConfig() client.TxConfig {
+	return app.txConfig
+}
+
+// InterfaceRegistry returns WasmStationApp's InterfaceRegistry
+func (app *App) InterfaceRegistry() codectypes.InterfaceRegistry {
+	return app.interfaceRegistry
 }
 
 // AppCodec returns App's app codec.
