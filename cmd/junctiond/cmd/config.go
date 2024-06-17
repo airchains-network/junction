@@ -6,6 +6,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
 	"github.com/airchains-network/junction/app"
+	wasmtypes "github.com/airchains-network/junction/x/wasm/types"
 )
 
 func initSDKConfig() {
@@ -21,6 +22,7 @@ func initSDKConfig() {
 	config.SetBech32PrefixForAccount(app.AccountAddressPrefix, accountPubKeyPrefix)
 	config.SetBech32PrefixForValidator(validatorAddressPrefix, validatorPubKeyPrefix)
 	config.SetBech32PrefixForConsensusNode(consNodeAddressPrefix, consNodePubKeyPrefix)
+	config.SetAddressVerifier(wasmtypes.VerifyAddressLen())
 	config.Seal()
 }
 

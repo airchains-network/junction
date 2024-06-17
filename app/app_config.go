@@ -55,6 +55,7 @@ import (
 
 	junctionmodulev1 "github.com/airchains-network/junction/api/junction/junction/module"
 	_ "github.com/airchains-network/junction/x/junction/module" // import for side-effects
+	wasmtypes "github.com/airchains-network/junction/x/wasm/types"
 	junctionmoduletypes "github.com/airchains-network/junction/x/junction/types"
 	// this line is used by starport scaffolding # stargate/app/moduleImport
 )
@@ -94,6 +95,7 @@ var (
 		consensustypes.ModuleName,
 		circuittypes.ModuleName,
 		// chain modules
+		wasmtypes.ModuleName,
 		junctionmoduletypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/initGenesis
 	}
@@ -119,6 +121,7 @@ var (
 		icatypes.ModuleName,
 		ibcfeetypes.ModuleName,
 		// chain modules
+		wasmtypes.ModuleName,
 		junctionmoduletypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/beginBlockers
 	}
@@ -138,6 +141,7 @@ var (
 		icatypes.ModuleName,
 		ibcfeetypes.ModuleName,
 		// chain modules
+		wasmtypes.ModuleName,
 		junctionmoduletypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/endBlockers
 	}
@@ -157,6 +161,7 @@ var (
 		{Account: govtypes.ModuleName, Permissions: []string{authtypes.Burner}},
 		{Account: nft.ModuleName},
 		{Account: ibctransfertypes.ModuleName, Permissions: []string{authtypes.Minter, authtypes.Burner}},
+		{Account: wasmtypes.ModuleName, Permissions: []string{authtypes.Burner}},
 		{Account: ibcfeetypes.ModuleName},
 		{Account: icatypes.ModuleName},
 		// this line is used by starport scaffolding # stargate/app/maccPerms
