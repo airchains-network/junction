@@ -1,6 +1,8 @@
 package app
 
 import (
+	"github.com/cosmos/cosmos-sdk/crypto/keyring"
+	"github.com/cosmos/cosmos-sdk/types"
 	"io"
 	"os"
 	"path/filepath"
@@ -107,6 +109,11 @@ type App struct {
 	txConfig          client.TxConfig
 	interfaceRegistry codectypes.InterfaceRegistry
 
+	// keys to access the substores
+	keys    map[string]*storetypes.KVStoreKey
+	tkeys   map[string]*storetypes.TransientStoreKey
+	memKeys map[string]*storetypes.MemoryStoreKey
+
 	// keepers
 	AccountKeeper         authkeeper.AccountKeeper
 	BankKeeper            bankkeeper.Keeper
@@ -140,8 +147,11 @@ type App struct {
 	ScopedIBCTransferKeeper   capabilitykeeper.ScopedKeeper
 	ScopedICAControllerKeeper capabilitykeeper.ScopedKeeper
 	ScopedICAHostKeeper       capabilitykeeper.ScopedKeeper
+	ScopedWasmKeeper          capabilitykeeper.ScopedKeeper
 
-	WasmKeeper     wasmkeeper.Keeper
+	// wasm keepers
+	WasmKeeper wasmkeeper.Keeper
+	// junction keeper
 	JunctionKeeper junctionmodulekeeper.Keeper
 	// this line is used by starport scaffolding # stargate/app/keeperDeclaration
 
@@ -171,6 +181,18 @@ func getGovProposalHandlers() []govclient.ProposalHandler {
 	return govProposalHandlers
 }
 
+//func getWasmProposalHandlers() []wasmclient.ProposalHandler {
+//	var wasmProposalHandlers []wasmclient.ProposalHandler
+//	// this line is used by starport scaffolding # stargate/app/wasmProposalHandlers
+//
+//	wasmProposalHandlers = append(wasmProposalHandlers,
+//		paramsclient.ProposalHandler,
+//		// this line is used by starport scaffolding # stargate/app/govProposalHandler
+//	)
+//
+//	return wasmProposalHandlers
+//}
+
 // AppConfig returns the default app config.
 func AppConfig() depinject.Config {
 	return depinject.Configs(
@@ -182,9 +204,39 @@ func AppConfig() depinject.Config {
 			map[string]module.AppModuleBasic{
 				genutiltypes.ModuleName: genutil.NewAppModuleBasic(genutiltypes.DefaultMessageValidator),
 				govtypes.ModuleName:     gov.NewAppModuleBasic(getGovProposalHandlers()),
+				//wasmtypes.ModuleName:    wasm.NewAppModuleBasic(getWasmProposalHandlers()),
 				// this line is used by starport scaffolding # stargate/appConfig/moduleBasic
 			},
 		),
+		depinject.Provide(),
+	)
+}
+
+// ProvideClientContext provides the client context.
+func ProvideClientContext(
+	appCodec codec.Codec,
+	interfaceRegistry codectypes.InterfaceRegistry,
+	txConfig client.TxConfig,
+) client.Context {
+	return client.Context{}.
+		WithCodec(appCodec).
+		WithInterfaceRegistry(interfaceRegistry).
+		WithTxConfig(txConfig).
+		WithLegacyAmino(codec.NewLegacyAmino()).
+		WithInput(os.Stdin).
+		WithAccountRetriever(authtypes.AccountRetriever{}).
+		WithHomeDir(DefaultNodeHome).
+		WithViper(Name)
+}
+
+// ProvideKeyring provides the keyring.
+func ProvideKeyring(clientCtx client.Context, appCodec codec.Codec) (keyring.Keyring, error) {
+	return keyring.New(
+		types.KeyringServiceName(),
+		keyring.BackendMemory,
+		clientCtx.HomeDir,
+		clientCtx.Input,
+		appCodec,
 	)
 }
 
@@ -289,7 +341,6 @@ func New(
 	); err != nil {
 		panic(err)
 	}
-
 	// Below we could construct and set an application specific mempool and
 	// ABCI 1.0 PrepareProposal and ProcessProposal handlers. These defaults are
 	// already set in the SDK's BaseApp, this shows an example of how to override
@@ -325,7 +376,7 @@ func New(
 	app.App = appBuilder.Build(db, traceStore, baseAppOptions...)
 
 	// Register legacy modules
-	app.registerIBCModules()
+	app.registerIBCModules(appOpts, wasmOpts)
 
 	// register streaming services
 	if err := app.RegisterStreamingServices(appOpts, app.kvStoreKeys()); err != nil {

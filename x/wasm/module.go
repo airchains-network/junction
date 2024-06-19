@@ -2,8 +2,10 @@ package wasm
 
 import (
 	"context"
+	"cosmossdk.io/core/address"
 	"encoding/json"
 	"fmt"
+	wasmclient "github.com/airchains-network/junction/x/wasm/client"
 	"runtime/debug"
 	"strings"
 
@@ -46,7 +48,18 @@ const (
 )
 
 // AppModuleBasic defines the basic application module used by the wasm module.
-type AppModuleBasic struct{}
+type AppModuleBasic struct {
+	cdc                    codec.Codec
+	legacyProposalHandlers []wasmclient.ProposalHandler // legacy proposal handlers which live in governance cli and rest
+	ac                     address.Codec
+}
+
+// NewAppModuleBasic creates a new AppModuleBasic object
+func NewAppModuleBasic(legacyProposalHandlers []wasmclient.ProposalHandler) AppModuleBasic {
+	return AppModuleBasic{
+		legacyProposalHandlers: legacyProposalHandlers,
+	}
+}
 
 func (b AppModuleBasic) RegisterLegacyAminoCodec(amino *codec.LegacyAmino) {
 	types.RegisterLegacyAminoCodec(amino)
