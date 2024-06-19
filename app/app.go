@@ -78,6 +78,7 @@ import (
 	ibckeeper "github.com/cosmos/ibc-go/v8/modules/core/keeper"
 
 	junctionmodulekeeper "github.com/airchains-network/junction/x/junction/keeper"
+	_ "github.com/airchains-network/junction/x/wasm"
 	wasmkeeper "github.com/airchains-network/junction/x/wasm/keeper"
 	// this line is used by starport scaffolding # stargate/app/moduleImport
 
@@ -150,10 +151,10 @@ type App struct {
 	ScopedWasmKeeper          capabilitykeeper.ScopedKeeper
 
 	// wasm keepers
-	WasmKeeper wasmkeeper.Keeper
 	// junction keeper
 	JunctionKeeper junctionmodulekeeper.Keeper
 	// this line is used by starport scaffolding # stargate/app/keeperDeclaration
+	WasmKeeper wasmkeeper.Keeper
 
 	// simulation manager
 	sm *module.SimulationManager
@@ -266,6 +267,7 @@ func New(
 				// Passing the getter, the app IBC Keeper will always be accessible.
 				// This needs to be removed after IBC supports App Wiring.
 				app.GetIBCKeeper,
+				app.GetWASMKeeper(),
 				app.GetCapabilityScopedKeeper,
 				// Supply the logger
 				logger,
@@ -486,6 +488,11 @@ func (app *App) GetSubspace(moduleName string) paramstypes.Subspace {
 // GetIBCKeeper returns the IBC keeper.
 func (app *App) GetIBCKeeper() *ibckeeper.Keeper {
 	return app.IBCKeeper
+}
+
+// GetWASMKeeper returns the WASM keeper.
+func (app *App) GetWASMKeeper() wasmkeeper.Keeper {
+	return app.WasmKeeper
 }
 
 // GetCapabilityScopedKeeper returns the capability scoped keeper.

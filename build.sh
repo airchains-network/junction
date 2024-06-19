@@ -11,8 +11,7 @@ GOARCH=$(go env GOARCH)
 # Clearning the build directory
 echo "Deleting BUILD_DIR ..."
 sudo rm -rf $BUILD_DIR
-
-sleep 5  # Delay for 5 seconds
+#sleep 5  # Delay for 5 seconds
 
 # Create a build directory
 mkdir -p $BUILD_DIR

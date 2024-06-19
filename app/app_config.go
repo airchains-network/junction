@@ -55,8 +55,8 @@ import (
 
 	junctionmodulev1 "github.com/airchains-network/junction/api/junction/junction/module"
 	_ "github.com/airchains-network/junction/x/junction/module" // import for side-effects
-	wasmtypes "github.com/airchains-network/junction/x/wasm/types"
 	junctionmoduletypes "github.com/airchains-network/junction/x/junction/types"
+	wasmtypes "github.com/airchains-network/junction/x/wasm/types"
 	// this line is used by starport scaffolding # stargate/app/moduleImport
 )
 
