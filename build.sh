@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Define the binary name
-BINARY="test"
+BINARY="junctiond"
 BUILD_DIR="build"
 
 # Detect the platform
@@ -9,7 +9,7 @@ GOOS=$(go env GOOS)
 GOARCH=$(go env GOARCH)
 
 # Clearning the build directory
-echo "Deleting BUILD_DIR ..."
+echo "Deleting BUILD_DIR this may take more than 5sec..."
 sudo rm -rf $BUILD_DIR
 #sleep 5  # Delay for 5 seconds
 
@@ -17,7 +17,7 @@ sudo rm -rf $BUILD_DIR
 mkdir -p $BUILD_DIR
 
 # Set output binary name
-OUTPUT="$BUILD_DIR/$BINARY-$GOOS-$GOARCH"
+OUTPUT="$BUILD_DIR/$BINARY-$GOOS-$GOARCH/junctiond"
 
 # Build the binary
 echo "Building $BINARY for $GOOS/$GOARCH..."
