@@ -10,3 +10,4 @@ release/
 /.trunk
 /.idea
 /build
+./init-test.sh
