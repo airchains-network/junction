@@ -23,7 +23,7 @@ func TestModuleMigrations(t *testing.T) {
 	myAddress := sdk.AccAddress(rand.Bytes(address.Len))
 
 	upgradeHandler := func(ctx sdk.Context, plan upgradetypes.Plan, fromVM module.VersionMap) (module.VersionMap, error) { //nolint:unparam
-		return wasmApp.ModuleManager.RunMigrations(ctx, wasmApp.Configurator(), fromVM)
+		return wasmApp.ModuleManager.RunMigrations(ctx, wasmApp.SSConfigurator(), fromVM)
 	}
 
 	specs := map[string]struct {
@@ -95,7 +95,7 @@ func TestModuleMigrations(t *testing.T) {
 			require.NoError(t, err)
 
 			// when
-			gotVM, err := wasmApp.ModuleManager.RunMigrations(ctx, wasmApp.Configurator(), fromVM)
+			gotVM, err := wasmApp.ModuleManager.RunMigrations(ctx, wasmApp.SSConfigurator(), fromVM)
 
 			// then
 			require.NoError(t, err)
@@ -115,7 +115,7 @@ func TestAccessConfigMigrations(t *testing.T) {
 	wasmApp := app.Setup(t)
 
 	upgradeHandler := func(ctx sdk.Context, plan upgradetypes.Plan, fromVM module.VersionMap) (module.VersionMap, error) { //nolint:unparam
-		return wasmApp.ModuleManager.RunMigrations(ctx, wasmApp.Configurator(), fromVM)
+		return wasmApp.ModuleManager.RunMigrations(ctx, wasmApp.SSConfigurator(), fromVM)
 	}
 
 	ctx, _ := wasmApp.BaseApp.NewContext(false).CacheContext()
@@ -139,7 +139,7 @@ func TestAccessConfigMigrations(t *testing.T) {
 	require.NoError(t, err)
 
 	// when
-	gotVM, err := wasmApp.ModuleManager.RunMigrations(ctx, wasmApp.Configurator(), fromVM)
+	gotVM, err := wasmApp.ModuleManager.RunMigrations(ctx, wasmApp.SSConfigurator(), fromVM)
 
 	// then
 	require.NoError(t, err)
