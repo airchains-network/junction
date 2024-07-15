@@ -121,7 +121,11 @@ func (k Keeper) getInstantiateAccessConfig(ctx context.Context) types.AccessType
 func (k Keeper) GetParams(ctx context.Context) types.Params {
 	p, err := k.params.Get(ctx)
 	if err != nil {
-		panic(err)
+		// Log the error and return a default set of parameters or an error
+		defaultParams := types.DefaultParams()
+		// You can choose to return the defaultParams or an error depending on your requirements
+		return defaultParams
+		//return types.Params{}, fmt.Errorf("failed to get params: %w", err)
 	}
 	return p
 }

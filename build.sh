@@ -34,3 +34,5 @@ if [ $? -ne 0 ]; then
 fi
 
 echo "Build completed successfully! Binary is located at $OUTPUT"
+echo "Moved binary to the usr/local/bin"
+sudo mv ./build/$BINARY-$GOOS-$GOARCH/junctiond /usr/local/bin/
