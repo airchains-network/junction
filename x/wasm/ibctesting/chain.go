@@ -325,7 +325,7 @@ func (chain *TestChain) QueryConsensusStateProof(clientID string) ([]byte, clien
 func (chain *TestChain) NextBlock() {
 	res, err := chain.App.FinalizeBlock(&abci.RequestFinalizeBlock{
 		Height:             chain.CurrentHeader.Height,
-		Time:               chain.CurrentHeader.GetTime(), // todo (Alex): is this the correct time
+		Time:               chain.CurrentHeader.GetTime(), // todo: is this the correct time
 		NextValidatorsHash: chain.NextVals.Hash(),
 	})
 	require.NoError(chain.t, err)
