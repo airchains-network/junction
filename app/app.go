@@ -1,6 +1,8 @@
 package app
 
 import (
+	"encoding/json"
+	wasmkeeper "github.com/airchains-network/junction/x/wasm/keeper"
 	"io"
 	"os"
 	"path/filepath"
@@ -19,6 +21,7 @@ import (
 	_ "cosmossdk.io/x/nft/module" // import for side-effects
 	_ "cosmossdk.io/x/upgrade"    // import for side-effects
 	upgradekeeper "cosmossdk.io/x/upgrade/keeper"
+	junctionmodulekeeper "github.com/airchains-network/junction/x/junction/keeper"
 	dbm "github.com/cosmos/cosmos-db"
 	"github.com/cosmos/cosmos-sdk/baseapp"
 	"github.com/cosmos/cosmos-sdk/client"
@@ -74,8 +77,6 @@ import (
 	ibcfeekeeper "github.com/cosmos/ibc-go/v8/modules/apps/29-fee/keeper"
 	ibctransferkeeper "github.com/cosmos/ibc-go/v8/modules/apps/transfer/keeper"
 	ibckeeper "github.com/cosmos/ibc-go/v8/modules/core/keeper"
-
-	junctionmodulekeeper "github.com/airchains-network/junction/x/junction/keeper"
 	// this line is used by starport scaffolding # stargate/app/moduleImport
 
 	"github.com/airchains-network/junction/docs"
@@ -139,7 +140,17 @@ type App struct {
 	ScopedIBCTransferKeeper   capabilitykeeper.ScopedKeeper
 	ScopedICAControllerKeeper capabilitykeeper.ScopedKeeper
 	ScopedICAHostKeeper       capabilitykeeper.ScopedKeeper
+	ScopedWasmKeeper          capabilitykeeper.ScopedKeeper
+	ScopedTransferKeeper      capabilitykeeper.ScopedKeeper
+	ScopedIBCFeeKeeper        capabilitykeeper.ScopedKeeper
 
+	// testing
+	CircuitKeeper circuitkeeper.Keeper
+
+	// the module manager
+	BasicModuleManager module.BasicManager
+
+	WasmKeeper     wasmkeeper.Keeper
 	JunctionKeeper junctionmodulekeeper.Keeper
 	// this line is used by starport scaffolding # stargate/app/keeperDeclaration
 
@@ -193,6 +204,7 @@ func New(
 	traceStore io.Writer,
 	loadLatest bool,
 	appOpts servertypes.AppOptions,
+	wasmOpts []wasmkeeper.Option,
 	baseAppOptions ...func(*baseapp.BaseApp),
 ) (*App, error) {
 	var (
@@ -418,11 +430,6 @@ func (app *App) GetSubspace(moduleName string) paramstypes.Subspace {
 	return subspace
 }
 
-// GetIBCKeeper returns the IBC keeper.
-func (app *App) GetIBCKeeper() *ibckeeper.Keeper {
-	return app.IBCKeeper
-}
-
 // GetCapabilityScopedKeeper returns the capability scoped keeper.
 func (app *App) GetCapabilityScopedKeeper(moduleName string) capabilitykeeper.ScopedKeeper {
 	return app.CapabilityKeeper.ScopeToModule(moduleName)
@@ -470,4 +477,14 @@ func BlockedAddresses() map[string]bool {
 		}
 	}
 	return result
+}
+
+// DefaultGenesis returns a default genesis from the registered AppModuleBasic's.
+func (a *App) DefaultGenesis() map[string]json.RawMessage {
+	return a.BasicModuleManager.DefaultGenesis(a.appCodec)
+}
+
+// TxConfig returns WasmApp's TxConfig
+func (app *App) TxConfig() client.TxConfig {
+	return app.txConfig
 }
