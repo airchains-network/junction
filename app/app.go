@@ -608,12 +608,19 @@ func New(
 		return nil, err
 	}
 
-	configurator := app.Configurator()
-	UpgradeHandleFunc := CreateDefaultUpgradeHandler(app.ModuleManager, configurator)
-	app.UpgradeKeeper.SetUpgradeHandler(
-		"jip-1",
-		UpgradeHandleFunc, // Upgrade handler function
-	)
+	upgradeInfo, err := app.UpgradeKeeper.ReadUpgradeInfoFromDisk()
+	if err != nil {
+		panic(err)
+	}
+
+	if upgradeInfo.Name == "jip-2" && !app.UpgradeKeeper.IsSkipHeight(upgradeInfo.Height) {
+		configurator := app.Configurator()
+		UpgradeHandleFunc := CreateDefaultUpgradeHandler(app.ModuleManager, configurator, app)
+		app.UpgradeKeeper.SetUpgradeHandler(
+			"jip-2",
+			UpgradeHandleFunc, // Upgrade handler function
+		)
+	}
 
 	return app, nil
 }

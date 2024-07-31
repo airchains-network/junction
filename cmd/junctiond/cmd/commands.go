@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"errors"
+	"github.com/airchains-network/junction/x/wasm"
 	wasmkeeper "github.com/airchains-network/junction/x/wasm/keeper"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/spf13/cast"
@@ -9,6 +10,7 @@ import (
 
 	"cosmossdk.io/log"
 	confixcmd "cosmossdk.io/tools/confix/cmd"
+	wasmcli "github.com/airchains-network/junction/x/wasm/client/cli"
 	dbm "github.com/cosmos/cosmos-db"
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/debug"
@@ -47,7 +49,7 @@ func initRootCmd(
 	)
 
 	server.AddCommands(rootCmd, app.DefaultNodeHome, newApp, appExport, addModuleInitFlags)
-
+	wasmcli.ExtendUnsafeResetAllCmd(rootCmd)
 	// add keybase, auxiliary RPC, query, genesis, and tx child commands
 	rootCmd.AddCommand(
 		server.StatusCommand(),
@@ -60,6 +62,7 @@ func initRootCmd(
 
 func addModuleInitFlags(startCmd *cobra.Command) {
 	crisis.AddModuleInitFlags(startCmd)
+	wasm.AddModuleInitFlags(startCmd)
 }
 
 // genesisCommand builds genesis-related `junctiond genesis` command. Users may provide application specific commands as a parameter
