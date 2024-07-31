@@ -5,7 +5,7 @@ BINARY="junctiond"
 BUILD_DIR="build"
 
 # Define version information
-VERSION="v0.5.1"
+VERSION="v0.5.3"
 COMMIT=$(git rev-parse --short HEAD)
 BUILD_DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ')
 
