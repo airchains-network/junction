@@ -1,14 +1,17 @@
 package cmd
 
 import (
+	"cosmossdk.io/client/v2/autocli"
+	"cosmossdk.io/log"
+	dbm "github.com/cosmos/cosmos-db"
+	simtestutil "github.com/cosmos/cosmos-sdk/testutil/sims"
+	"github.com/cosmos/cosmos-sdk/types/module"
+	"github.com/cosmos/ibc-go/v8/testing/simapp/params"
 	"os"
 	"strings"
 
-	"cosmossdk.io/client/v2/autocli"
 	clientv2keyring "cosmossdk.io/client/v2/autocli/keyring"
 	"cosmossdk.io/core/address"
-	"cosmossdk.io/depinject"
-	"cosmossdk.io/log"
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/config"
 	"github.com/cosmos/cosmos-sdk/client/flags"
@@ -16,7 +19,6 @@ import (
 	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
 	"github.com/cosmos/cosmos-sdk/crypto/keyring"
 	"github.com/cosmos/cosmos-sdk/server"
-	"github.com/cosmos/cosmos-sdk/types/module"
 	"github.com/cosmos/cosmos-sdk/types/tx/signing"
 	"github.com/cosmos/cosmos-sdk/x/auth/tx"
 	txmodule "github.com/cosmos/cosmos-sdk/x/auth/tx/config"
@@ -29,35 +31,32 @@ import (
 
 // NewRootCmd creates a new root command for junctiond. It is called once in the main function.
 func NewRootCmd() *cobra.Command {
-	initSDKConfig()
-
+	// we "pre"-instantiate the application for getting the injected/configured encoding configuration
+	// note, this is not necessary when using app wiring, as depinject can be directly used (see root_v2.go)
+	tempApp := app.New(log.NewNopLogger(), dbm.NewMemDB(), nil, true, simtestutil.NewAppOptionsWithFlagHome(tempDir()))
+	encodingConfig := params.EncodingConfig{
+		InterfaceRegistry: tempApp.InterfaceRegistry(),
+		Codec:             tempApp.AppCodec(),
+		TxConfig:          tempApp.TxConfig(),
+		Amino:             tempApp.LegacyAmino(),
+	}
 	var (
 		txConfigOpts       tx.ConfigOptions
 		autoCliOpts        autocli.AppOptions
 		moduleBasicManager module.BasicManager
-		clientCtx          client.Context
 	)
 
-	if err := depinject.Inject(
-		depinject.Configs(app.AppConfig(),
-			depinject.Supply(
-				log.NewNopLogger(),
-			),
-			depinject.Provide(
-				ProvideClientContext,
-				ProvideKeyring,
-			),
-		),
-		&txConfigOpts,
-		&autoCliOpts,
-		&moduleBasicManager,
-		&clientCtx,
-	); err != nil {
-		panic(err)
-	}
+	initClientCtx := client.Context{}.
+		WithCodec(encodingConfig.Codec).
+		WithInterfaceRegistry(encodingConfig.InterfaceRegistry).
+		WithLegacyAmino(encodingConfig.Amino).
+		WithInput(os.Stdin).
+		WithAccountRetriever(types.AccountRetriever{}).
+		WithHomeDir(app.DefaultNodeHome).
+		WithViper("") // In simapp, we don't use any prefix for env variables.odeHome).
 
 	rootCmd := &cobra.Command{
-		Use:           app.Name + "d",
+		Use:           app.AppName + "d",
 		Short:         "Start junction node",
 		SilenceErrors: true,
 		PersistentPreRunE: func(cmd *cobra.Command, _ []string) error {
@@ -65,13 +64,13 @@ func NewRootCmd() *cobra.Command {
 			cmd.SetOut(cmd.OutOrStdout())
 			cmd.SetErr(cmd.ErrOrStderr())
 
-			clientCtx = clientCtx.WithCmdContext(cmd.Context())
-			clientCtx, err := client.ReadPersistentCommandFlags(clientCtx, cmd.Flags())
+			initClientCtx = initClientCtx.WithCmdContext(cmd.Context())
+			initClientCtx, err := client.ReadPersistentCommandFlags(initClientCtx, cmd.Flags())
 			if err != nil {
 				return err
 			}
 
-			clientCtx, err = config.ReadFromClientConfig(clientCtx)
+			initClientCtx, err = config.ReadFromClientConfig(initClientCtx)
 			if err != nil {
 				return err
 			}
@@ -79,21 +78,21 @@ func NewRootCmd() *cobra.Command {
 			// This needs to go after ReadFromClientConfig, as that function
 			// sets the RPC client needed for SIGN_MODE_TEXTUAL.
 			txConfigOpts.EnabledSignModes = append(txConfigOpts.EnabledSignModes, signing.SignMode_SIGN_MODE_TEXTUAL)
-			txConfigOpts.TextualCoinMetadataQueryFn = txmodule.NewGRPCCoinMetadataQueryFn(clientCtx)
+			txConfigOpts.TextualCoinMetadataQueryFn = txmodule.NewGRPCCoinMetadataQueryFn(initClientCtx)
 			txConfigWithTextual, err := tx.NewTxConfigWithOptions(
-				codec.NewProtoCodec(clientCtx.InterfaceRegistry),
+				codec.NewProtoCodec(initClientCtx.InterfaceRegistry),
 				txConfigOpts,
 			)
 			if err != nil {
 				return err
 			}
 
-			clientCtx = clientCtx.WithTxConfig(txConfigWithTextual)
-			if err := client.SetCmdClientContextHandler(clientCtx, cmd); err != nil {
+			initClientCtx = initClientCtx.WithTxConfig(txConfigWithTextual)
+			if err := client.SetCmdClientContextHandler(initClientCtx, cmd); err != nil {
 				return err
 			}
 
-			if err := client.SetCmdClientContextHandler(clientCtx, cmd); err != nil {
+			if err := client.SetCmdClientContextHandler(initClientCtx, cmd); err != nil {
 				return err
 			}
 
@@ -104,19 +103,10 @@ func NewRootCmd() *cobra.Command {
 		},
 	}
 
-	// Since the IBC modules don't support dependency injection, we need to
-	// manually register the modules on the client side.
-	// This needs to be removed after IBC supports App Wiring.
-	ibcModules := app.RegisterIBC(clientCtx.InterfaceRegistry)
-	for name, mod := range ibcModules {
-		moduleBasicManager[name] = module.CoreAppModuleBasicAdaptor(name, mod)
-		autoCliOpts.Modules[name] = mod
-	}
-
-	initRootCmd(rootCmd, clientCtx.TxConfig, clientCtx.InterfaceRegistry, clientCtx.Codec, moduleBasicManager)
+	initRootCmd(rootCmd, initClientCtx.TxConfig, initClientCtx.InterfaceRegistry, initClientCtx.Codec, moduleBasicManager)
 
 	overwriteFlagDefaults(rootCmd, map[string]string{
-		flags.FlagChainID:        strings.ReplaceAll(app.Name, "-", ""),
+		flags.FlagChainID:        strings.ReplaceAll(app.AppName, "-", ""),
 		flags.FlagKeyringBackend: "test",
 	})
 
@@ -157,7 +147,7 @@ func ProvideClientContext(
 		WithInput(os.Stdin).
 		WithAccountRetriever(types.AccountRetriever{}).
 		WithHomeDir(app.DefaultNodeHome).
-		WithViper(app.Name) // env variable prefix
+		WithViper(app.AppName) // env variable prefix
 
 	// Read the config again to overwrite the default values with the values from the config file
 	clientCtx, _ = config.ReadFromClientConfig(clientCtx)
@@ -172,4 +162,14 @@ func ProvideKeyring(clientCtx client.Context, addressCodec address.Codec) (clien
 	}
 
 	return keyring.NewAutoCLIKeyring(kb)
+}
+
+var tempDir = func() string {
+	dir, err := os.MkdirTemp("", "simapp")
+	if err != nil {
+		dir = app.DefaultNodeHome
+	}
+	defer os.RemoveAll(dir)
+
+	return dir
 }

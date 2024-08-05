@@ -1,3 +1,5 @@
+//go:build app_v1
+
 package app
 
 import (
@@ -39,6 +41,7 @@ import (
 // registerIBCModules register IBC keepers and non dependency inject modules.
 func (app *App) registerIBCModules() {
 	// set up non depinject support modules store keys
+	//Doone
 	if err := app.RegisterStores(
 		storetypes.NewKVStoreKey(capabilitytypes.StoreKey),
 		storetypes.NewKVStoreKey(ibcexported.StoreKey),
@@ -55,6 +58,8 @@ func (app *App) registerIBCModules() {
 	// register the key tables for legacy param subspaces
 	keyTable := ibcclienttypes.ParamKeyTable()
 	keyTable.RegisterParamSet(&ibcconnectiontypes.Params{})
+	//Doone
+
 	app.ParamsKeeper.Subspace(ibcexported.ModuleName).WithKeyTable(keyTable)
 	app.ParamsKeeper.Subspace(ibctransfertypes.ModuleName).WithKeyTable(ibctransfertypes.ParamKeyTable())
 	app.ParamsKeeper.Subspace(icacontrollertypes.SubModuleName).WithKeyTable(icacontrollertypes.ParamKeyTable())
