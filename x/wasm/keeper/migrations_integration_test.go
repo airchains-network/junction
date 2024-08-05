@@ -13,13 +13,12 @@ import (
 	"github.com/cosmos/cosmos-sdk/types/address"
 	"github.com/cosmos/cosmos-sdk/types/module"
 
-	"github.com/airchains-network/junction/app"
 	v2 "github.com/airchains-network/junction/x/wasm/migrations/v2"
 	"github.com/airchains-network/junction/x/wasm/types"
 )
 
 func TestModuleMigrations(t *testing.T) {
-	wasmApp := app.Setup(t)
+	wasmApp := app_old.Setup(t)
 	myAddress := sdk.AccAddress(rand.Bytes(address.Len))
 
 	upgradeHandler := func(ctx sdk.Context, plan upgradetypes.Plan, fromVM module.VersionMap) (module.VersionMap, error) { //nolint:unparam
@@ -112,7 +111,7 @@ func TestAccessConfigMigrations(t *testing.T) {
 	address, err := sdk.AccAddressFromBech32(addr)
 	require.NoError(t, err)
 
-	wasmApp := app.Setup(t)
+	wasmApp := app_old.Setup(t)
 
 	upgradeHandler := func(ctx sdk.Context, plan upgradetypes.Plan, fromVM module.VersionMap) (module.VersionMap, error) { //nolint:unparam
 		return wasmApp.ModuleManager.RunMigrations(ctx, wasmApp.Configurator(), fromVM)
@@ -156,7 +155,7 @@ func TestAccessConfigMigrations(t *testing.T) {
 	assert.Equal(t, types.AllowNobody, wasmApp.WasmKeeper.GetCodeInfo(ctx, code3).InstantiateConfig)
 }
 
-func storeCode(ctx sdk.Context, wasmApp *app.WasmApp, instantiatePermission types.AccessConfig) (codeID uint64, err error) {
+func storeCode(ctx sdk.Context, wasmApp *app_old.WasmApp, instantiatePermission types.AccessConfig) (codeID uint64, err error) {
 	msg := types.MsgStoreCodeFixture(func(m *types.MsgStoreCode) {
 		m.WASMByteCode = wasmContract
 		m.InstantiatePermission = &instantiatePermission

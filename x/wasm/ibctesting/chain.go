@@ -45,7 +45,6 @@ import (
 	"github.com/cosmos/cosmos-sdk/x/staking/testutil"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
-	"github.com/airchains-network/junction/app"
 	wasmkeeper "github.com/airchains-network/junction/x/wasm/keeper"
 )
 
@@ -56,7 +55,7 @@ type SenderAccount struct {
 	SenderAccount sdk.AccountI
 }
 
-// ChainApp Abstract chain app definition used for testing
+// ChainApp Abstract chain app_old definition used for testing
 type ChainApp interface {
 	servertypes.ABCI
 	AppCodec() codec.Codec
@@ -117,12 +116,12 @@ type PacketAck struct {
 	Ack    []byte
 }
 
-// ChainAppFactory abstract factory method that usually implemented by app.SetupWithGenesisValSet
+// ChainAppFactory abstract factory method that usually implemented by app_old.SetupWithGenesisValSet
 type ChainAppFactory func(t *testing.T, valSet *cmttypes.ValidatorSet, genAccs []authtypes.GenesisAccount, chainID string, opts []wasmkeeper.Option, balances ...banktypes.Balance) ChainApp
 
-// DefaultWasmAppFactory instantiates and sets up the default wasmd app
+// DefaultWasmAppFactory instantiates and sets up the default junctiond app_old
 func DefaultWasmAppFactory(t *testing.T, valSet *cmttypes.ValidatorSet, genAccs []authtypes.GenesisAccount, chainID string, opts []wasmkeeper.Option, balances ...banktypes.Balance) ChainApp {
-	return app.SetupWithGenesisValSet(t, valSet, genAccs, chainID, opts, balances...)
+	return app_old.SetupWithGenesisValSet(t, valSet, genAccs, chainID, opts, balances...)
 }
 
 // NewDefaultTestChain initializes a new test chain with a default of 4 validators
@@ -393,7 +392,7 @@ func (chain *TestChain) sendWithSigner(
 	// ensure the chain has the latest time
 	chain.Coordinator.UpdateTimeForChain(chain)
 
-	blockResp, gotErr := app.SignAndDeliverWithoutCommit(
+	blockResp, gotErr := app_old.SignAndDeliverWithoutCommit(
 		chain.t,
 		chain.TxConfig,
 		chain.App.GetBaseApp(),

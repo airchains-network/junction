@@ -330,7 +330,7 @@ func (endpoint *Endpoint) ChanOpenInit() error {
 	endpoint.ChannelID, err = ParseChannelIDFromEvents(res.GetEvents())
 	require.NoError(endpoint.Chain.t, err)
 
-	// update version to selected app version
+	// update version to selected app_old version
 	// NOTE: this update must be performed after SendMsgs()
 	endpoint.ChannelConfig.Version = endpoint.GetChannel().Version
 
@@ -362,7 +362,7 @@ func (endpoint *Endpoint) ChanOpenTry() error {
 		require.NoError(endpoint.Chain.t, err)
 	}
 
-	// update version to selected app version
+	// update version to selected app_old version
 	// NOTE: this update must be performed after the endpoint channelID is set
 	endpoint.ChannelConfig.Version = endpoint.GetChannel().Version
 

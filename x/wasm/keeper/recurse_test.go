@@ -262,7 +262,7 @@ func TestLimitRecursiveQueryGas(t *testing.T) {
 			},
 			expectQueriesFromContract: 10,
 			expectOutOfGas:            false,
-			expectError:               "query wasm contract failed",          // Error we get from the contract instance doing the failing query, not wasmd
+			expectError:               "query wasm contract failed",          // Error we get from the contract instance doing the failing query, not junctiond
 			expectedGas:               10*(GasWork2k+GasReturnHashed) + 3152, // lots of additional gas for long error message
 		},
 	}

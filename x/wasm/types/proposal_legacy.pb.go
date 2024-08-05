@@ -31,7 +31,7 @@ var (
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
-// Deprecated: Do not use. Since wasmd v0.40, there is no longer a need for
+// Deprecated: Do not use. Since junctiond v0.40, there is no longer a need for
 // an explicit StoreCodeProposal. To submit WASM code to the system,
 // a simple MsgStoreCode can be invoked from the x/gov module via
 // a v1 governance proposal.
@@ -97,7 +97,7 @@ func (m *StoreCodeProposal) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_StoreCodeProposal proto.InternalMessageInfo
 
-// Deprecated: Do not use. Since wasmd v0.40, there is no longer a need for
+// Deprecated: Do not use. Since junctiond v0.40, there is no longer a need for
 // an explicit InstantiateContractProposal. To instantiate a contract,
 // a simple MsgInstantiateContract can be invoked from the x/gov module via
 // a v1 governance proposal.
@@ -159,7 +159,7 @@ func (m *InstantiateContractProposal) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_InstantiateContractProposal proto.InternalMessageInfo
 
-// Deprecated: Do not use. Since wasmd v0.40, there is no longer a need for
+// Deprecated: Do not use. Since junctiond v0.40, there is no longer a need for
 // an explicit InstantiateContract2Proposal. To instantiate contract 2,
 // a simple MsgInstantiateContract2 can be invoked from the x/gov module via
 // a v1 governance proposal.
@@ -226,7 +226,7 @@ func (m *InstantiateContract2Proposal) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_InstantiateContract2Proposal proto.InternalMessageInfo
 
-// Deprecated: Do not use. Since wasmd v0.40, there is no longer a need for
+// Deprecated: Do not use. Since junctiond v0.40, there is no longer a need for
 // an explicit MigrateContractProposal. To migrate a contract,
 // a simple MsgMigrateContract can be invoked from the x/gov module via
 // a v1 governance proposal.
@@ -282,7 +282,7 @@ func (m *MigrateContractProposal) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_MigrateContractProposal proto.InternalMessageInfo
 
-// Deprecated: Do not use. Since wasmd v0.40, there is no longer a need for
+// Deprecated: Do not use. Since junctiond v0.40, there is no longer a need for
 // an explicit SudoContractProposal. To call sudo on a contract,
 // a simple MsgSudoContract can be invoked from the x/gov module via
 // a v1 governance proposal.
@@ -336,7 +336,7 @@ func (m *SudoContractProposal) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_SudoContractProposal proto.InternalMessageInfo
 
-// Deprecated: Do not use. Since wasmd v0.40, there is no longer a need for
+// Deprecated: Do not use. Since junctiond v0.40, there is no longer a need for
 // an explicit ExecuteContractProposal. To call execute on a contract,
 // a simple MsgExecuteContract can be invoked from the x/gov module via
 // a v1 governance proposal.
@@ -394,7 +394,7 @@ func (m *ExecuteContractProposal) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_ExecuteContractProposal proto.InternalMessageInfo
 
-// Deprecated: Do not use. Since wasmd v0.40, there is no longer a need for
+// Deprecated: Do not use. Since junctiond v0.40, there is no longer a need for
 // an explicit UpdateAdminProposal. To set an admin for a contract,
 // a simple MsgUpdateAdmin can be invoked from the x/gov module via
 // a v1 governance proposal.
@@ -448,7 +448,7 @@ func (m *UpdateAdminProposal) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_UpdateAdminProposal proto.InternalMessageInfo
 
-// Deprecated: Do not use. Since wasmd v0.40, there is no longer a need for
+// Deprecated: Do not use. Since junctiond v0.40, there is no longer a need for
 // an explicit ClearAdminProposal. To clear the admin of a contract,
 // a simple MsgClearAdmin can be invoked from the x/gov module via
 // a v1 governance proposal.
@@ -500,7 +500,7 @@ func (m *ClearAdminProposal) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_ClearAdminProposal proto.InternalMessageInfo
 
-// Deprecated: Do not use. Since wasmd v0.40, there is no longer a need for
+// Deprecated: Do not use. Since junctiond v0.40, there is no longer a need for
 // an explicit PinCodesProposal. To pin a set of code ids in the wasmvm
 // cache, a simple MsgPinCodes can be invoked from the x/gov module via
 // a v1 governance proposal.
@@ -552,7 +552,7 @@ func (m *PinCodesProposal) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_PinCodesProposal proto.InternalMessageInfo
 
-// Deprecated: Do not use. Since wasmd v0.40, there is no longer a need for
+// Deprecated: Do not use. Since junctiond v0.40, there is no longer a need for
 // an explicit UnpinCodesProposal. To unpin a set of code ids in the wasmvm
 // cache, a simple MsgUnpinCodes can be invoked from the x/gov module via
 // a v1 governance proposal.
@@ -650,7 +650,7 @@ func (m *AccessConfigUpdate) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_AccessConfigUpdate proto.InternalMessageInfo
 
-// Deprecated: Do not use. Since wasmd v0.40, there is no longer a need for
+// Deprecated: Do not use. Since junctiond v0.40, there is no longer a need for
 // an explicit UpdateInstantiateConfigProposal. To update instantiate config
 // to a set of code ids, a simple MsgUpdateInstantiateConfig can be invoked from
 // the x/gov module via a v1 governance proposal.
@@ -703,7 +703,7 @@ func (m *UpdateInstantiateConfigProposal) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_UpdateInstantiateConfigProposal proto.InternalMessageInfo
 
-// Deprecated: Do not use. Since wasmd v0.40, there is no longer a need for
+// Deprecated: Do not use. Since junctiond v0.40, there is no longer a need for
 // an explicit StoreAndInstantiateContractProposal. To store and instantiate
 // the contract, a simple MsgStoreAndInstantiateContract can be invoked from
 // the x/gov module via a v1 governance proposal.

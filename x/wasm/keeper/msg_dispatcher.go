@@ -25,7 +25,7 @@ var (
 	_ Messenger = SDKMessageHandler{}
 )
 
-// Messenger is an extension point for custom wasmd message handling
+// Messenger is an extension point for custom junctiond message handling
 type Messenger interface {
 	// DispatchMsg encodes the wasmVM message and dispatches it.
 	DispatchMsg(ctx sdk.Context, contractAddr sdk.AccAddress, contractIBCPortID string, msg wasmvmtypes.CosmosMsg) (events []sdk.Event, data [][]byte, msgResponses [][]*codectypes.Any, err error)

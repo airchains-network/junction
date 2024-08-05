@@ -33,7 +33,7 @@ func NewCoordinator(t *testing.T, n int, opts ...[]wasmkeeper.Option) *Coordinat
 	return NewCoordinatorX(t, n, DefaultWasmAppFactory, opts...)
 }
 
-// NewCoordinatorX initializes Coordinator with N TestChain instances using the given app factory
+// NewCoordinatorX initializes Coordinator with N TestChain instances using the given app_old factory
 func NewCoordinatorX(t *testing.T, n int, appFactory ChainAppFactory, opts ...[]wasmkeeper.Option) *Coordinator {
 	t.Helper()
 	chains := make(map[string]*TestChain)
@@ -275,7 +275,7 @@ func (coord *Coordinator) RelayAndAckPendingPackets(path *Path) error {
 	return nil
 }
 
-// TimeoutPendingPackets returns the package to source chain to let the IBC app revert any operation.
+// TimeoutPendingPackets returns the package to source chain to let the IBC app_old revert any operation.
 // from A to B
 func (coord *Coordinator) TimeoutPendingPackets(path *Path) error {
 	src := path.EndpointA

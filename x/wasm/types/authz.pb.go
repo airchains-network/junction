@@ -32,7 +32,7 @@ var (
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
 // StoreCodeAuthorization defines authorization for wasm code upload.
-// Since: wasmd 0.42
+// Since: junctiond 0.42
 type StoreCodeAuthorization struct {
 	// Grants for code upload
 	Grants []CodeGrant `protobuf:"bytes,1,rep,name=grants,proto3" json:"grants"`
@@ -77,7 +77,7 @@ func (m *StoreCodeAuthorization) XXX_DiscardUnknown() {
 var xxx_messageInfo_StoreCodeAuthorization proto.InternalMessageInfo
 
 // ContractExecutionAuthorization defines authorization for wasm execute.
-// Since: wasmd 0.30
+// Since: junctiond 0.30
 type ContractExecutionAuthorization struct {
 	// Grants for contract executions
 	Grants []ContractGrant `protobuf:"bytes,1,rep,name=grants,proto3" json:"grants"`
@@ -122,7 +122,7 @@ func (m *ContractExecutionAuthorization) XXX_DiscardUnknown() {
 var xxx_messageInfo_ContractExecutionAuthorization proto.InternalMessageInfo
 
 // ContractMigrationAuthorization defines authorization for wasm contract
-// migration. Since: wasmd 0.30
+// migration. Since: junctiond 0.30
 type ContractMigrationAuthorization struct {
 	// Grants for contract migrations
 	Grants []ContractGrant `protobuf:"bytes,1,rep,name=grants,proto3" json:"grants"`
@@ -216,7 +216,7 @@ func (m *CodeGrant) XXX_DiscardUnknown() {
 var xxx_messageInfo_CodeGrant proto.InternalMessageInfo
 
 // ContractGrant a granted permission for a single contract
-// Since: wasmd 0.30
+// Since: junctiond 0.30
 type ContractGrant struct {
 	// Contract is the bech32 address of the smart contract
 	Contract string `protobuf:"bytes,1,opt,name=contract,proto3" json:"contract,omitempty"`
@@ -268,7 +268,7 @@ func (m *ContractGrant) XXX_DiscardUnknown() {
 var xxx_messageInfo_ContractGrant proto.InternalMessageInfo
 
 // MaxCallsLimit limited number of calls to the contract. No funds transferable.
-// Since: wasmd 0.30
+// Since: junctiond 0.30
 type MaxCallsLimit struct {
 	// Remaining number that is decremented on each execution
 	Remaining uint64 `protobuf:"varint,1,opt,name=remaining,proto3" json:"remaining,omitempty"`
@@ -313,7 +313,7 @@ func (m *MaxCallsLimit) XXX_DiscardUnknown() {
 var xxx_messageInfo_MaxCallsLimit proto.InternalMessageInfo
 
 // MaxFundsLimit defines the maximal amounts that can be sent to the contract.
-// Since: wasmd 0.30
+// Since: junctiond 0.30
 type MaxFundsLimit struct {
 	// Amounts is the maximal amount of tokens transferable to the contract.
 	Amounts github_com_cosmos_cosmos_sdk_types.Coins `protobuf:"bytes,1,rep,name=amounts,proto3,castrepeated=github.com/cosmos/cosmos-sdk/types.Coins" json:"amounts"`
@@ -359,7 +359,7 @@ var xxx_messageInfo_MaxFundsLimit proto.InternalMessageInfo
 
 // CombinedLimit defines the maximal amounts that can be sent to a contract and
 // the maximal number of calls executable. Both need to remain >0 to be valid.
-// Since: wasmd 0.30
+// Since: junctiond 0.30
 type CombinedLimit struct {
 	// Remaining number that is decremented on each execution
 	CallsRemaining uint64 `protobuf:"varint,1,opt,name=calls_remaining,json=callsRemaining,proto3" json:"calls_remaining,omitempty"`
@@ -407,7 +407,7 @@ var xxx_messageInfo_CombinedLimit proto.InternalMessageInfo
 
 // AllowAllMessagesFilter is a wildcard to allow any type of contract payload
 // message.
-// Since: wasmd 0.30
+// Since: junctiond 0.30
 type AllowAllMessagesFilter struct{}
 
 func (m *AllowAllMessagesFilter) Reset()         { *m = AllowAllMessagesFilter{} }
@@ -450,7 +450,7 @@ var xxx_messageInfo_AllowAllMessagesFilter proto.InternalMessageInfo
 
 // AcceptedMessageKeysFilter accept only the specific contract message keys in
 // the json object to be executed.
-// Since: wasmd 0.30
+// Since: junctiond 0.30
 type AcceptedMessageKeysFilter struct {
 	// Messages is the list of unique keys
 	Keys []string `protobuf:"bytes,1,rep,name=keys,proto3" json:"keys,omitempty"`
@@ -496,7 +496,7 @@ var xxx_messageInfo_AcceptedMessageKeysFilter proto.InternalMessageInfo
 
 // AcceptedMessagesFilter accept only the specific raw contract messages to be
 // executed.
-// Since: wasmd 0.30
+// Since: junctiond 0.30
 type AcceptedMessagesFilter struct {
 	// Messages is the list of raw contract messages
 	Messages []RawContractMessage `protobuf:"bytes,1,rep,name=messages,proto3,casttype=RawContractMessage" json:"messages,omitempty"`

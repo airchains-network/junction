@@ -10,15 +10,15 @@ CHAINID=junction
 MONIKER=noooblien
 KEYRING="test"
 DENOM="amf"
-TOTAL_SUPPLY="8246415958720000000000000000000000000000000000000000000000000000"
-VALIDATOR_STAKE="824641595872000000000000000000000000000000000000000000000000000"
+TOTAL_SUPPLY="10000000000000000"
+VALIDATOR_STAKE="10000000000"
 
 # Clean build directory
 rm -rf ./build/
 make build
 
 # Remove the existing data
-rm -rf ~/.junction
+rm -rf ~/.junctiond
 
 # Initialize the node
 ./build/junction-test init $MONIKER --chain-id $CHAINID --default-denom $DENOM
@@ -64,4 +64,4 @@ cat ~/.junction/config/genesis.json | jq '.app_state.staking.validators'
 cat ~/.junction/config/genesis.json | jq '.app_state.genutil.gen_txs'
 
 # Start the node
-./build/junction-04 start --api.enable --minimum-gas-prices 0.00025${DENOM}
+./build/junction-test start --api.enable --minimum-gas-prices 0.00025${DENOM}

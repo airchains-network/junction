@@ -32,7 +32,6 @@ import (
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
-	"github.com/airchains-network/junction/app"
 	"github.com/airchains-network/junction/x/wasm/keeper"
 	"github.com/airchains-network/junction/x/wasm/keeper/wasmtesting"
 	"github.com/airchains-network/junction/x/wasm/types"
@@ -570,12 +569,12 @@ func TestQueryErrors(t *testing.T) {
 }
 
 func TestAcceptListStargateQuerier(t *testing.T) {
-	wasmApp := app.SetupWithEmptyStore(t)
+	wasmApp := app_old.SetupWithEmptyStore(t)
 	ctx := wasmApp.NewUncachedContext(false, cmtproto.Header{ChainID: "foo", Height: 1, Time: time.Now()})
 	err := wasmApp.StakingKeeper.SetParams(ctx, stakingtypes.DefaultParams())
 	require.NoError(t, err)
 
-	addrs := app.AddTestAddrsIncremental(wasmApp, ctx, 2, sdkmath.NewInt(1_000_000))
+	addrs := app_old.AddTestAddrsIncremental(wasmApp, ctx, 2, sdkmath.NewInt(1_000_000))
 	accepted := keeper.AcceptedQueries{
 		"/cosmos.auth.v1beta1.Query/Account": &authtypes.QueryAccountResponse{},
 		"/no/route/to/this":                  &authtypes.QueryAccountResponse{},
@@ -755,7 +754,7 @@ func TestConvertProtoToJSONMarshal(t *testing.T) {
 		t.Run(fmt.Sprintf("Case %s", tc.name), func(t *testing.T) {
 			originalVersionBz, err := hex.DecodeString(tc.originalResponse)
 			require.NoError(t, err)
-			appCodec := app.MakeEncodingConfig(t).Codec
+			appCodec := app_old.MakeEncodingConfig(t).Codec
 
 			jsonMarshalledResponse, err := keeper.ConvertProtoToJSONMarshal(appCodec, tc.protoResponseStruct, originalVersionBz)
 			if tc.expectedError {
@@ -810,7 +809,7 @@ func TestConvertSDKDecCoinToWasmDecCoin(t *testing.T) {
 }
 
 func TestResetProtoMarshalerAfterJsonMarshal(t *testing.T) {
-	appCodec := app.MakeEncodingConfig(t).Codec
+	appCodec := app_old.MakeEncodingConfig(t).Codec
 
 	protoMarshaler := &banktypes.QueryAllBalancesResponse{}
 	expected := appCodec.MustMarshalJSON(&banktypes.QueryAllBalancesResponse{
@@ -886,7 +885,7 @@ func TestDeterministicJsonMarshal(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(fmt.Sprintf("Case %s", tc.name), func(t *testing.T) {
-			appCodec := app.MakeEncodingConfig(t).Codec
+			appCodec := app_old.MakeEncodingConfig(t).Codec
 
 			originVersionBz, err := hex.DecodeString(tc.originalResponse)
 			require.NoError(t, err)

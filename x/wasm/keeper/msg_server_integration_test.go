@@ -15,7 +15,6 @@ import (
 	"github.com/cosmos/cosmos-sdk/testutil/testdata"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/airchains-network/junction/app"
 	"github.com/airchains-network/junction/x/wasm/keeper"
 	"github.com/airchains-network/junction/x/wasm/types"
 )
@@ -27,7 +26,7 @@ var wasmContract []byte
 var hackatomContract []byte
 
 func TestStoreCode(t *testing.T) {
-	wasmApp := app.Setup(t)
+	wasmApp := app_old.Setup(t)
 	ctx := wasmApp.BaseApp.NewContext(false)
 	_, _, sender := testdata.KeyTestPubAddr()
 	msg := types.MsgStoreCodeFixture(func(m *types.MsgStoreCode) {
@@ -56,7 +55,7 @@ func TestStoreCode(t *testing.T) {
 }
 
 func TestUpdateParams(t *testing.T) {
-	wasmApp := app.Setup(t)
+	wasmApp := app_old.Setup(t)
 	ctx := wasmApp.BaseApp.NewContext(false)
 
 	var (
@@ -146,7 +145,7 @@ func TestUpdateParams(t *testing.T) {
 }
 
 func TestAddCodeUploadParamsAddresses(t *testing.T) {
-	wasmApp := app.Setup(t)
+	wasmApp := app_old.Setup(t)
 	ctx := wasmApp.BaseApp.NewContext(false)
 
 	var (
@@ -242,7 +241,7 @@ func TestAddCodeUploadParamsAddresses(t *testing.T) {
 }
 
 func TestRemoveCodeUploadParamsAddresses(t *testing.T) {
-	wasmApp := app.Setup(t)
+	wasmApp := app_old.Setup(t)
 	ctx := wasmApp.BaseApp.NewContext(false)
 
 	var (
@@ -338,7 +337,7 @@ func TestRemoveCodeUploadParamsAddresses(t *testing.T) {
 }
 
 func TestPinCodes(t *testing.T) {
-	wasmApp := app.Setup(t)
+	wasmApp := app_old.Setup(t)
 	ctx := wasmApp.BaseApp.NewContext(false)
 
 	var (
@@ -395,7 +394,7 @@ func TestPinCodes(t *testing.T) {
 }
 
 func TestUnpinCodes(t *testing.T) {
-	wasmApp := app.Setup(t)
+	wasmApp := app_old.Setup(t)
 	ctx := wasmApp.BaseApp.NewContext(false)
 
 	var (
@@ -460,7 +459,7 @@ func TestUnpinCodes(t *testing.T) {
 }
 
 func TestSudoContract(t *testing.T) {
-	wasmApp := app.Setup(t)
+	wasmApp := app_old.Setup(t)
 	ctx := wasmApp.BaseApp.NewContextLegacy(false, tmproto.Header{Time: time.Now()})
 
 	var (
@@ -551,7 +550,7 @@ func TestSudoContract(t *testing.T) {
 }
 
 func TestStoreAndInstantiateContract(t *testing.T) {
-	wasmApp := app.Setup(t)
+	wasmApp := app_old.Setup(t)
 	ctx := wasmApp.BaseApp.NewContextLegacy(false, tmproto.Header{Time: time.Now()})
 
 	var (
@@ -611,7 +610,7 @@ func TestStoreAndInstantiateContract(t *testing.T) {
 }
 
 func TestUpdateAdmin(t *testing.T) {
-	wasmApp := app.Setup(t)
+	wasmApp := app_old.Setup(t)
 	ctx := wasmApp.BaseApp.NewContextLegacy(false, tmproto.Header{Time: time.Now()})
 
 	var (
@@ -676,7 +675,7 @@ func TestUpdateAdmin(t *testing.T) {
 }
 
 func TestClearAdmin(t *testing.T) {
-	wasmApp := app.Setup(t)
+	wasmApp := app_old.Setup(t)
 	ctx := wasmApp.BaseApp.NewContextLegacy(false, tmproto.Header{Time: time.Now()})
 
 	var (
@@ -738,7 +737,7 @@ func TestClearAdmin(t *testing.T) {
 }
 
 func TestMigrateContract(t *testing.T) {
-	wasmApp := app.Setup(t)
+	wasmApp := app_old.Setup(t)
 	ctx := wasmApp.BaseApp.NewContextLegacy(false, tmproto.Header{Time: time.Now()})
 
 	var (
@@ -825,7 +824,7 @@ func TestMigrateContract(t *testing.T) {
 }
 
 func TestInstantiateContract(t *testing.T) {
-	wasmApp := app.Setup(t)
+	wasmApp := app_old.Setup(t)
 	ctx := wasmApp.BaseApp.NewContextLegacy(false, tmproto.Header{Time: time.Now()})
 
 	var (
@@ -897,7 +896,7 @@ func TestInstantiateContract(t *testing.T) {
 }
 
 func TestInstantiateContract2(t *testing.T) {
-	wasmApp := app.Setup(t)
+	wasmApp := app_old.Setup(t)
 	ctx := wasmApp.BaseApp.NewContextLegacy(false, tmproto.Header{Time: time.Now()})
 
 	var (
@@ -976,7 +975,7 @@ func TestInstantiateContract2(t *testing.T) {
 }
 
 func TestUpdateInstantiateConfig(t *testing.T) {
-	wasmApp := app.Setup(t)
+	wasmApp := app_old.Setup(t)
 	ctx := wasmApp.BaseApp.NewContextLegacy(false, tmproto.Header{Time: time.Now()})
 
 	var (
@@ -1050,7 +1049,7 @@ func TestUpdateInstantiateConfig(t *testing.T) {
 }
 
 func TestStoreAndMigrateContract(t *testing.T) {
-	wasmApp := app.Setup(t)
+	wasmApp := app_old.Setup(t)
 	ctx := wasmApp.BaseApp.NewContextLegacy(false, tmproto.Header{Time: time.Now()})
 
 	checksum, err := wasmvm.CreateChecksum(hackatomContract)
@@ -1146,7 +1145,7 @@ func TestStoreAndMigrateContract(t *testing.T) {
 }
 
 func TestUpdateContractLabel(t *testing.T) {
-	wasmApp := app.Setup(t)
+	wasmApp := app_old.Setup(t)
 	ctx := wasmApp.BaseApp.NewContextLegacy(false, tmproto.Header{Time: time.Now()})
 
 	var (

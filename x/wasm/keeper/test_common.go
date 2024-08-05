@@ -116,7 +116,7 @@ func MakeEncodingConfig(_ testing.TB) wasmappparams.EncodingConfig {
 
 	moduleBasics.RegisterLegacyAminoCodec(amino)
 	moduleBasics.RegisterInterfaces(interfaceRegistry)
-	// add wasmd types
+	// add junctiond types
 	types.RegisterInterfaces(interfaceRegistry)
 	types.RegisterLegacyAminoCodec(amino)
 

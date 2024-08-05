@@ -1766,7 +1766,7 @@ paths:
               app_hash:
                 type: string
                 format: byte
-                title: app hash of the current block
+                title: app_old hash of the current block
               validator_hash:
                 type: string
                 format: byte
@@ -20560,7 +20560,7 @@ definitions:
       app_hash:
         type: string
         format: byte
-        title: app hash of the current block
+        title: app_old hash of the current block
       validator_hash:
         type: string
         format: byte

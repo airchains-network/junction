@@ -20,7 +20,6 @@ import (
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	banktypes "github.com/cosmos/cosmos-sdk/x/bank/types"
 
-	"github.com/airchains-network/junction/app"
 	"github.com/airchains-network/junction/x/wasm/keeper"
 	"github.com/airchains-network/junction/x/wasm/types"
 )
@@ -41,7 +40,7 @@ func TestSnapshotter(t *testing.T) {
 	}
 	for name, spec := range specs {
 		t.Run(name, func(t *testing.T) {
-			// setup source app
+			// setup source app_old
 			srcWasmApp, genesisAddr := newWasmExampleApp(t)
 
 			// store wasm codes on chain
@@ -77,8 +76,8 @@ func TestSnapshotter(t *testing.T) {
 				types.MaxWasmSize = originalMaxWasmSize
 			})
 
-			// when snapshot imported into dest app instance
-			destWasmApp := app.SetupWithEmptyStore(t)
+			// when snapshot imported into dest app_old instance
+			destWasmApp := app_old.SetupWithEmptyStore(t)
 			require.NoError(t, destWasmApp.SnapshotManager().Restore(*snapshot))
 			for i := uint32(0); i < snapshot.Chunks; i++ {
 				chunkBz, err := srcWasmApp.SnapshotManager().LoadChunk(snapshot.Height, snapshot.Format, i)
@@ -114,7 +113,7 @@ func TestSnapshotter(t *testing.T) {
 	}
 }
 
-func newWasmExampleApp(t *testing.T) (*app.WasmApp, sdk.AccAddress) {
+func newWasmExampleApp(t *testing.T) (*app_old.WasmApp, sdk.AccAddress) {
 	senderPrivKey := ed25519.GenPrivKey()
 	pubKey, err := cryptocodec.ToCmtPubKeyInterface(senderPrivKey.PubKey())
 	require.NoError(t, err)
@@ -130,7 +129,7 @@ func newWasmExampleApp(t *testing.T) (*app.WasmApp, sdk.AccAddress) {
 	}
 	validator := tmtypes.NewValidator(pubKey, 1)
 	valSet := tmtypes.NewValidatorSet([]*tmtypes.Validator{validator})
-	wasmApp := app.SetupWithGenesisValSet(t, valSet, []authtypes.GenesisAccount{acc}, "testing", nil, balance)
+	wasmApp := app_old.SetupWithGenesisValSet(t, valSet, []authtypes.GenesisAccount{acc}, "testing", nil, balance)
 
 	return wasmApp, senderAddr
 }

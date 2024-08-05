@@ -16,7 +16,6 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/airchains-network/junction/app"
 	wasmibctesting "github.com/airchains-network/junction/x/wasm/ibctesting"
 	wasmkeeper "github.com/airchains-network/junction/x/wasm/keeper"
 	"github.com/airchains-network/junction/x/wasm/keeper/wasmtesting"
@@ -69,7 +68,7 @@ func TestOnChanOpenInitVersion(t *testing.T) {
 				chainA         = coordinator.GetChain(wasmibctesting.GetChainID(1))
 				chainB         = coordinator.GetChain(wasmibctesting.GetChainID(2))
 				myContractAddr = chainA.SeedNewContractInstance()
-				appA           = chainA.App.(*app.WasmApp)
+				appA           = chainA.App.(*app_old.WasmApp)
 				contractInfo   = appA.WasmKeeper.GetContractInfo(chainA.GetContext(), myContractAddr)
 			)
 			path := wasmibctesting.NewPath(chainA, chainB)

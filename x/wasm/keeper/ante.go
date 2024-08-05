@@ -22,7 +22,7 @@ func NewCountTXDecorator(s corestoretypes.KVStoreService) *CountTXDecorator {
 	return &CountTXDecorator{storeService: s}
 }
 
-// AnteHandle handler stores a tx counter with current height encoded in the store to let the app handle
+// AnteHandle handler stores a tx counter with current height encoded in the store to let the app_old handle
 // global rollback behavior instead of keeping state in the handler itself.
 // The ante handler passes the counter value via sdk.Context upstream. See `types.TXCounter(ctx)` to read the value.
 // Simulations don't get a tx counter value assigned.

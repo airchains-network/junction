@@ -336,12 +336,12 @@ func DefaultWasmConfig() WasmConfig {
 	}
 }
 
-// DefaultConfigTemplate toml snippet with default values for app.toml
+// DefaultConfigTemplate toml snippet with default values for app_old.toml
 func DefaultConfigTemplate() string {
 	return ConfigTemplate(DefaultWasmConfig())
 }
 
-// ConfigTemplate toml snippet for app.toml
+// ConfigTemplate toml snippet for app_old.toml
 func ConfigTemplate(c WasmConfig) string {
 	simGasLimit := `# simulation_gas_limit =`
 	if c.SimulationGasLimit != nil {

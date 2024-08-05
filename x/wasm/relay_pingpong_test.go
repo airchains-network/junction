@@ -289,7 +289,7 @@ func (p player) IBCPacketAck(_ wasmvm.Checksum, _ wasmvmtypes.Env, msg wasmvmtyp
 		confirmedCount := sentBall[p.actor]
 		p.t.Logf("[%s] acknowledged %d: %v\n", p.actor, confirmedCount, sentBall)
 	} else {
-		p.t.Logf("[%s] received app layer error: %s\n", p.actor, ack.Error)
+		p.t.Logf("[%s] received app_old layer error: %s\n", p.actor, ack.Error)
 	}
 
 	p.incrementCounter(confirmedBallsCountKey, store)
