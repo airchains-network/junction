@@ -1,4 +1,4 @@
-module github.com/CosmWasm/wasmd
+module github.com/airchains-network/junction
 
 go 1.21
 
