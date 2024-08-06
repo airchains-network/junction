@@ -18,55 +18,55 @@ service Query {
   
   // Parameters queries the parameters of the module.
   rpc Params (QueryParamsRequest) returns (QueryParamsResponse) {
-    option (google.api.http).get = "/ComputerKeeda/junction/junction/params";
+    option (google.api.http).get = "/airchains-network/junction/junction/params";
   
   }
   
   // Queries a list of GetStation items.
   rpc GetStation (QueryGetStationRequest) returns (QueryGetStationResponse) {
-    option (google.api.http).get = "/ComputerKeeda/junction/junction/get_station/{id}";
+    option (google.api.http).get = "/airchains-network/junction/junction/get_station/{id}";
   
   }
   
   // Queries a list of ListStations items.
   rpc ListStations (QueryListStationsRequest) returns (QueryListStationsResponse) {
-    option (google.api.http).get = "/ComputerKeeda/junction/junction/list_stations";
+    option (google.api.http).get = "/airchains-network/junction/junction/list_stations";
   
   }
   
   // Queries a list of GetStationDetailsByAddress items.
   rpc GetStationDetailsByAddress (QueryGetStationDetailsByAddressRequest) returns (QueryGetStationDetailsByAddressResponse) {
-    option (google.api.http).get = "/ComputerKeeda/junction/junction/get_station_details_by_address/{address}";
+    option (google.api.http).get = "/airchains-network/junction/junction/get_station_details_by_address/{address}";
   
   }
   
   // Queries a list of GetPod items.
   rpc GetPod (QueryGetPodRequest) returns (QueryGetPodResponse) {
-    option (google.api.http).get = "/ComputerKeeda/junction/junction/get_pod/{stationId}/{podNumber}";
+    option (google.api.http).get = "/airchains-network/junction/junction/get_pod/{stationId}/{podNumber}";
   
   }
   
   // Queries a list of GetLatestSubmittedPodNumber items.
   rpc GetLatestSubmittedPodNumber (QueryGetLatestSubmittedPodNumberRequest) returns (QueryGetLatestSubmittedPodNumberResponse) {
-    option (google.api.http).get = "/ComputerKeeda/junction/junction/get_latest_submitted_pod_number/{stationId}";
+    option (google.api.http).get = "/airchains-network/junction/junction/get_latest_submitted_pod_number/{stationId}";
   
   }
   
   // Queries a list of GetLatestVerifiedPodNumber items.
   rpc GetLatestVerifiedPodNumber (QueryGetLatestVerifiedPodNumberRequest) returns (QueryGetLatestVerifiedPodNumberResponse) {
-    option (google.api.http).get = "/ComputerKeeda/junction/junction/get_latest_verified_pod_number/{stationId}";
+    option (google.api.http).get = "/airchains-network/junction/junction/get_latest_verified_pod_number/{stationId}";
   
   }
   
   // Queries a list of FetchVrn items.
   rpc FetchVrn (QueryFetchVrnRequest) returns (QueryFetchVrnResponse) {
-    option (google.api.http).get = "/ComputerKeeda/junction/junction/fetch_vrn/{podNumber}/{stationId}";
+    option (google.api.http).get = "/airchains-network/junction/junction/fetch_vrn/{podNumber}/{stationId}";
   
   }
   
   // Queries a list of GetTracks items.
   rpc GetTracks (QueryGetTracksRequest) returns (QueryGetTracksResponse) {
-    option (google.api.http).get = "/ComputerKeeda/junction/junction/get_tracks/{stationId}";
+    option (google.api.http).get = "/airchains-network/junction/junction/get_tracks/{stationId}";
   
   }
   
