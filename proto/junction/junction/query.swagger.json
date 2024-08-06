@@ -1,0 +1,732 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "junction/junction/query.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "Query"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/ComputerKeeda/junction/junction/fetch_vrn/{podNumber}/{stationId}": {
+      "get": {
+        "summary": "Queries a list of FetchVrn items.",
+        "operationId": "Query_FetchVrn",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/junction.junction.QueryFetchVrnResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/google.rpc.Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "podNumber",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "uint64"
+          },
+          {
+            "name": "stationId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Query"
+        ]
+      }
+    },
+    "/ComputerKeeda/junction/junction/get_latest_submitted_pod_number/{stationId}": {
+      "get": {
+        "summary": "Queries a list of GetLatestSubmittedPodNumber items.",
+        "operationId": "Query_GetLatestSubmittedPodNumber",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/junction.junction.QueryGetLatestSubmittedPodNumberResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/google.rpc.Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "stationId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Query"
+        ]
+      }
+    },
+    "/ComputerKeeda/junction/junction/get_latest_verified_pod_number/{stationId}": {
+      "get": {
+        "summary": "Queries a list of GetLatestVerifiedPodNumber items.",
+        "operationId": "Query_GetLatestVerifiedPodNumber",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/junction.junction.QueryGetLatestVerifiedPodNumberResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/google.rpc.Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "stationId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Query"
+        ]
+      }
+    },
+    "/ComputerKeeda/junction/junction/get_pod/{stationId}/{podNumber}": {
+      "get": {
+        "summary": "Queries a list of GetPod items.",
+        "operationId": "Query_GetPod",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/junction.junction.QueryGetPodResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/google.rpc.Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "stationId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "podNumber",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "uint64"
+          }
+        ],
+        "tags": [
+          "Query"
+        ]
+      }
+    },
+    "/ComputerKeeda/junction/junction/get_station/{id}": {
+      "get": {
+        "summary": "Queries a list of GetStation items.",
+        "operationId": "Query_GetStation",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/junction.junction.QueryGetStationResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/google.rpc.Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Query"
+        ]
+      }
+    },
+    "/ComputerKeeda/junction/junction/get_station_details_by_address/{address}": {
+      "get": {
+        "summary": "Queries a list of GetStationDetailsByAddress items.",
+        "operationId": "Query_GetStationDetailsByAddress",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/junction.junction.QueryGetStationDetailsByAddressResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/google.rpc.Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "address",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Query"
+        ]
+      }
+    },
+    "/ComputerKeeda/junction/junction/get_tracks/{stationId}": {
+      "get": {
+        "summary": "Queries a list of GetTracks items.",
+        "operationId": "Query_GetTracks",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/junction.junction.QueryGetTracksResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/google.rpc.Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "stationId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "pagination.key",
+            "description": "key is a value returned in PageResponse.next_key to begin\nquerying the next page most efficiently. Only one of offset or key\nshould be set.",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "byte"
+          },
+          {
+            "name": "pagination.offset",
+            "description": "offset is a numeric offset that can be used when key is unavailable.\nIt is less efficient than using key. Only one of offset or key should\nbe set.",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "uint64"
+          },
+          {
+            "name": "pagination.limit",
+            "description": "limit is the total number of results to be returned in the result page.\nIf left empty it will default to a value to be set by each app.",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "uint64"
+          },
+          {
+            "name": "pagination.count_total",
+            "description": "count_total is set to true  to indicate that the result set should include\na count of the total number of items available for pagination in UIs.\ncount_total is only respected when offset is used. It is ignored when key\nis set.",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "pagination.reverse",
+            "description": "reverse is set to true if results are to be returned in the descending order.\n\nSince: cosmos-sdk 0.43",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          }
+        ],
+        "tags": [
+          "Query"
+        ]
+      }
+    },
+    "/ComputerKeeda/junction/junction/list_stations": {
+      "get": {
+        "summary": "Queries a list of ListStations items.",
+        "operationId": "Query_ListStations",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/junction.junction.QueryListStationsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/google.rpc.Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "pagination.key",
+            "description": "key is a value returned in PageResponse.next_key to begin\nquerying the next page most efficiently. Only one of offset or key\nshould be set.",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "byte"
+          },
+          {
+            "name": "pagination.offset",
+            "description": "offset is a numeric offset that can be used when key is unavailable.\nIt is less efficient than using key. Only one of offset or key should\nbe set.",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "uint64"
+          },
+          {
+            "name": "pagination.limit",
+            "description": "limit is the total number of results to be returned in the result page.\nIf left empty it will default to a value to be set by each app.",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "uint64"
+          },
+          {
+            "name": "pagination.count_total",
+            "description": "count_total is set to true  to indicate that the result set should include\na count of the total number of items available for pagination in UIs.\ncount_total is only respected when offset is used. It is ignored when key\nis set.",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "pagination.reverse",
+            "description": "reverse is set to true if results are to be returned in the descending order.\n\nSince: cosmos-sdk 0.43",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          }
+        ],
+        "tags": [
+          "Query"
+        ]
+      }
+    },
+    "/ComputerKeeda/junction/junction/params": {
+      "get": {
+        "summary": "Parameters queries the parameters of the module.",
+        "operationId": "Query_Params",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/junction.junction.QueryParamsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/google.rpc.Status"
+            }
+          }
+        },
+        "tags": [
+          "Query"
+        ]
+      }
+    },
+    "/airchains-network/junction/junction/is_track_member/{trackAddress}/{stationId}": {
+      "get": {
+        "summary": "Queries a list of IsTrackMember items.",
+        "operationId": "Query_IsTrackMember",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/junction.junction.QueryIsTrackMemberResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/google.rpc.Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "trackAddress",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "stationId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "Query"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "cosmos.base.query.v1beta1.PageRequest": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string",
+          "format": "byte",
+          "description": "key is a value returned in PageResponse.next_key to begin\nquerying the next page most efficiently. Only one of offset or key\nshould be set."
+        },
+        "offset": {
+          "type": "string",
+          "format": "uint64",
+          "description": "offset is a numeric offset that can be used when key is unavailable.\nIt is less efficient than using key. Only one of offset or key should\nbe set."
+        },
+        "limit": {
+          "type": "string",
+          "format": "uint64",
+          "description": "limit is the total number of results to be returned in the result page.\nIf left empty it will default to a value to be set by each app."
+        },
+        "count_total": {
+          "type": "boolean",
+          "description": "count_total is set to true  to indicate that the result set should include\na count of the total number of items available for pagination in UIs.\ncount_total is only respected when offset is used. It is ignored when key\nis set."
+        },
+        "reverse": {
+          "type": "boolean",
+          "description": "reverse is set to true if results are to be returned in the descending order.\n\nSince: cosmos-sdk 0.43"
+        }
+      },
+      "description": "message SomeRequest {\n         Foo some_parameter = 1;\n         PageRequest pagination = 2;\n }",
+      "title": "PageRequest is to be embedded in gRPC request messages for efficient\npagination. Ex:"
+    },
+    "cosmos.base.query.v1beta1.PageResponse": {
+      "type": "object",
+      "properties": {
+        "next_key": {
+          "type": "string",
+          "format": "byte",
+          "description": "next_key is the key to be passed to PageRequest.key to\nquery the next page most efficiently. It will be empty if\nthere are no more results."
+        },
+        "total": {
+          "type": "string",
+          "format": "uint64",
+          "title": "total is total number of results available if PageRequest.count_total\nwas set, its value is undefined otherwise"
+        }
+      },
+      "description": "PageResponse is to be embedded in gRPC response messages where the\ncorresponding request message has used PageRequest.\n\n message SomeResponse {\n         repeated Bar results = 1;\n         PageResponse page = 2;\n }"
+    },
+    "google.protobuf.Any": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "google.rpc.Status": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/google.protobuf.Any"
+          }
+        }
+      }
+    },
+    "junction.junction.Params": {
+      "type": "object",
+      "description": "Params defines the parameters for the module."
+    },
+    "junction.junction.Pods": {
+      "type": "object",
+      "properties": {
+        "podNumber": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "merkleRootHash": {
+          "type": "string"
+        },
+        "previousMerkleRootHash": {
+          "type": "string"
+        },
+        "zkProof": {
+          "type": "string",
+          "format": "byte"
+        },
+        "witness": {
+          "type": "string",
+          "format": "byte"
+        },
+        "timestamp": {
+          "type": "string"
+        },
+        "isVerified": {
+          "type": "boolean"
+        }
+      }
+    },
+    "junction.junction.QueryFetchVrnResponse": {
+      "type": "object",
+      "properties": {
+        "details": {
+          "$ref": "#/definitions/junction.junction.VrfRecord"
+        }
+      }
+    },
+    "junction.junction.QueryGetLatestSubmittedPodNumberResponse": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        },
+        "podNumber": {
+          "type": "string",
+          "format": "uint64"
+        }
+      }
+    },
+    "junction.junction.QueryGetLatestVerifiedPodNumberResponse": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        },
+        "podNumber": {
+          "type": "string",
+          "format": "uint64"
+        }
+      }
+    },
+    "junction.junction.QueryGetPodResponse": {
+      "type": "object",
+      "properties": {
+        "pod": {
+          "$ref": "#/definitions/junction.junction.Pods"
+        }
+      }
+    },
+    "junction.junction.QueryGetStationDetailsByAddressResponse": {
+      "type": "object",
+      "properties": {
+        "stations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/junction.junction.Stations"
+          }
+        },
+        "pagination": {
+          "$ref": "#/definitions/cosmos.base.query.v1beta1.PageResponse"
+        }
+      }
+    },
+    "junction.junction.QueryGetStationResponse": {
+      "type": "object",
+      "properties": {
+        "stations": {
+          "$ref": "#/definitions/junction.junction.Stations"
+        }
+      }
+    },
+    "junction.junction.QueryGetTracksResponse": {
+      "type": "object",
+      "properties": {
+        "tracks": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "pagination": {
+          "$ref": "#/definitions/cosmos.base.query.v1beta1.PageResponse"
+        }
+      }
+    },
+    "junction.junction.QueryIsTrackMemberResponse": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "type": "boolean"
+        }
+      }
+    },
+    "junction.junction.QueryListStationsResponse": {
+      "type": "object",
+      "properties": {
+        "stationsList": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/junction.junction.Stations"
+          }
+        },
+        "pagination": {
+          "$ref": "#/definitions/cosmos.base.query.v1beta1.PageResponse"
+        }
+      }
+    },
+    "junction.junction.QueryParamsResponse": {
+      "type": "object",
+      "properties": {
+        "params": {
+          "$ref": "#/definitions/junction.junction.Params",
+          "description": "params holds all the parameters of this module."
+        }
+      },
+      "description": "QueryParamsResponse is response type for the Query/Params RPC method."
+    },
+    "junction.junction.Stations": {
+      "type": "object",
+      "properties": {
+        "tracks": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "votingPower": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "uint64"
+          }
+        },
+        "latestPod": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "latestMerkleRootHash": {
+          "type": "string"
+        },
+        "verificationKey": {
+          "type": "string",
+          "format": "byte"
+        },
+        "stationInfo": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "creator": {
+          "type": "string"
+        },
+        "spsp": {
+          "type": "string"
+        },
+        "trackType": {
+          "type": "string"
+        },
+        "daType": {
+          "type": "string"
+        },
+        "prover": {
+          "type": "string"
+        }
+      }
+    },
+    "junction.junction.VrfRecord": {
+      "type": "object",
+      "properties": {
+        "vrfCreatorAddr": {
+          "type": "string"
+        },
+        "vrfVerifierAddr": {
+          "type": "string"
+        },
+        "podNumber": {
+          "type": "string"
+        },
+        "stationId": {
+          "type": "string"
+        },
+        "occupancy": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "creatorsVrfKey": {
+          "type": "string"
+        },
+        "serializedRcFromCreator": {
+          "type": "string",
+          "format": "byte"
+        },
+        "serializedRcFromVerifier": {
+          "type": "string",
+          "format": "byte"
+        },
+        "proof": {
+          "type": "string",
+          "format": "byte"
+        },
+        "vrfOutput": {
+          "type": "string",
+          "format": "byte"
+        },
+        "isVerified": {
+          "type": "boolean"
+        },
+        "vrn": {
+          "type": "string",
+          "format": "byte"
+        },
+        "selectedTrackIndex": {
+          "type": "string",
+          "format": "uint64"
+        }
+      }
+    }
+  }
+}
