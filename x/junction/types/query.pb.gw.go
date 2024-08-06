@@ -1084,23 +1084,23 @@ func RegisterQueryHandlerClient(ctx context.Context, mux *runtime.ServeMux, clie
 }
 
 var (
-	pattern_Query_Params_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 1, 2, 2}, []string{"ComputerKeeda", "junction", "params"}, "", runtime.AssumeColonVerbOpt(false)))
+	pattern_Query_Params_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 1, 2, 2}, []string{"airchains-network", "junction", "params"}, "", runtime.AssumeColonVerbOpt(false)))
 
-	pattern_Query_GetStation_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"ComputerKeeda", "junction", "get_station", "id"}, "", runtime.AssumeColonVerbOpt(false)))
+	pattern_Query_GetStation_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"airchains-network", "junction", "get_station", "id"}, "", runtime.AssumeColonVerbOpt(false)))
 
-	pattern_Query_ListStations_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 1, 2, 2}, []string{"ComputerKeeda", "junction", "list_stations"}, "", runtime.AssumeColonVerbOpt(false)))
+	pattern_Query_ListStations_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 1, 2, 2}, []string{"airchains-network", "junction", "list_stations"}, "", runtime.AssumeColonVerbOpt(false)))
 
-	pattern_Query_GetStationDetailsByAddress_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"ComputerKeeda", "junction", "get_station_details_by_address", "address"}, "", runtime.AssumeColonVerbOpt(false)))
+	pattern_Query_GetStationDetailsByAddress_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"airchains-network", "junction", "get_station_details_by_address", "address"}, "", runtime.AssumeColonVerbOpt(false)))
 
-	pattern_Query_GetPod_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 1, 0, 4, 1, 5, 4}, []string{"ComputerKeeda", "junction", "get_pod", "stationId", "podNumber"}, "", runtime.AssumeColonVerbOpt(false)))
+	pattern_Query_GetPod_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 1, 0, 4, 1, 5, 4}, []string{"airchains-network", "junction", "get_pod", "stationId", "podNumber"}, "", runtime.AssumeColonVerbOpt(false)))
 
-	pattern_Query_GetLatestSubmittedPodNumber_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"ComputerKeeda", "junction", "get_latest_submitted_pod_number", "stationId"}, "", runtime.AssumeColonVerbOpt(false)))
+	pattern_Query_GetLatestSubmittedPodNumber_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"airchains-network", "junction", "get_latest_submitted_pod_number", "stationId"}, "", runtime.AssumeColonVerbOpt(false)))
 
-	pattern_Query_GetLatestVerifiedPodNumber_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"ComputerKeeda", "junction", "get_latest_verified_pod_number", "stationId"}, "", runtime.AssumeColonVerbOpt(false)))
+	pattern_Query_GetLatestVerifiedPodNumber_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"airchains-network", "junction", "get_latest_verified_pod_number", "stationId"}, "", runtime.AssumeColonVerbOpt(false)))
 
-	pattern_Query_FetchVrn_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 1, 0, 4, 1, 5, 4}, []string{"ComputerKeeda", "junction", "fetch_vrn", "podNumber", "stationId"}, "", runtime.AssumeColonVerbOpt(false)))
+	pattern_Query_FetchVrn_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 1, 0, 4, 1, 5, 4}, []string{"airchains-network", "junction", "fetch_vrn", "podNumber", "stationId"}, "", runtime.AssumeColonVerbOpt(false)))
 
-	pattern_Query_GetTracks_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"ComputerKeeda", "junction", "get_tracks", "stationId"}, "", runtime.AssumeColonVerbOpt(false)))
+	pattern_Query_GetTracks_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"airchains-network", "junction", "get_tracks", "stationId"}, "", runtime.AssumeColonVerbOpt(false)))
 
 	pattern_Query_IsTrackMember_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3, 1, 0, 4, 1, 5, 4}, []string{"airchains-network", "junction", "is_track_member", "trackAddress", "stationId"}, "", runtime.AssumeColonVerbOpt(false)))
 )
