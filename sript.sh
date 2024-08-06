@@ -18,7 +18,7 @@ rm -rf ./build/
 make build
 
 # Remove the existing data
-rm -rf ~/.junctiond
+rm -rf ~/.junction
 
 # Initialize the node
 ./build/junction-test init $MONIKER --chain-id $CHAINID --default-denom $DENOM

@@ -9,3 +9,7 @@ release/
 *.ign
 /.trunk
 /.idea
+/build
+sript.sh
+build.sh
+contracts
