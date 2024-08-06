@@ -3,6 +3,7 @@ package app
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/airchains-network/junction/docs"
 	"io"
 	"os"
 	"path/filepath"
@@ -187,12 +188,12 @@ var maccPerms = map[string][]string{
 }
 
 var (
-	_ runtime.AppI            = (*WasmApp)(nil)
-	_ servertypes.Application = (*WasmApp)(nil)
+	_ runtime.AppI            = (*App)(nil)
+	_ servertypes.Application = (*App)(nil)
 )
 
-// WasmApp extended ABCI application
-type WasmApp struct {
+// App extended ABCI application
+type App struct {
 	*baseapp.BaseApp
 	legacyAmino       *codec.LegacyAmino
 	appCodec          codec.Codec
@@ -250,8 +251,8 @@ type WasmApp struct {
 	configurator module.Configurator
 }
 
-// NewWasmApp returns a reference to an initialized WasmApp.
-func NewWasmApp(
+// NewJunctionApp returns a reference to an initialized App.
+func NewJunctionApp(
 	logger log.Logger,
 	db dbm.DB,
 	traceStore io.Writer,
@@ -259,7 +260,7 @@ func NewWasmApp(
 	appOpts servertypes.AppOptions,
 	wasmOpts []wasmkeeper.Option,
 	baseAppOptions ...func(*baseapp.BaseApp),
-) *WasmApp {
+) *App {
 	interfaceRegistry, err := types.NewInterfaceRegistryWithOptions(types.InterfaceRegistryOptions{
 		ProtoFiles: proto.HybridResolver,
 		SigningOptions: signing.Options{
@@ -342,7 +343,7 @@ func NewWasmApp(
 		panic(err)
 	}
 
-	app := &WasmApp{
+	app := &App{
 		BaseApp:           bApp,
 		legacyAmino:       legacyAmino,
 		appCodec:          appCodec,
@@ -967,7 +968,7 @@ func NewWasmApp(
 	return app
 }
 
-func (app *WasmApp) setAnteHandler(txConfig client.TxConfig, wasmConfig wasmtypes.WasmConfig, txCounterStoreKey *storetypes.KVStoreKey) {
+func (app *App) setAnteHandler(txConfig client.TxConfig, wasmConfig wasmtypes.WasmConfig, txCounterStoreKey *storetypes.KVStoreKey) {
 	anteHandler, err := NewAnteHandler(
 		HandlerOptions{
 			HandlerOptions: ante.HandlerOptions{
@@ -992,7 +993,7 @@ func (app *WasmApp) setAnteHandler(txConfig client.TxConfig, wasmConfig wasmtype
 	app.SetAnteHandler(anteHandler)
 }
 
-func (app *WasmApp) setPostHandler() {
+func (app *App) setPostHandler() {
 	postHandler, err := posthandler.NewPostHandler(
 		posthandler.HandlerOptions{},
 	)
@@ -1004,29 +1005,29 @@ func (app *WasmApp) setPostHandler() {
 }
 
 // Name returns the name of the App
-func (app *WasmApp) Name() string { return app.BaseApp.Name() }
+func (app *App) Name() string { return app.BaseApp.Name() }
 
 // PreBlocker application updates every pre block
-func (app *WasmApp) PreBlocker(ctx sdk.Context, _ *abci.RequestFinalizeBlock) (*sdk.ResponsePreBlock, error) {
+func (app *App) PreBlocker(ctx sdk.Context, _ *abci.RequestFinalizeBlock) (*sdk.ResponsePreBlock, error) {
 	return app.ModuleManager.PreBlock(ctx)
 }
 
 // BeginBlocker application updates every begin block
-func (app *WasmApp) BeginBlocker(ctx sdk.Context) (sdk.BeginBlock, error) {
+func (app *App) BeginBlocker(ctx sdk.Context) (sdk.BeginBlock, error) {
 	return app.ModuleManager.BeginBlock(ctx)
 }
 
 // EndBlocker application updates every end block
-func (app *WasmApp) EndBlocker(ctx sdk.Context) (sdk.EndBlock, error) {
+func (app *App) EndBlocker(ctx sdk.Context) (sdk.EndBlock, error) {
 	return app.ModuleManager.EndBlock(ctx)
 }
 
-func (a *WasmApp) Configurator() module.Configurator {
+func (a *App) Configurator() module.Configurator {
 	return a.configurator
 }
 
 // InitChainer application update at chain initialization
-func (app *WasmApp) InitChainer(ctx sdk.Context, req *abci.RequestInitChain) (*abci.ResponseInitChain, error) {
+func (app *App) InitChainer(ctx sdk.Context, req *abci.RequestInitChain) (*abci.ResponseInitChain, error) {
 	var genesisState GenesisState
 	if err := json.Unmarshal(req.AppStateBytes, &genesisState); err != nil {
 		panic(err)
@@ -1040,7 +1041,7 @@ func (app *WasmApp) InitChainer(ctx sdk.Context, req *abci.RequestInitChain) (*a
 }
 
 // LoadHeight loads a particular height
-func (app *WasmApp) LoadHeight(height int64) error {
+func (app *App) LoadHeight(height int64) error {
 	return app.LoadVersion(height)
 }
 
@@ -1048,7 +1049,7 @@ func (app *WasmApp) LoadHeight(height int64) error {
 //
 // NOTE: This is solely to be used for testing purposes as it may be desirable
 // for modules to register their own custom testing types.
-func (app *WasmApp) LegacyAmino() *codec.LegacyAmino {
+func (app *App) LegacyAmino() *codec.LegacyAmino {
 	return app.legacyAmino
 }
 
@@ -1056,22 +1057,22 @@ func (app *WasmApp) LegacyAmino() *codec.LegacyAmino {
 //
 // NOTE: This is solely to be used for testing purposes as it may be desirable
 // for modules to register their own custom testing types.
-func (app *WasmApp) AppCodec() codec.Codec {
+func (app *App) AppCodec() codec.Codec {
 	return app.appCodec
 }
 
-// InterfaceRegistry returns WasmApp's InterfaceRegistry
-func (app *WasmApp) InterfaceRegistry() types.InterfaceRegistry {
+// InterfaceRegistry returns App's InterfaceRegistry
+func (app *App) InterfaceRegistry() types.InterfaceRegistry {
 	return app.interfaceRegistry
 }
 
-// TxConfig returns WasmApp's TxConfig
-func (app *WasmApp) TxConfig() client.TxConfig {
+// TxConfig returns App's TxConfig
+func (app *App) TxConfig() client.TxConfig {
 	return app.txConfig
 }
 
 // AutoCliOpts returns the autocli options for the app.
-func (app *WasmApp) AutoCliOpts() autocli.AppOptions {
+func (app *App) AutoCliOpts() autocli.AppOptions {
 	modules := make(map[string]appmodule.AppModule, 0)
 	for _, m := range app.ModuleManager.Modules {
 		if moduleWithName, ok := m.(module.HasName); ok {
@@ -1092,19 +1093,19 @@ func (app *WasmApp) AutoCliOpts() autocli.AppOptions {
 }
 
 // DefaultGenesis returns a default genesis from the registered AppModuleBasic's.
-func (a *WasmApp) DefaultGenesis() map[string]json.RawMessage {
+func (a *App) DefaultGenesis() map[string]json.RawMessage {
 	return a.BasicModuleManager.DefaultGenesis(a.appCodec)
 }
 
 // GetKey returns the KVStoreKey for the provided store key.
 //
 // NOTE: This is solely to be used for testing purposes.
-func (app *WasmApp) GetKey(storeKey string) *storetypes.KVStoreKey {
+func (app *App) GetKey(storeKey string) *storetypes.KVStoreKey {
 	return app.keys[storeKey]
 }
 
 // GetStoreKeys returns all the stored store keys.
-func (app *WasmApp) GetStoreKeys() []storetypes.StoreKey {
+func (app *App) GetStoreKeys() []storetypes.StoreKey {
 	keys := make([]storetypes.StoreKey, 0, len(app.keys))
 	for _, key := range app.keys {
 		keys = append(keys, key)
@@ -1118,33 +1119,33 @@ func (app *WasmApp) GetStoreKeys() []storetypes.StoreKey {
 // GetTKey returns the TransientStoreKey for the provided store key.
 //
 // NOTE: This is solely to be used for testing purposes.
-func (app *WasmApp) GetTKey(storeKey string) *storetypes.TransientStoreKey {
+func (app *App) GetTKey(storeKey string) *storetypes.TransientStoreKey {
 	return app.tkeys[storeKey]
 }
 
 // GetMemKey returns the MemStoreKey for the provided mem key.
 //
 // NOTE: This is solely used for testing purposes.
-func (app *WasmApp) GetMemKey(storeKey string) *storetypes.MemoryStoreKey {
+func (app *App) GetMemKey(storeKey string) *storetypes.MemoryStoreKey {
 	return app.memKeys[storeKey]
 }
 
 // GetSubspace returns a param subspace for a given module name.
 //
 // NOTE: This is solely to be used for testing purposes.
-func (app *WasmApp) GetSubspace(moduleName string) paramstypes.Subspace {
+func (app *App) GetSubspace(moduleName string) paramstypes.Subspace {
 	subspace, _ := app.ParamsKeeper.GetSubspace(moduleName)
 	return subspace
 }
 
 // SimulationManager implements the SimulationApp interface
-func (app *WasmApp) SimulationManager() *module.SimulationManager {
+func (app *App) SimulationManager() *module.SimulationManager {
 	return app.sm
 }
 
 // RegisterAPIRoutes registers all application module routes with the provided
 // API server.
-func (app *WasmApp) RegisterAPIRoutes(apiSvr *api.Server, apiConfig config.APIConfig) {
+func (app *App) RegisterAPIRoutes(apiSvr *api.Server, apiConfig config.APIConfig) {
 	clientCtx := apiSvr.ClientCtx
 	// Register new tx routes from grpc-gateway.
 	authtx.RegisterGRPCGatewayRoutes(clientCtx, apiSvr.GRPCGatewayRouter)
@@ -1162,15 +1163,17 @@ func (app *WasmApp) RegisterAPIRoutes(apiSvr *api.Server, apiConfig config.APICo
 	if err := server.RegisterSwaggerAPI(apiSvr.ClientCtx, apiSvr.Router, apiConfig.Swagger); err != nil {
 		panic(err)
 	}
+	// register app's OpenAPI routes.
+	docs.RegisterOpenAPIService(appName, apiSvr.Router)
 }
 
 // RegisterTxService implements the Application.RegisterTxService method.
-func (app *WasmApp) RegisterTxService(clientCtx client.Context) {
+func (app *App) RegisterTxService(clientCtx client.Context) {
 	authtx.RegisterTxService(app.BaseApp.GRPCQueryRouter(), clientCtx, app.BaseApp.Simulate, app.interfaceRegistry)
 }
 
 // RegisterTendermintService implements the Application.RegisterTendermintService method.
-func (app *WasmApp) RegisterTendermintService(clientCtx client.Context) {
+func (app *App) RegisterTendermintService(clientCtx client.Context) {
 	cmtApp := server.NewCometABCIWrapper(app)
 	cmtservice.RegisterTendermintService(
 		clientCtx,
@@ -1180,7 +1183,7 @@ func (app *WasmApp) RegisterTendermintService(clientCtx client.Context) {
 	)
 }
 
-func (app *WasmApp) RegisterNodeService(clientCtx client.Context, cfg config.Config) {
+func (app *App) RegisterNodeService(clientCtx client.Context, cfg config.Config) {
 	nodeservice.RegisterNodeService(clientCtx, app.GRPCQueryRouter(), cfg)
 }
 

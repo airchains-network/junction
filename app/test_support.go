@@ -12,30 +12,30 @@ import (
 	wasmkeeper "github.com/airchains-network/junction/x/wasm/keeper"
 )
 
-func (app *WasmApp) GetIBCKeeper() *ibckeeper.Keeper {
+func (app *App) GetIBCKeeper() *ibckeeper.Keeper {
 	return app.IBCKeeper
 }
 
-func (app *WasmApp) GetScopedIBCKeeper() capabilitykeeper.ScopedKeeper {
+func (app *App) GetScopedIBCKeeper() capabilitykeeper.ScopedKeeper {
 	return app.ScopedIBCKeeper
 }
 
-func (app *WasmApp) GetBaseApp() *baseapp.BaseApp {
+func (app *App) GetBaseApp() *baseapp.BaseApp {
 	return app.BaseApp
 }
 
-func (app *WasmApp) GetBankKeeper() bankkeeper.Keeper {
+func (app *App) GetBankKeeper() bankkeeper.Keeper {
 	return app.BankKeeper
 }
 
-func (app *WasmApp) GetStakingKeeper() *stakingkeeper.Keeper {
+func (app *App) GetStakingKeeper() *stakingkeeper.Keeper {
 	return app.StakingKeeper
 }
 
-func (app *WasmApp) GetAccountKeeper() authkeeper.AccountKeeper {
+func (app *App) GetAccountKeeper() authkeeper.AccountKeeper {
 	return app.AccountKeeper
 }
 
-func (app *WasmApp) GetWasmKeeper() wasmkeeper.Keeper {
+func (app *App) GetWasmKeeper() wasmkeeper.Keeper {
 	return app.WasmKeeper
 }
