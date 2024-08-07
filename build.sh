@@ -26,8 +26,7 @@ OUTPUT="$BUILD_DIR/$BINARY-$GOOS-$GOARCH/junctiond"
 
 # Build the binary with version information
 echo "Building $BINARY for $GOOS/$GOARCH..."
-go build -ldflags "-X 'main.Version=$VERSION' -X 'main.Commit=$COMMIT' -X 'main.BuildDate=$BUILD_DATE'" -o $OUTPUT ./cmd/junctiond/main.go
-
+go build -o $OUTPUT ./cmd/junctiond
 if [ $? -ne 0 ]; then
     echo "Failed to build $BINARY for $GOOS/$GOARCH"
     exit 1

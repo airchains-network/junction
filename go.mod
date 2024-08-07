@@ -285,5 +285,3 @@ retract (
 	// see https://github.com/CosmWasm/wasmd/issues/1651
 	v0.42.0
 )
-
-replace github.com/airchains-network/junction => github.com/airchains-network/junction v0.1.1-0.20240805122240-2d7a5c326510

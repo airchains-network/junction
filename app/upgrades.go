@@ -20,21 +20,19 @@ import (
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
 	"github.com/airchains-network/junction/app/upgrades"
-	"github.com/airchains-network/junction/app/upgrades/noop"
-	v050 "github.com/airchains-network/junction/app/upgrades/v050"
 	v2 "github.com/airchains-network/junction/x/wasm/migrations/v2"
 	wasmtypes "github.com/airchains-network/junction/x/wasm/types"
 )
 
 // Upgrades list of chain upgrades
-var Upgrades = []upgrades.Upgrade{v050.Upgrade, jip2.Upgrade}
+var Upgrades = []upgrades.Upgrade{jip2.Upgrade}
 
 // RegisterUpgradeHandlers registers the chain upgrade handlers
 func (app *App) RegisterUpgradeHandlers() {
 	setupLegacyKeyTables(&app.ParamsKeeper)
 	if len(Upgrades) == 0 {
 		// always have a unique upgrade registered for the current version to test in system tests
-		Upgrades = append(Upgrades, noop.NewUpgrade(app.Version()))
+		Upgrades = append(Upgrades)
 	}
 
 	keepers := upgrades.AppKeepers{
@@ -55,6 +53,7 @@ func (app *App) RegisterUpgradeHandlers() {
 				app.ModuleManager,
 				app.configurator,
 				&keepers,
+				app,
 			),
 		)
 	}

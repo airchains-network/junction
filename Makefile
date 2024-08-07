@@ -1,7 +1,7 @@
 # Makefile for building and linting Go project
 
 # Basic project settings
-BINARY_NAME=junction-test
+BINARY_NAME=junctiond
 BUILD_DIR=./build
 SOURCE_DIR=./cmd/junctiond
 
