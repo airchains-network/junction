@@ -1,6 +1,7 @@
 package keeper_test
 
 import (
+	"github.com/airchains-network/junction/app"
 	"os"
 	"testing"
 	"time"
@@ -40,16 +41,16 @@ func TestSnapshotter(t *testing.T) {
 	}
 	for name, spec := range specs {
 		t.Run(name, func(t *testing.T) {
-			// setup source app_old
-			srcWasmApp, genesisAddr := newWasmExampleApp(t)
+			// setup source app
+			srcjunctionApp, genesisAddr := exampleApp(t)
 
 			// store wasm codes on chain
-			ctx := srcWasmApp.NewUncachedContext(false, tmproto.Header{
+			ctx := srcjunctionApp.NewUncachedContext(false, tmproto.Header{
 				ChainID: "foo",
-				Height:  srcWasmApp.LastBlockHeight() + 1,
+				Height:  srcjunctionApp.LastBlockHeight() + 1,
 				Time:    time.Now(),
 			})
-			wasmKeeper := srcWasmApp.WasmKeeper
+			wasmKeeper := srcjunctionApp.WasmKeeper
 			contractKeeper := keeper.NewDefaultPermissionKeeper(&wasmKeeper)
 
 			srcCodeIDToChecksum := make(map[uint64][]byte, len(spec.wasmFiles))
@@ -62,11 +63,11 @@ func TestSnapshotter(t *testing.T) {
 				srcCodeIDToChecksum[codeID] = checksum
 			}
 			// create snapshot
-			_, err := srcWasmApp.Commit()
+			_, err := srcjunctionApp.Commit()
 			require.NoError(t, err)
 
-			snapshotHeight := uint64(srcWasmApp.LastBlockHeight())
-			snapshot, err := srcWasmApp.SnapshotManager().Create(snapshotHeight)
+			snapshotHeight := uint64(srcjunctionApp.LastBlockHeight())
+			snapshot, err := srcjunctionApp.SnapshotManager().Create(snapshotHeight)
 			require.NoError(t, err)
 			assert.NotNil(t, snapshot)
 
@@ -76,13 +77,13 @@ func TestSnapshotter(t *testing.T) {
 				types.MaxWasmSize = originalMaxWasmSize
 			})
 
-			// when snapshot imported into dest app_old instance
-			destWasmApp := app_old.SetupWithEmptyStore(t)
-			require.NoError(t, destWasmApp.SnapshotManager().Restore(*snapshot))
+			// when snapshot imported into dest app instance
+			destjunctionApp := app.SetupWithEmptyStore(t)
+			require.NoError(t, destjunctionApp.SnapshotManager().Restore(*snapshot))
 			for i := uint32(0); i < snapshot.Chunks; i++ {
-				chunkBz, err := srcWasmApp.SnapshotManager().LoadChunk(snapshot.Height, snapshot.Format, i)
+				chunkBz, err := srcjunctionApp.SnapshotManager().LoadChunk(snapshot.Height, snapshot.Format, i)
 				require.NoError(t, err)
-				end, err := destWasmApp.SnapshotManager().RestoreChunk(chunkBz)
+				end, err := destjunctionApp.SnapshotManager().RestoreChunk(chunkBz)
 				require.NoError(t, err)
 				if end {
 					break
@@ -90,10 +91,10 @@ func TestSnapshotter(t *testing.T) {
 			}
 
 			// then all wasm contracts are imported
-			wasmKeeper = destWasmApp.WasmKeeper
-			ctx = destWasmApp.NewUncachedContext(false, tmproto.Header{
+			wasmKeeper = destjunctionApp.WasmKeeper
+			ctx = destjunctionApp.NewUncachedContext(false, tmproto.Header{
 				ChainID: "foo",
-				Height:  destWasmApp.LastBlockHeight() + 1,
+				Height:  destjunctionApp.LastBlockHeight() + 1,
 				Time:    time.Now(),
 			})
 
@@ -113,7 +114,7 @@ func TestSnapshotter(t *testing.T) {
 	}
 }
 
-func newWasmExampleApp(t *testing.T) (*app_old.WasmApp, sdk.AccAddress) {
+func exampleApp(t *testing.T) (*app.App, sdk.AccAddress) {
 	senderPrivKey := ed25519.GenPrivKey()
 	pubKey, err := cryptocodec.ToCmtPubKeyInterface(senderPrivKey.PubKey())
 	require.NoError(t, err)
@@ -129,7 +130,7 @@ func newWasmExampleApp(t *testing.T) (*app_old.WasmApp, sdk.AccAddress) {
 	}
 	validator := tmtypes.NewValidator(pubKey, 1)
 	valSet := tmtypes.NewValidatorSet([]*tmtypes.Validator{validator})
-	wasmApp := app_old.SetupWithGenesisValSet(t, valSet, []authtypes.GenesisAccount{acc}, "testing", nil, balance)
+	junctionApp := app.SetupWithGenesisValSet(t, valSet, []authtypes.GenesisAccount{acc}, "testing", nil, balance)
 
-	return wasmApp, senderAddr
+	return junctionApp, senderAddr
 }

@@ -1,6 +1,7 @@
 package keeper_test
 
 import (
+	"github.com/airchains-network/junction/app"
 	"testing"
 
 	"github.com/cometbft/cometbft/libs/rand"
@@ -18,11 +19,11 @@ import (
 )
 
 func TestModuleMigrations(t *testing.T) {
-	wasmApp := app_old.Setup(t)
+	junctionApp := app.Setup(t)
 	myAddress := sdk.AccAddress(rand.Bytes(address.Len))
 
 	upgradeHandler := func(ctx sdk.Context, plan upgradetypes.Plan, fromVM module.VersionMap) (module.VersionMap, error) { //nolint:unparam
-		return wasmApp.ModuleManager.RunMigrations(ctx, wasmApp.Configurator(), fromVM)
+		return junctionApp.ModuleManager.RunMigrations(ctx, junctionApp.Configurator(), fromVM)
 	}
 
 	specs := map[string]struct {
@@ -40,7 +41,7 @@ func TestModuleMigrations(t *testing.T) {
 
 				// upgrade code shipped with v0.40
 				// https://github.com/airchains-network/junction/blob/v0.40.0/app/upgrades.go#L66
-				sp, _ := wasmApp.ParamsKeeper.GetSubspace(types.ModuleName)
+				sp, _ := junctionApp.ParamsKeeper.GetSubspace(types.ModuleName)
 				keyTable := v2.ParamKeyTable()
 				if !sp.HasKeyTable() {
 					sp.WithKeyTable(keyTable)
@@ -63,7 +64,7 @@ func TestModuleMigrations(t *testing.T) {
 
 				// upgrade code shipped with v0.40
 				// https://github.com/airchains-network/junction/blob/v0.40.0/app/upgrades.go#L66
-				sp, _ := wasmApp.ParamsKeeper.GetSubspace(types.ModuleName)
+				sp, _ := junctionApp.ParamsKeeper.GetSubspace(types.ModuleName)
 				keyTable := v2.ParamKeyTable()
 				if !sp.HasKeyTable() {
 					sp.WithKeyTable(keyTable)
@@ -77,30 +78,30 @@ func TestModuleMigrations(t *testing.T) {
 			},
 		},
 		"fresh from genesis": {
-			startVersion: wasmApp.ModuleManager.GetVersionMap()[types.ModuleName], // latest
+			startVersion: junctionApp.ModuleManager.GetVersionMap()[types.ModuleName], // latest
 			setup:        func(ctx sdk.Context) {},
 			exp:          types.DefaultParams(),
 		},
 	}
 	for name, spec := range specs {
 		t.Run(name, func(t *testing.T) {
-			ctx, _ := wasmApp.BaseApp.NewContext(false).CacheContext()
+			ctx, _ := junctionApp.BaseApp.NewContext(false).CacheContext()
 			spec.setup(ctx)
 
-			fromVM, err := wasmApp.UpgradeKeeper.GetModuleVersionMap(ctx)
+			fromVM, err := junctionApp.UpgradeKeeper.GetModuleVersionMap(ctx)
 			require.NoError(t, err)
 			fromVM[types.ModuleName] = spec.startVersion
 			_, err = upgradeHandler(ctx, upgradetypes.Plan{Name: "testing"}, fromVM)
 			require.NoError(t, err)
 
 			// when
-			gotVM, err := wasmApp.ModuleManager.RunMigrations(ctx, wasmApp.Configurator(), fromVM)
+			gotVM, err := junctionApp.ModuleManager.RunMigrations(ctx, junctionApp.Configurator(), fromVM)
 
 			// then
 			require.NoError(t, err)
 			var expModuleVersion uint64 = 4
 			assert.Equal(t, expModuleVersion, gotVM[types.ModuleName])
-			gotParams := wasmApp.WasmKeeper.GetParams(ctx)
+			gotParams := junctionApp.WasmKeeper.GetParams(ctx)
 			assert.Equal(t, spec.exp, gotParams)
 		})
 	}
@@ -111,34 +112,34 @@ func TestAccessConfigMigrations(t *testing.T) {
 	address, err := sdk.AccAddressFromBech32(addr)
 	require.NoError(t, err)
 
-	wasmApp := app_old.Setup(t)
+	junctionApp := app.Setup(t)
 
 	upgradeHandler := func(ctx sdk.Context, plan upgradetypes.Plan, fromVM module.VersionMap) (module.VersionMap, error) { //nolint:unparam
-		return wasmApp.ModuleManager.RunMigrations(ctx, wasmApp.Configurator(), fromVM)
+		return junctionApp.ModuleManager.RunMigrations(ctx, junctionApp.Configurator(), fromVM)
 	}
 
-	ctx, _ := wasmApp.BaseApp.NewContext(false).CacheContext()
+	ctx, _ := junctionApp.BaseApp.NewContext(false).CacheContext()
 
 	// any address permission
-	code1, err := storeCode(ctx, wasmApp, types.AccessTypeAnyOfAddresses.With(address))
+	code1, err := storeCode(ctx, junctionApp, types.AccessTypeAnyOfAddresses.With(address))
 	require.NoError(t, err)
 
 	// allow everybody permission
-	code2, err := storeCode(ctx, wasmApp, types.AllowEverybody)
+	code2, err := storeCode(ctx, junctionApp, types.AllowEverybody)
 	require.NoError(t, err)
 
 	// allow nobody permission
-	code3, err := storeCode(ctx, wasmApp, types.AllowNobody)
+	code3, err := storeCode(ctx, junctionApp, types.AllowNobody)
 	require.NoError(t, err)
 
-	fromVM, err := wasmApp.UpgradeKeeper.GetModuleVersionMap(ctx)
+	fromVM, err := junctionApp.UpgradeKeeper.GetModuleVersionMap(ctx)
 	require.NoError(t, err)
-	fromVM[types.ModuleName] = wasmApp.ModuleManager.GetVersionMap()[types.ModuleName]
+	fromVM[types.ModuleName] = junctionApp.ModuleManager.GetVersionMap()[types.ModuleName]
 	_, err = upgradeHandler(ctx, upgradetypes.Plan{Name: "testing"}, fromVM)
 	require.NoError(t, err)
 
 	// when
-	gotVM, err := wasmApp.ModuleManager.RunMigrations(ctx, wasmApp.Configurator(), fromVM)
+	gotVM, err := junctionApp.ModuleManager.RunMigrations(ctx, junctionApp.Configurator(), fromVM)
 
 	// then
 	require.NoError(t, err)
@@ -146,27 +147,27 @@ func TestAccessConfigMigrations(t *testing.T) {
 	assert.Equal(t, expModuleVersion, gotVM[types.ModuleName])
 
 	// any address was not migrated
-	assert.Equal(t, types.AccessTypeAnyOfAddresses.With(address), wasmApp.WasmKeeper.GetCodeInfo(ctx, code1).InstantiateConfig)
+	assert.Equal(t, types.AccessTypeAnyOfAddresses.With(address), junctionApp.WasmKeeper.GetCodeInfo(ctx, code1).InstantiateConfig)
 
 	// allow everybody was not migrated
-	assert.Equal(t, types.AllowEverybody, wasmApp.WasmKeeper.GetCodeInfo(ctx, code2).InstantiateConfig)
+	assert.Equal(t, types.AllowEverybody, junctionApp.WasmKeeper.GetCodeInfo(ctx, code2).InstantiateConfig)
 
 	// allow nodoby was not migrated
-	assert.Equal(t, types.AllowNobody, wasmApp.WasmKeeper.GetCodeInfo(ctx, code3).InstantiateConfig)
+	assert.Equal(t, types.AllowNobody, junctionApp.WasmKeeper.GetCodeInfo(ctx, code3).InstantiateConfig)
 }
 
-func storeCode(ctx sdk.Context, wasmApp *app_old.WasmApp, instantiatePermission types.AccessConfig) (codeID uint64, err error) {
+func storeCode(ctx sdk.Context, junctionApp *app.App, instantiatePermission types.AccessConfig) (codeID uint64, err error) {
 	msg := types.MsgStoreCodeFixture(func(m *types.MsgStoreCode) {
 		m.WASMByteCode = wasmContract
 		m.InstantiatePermission = &instantiatePermission
 	})
-	rsp, err := wasmApp.MsgServiceRouter().Handler(msg)(ctx, msg)
+	rsp, err := junctionApp.MsgServiceRouter().Handler(msg)(ctx, msg)
 	if err != nil {
 		return
 	}
 
 	var result types.MsgStoreCodeResponse
-	err = wasmApp.AppCodec().Unmarshal(rsp.Data, &result)
+	err = junctionApp.AppCodec().Unmarshal(rsp.Data, &result)
 	if err != nil {
 		return
 	}

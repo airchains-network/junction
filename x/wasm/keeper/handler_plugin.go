@@ -118,7 +118,7 @@ func (h SDKMessageHandler) handleSdkMessage(ctx sdk.Context, contractAddr sdk.Ad
 		return msgResult, err
 	}
 	// legacy sdk.Msg routing
-	// Assuming that the app_old developer has migrated all their Msgs to
+	// Assuming that the app developer has migrated all their Msgs to
 	// proto messages and has registered all `Msg services`, then this
 	// path should never be called, because all those Msgs should be
 	// registered within the `msgServiceRouter` already.

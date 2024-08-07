@@ -76,7 +76,7 @@ import (
 	stakingkeeper "github.com/cosmos/cosmos-sdk/x/staking/keeper"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
-	wasmappparams "github.com/airchains-network/junction/app/params"
+	junctionAppparams "github.com/airchains-network/junction/app/params"
 	"github.com/airchains-network/junction/x/wasm/keeper/testdata"
 	"github.com/airchains-network/junction/x/wasm/keeper/wasmtesting"
 	"github.com/airchains-network/junction/x/wasm/types"
@@ -106,8 +106,8 @@ func MakeTestCodec(t testing.TB) codec.Codec {
 	return MakeEncodingConfig(t).Codec
 }
 
-func MakeEncodingConfig(_ testing.TB) wasmappparams.EncodingConfig {
-	encodingConfig := wasmappparams.MakeEncodingConfig()
+func MakeEncodingConfig(_ testing.TB) junctionAppparams.EncodingConfig {
+	encodingConfig := junctionAppparams.MakeEncodingConfig()
 	amino := encodingConfig.Amino
 	interfaceRegistry := encodingConfig.InterfaceRegistry
 
@@ -188,7 +188,7 @@ type TestKeepers struct {
 	WasmKeeper       *Keeper
 	IBCKeeper        *ibckeeper.Keeper
 	Router           MessageRouter
-	EncodingConfig   wasmappparams.EncodingConfig
+	EncodingConfig   junctionAppparams.EncodingConfig
 	Faucet           *TestFaucet
 	MultiStore       storetypes.CommitMultiStore
 	ScopedWasmKeeper capabilitykeeper.ScopedKeeper

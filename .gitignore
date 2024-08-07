@@ -10,6 +10,6 @@ release/
 /.trunk
 /.idea
 /build
-sript.sh
+script.sh
 build.sh
 contracts

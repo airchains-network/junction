@@ -3,6 +3,7 @@ package keeper_test
 import (
 	_ "embed"
 	"encoding/json"
+	"github.com/airchains-network/junction/app"
 	"testing"
 	"time"
 
@@ -26,8 +27,8 @@ var wasmContract []byte
 var hackatomContract []byte
 
 func TestStoreCode(t *testing.T) {
-	wasmApp := app_old.Setup(t)
-	ctx := wasmApp.BaseApp.NewContext(false)
+	app := app.Setup(t)
+	ctx := app.BaseApp.NewContext(false)
 	_, _, sender := testdata.KeyTestPubAddr()
 	msg := types.MsgStoreCodeFixture(func(m *types.MsgStoreCode) {
 		m.WASMByteCode = wasmContract
@@ -35,19 +36,19 @@ func TestStoreCode(t *testing.T) {
 	})
 
 	// when
-	rsp, err := wasmApp.MsgServiceRouter().Handler(msg)(ctx, msg)
+	rsp, err := app.MsgServiceRouter().Handler(msg)(ctx, msg)
 
 	// then
 	require.NoError(t, err)
 	var result types.MsgStoreCodeResponse
-	require.NoError(t, wasmApp.AppCodec().Unmarshal(rsp.Data, &result))
+	require.NoError(t, app.AppCodec().Unmarshal(rsp.Data, &result))
 	assert.Equal(t, uint64(1), result.CodeID)
 
 	expHash, err := wasmvm.CreateChecksum(wasmContract)
 	require.NoError(t, err)
 	assert.Equal(t, expHash[:], wasmvmtypes.Checksum(result.Checksum))
 	// and
-	info := wasmApp.WasmKeeper.GetCodeInfo(ctx, 1)
+	info := app.WasmKeeper.GetCodeInfo(ctx, 1)
 	assert.NotNil(t, info)
 	assert.Equal(t, expHash[:], wasmvmtypes.Checksum(info.CodeHash))
 	assert.Equal(t, sender.String(), info.Creator)
@@ -55,13 +56,13 @@ func TestStoreCode(t *testing.T) {
 }
 
 func TestUpdateParams(t *testing.T) {
-	wasmApp := app_old.Setup(t)
-	ctx := wasmApp.BaseApp.NewContext(false)
+	app := app.Setup(t)
+	ctx := app.BaseApp.NewContext(false)
 
 	var (
 		myAddress              sdk.AccAddress = make([]byte, types.ContractAddrLen)
 		oneAddressAccessConfig                = types.AccessTypeAnyOfAddresses.With(myAddress)
-		govAuthority                          = wasmApp.WasmKeeper.GetAuthority()
+		govAuthority                          = app.WasmKeeper.GetAuthority()
 	)
 
 	specs := map[string]struct {
@@ -127,31 +128,31 @@ func TestUpdateParams(t *testing.T) {
 	}
 	for name, spec := range specs {
 		t.Run(name, func(t *testing.T) {
-			err := wasmApp.WasmKeeper.SetParams(ctx, types.DefaultParams())
+			err := app.WasmKeeper.SetParams(ctx, types.DefaultParams())
 			require.NoError(t, err)
 
 			// when
-			rsp, err := wasmApp.MsgServiceRouter().Handler(&spec.src)(ctx, &spec.src) //nolint:gosec
+			rsp, err := app.MsgServiceRouter().Handler(&spec.src)(ctx, &spec.src) //nolint:gosec
 			require.NoError(t, err)
 			var result types.MsgUpdateParamsResponse
-			require.NoError(t, wasmApp.AppCodec().Unmarshal(rsp.Data, &result))
+			require.NoError(t, app.AppCodec().Unmarshal(rsp.Data, &result))
 
 			// then
-			assert.True(t, spec.expUploadConfig.Equals(wasmApp.WasmKeeper.GetParams(ctx).CodeUploadAccess),
-				"got %#v not %#v", wasmApp.WasmKeeper.GetParams(ctx).CodeUploadAccess, spec.expUploadConfig)
-			assert.Equal(t, spec.expInstantiateType, wasmApp.WasmKeeper.GetParams(ctx).InstantiateDefaultPermission)
+			assert.True(t, spec.expUploadConfig.Equals(app.WasmKeeper.GetParams(ctx).CodeUploadAccess),
+				"got %#v not %#v", app.WasmKeeper.GetParams(ctx).CodeUploadAccess, spec.expUploadConfig)
+			assert.Equal(t, spec.expInstantiateType, app.WasmKeeper.GetParams(ctx).InstantiateDefaultPermission)
 		})
 	}
 }
 
 func TestAddCodeUploadParamsAddresses(t *testing.T) {
-	wasmApp := app_old.Setup(t)
-	ctx := wasmApp.BaseApp.NewContext(false)
+	setup := app.Setup(t)
+	ctx := setup.BaseApp.NewContext(false)
 
 	var (
 		myAddress       sdk.AccAddress = make([]byte, types.ContractAddrLen)
 		_, _, otherAddr                = testdata.KeyTestPubAddr()
-		govAuthority                   = wasmApp.WasmKeeper.GetAuthority()
+		govAuthority                   = setup.WasmKeeper.GetAuthority()
 	)
 
 	specs := map[string]struct {
@@ -215,14 +216,14 @@ func TestAddCodeUploadParamsAddresses(t *testing.T) {
 	}
 	for name, spec := range specs {
 		t.Run(name, func(t *testing.T) {
-			err := wasmApp.WasmKeeper.SetParams(ctx, types.Params{
+			err := setup.WasmKeeper.SetParams(ctx, types.Params{
 				CodeUploadAccess:             spec.uploadConfig,
 				InstantiateDefaultPermission: types.AccessTypeEverybody,
 			})
 			require.NoError(t, err)
 
 			// when
-			rsp, err := wasmApp.MsgServiceRouter().Handler(&spec.src)(ctx, &spec.src) //nolint:gosec
+			rsp, err := setup.MsgServiceRouter().Handler(&spec.src)(ctx, &spec.src) //nolint:gosec
 			if spec.expErr {
 				require.Error(t, err)
 				require.Nil(t, rsp)
@@ -233,7 +234,7 @@ func TestAddCodeUploadParamsAddresses(t *testing.T) {
 			assert.IsType(t, rsp.MsgResponses[0].GetCachedValue(), &types.MsgAddCodeUploadParamsAddressesResponse{})
 
 			// then
-			gotUploadConfig := wasmApp.WasmKeeper.GetParams(ctx).CodeUploadAccess
+			gotUploadConfig := setup.WasmKeeper.GetParams(ctx).CodeUploadAccess
 			assert.True(t, spec.expUploadConfig.Equals(gotUploadConfig),
 				"got %#v not %#v", gotUploadConfig, spec.expUploadConfig)
 		})
@@ -241,13 +242,13 @@ func TestAddCodeUploadParamsAddresses(t *testing.T) {
 }
 
 func TestRemoveCodeUploadParamsAddresses(t *testing.T) {
-	wasmApp := app_old.Setup(t)
-	ctx := wasmApp.BaseApp.NewContext(false)
+	setup := app.Setup(t)
+	ctx := setup.BaseApp.NewContext(false)
 
 	var (
 		myAddress       sdk.AccAddress = make([]byte, types.ContractAddrLen)
 		_, _, otherAddr                = testdata.KeyTestPubAddr()
-		govAuthority                   = wasmApp.WasmKeeper.GetAuthority()
+		govAuthority                   = setup.WasmKeeper.GetAuthority()
 	)
 
 	specs := map[string]struct {
@@ -311,14 +312,14 @@ func TestRemoveCodeUploadParamsAddresses(t *testing.T) {
 	}
 	for name, spec := range specs {
 		t.Run(name, func(t *testing.T) {
-			err := wasmApp.WasmKeeper.SetParams(ctx, types.Params{
+			err := setup.WasmKeeper.SetParams(ctx, types.Params{
 				CodeUploadAccess:             spec.uploadConfig,
 				InstantiateDefaultPermission: types.AccessTypeEverybody,
 			})
 			require.NoError(t, err)
 
 			// when
-			rsp, err := wasmApp.MsgServiceRouter().Handler(&spec.src)(ctx, &spec.src) //nolint:gosec
+			rsp, err := setup.MsgServiceRouter().Handler(&spec.src)(ctx, &spec.src) //nolint:gosec
 			if spec.expErr {
 				require.Error(t, err)
 				require.Nil(t, rsp)
@@ -329,7 +330,7 @@ func TestRemoveCodeUploadParamsAddresses(t *testing.T) {
 			assert.IsType(t, rsp.MsgResponses[0].GetCachedValue(), &types.MsgRemoveCodeUploadParamsAddressesResponse{})
 
 			// then
-			gotUploadConfig := wasmApp.WasmKeeper.GetParams(ctx).CodeUploadAccess
+			gotUploadConfig := setup.WasmKeeper.GetParams(ctx).CodeUploadAccess
 			assert.True(t, spec.expUploadConfig.Equals(gotUploadConfig),
 				"got %#v not %#v", gotUploadConfig, spec.expUploadConfig)
 		})
@@ -337,12 +338,12 @@ func TestRemoveCodeUploadParamsAddresses(t *testing.T) {
 }
 
 func TestPinCodes(t *testing.T) {
-	wasmApp := app_old.Setup(t)
-	ctx := wasmApp.BaseApp.NewContext(false)
+	setup := app.Setup(t)
+	ctx := setup.BaseApp.NewContext(false)
 
 	var (
 		myAddress sdk.AccAddress = make([]byte, types.ContractAddrLen)
-		authority                = wasmApp.WasmKeeper.GetAuthority()
+		authority                = setup.WasmKeeper.GetAuthority()
 	)
 
 	specs := map[string]struct {
@@ -368,38 +369,38 @@ func TestPinCodes(t *testing.T) {
 			})
 
 			// store code
-			rsp, err := wasmApp.MsgServiceRouter().Handler(msg)(ctx, msg)
+			rsp, err := setup.MsgServiceRouter().Handler(msg)(ctx, msg)
 			require.NoError(t, err)
 			var result types.MsgStoreCodeResponse
-			require.NoError(t, wasmApp.AppCodec().Unmarshal(rsp.Data, &result))
-			require.False(t, wasmApp.WasmKeeper.IsPinnedCode(ctx, result.CodeID))
+			require.NoError(t, setup.AppCodec().Unmarshal(rsp.Data, &result))
+			require.False(t, setup.WasmKeeper.IsPinnedCode(ctx, result.CodeID))
 
 			// when
 			msgPinCodes := &types.MsgPinCodes{
 				Authority: spec.addr,
 				CodeIDs:   []uint64{result.CodeID},
 			}
-			_, err = wasmApp.MsgServiceRouter().Handler(msgPinCodes)(ctx, msgPinCodes)
+			_, err = setup.MsgServiceRouter().Handler(msgPinCodes)(ctx, msgPinCodes)
 
 			// then
 			if spec.expErr {
 				require.Error(t, err)
-				assert.False(t, wasmApp.WasmKeeper.IsPinnedCode(ctx, result.CodeID))
+				assert.False(t, setup.WasmKeeper.IsPinnedCode(ctx, result.CodeID))
 			} else {
 				require.NoError(t, err)
-				assert.True(t, wasmApp.WasmKeeper.IsPinnedCode(ctx, result.CodeID))
+				assert.True(t, setup.WasmKeeper.IsPinnedCode(ctx, result.CodeID))
 			}
 		})
 	}
 }
 
 func TestUnpinCodes(t *testing.T) {
-	wasmApp := app_old.Setup(t)
-	ctx := wasmApp.BaseApp.NewContext(false)
+	setup := app.Setup(t)
+	ctx := setup.BaseApp.NewContext(false)
 
 	var (
 		myAddress sdk.AccAddress = make([]byte, types.ContractAddrLen)
-		authority                = wasmApp.WasmKeeper.GetAuthority()
+		authority                = setup.WasmKeeper.GetAuthority()
 	)
 
 	specs := map[string]struct {
@@ -425,46 +426,46 @@ func TestUnpinCodes(t *testing.T) {
 			})
 
 			// store code
-			rsp, err := wasmApp.MsgServiceRouter().Handler(msg)(ctx, msg)
+			rsp, err := setup.MsgServiceRouter().Handler(msg)(ctx, msg)
 			require.NoError(t, err)
 			var result types.MsgStoreCodeResponse
-			require.NoError(t, wasmApp.AppCodec().Unmarshal(rsp.Data, &result))
+			require.NoError(t, setup.AppCodec().Unmarshal(rsp.Data, &result))
 
 			// pin code
 			msgPin := &types.MsgPinCodes{
 				Authority: authority,
 				CodeIDs:   []uint64{result.CodeID},
 			}
-			_, err = wasmApp.MsgServiceRouter().Handler(msgPin)(ctx, msgPin)
+			_, err = setup.MsgServiceRouter().Handler(msgPin)(ctx, msgPin)
 			require.NoError(t, err)
-			assert.True(t, wasmApp.WasmKeeper.IsPinnedCode(ctx, result.CodeID))
+			assert.True(t, setup.WasmKeeper.IsPinnedCode(ctx, result.CodeID))
 
 			// when
 			msgUnpinCodes := &types.MsgUnpinCodes{
 				Authority: spec.addr,
 				CodeIDs:   []uint64{result.CodeID},
 			}
-			_, err = wasmApp.MsgServiceRouter().Handler(msgUnpinCodes)(ctx, msgUnpinCodes)
+			_, err = setup.MsgServiceRouter().Handler(msgUnpinCodes)(ctx, msgUnpinCodes)
 
 			// then
 			if spec.expErr {
 				require.Error(t, err)
-				assert.True(t, wasmApp.WasmKeeper.IsPinnedCode(ctx, result.CodeID))
+				assert.True(t, setup.WasmKeeper.IsPinnedCode(ctx, result.CodeID))
 			} else {
 				require.NoError(t, err)
-				assert.False(t, wasmApp.WasmKeeper.IsPinnedCode(ctx, result.CodeID))
+				assert.False(t, setup.WasmKeeper.IsPinnedCode(ctx, result.CodeID))
 			}
 		})
 	}
 }
 
 func TestSudoContract(t *testing.T) {
-	wasmApp := app_old.Setup(t)
-	ctx := wasmApp.BaseApp.NewContextLegacy(false, tmproto.Header{Time: time.Now()})
+	setup := app.Setup(t)
+	ctx := setup.BaseApp.NewContextLegacy(false, tmproto.Header{Time: time.Now()})
 
 	var (
 		myAddress sdk.AccAddress = make([]byte, types.ContractAddrLen)
-		authority                = wasmApp.WasmKeeper.GetAuthority()
+		authority                = setup.WasmKeeper.GetAuthority()
 	)
 
 	type StealMsg struct {
@@ -505,10 +506,10 @@ func TestSudoContract(t *testing.T) {
 			})
 
 			// store code
-			rsp, err := wasmApp.MsgServiceRouter().Handler(msg)(ctx, msg)
+			rsp, err := setup.MsgServiceRouter().Handler(msg)(ctx, msg)
 			require.NoError(t, err)
 			var storeCodeResponse types.MsgStoreCodeResponse
-			require.NoError(t, wasmApp.AppCodec().Unmarshal(rsp.Data, &storeCodeResponse))
+			require.NoError(t, setup.AppCodec().Unmarshal(rsp.Data, &storeCodeResponse))
 
 			// instantiate contract
 			initMsg := keeper.HackatomExampleInitMsg{
@@ -526,10 +527,10 @@ func TestSudoContract(t *testing.T) {
 				Msg:    initMsgBz,
 				Funds:  sdk.Coins{},
 			}
-			rsp, err = wasmApp.MsgServiceRouter().Handler(msgInstantiate)(ctx, msgInstantiate)
+			rsp, err = setup.MsgServiceRouter().Handler(msgInstantiate)(ctx, msgInstantiate)
 			require.NoError(t, err)
 			var instantiateResponse types.MsgInstantiateContractResponse
-			require.NoError(t, wasmApp.AppCodec().Unmarshal(rsp.Data, &instantiateResponse))
+			require.NoError(t, setup.AppCodec().Unmarshal(rsp.Data, &instantiateResponse))
 
 			// when
 			msgSudoContract := &types.MsgSudoContract{
@@ -537,7 +538,7 @@ func TestSudoContract(t *testing.T) {
 				Msg:       stealMsgBz,
 				Contract:  instantiateResponse.Address,
 			}
-			_, err = wasmApp.MsgServiceRouter().Handler(msgSudoContract)(ctx, msgSudoContract)
+			_, err = setup.MsgServiceRouter().Handler(msgSudoContract)(ctx, msgSudoContract)
 
 			// then
 			if spec.expErr {
@@ -550,12 +551,12 @@ func TestSudoContract(t *testing.T) {
 }
 
 func TestStoreAndInstantiateContract(t *testing.T) {
-	wasmApp := app_old.Setup(t)
-	ctx := wasmApp.BaseApp.NewContextLegacy(false, tmproto.Header{Time: time.Now()})
+	setup := app.Setup(t)
+	ctx := setup.BaseApp.NewContextLegacy(false, tmproto.Header{Time: time.Now()})
 
 	var (
 		myAddress sdk.AccAddress = make([]byte, types.ContractAddrLen)
-		authority                = wasmApp.WasmKeeper.GetAuthority()
+		authority                = setup.WasmKeeper.GetAuthority()
 	)
 
 	specs := map[string]struct {
@@ -597,7 +598,7 @@ func TestStoreAndInstantiateContract(t *testing.T) {
 				Msg:                   []byte(`{}`),
 				Funds:                 sdk.Coins{},
 			}
-			_, err := wasmApp.MsgServiceRouter().Handler(msg)(ctx, msg)
+			_, err := setup.MsgServiceRouter().Handler(msg)(ctx, msg)
 
 			// then
 			if spec.expErr {
@@ -610,12 +611,12 @@ func TestStoreAndInstantiateContract(t *testing.T) {
 }
 
 func TestUpdateAdmin(t *testing.T) {
-	wasmApp := app_old.Setup(t)
-	ctx := wasmApp.BaseApp.NewContextLegacy(false, tmproto.Header{Time: time.Now()})
+	setup := app.Setup(t)
+	ctx := setup.BaseApp.NewContextLegacy(false, tmproto.Header{Time: time.Now()})
 
 	var (
 		myAddress       sdk.AccAddress = make([]byte, types.ContractAddrLen)
-		authority                      = wasmApp.WasmKeeper.GetAuthority()
+		authority                      = setup.WasmKeeper.GetAuthority()
 		_, _, otherAddr                = testdata.KeyTestPubAddr()
 	)
 
@@ -651,10 +652,10 @@ func TestUpdateAdmin(t *testing.T) {
 				Msg:                   []byte(`{}`),
 				Funds:                 sdk.Coins{},
 			}
-			rsp, err := wasmApp.MsgServiceRouter().Handler(msg)(ctx, msg)
+			rsp, err := setup.MsgServiceRouter().Handler(msg)(ctx, msg)
 			require.NoError(t, err)
 			var storeAndInstantiateResponse types.MsgStoreAndInstantiateContractResponse
-			require.NoError(t, wasmApp.AppCodec().Unmarshal(rsp.Data, &storeAndInstantiateResponse))
+			require.NoError(t, setup.AppCodec().Unmarshal(rsp.Data, &storeAndInstantiateResponse))
 
 			// when
 			msgUpdateAdmin := &types.MsgUpdateAdmin{
@@ -662,7 +663,7 @@ func TestUpdateAdmin(t *testing.T) {
 				NewAdmin: newAdmin.String(),
 				Contract: storeAndInstantiateResponse.Address,
 			}
-			_, err = wasmApp.MsgServiceRouter().Handler(msgUpdateAdmin)(ctx, msgUpdateAdmin)
+			_, err = setup.MsgServiceRouter().Handler(msgUpdateAdmin)(ctx, msgUpdateAdmin)
 
 			// then
 			if spec.expErr {
@@ -675,12 +676,12 @@ func TestUpdateAdmin(t *testing.T) {
 }
 
 func TestClearAdmin(t *testing.T) {
-	wasmApp := app_old.Setup(t)
-	ctx := wasmApp.BaseApp.NewContextLegacy(false, tmproto.Header{Time: time.Now()})
+	setup := app.Setup(t)
+	ctx := setup.BaseApp.NewContextLegacy(false, tmproto.Header{Time: time.Now()})
 
 	var (
 		myAddress       sdk.AccAddress = make([]byte, types.ContractAddrLen)
-		authority                      = wasmApp.WasmKeeper.GetAuthority()
+		authority                      = setup.WasmKeeper.GetAuthority()
 		_, _, otherAddr                = testdata.KeyTestPubAddr()
 	)
 
@@ -714,17 +715,17 @@ func TestClearAdmin(t *testing.T) {
 				Msg:                   []byte(`{}`),
 				Funds:                 sdk.Coins{},
 			}
-			rsp, err := wasmApp.MsgServiceRouter().Handler(msg)(ctx, msg)
+			rsp, err := setup.MsgServiceRouter().Handler(msg)(ctx, msg)
 			require.NoError(t, err)
 			var storeAndInstantiateResponse types.MsgStoreAndInstantiateContractResponse
-			require.NoError(t, wasmApp.AppCodec().Unmarshal(rsp.Data, &storeAndInstantiateResponse))
+			require.NoError(t, setup.AppCodec().Unmarshal(rsp.Data, &storeAndInstantiateResponse))
 
 			// when
 			msgClearAdmin := &types.MsgClearAdmin{
 				Sender:   spec.addr,
 				Contract: storeAndInstantiateResponse.Address,
 			}
-			_, err = wasmApp.MsgServiceRouter().Handler(msgClearAdmin)(ctx, msgClearAdmin)
+			_, err = setup.MsgServiceRouter().Handler(msgClearAdmin)(ctx, msgClearAdmin)
 
 			// then
 			if spec.expErr {
@@ -737,12 +738,12 @@ func TestClearAdmin(t *testing.T) {
 }
 
 func TestMigrateContract(t *testing.T) {
-	wasmApp := app_old.Setup(t)
-	ctx := wasmApp.BaseApp.NewContextLegacy(false, tmproto.Header{Time: time.Now()})
+	setup := app.Setup(t)
+	ctx := setup.BaseApp.NewContextLegacy(false, tmproto.Header{Time: time.Now()})
 
 	var (
 		myAddress       sdk.AccAddress = make([]byte, types.ContractAddrLen)
-		authority                      = wasmApp.WasmKeeper.GetAuthority()
+		authority                      = setup.WasmKeeper.GetAuthority()
 		_, _, otherAddr                = testdata.KeyTestPubAddr()
 	)
 
@@ -773,10 +774,10 @@ func TestMigrateContract(t *testing.T) {
 			})
 
 			// store code
-			rsp, err := wasmApp.MsgServiceRouter().Handler(msg)(ctx, msg)
+			rsp, err := setup.MsgServiceRouter().Handler(msg)(ctx, msg)
 			require.NoError(t, err)
 			var storeCodeResponse types.MsgStoreCodeResponse
-			require.NoError(t, wasmApp.AppCodec().Unmarshal(rsp.Data, &storeCodeResponse))
+			require.NoError(t, setup.AppCodec().Unmarshal(rsp.Data, &storeCodeResponse))
 
 			// instantiate contract
 			initMsg := keeper.HackatomExampleInitMsg{
@@ -794,10 +795,10 @@ func TestMigrateContract(t *testing.T) {
 				Msg:    initMsgBz,
 				Funds:  sdk.Coins{},
 			}
-			rsp, err = wasmApp.MsgServiceRouter().Handler(msgInstantiate)(ctx, msgInstantiate)
+			rsp, err = setup.MsgServiceRouter().Handler(msgInstantiate)(ctx, msgInstantiate)
 			require.NoError(t, err)
 			var instantiateResponse types.MsgInstantiateContractResponse
-			require.NoError(t, wasmApp.AppCodec().Unmarshal(rsp.Data, &instantiateResponse))
+			require.NoError(t, setup.AppCodec().Unmarshal(rsp.Data, &instantiateResponse))
 
 			// when
 			migMsg := struct {
@@ -811,7 +812,7 @@ func TestMigrateContract(t *testing.T) {
 				Contract: instantiateResponse.Address,
 				CodeID:   storeCodeResponse.CodeID,
 			}
-			_, err = wasmApp.MsgServiceRouter().Handler(msgMigrateContract)(ctx, msgMigrateContract)
+			_, err = setup.MsgServiceRouter().Handler(msgMigrateContract)(ctx, msgMigrateContract)
 
 			// then
 			if spec.expErr {
@@ -824,12 +825,12 @@ func TestMigrateContract(t *testing.T) {
 }
 
 func TestInstantiateContract(t *testing.T) {
-	wasmApp := app_old.Setup(t)
-	ctx := wasmApp.BaseApp.NewContextLegacy(false, tmproto.Header{Time: time.Now()})
+	setup := app.Setup(t)
+	ctx := setup.BaseApp.NewContextLegacy(false, tmproto.Header{Time: time.Now()})
 
 	var (
 		myAddress sdk.AccAddress = make([]byte, types.ContractAddrLen)
-		authority                = wasmApp.WasmKeeper.GetAuthority()
+		authority                = setup.WasmKeeper.GetAuthority()
 	)
 
 	specs := map[string]struct {
@@ -869,10 +870,10 @@ func TestInstantiateContract(t *testing.T) {
 			})
 
 			// store code
-			rsp, err := wasmApp.MsgServiceRouter().Handler(msg)(ctx, msg)
+			rsp, err := setup.MsgServiceRouter().Handler(msg)(ctx, msg)
 			require.NoError(t, err)
 			var result types.MsgStoreCodeResponse
-			require.NoError(t, wasmApp.AppCodec().Unmarshal(rsp.Data, &result))
+			require.NoError(t, setup.AppCodec().Unmarshal(rsp.Data, &result))
 
 			// when
 			msgInstantiate := &types.MsgInstantiateContract{
@@ -883,7 +884,7 @@ func TestInstantiateContract(t *testing.T) {
 				Msg:    []byte(`{}`),
 				Funds:  sdk.Coins{},
 			}
-			_, err = wasmApp.MsgServiceRouter().Handler(msgInstantiate)(ctx, msgInstantiate)
+			_, err = setup.MsgServiceRouter().Handler(msgInstantiate)(ctx, msgInstantiate)
 
 			// then
 			if spec.expErr {
@@ -896,12 +897,12 @@ func TestInstantiateContract(t *testing.T) {
 }
 
 func TestInstantiateContract2(t *testing.T) {
-	wasmApp := app_old.Setup(t)
-	ctx := wasmApp.BaseApp.NewContextLegacy(false, tmproto.Header{Time: time.Now()})
+	setup := app.Setup(t)
+	ctx := setup.BaseApp.NewContextLegacy(false, tmproto.Header{Time: time.Now()})
 
 	var (
 		myAddress sdk.AccAddress = make([]byte, types.ContractAddrLen)
-		authority                = wasmApp.WasmKeeper.GetAuthority()
+		authority                = setup.WasmKeeper.GetAuthority()
 	)
 
 	specs := map[string]struct {
@@ -946,10 +947,10 @@ func TestInstantiateContract2(t *testing.T) {
 			})
 
 			// store code
-			rsp, err := wasmApp.MsgServiceRouter().Handler(msg)(ctx, msg)
+			rsp, err := setup.MsgServiceRouter().Handler(msg)(ctx, msg)
 			require.NoError(t, err)
 			var result types.MsgStoreCodeResponse
-			require.NoError(t, wasmApp.AppCodec().Unmarshal(rsp.Data, &result))
+			require.NoError(t, setup.AppCodec().Unmarshal(rsp.Data, &result))
 
 			// when
 			msgInstantiate := &types.MsgInstantiateContract2{
@@ -962,7 +963,7 @@ func TestInstantiateContract2(t *testing.T) {
 				Salt:   []byte(spec.salt),
 				FixMsg: true,
 			}
-			_, err = wasmApp.MsgServiceRouter().Handler(msgInstantiate)(ctx, msgInstantiate)
+			_, err = setup.MsgServiceRouter().Handler(msgInstantiate)(ctx, msgInstantiate)
 
 			// then
 			if spec.expErr {
@@ -975,12 +976,12 @@ func TestInstantiateContract2(t *testing.T) {
 }
 
 func TestUpdateInstantiateConfig(t *testing.T) {
-	wasmApp := app_old.Setup(t)
-	ctx := wasmApp.BaseApp.NewContextLegacy(false, tmproto.Header{Time: time.Now()})
+	setup := app.Setup(t)
+	ctx := setup.BaseApp.NewContextLegacy(false, tmproto.Header{Time: time.Now()})
 
 	var (
 		creator   sdk.AccAddress = make([]byte, types.ContractAddrLen)
-		authority                = wasmApp.WasmKeeper.GetAuthority()
+		authority                = setup.WasmKeeper.GetAuthority()
 	)
 
 	specs := map[string]struct {
@@ -1012,7 +1013,7 @@ func TestUpdateInstantiateConfig(t *testing.T) {
 	for name, spec := range specs {
 		t.Run(name, func(t *testing.T) {
 			// setup
-			err := wasmApp.WasmKeeper.SetParams(ctx, types.Params{
+			err := setup.WasmKeeper.SetParams(ctx, types.Params{
 				CodeUploadAccess:             types.AllowEverybody,
 				InstantiateDefaultPermission: types.AccessTypeNobody,
 			})
@@ -1025,10 +1026,10 @@ func TestUpdateInstantiateConfig(t *testing.T) {
 			})
 
 			// store code
-			rsp, err := wasmApp.MsgServiceRouter().Handler(msg)(ctx, msg)
+			rsp, err := setup.MsgServiceRouter().Handler(msg)(ctx, msg)
 			require.NoError(t, err)
 			var result types.MsgStoreCodeResponse
-			require.NoError(t, wasmApp.AppCodec().Unmarshal(rsp.Data, &result))
+			require.NoError(t, setup.AppCodec().Unmarshal(rsp.Data, &result))
 
 			// when
 			msgUpdateInstantiateConfig := &types.MsgUpdateInstantiateConfig{
@@ -1036,7 +1037,7 @@ func TestUpdateInstantiateConfig(t *testing.T) {
 				CodeID:                   result.CodeID,
 				NewInstantiatePermission: spec.permission,
 			}
-			_, err = wasmApp.MsgServiceRouter().Handler(msgUpdateInstantiateConfig)(ctx, msgUpdateInstantiateConfig)
+			_, err = setup.MsgServiceRouter().Handler(msgUpdateInstantiateConfig)(ctx, msgUpdateInstantiateConfig)
 
 			// then
 			if spec.expErr {
@@ -1049,15 +1050,15 @@ func TestUpdateInstantiateConfig(t *testing.T) {
 }
 
 func TestStoreAndMigrateContract(t *testing.T) {
-	wasmApp := app_old.Setup(t)
-	ctx := wasmApp.BaseApp.NewContextLegacy(false, tmproto.Header{Time: time.Now()})
+	setup := app.Setup(t)
+	ctx := setup.BaseApp.NewContextLegacy(false, tmproto.Header{Time: time.Now()})
 
 	checksum, err := wasmvm.CreateChecksum(hackatomContract)
 	require.NoError(t, err)
 
 	var (
 		myAddress sdk.AccAddress = make([]byte, types.ContractAddrLen)
-		authority                = wasmApp.WasmKeeper.GetAuthority()
+		authority                = setup.WasmKeeper.GetAuthority()
 	)
 
 	specs := map[string]struct {
@@ -1106,10 +1107,10 @@ func TestStoreAndMigrateContract(t *testing.T) {
 				Msg:                   initMsgBz,
 				Funds:                 sdk.Coins{},
 			}
-			rsp, err := wasmApp.MsgServiceRouter().Handler(storeAndInstantiateMsg)(ctx, storeAndInstantiateMsg)
+			rsp, err := setup.MsgServiceRouter().Handler(storeAndInstantiateMsg)(ctx, storeAndInstantiateMsg)
 			require.NoError(t, err)
 			var storeAndInstantiateResponse types.MsgStoreAndInstantiateContractResponse
-			require.NoError(t, wasmApp.AppCodec().Unmarshal(rsp.Data, &storeAndInstantiateResponse))
+			require.NoError(t, setup.AppCodec().Unmarshal(rsp.Data, &storeAndInstantiateResponse))
 
 			contractAddr := storeAndInstantiateResponse.Address
 
@@ -1126,7 +1127,7 @@ func TestStoreAndMigrateContract(t *testing.T) {
 				Msg:                   migMsgBz,
 				Contract:              contractAddr,
 			}
-			rsp, err = wasmApp.MsgServiceRouter().Handler(msg)(ctx, msg)
+			rsp, err = setup.MsgServiceRouter().Handler(msg)(ctx, msg)
 
 			// then
 			if spec.expErr {
@@ -1137,7 +1138,7 @@ func TestStoreAndMigrateContract(t *testing.T) {
 
 			require.NoError(t, err)
 			var result types.MsgStoreAndMigrateContractResponse
-			require.NoError(t, wasmApp.AppCodec().Unmarshal(rsp.Data, &result))
+			require.NoError(t, setup.AppCodec().Unmarshal(rsp.Data, &result))
 			assert.Equal(t, spec.expChecksum, result.Checksum)
 			require.NotZero(t, result.CodeID)
 		})
@@ -1145,12 +1146,12 @@ func TestStoreAndMigrateContract(t *testing.T) {
 }
 
 func TestUpdateContractLabel(t *testing.T) {
-	wasmApp := app_old.Setup(t)
-	ctx := wasmApp.BaseApp.NewContextLegacy(false, tmproto.Header{Time: time.Now()})
+	setup := app.Setup(t)
+	ctx := setup.BaseApp.NewContextLegacy(false, tmproto.Header{Time: time.Now()})
 
 	var (
 		myAddress       sdk.AccAddress = make([]byte, types.ContractAddrLen)
-		authority                      = wasmApp.WasmKeeper.GetAuthority()
+		authority                      = setup.WasmKeeper.GetAuthority()
 		_, _, otherAddr                = testdata.KeyTestPubAddr()
 	)
 
@@ -1197,15 +1198,15 @@ func TestUpdateContractLabel(t *testing.T) {
 				Msg:                   []byte(`{}`),
 				Funds:                 sdk.Coins{},
 			}
-			rsp, err := wasmApp.MsgServiceRouter().Handler(msg)(ctx, msg)
+			rsp, err := setup.MsgServiceRouter().Handler(msg)(ctx, msg)
 			require.NoError(t, err)
 			var storeAndInstantiateResponse types.MsgStoreAndInstantiateContractResponse
-			require.NoError(t, wasmApp.AppCodec().Unmarshal(rsp.Data, &storeAndInstantiateResponse))
+			require.NoError(t, setup.AppCodec().Unmarshal(rsp.Data, &storeAndInstantiateResponse))
 
 			contract := storeAndInstantiateResponse.Address
 			contractAddr, err := sdk.AccAddressFromBech32(contract)
 			require.NoError(t, err)
-			require.Equal(t, "old label", wasmApp.WasmKeeper.GetContractInfo(ctx, contractAddr).Label)
+			require.Equal(t, "old label", setup.WasmKeeper.GetContractInfo(ctx, contractAddr).Label)
 
 			// when
 			msgUpdateLabel := &types.MsgUpdateContractLabel{
@@ -1213,15 +1214,15 @@ func TestUpdateContractLabel(t *testing.T) {
 				NewLabel: spec.newLabel,
 				Contract: storeAndInstantiateResponse.Address,
 			}
-			_, err = wasmApp.MsgServiceRouter().Handler(msgUpdateLabel)(ctx, msgUpdateLabel)
+			_, err = setup.MsgServiceRouter().Handler(msgUpdateLabel)(ctx, msgUpdateLabel)
 
 			// then
 			if spec.expErr {
 				require.Error(t, err)
-				require.Equal(t, "old label", wasmApp.WasmKeeper.GetContractInfo(ctx, contractAddr).Label)
+				require.Equal(t, "old label", setup.WasmKeeper.GetContractInfo(ctx, contractAddr).Label)
 			} else {
 				require.NoError(t, err)
-				require.Equal(t, spec.newLabel, wasmApp.WasmKeeper.GetContractInfo(ctx, contractAddr).Label)
+				require.Equal(t, spec.newLabel, setup.WasmKeeper.GetContractInfo(ctx, contractAddr).Label)
 			}
 		})
 	}

@@ -5,6 +5,7 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
+	"github.com/airchains-network/junction/app"
 	"math"
 	"testing"
 	"time"
@@ -569,12 +570,12 @@ func TestQueryErrors(t *testing.T) {
 }
 
 func TestAcceptListStargateQuerier(t *testing.T) {
-	wasmApp := app_old.SetupWithEmptyStore(t)
-	ctx := wasmApp.NewUncachedContext(false, cmtproto.Header{ChainID: "foo", Height: 1, Time: time.Now()})
-	err := wasmApp.StakingKeeper.SetParams(ctx, stakingtypes.DefaultParams())
+	junctionApp := app.SetupWithEmptyStore(t)
+	ctx := junctionApp.NewUncachedContext(false, cmtproto.Header{ChainID: "foo", Height: 1, Time: time.Now()})
+	err := junctionApp.StakingKeeper.SetParams(ctx, stakingtypes.DefaultParams())
 	require.NoError(t, err)
 
-	addrs := app_old.AddTestAddrsIncremental(wasmApp, ctx, 2, sdkmath.NewInt(1_000_000))
+	addrs := app.AddTestAddrsIncremental(junctionApp, ctx, 2, sdkmath.NewInt(1_000_000))
 	accepted := keeper.AcceptedQueries{
 		"/cosmos.auth.v1beta1.Query/Account": &authtypes.QueryAccountResponse{},
 		"/no/route/to/this":                  &authtypes.QueryAccountResponse{},
@@ -622,7 +623,7 @@ func TestAcceptListStargateQuerier(t *testing.T) {
 	}
 	for name, spec := range specs {
 		t.Run(name, func(t *testing.T) {
-			q := keeper.AcceptListStargateQuerier(accepted, wasmApp.GRPCQueryRouter(), wasmApp.AppCodec())
+			q := keeper.AcceptListStargateQuerier(accepted, junctionApp.GRPCQueryRouter(), junctionApp.AppCodec())
 			gotBz, gotErr := q(ctx, spec.req)
 			if spec.expErr {
 				require.Error(t, gotErr)
@@ -754,7 +755,7 @@ func TestConvertProtoToJSONMarshal(t *testing.T) {
 		t.Run(fmt.Sprintf("Case %s", tc.name), func(t *testing.T) {
 			originalVersionBz, err := hex.DecodeString(tc.originalResponse)
 			require.NoError(t, err)
-			appCodec := app_old.MakeEncodingConfig(t).Codec
+			appCodec := app.MakeEncodingConfig(t).Codec
 
 			jsonMarshalledResponse, err := keeper.ConvertProtoToJSONMarshal(appCodec, tc.protoResponseStruct, originalVersionBz)
 			if tc.expectedError {
@@ -809,7 +810,7 @@ func TestConvertSDKDecCoinToWasmDecCoin(t *testing.T) {
 }
 
 func TestResetProtoMarshalerAfterJsonMarshal(t *testing.T) {
-	appCodec := app_old.MakeEncodingConfig(t).Codec
+	appCodec := app.MakeEncodingConfig(t).Codec
 
 	protoMarshaler := &banktypes.QueryAllBalancesResponse{}
 	expected := appCodec.MustMarshalJSON(&banktypes.QueryAllBalancesResponse{
@@ -885,7 +886,7 @@ func TestDeterministicJsonMarshal(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(fmt.Sprintf("Case %s", tc.name), func(t *testing.T) {
-			appCodec := app_old.MakeEncodingConfig(t).Codec
+			appCodec := app.MakeEncodingConfig(t).Codec
 
 			originVersionBz, err := hex.DecodeString(tc.originalResponse)
 			require.NoError(t, err)
