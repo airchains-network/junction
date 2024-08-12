@@ -1,6 +1,7 @@
 package app
 
 import (
+	wasmkeeper "github.com/airchains-network/junction/x/wasm/keeper"
 	"io"
 	"os"
 	"path/filepath"
@@ -139,9 +140,14 @@ type App struct {
 	ScopedIBCTransferKeeper   capabilitykeeper.ScopedKeeper
 	ScopedICAControllerKeeper capabilitykeeper.ScopedKeeper
 	ScopedICAHostKeeper       capabilitykeeper.ScopedKeeper
+	ScopedWasmKeeper          capabilitykeeper.ScopedKeeper
 
+	WasmKeeper     wasmkeeper.Keeper
 	JunctionKeeper junctionmodulekeeper.Keeper
 	// this line is used by starport scaffolding # stargate/app/keeperDeclaration
+
+	// the module manager
+	BasicModuleManager module.BasicManager
 
 	// simulation manager
 	sm *module.SimulationManager
@@ -193,6 +199,7 @@ func New(
 	traceStore io.Writer,
 	loadLatest bool,
 	appOpts servertypes.AppOptions,
+	wasmOpts []wasmkeeper.Option,
 	baseAppOptions ...func(*baseapp.BaseApp),
 ) (*App, error) {
 	var (
@@ -320,7 +327,7 @@ func New(
 	app.App = appBuilder.Build(db, traceStore, baseAppOptions...)
 
 	// Register legacy modules
-	app.registerIBCModules()
+	app.registerIBCXWasmModules(appOpts, wasmOpts)
 
 	// register streaming services
 	if err := app.RegisterStreamingServices(appOpts, app.kvStoreKeys()); err != nil {
@@ -470,4 +477,14 @@ func BlockedAddresses() map[string]bool {
 		}
 	}
 	return result
+}
+
+// InterfaceRegistry returns App's InterfaceRegistry
+func (app *App) InterfaceRegistry() codectypes.InterfaceRegistry {
+	return app.interfaceRegistry
+}
+
+// TxConfig returns App's TxConfig
+func (app *App) TxConfig() client.TxConfig {
+	return app.txConfig
 }
