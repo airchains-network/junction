@@ -43,6 +43,10 @@ type DADetails struct {
 }
 
 // ProverDetails represents metadata about a prover, including its name and version.
+/*
+	Name: gevulot,sindri,....
+	Version: git commit version or tag version
+*/
 type ProverDetails struct {
 	Name    string
 	Version string
