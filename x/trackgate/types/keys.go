@@ -9,6 +9,8 @@ const (
 
 	// MemStoreKey defines the in-memory store key
 	MemStoreKey = "mem_trackgate"
+
+	ExtTrackStationsDataStoreKey = "ext_track_stations_data"
 )
 
 var (

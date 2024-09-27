@@ -1,0 +1,18 @@
+syntax = "proto3";
+package junction.trackgate;
+
+option go_package = "github.com/airchains-network/junction/x/trackgate/types";
+
+message ExtTrackStations {
+  
+  repeated string operators = 1; 
+  uint64 latestPod = 2; 
+  string latestMerkleRootHash = 3; 
+  string name = 4; 
+  string id = 5; 
+  string stationType = 6; 
+  bool fheEnabled = 7; 
+  bytes sequencerDetails = 8;
+  bytes daDetails = 9;
+  bytes proverDetails = 10;
+}
