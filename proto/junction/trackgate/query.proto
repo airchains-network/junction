@@ -1,4 +1,5 @@
 syntax = "proto3";
+
 package junction.trackgate;
 
 import "amino/amino.proto";
@@ -6,25 +7,40 @@ import "gogoproto/gogo.proto";
 import "google/api/annotations.proto";
 import "cosmos/base/query/v1beta1/pagination.proto";
 import "junction/trackgate/params.proto";
+import "junction/trackgate/ext_track_stations.proto";
 
 option go_package = "github.com/airchains-network/junction/x/trackgate/types";
 
 // Query defines the gRPC querier service.
 service Query {
+  
   // Parameters queries the parameters of the module.
-  rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {
+  rpc Params (QueryParamsRequest) returns (QueryParamsResponse) {
     option (google.api.http).get = "/airchains-network/junction/trackgate/params";
+  
+  }
+  
+  // Queries a list of GetExtTrackStation items.
+  rpc GetExtTrackStation (QueryGetExtTrackStationRequest) returns (QueryGetExtTrackStationResponse) {
+    option (google.api.http).get = "/airchains-network/junction/trackgate/get_ext_track_station/{id}";
+  
   }
 }
-
 // QueryParamsRequest is request type for the Query/Params RPC method.
 message QueryParamsRequest {}
 
 // QueryParamsResponse is response type for the Query/Params RPC method.
 message QueryParamsResponse {
+  
   // params holds all the parameters of this module.
-  Params params = 1 [
-    (gogoproto.nullable) = false,
-    (amino.dont_omitempty) = true
-  ];
+  Params params = 1 [(gogoproto.nullable) = false, (amino.dont_omitempty) = true];
 }
+
+message QueryGetExtTrackStationRequest {
+  string id = 1;
+}
+
+message QueryGetExtTrackStationResponse {
+  ExtTrackStations station = 1;
+}
+
