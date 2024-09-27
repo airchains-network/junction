@@ -76,6 +76,8 @@ import (
 	ibckeeper "github.com/cosmos/ibc-go/v8/modules/core/keeper"
 
 	junctionmodulekeeper "github.com/airchains-network/junction/x/junction/keeper"
+	trackgatemodulekeeper "github.com/airchains-network/junction/x/trackgate/keeper"
+
 	// this line is used by starport scaffolding # stargate/app/moduleImport
 
 	"github.com/airchains-network/junction/docs"
@@ -140,7 +142,8 @@ type App struct {
 	ScopedICAControllerKeeper capabilitykeeper.ScopedKeeper
 	ScopedICAHostKeeper       capabilitykeeper.ScopedKeeper
 
-	JunctionKeeper junctionmodulekeeper.Keeper
+	JunctionKeeper  junctionmodulekeeper.Keeper
+	TrackgateKeeper trackgatemodulekeeper.Keeper
 	// this line is used by starport scaffolding # stargate/app/keeperDeclaration
 
 	// simulation manager
@@ -280,6 +283,7 @@ func New(
 		&app.GroupKeeper,
 		&app.CircuitBreakerKeeper,
 		&app.JunctionKeeper,
+		&app.TrackgateKeeper,
 		// this line is used by starport scaffolding # stargate/app/keeperDefinition
 	); err != nil {
 		panic(err)
