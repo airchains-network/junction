@@ -19,8 +19,9 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	Query_Params_FullMethodName             = "/junction.trackgate.Query/Params"
-	Query_GetExtTrackStation_FullMethodName = "/junction.trackgate.Query/GetExtTrackStation"
+	Query_Params_FullMethodName               = "/junction.trackgate.Query/Params"
+	Query_GetExtTrackStation_FullMethodName   = "/junction.trackgate.Query/GetExtTrackStation"
+	Query_ListExtTrackStations_FullMethodName = "/junction.trackgate.Query/ListExtTrackStations"
 )
 
 // QueryClient is the client API for Query service.
@@ -31,6 +32,8 @@ type QueryClient interface {
 	Params(ctx context.Context, in *QueryParamsRequest, opts ...grpc.CallOption) (*QueryParamsResponse, error)
 	// Queries a list of GetExtTrackStation items.
 	GetExtTrackStation(ctx context.Context, in *QueryGetExtTrackStationRequest, opts ...grpc.CallOption) (*QueryGetExtTrackStationResponse, error)
+	// Queries a list of ListExtTrackStations items.
+	ListExtTrackStations(ctx context.Context, in *QueryListExtTrackStationsRequest, opts ...grpc.CallOption) (*QueryListExtTrackStationsResponse, error)
 }
 
 type queryClient struct {
@@ -59,6 +62,15 @@ func (c *queryClient) GetExtTrackStation(ctx context.Context, in *QueryGetExtTra
 	return out, nil
 }
 
+func (c *queryClient) ListExtTrackStations(ctx context.Context, in *QueryListExtTrackStationsRequest, opts ...grpc.CallOption) (*QueryListExtTrackStationsResponse, error) {
+	out := new(QueryListExtTrackStationsResponse)
+	err := c.cc.Invoke(ctx, Query_ListExtTrackStations_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // QueryServer is the server API for Query service.
 // All implementations must embed UnimplementedQueryServer
 // for forward compatibility
@@ -67,6 +79,8 @@ type QueryServer interface {
 	Params(context.Context, *QueryParamsRequest) (*QueryParamsResponse, error)
 	// Queries a list of GetExtTrackStation items.
 	GetExtTrackStation(context.Context, *QueryGetExtTrackStationRequest) (*QueryGetExtTrackStationResponse, error)
+	// Queries a list of ListExtTrackStations items.
+	ListExtTrackStations(context.Context, *QueryListExtTrackStationsRequest) (*QueryListExtTrackStationsResponse, error)
 	mustEmbedUnimplementedQueryServer()
 }
 
@@ -79,6 +93,9 @@ func (UnimplementedQueryServer) Params(context.Context, *QueryParamsRequest) (*Q
 }
 func (UnimplementedQueryServer) GetExtTrackStation(context.Context, *QueryGetExtTrackStationRequest) (*QueryGetExtTrackStationResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetExtTrackStation not implemented")
+}
+func (UnimplementedQueryServer) ListExtTrackStations(context.Context, *QueryListExtTrackStationsRequest) (*QueryListExtTrackStationsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListExtTrackStations not implemented")
 }
 func (UnimplementedQueryServer) mustEmbedUnimplementedQueryServer() {}
 
@@ -129,6 +146,24 @@ func _Query_GetExtTrackStation_Handler(srv interface{}, ctx context.Context, dec
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Query_ListExtTrackStations_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryListExtTrackStationsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).ListExtTrackStations(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Query_ListExtTrackStations_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).ListExtTrackStations(ctx, req.(*QueryListExtTrackStationsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Query_ServiceDesc is the grpc.ServiceDesc for Query service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -143,6 +178,10 @@ var Query_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetExtTrackStation",
 			Handler:    _Query_GetExtTrackStation_Handler,
+		},
+		{
+			MethodName: "ListExtTrackStations",
+			Handler:    _Query_ListExtTrackStations_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
