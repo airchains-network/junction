@@ -67,6 +67,17 @@ func (k msgServer) SchemaCreation(goCtx context.Context, msg *types.MsgSchemaCre
 	}
 
 	/*
+		Here we will add the version to the database of version finder
+		Here is what it will look like
+		dbPath will be ext_track_version_finder/{station-ID}
+		key: schemaKey and value:version
+	*/
+	versionFinderDbPath := BuildExtTrackVersionFinderStoreKey(extTrackStationId)
+	versionFinderStore := prefix.NewStore(storeAdapter, types.KeyPrefix(versionFinderDbPath))
+	versionFinderKey := []byte(schemaKey)
+	versionFinderValue := []byte(version)
+	versionFinderStore.Set(versionFinderKey, versionFinderValue)
+	/*
 		Storing pattern
 		ext_track_schema/ext_track_station_id : and in this database this is how data will be stored
 		key: version

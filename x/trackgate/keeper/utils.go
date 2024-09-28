@@ -20,3 +20,9 @@ func BuildExtTrackSchemaPath(extTrackStationID string) string {
 
 	return dbPath
 }
+
+// BuildExtTrackVersionFinderStoreKey constructs the database key for storing external track version data using a station ID.
+func BuildExtTrackVersionFinderStoreKey(extTrackStationID string) string {
+	dbPath := fmt.Sprintf("%s/%s", types.ExtTrackVersionFinderStoreKey, extTrackStationID)
+	return dbPath
+}

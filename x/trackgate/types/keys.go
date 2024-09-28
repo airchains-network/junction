@@ -12,7 +12,8 @@ const (
 
 	ExtTrackStationsDataStoreKey = "ext_track_stations_data"
 
-	ExtTrackSchemaStoreKey = "ext_track_schema"
+	ExtTrackSchemaStoreKey        = "ext_track_schema"
+	ExtTrackVersionFinderStoreKey = "ext_track_version_finder"
 )
 
 var (
