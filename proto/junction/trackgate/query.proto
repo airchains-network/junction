@@ -8,6 +8,7 @@ import "google/api/annotations.proto";
 import "cosmos/base/query/v1beta1/pagination.proto";
 import "junction/trackgate/params.proto";
 import "junction/trackgate/ext_track_stations.proto";
+import "junction/trackgate/ext_track_schema.proto";
 
 option go_package = "github.com/airchains-network/junction/x/trackgate/types";
 
@@ -29,6 +30,12 @@ service Query {
   // Queries a list of ListExtTrackStations items.
   rpc ListExtTrackStations (QueryListExtTrackStationsRequest) returns (QueryListExtTrackStationsResponse) {
     option (google.api.http).get = "/airchains-network/junction/trackgate/list_ext_track_stations";
+  
+  }
+  
+  // Queries a list of RetrieveSchemaKey items.
+  rpc RetrieveSchemaKey (QueryRetrieveSchemaKeyRequest) returns (QueryRetrieveSchemaKeyResponse) {
+    option (google.api.http).get = "/airchains-network/junction/trackgate/retrieve_schema_key/{extTrackStationId}/{schemaVersion}";
   
   }
 }
@@ -55,7 +62,17 @@ message QueryListExtTrackStationsRequest {
 }
 
 message QueryListExtTrackStationsResponse {
-  repeated ExtTrackStations                       stationsList = 1[(gogoproto.nullable) = false];
-  cosmos.base.query.v1beta1.PageResponse pagination   = 2;
+  repeated ExtTrackStations                       stationsList = 1 [(gogoproto.nullable) = false];
+           cosmos.base.query.v1beta1.PageResponse pagination   = 2;
+}
+
+message QueryRetrieveSchemaKeyRequest {
+  string extTrackStationId = 1;
+  string schemaVersion     = 2;
+}
+
+message QueryRetrieveSchemaKeyResponse {
+  ExtTrackSchema track = 1;
+  string schemaKey = 2;
 }
 

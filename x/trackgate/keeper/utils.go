@@ -2,8 +2,9 @@ package keeper
 
 import (
 	"fmt"
-	"github.com/airchains-network/junction/x/trackgate/types"
 	"regexp"
+
+	"github.com/airchains-network/junction/x/trackgate/types"
 )
 
 // ValidateVersion checks if the provided version string conforms to Semantic Versioning 2.0.0
