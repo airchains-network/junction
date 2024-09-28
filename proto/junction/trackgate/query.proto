@@ -14,29 +14,35 @@ option go_package = "github.com/airchains-network/junction/x/trackgate/types";
 
 // Query defines the gRPC querier service.
 service Query {
-  
+
   // Parameters queries the parameters of the module.
   rpc Params (QueryParamsRequest) returns (QueryParamsResponse) {
     option (google.api.http).get = "/airchains-network/junction/trackgate/params";
-  
+
   }
-  
+
   // Queries a list of GetExtTrackStation items.
   rpc GetExtTrackStation (QueryGetExtTrackStationRequest) returns (QueryGetExtTrackStationResponse) {
     option (google.api.http).get = "/airchains-network/junction/trackgate/get_ext_track_station/{id}";
-  
+
   }
-  
+
   // Queries a list of ListExtTrackStations items.
   rpc ListExtTrackStations (QueryListExtTrackStationsRequest) returns (QueryListExtTrackStationsResponse) {
     option (google.api.http).get = "/airchains-network/junction/trackgate/list_ext_track_stations";
-  
+
   }
-  
+
   // Queries a list of RetrieveSchemaKey items.
   rpc RetrieveSchemaKey (QueryRetrieveSchemaKeyRequest) returns (QueryRetrieveSchemaKeyResponse) {
     option (google.api.http).get = "/airchains-network/junction/trackgate/retrieve_schema_key/{extTrackStationId}/{schemaVersion}";
-  
+
+  }
+
+  // Queries a list of ListSchemas items.
+  rpc ListSchemas (QueryListSchemasRequest) returns (QueryListSchemasResponse) {
+    option (google.api.http).get = "/airchains-network/junction/trackgate/list_schemas/{extTrackStationId}";
+
   }
 }
 // QueryParamsRequest is request type for the Query/Params RPC method.
@@ -44,7 +50,7 @@ message QueryParamsRequest {}
 
 // QueryParamsResponse is response type for the Query/Params RPC method.
 message QueryParamsResponse {
-  
+
   // params holds all the parameters of this module.
   Params params = 1 [(gogoproto.nullable) = false, (amino.dont_omitempty) = true];
 }
@@ -63,16 +69,26 @@ message QueryListExtTrackStationsRequest {
 
 message QueryListExtTrackStationsResponse {
   repeated ExtTrackStations                       stationsList = 1 [(gogoproto.nullable) = false];
-           cosmos.base.query.v1beta1.PageResponse pagination   = 2;
+  cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 
 message QueryRetrieveSchemaKeyRequest {
   string extTrackStationId = 1;
-  string schemaVersion     = 2;
+  string schemaVersion = 2;
 }
 
 message QueryRetrieveSchemaKeyResponse {
   ExtTrackSchema track = 1;
-  string schemaKey = 2;
+  string         schemaKey = 2;
+}
+
+message QueryListSchemasRequest {
+  string                                extTrackStationId = 1;
+  cosmos.base.query.v1beta1.PageRequest pagination = 2;
+}
+
+message QueryListSchemasResponse {
+  repeated ExtTrackSchema                         schemas = 1[(gogoproto.nullable) = false];
+  cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 
