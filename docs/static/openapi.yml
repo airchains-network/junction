@@ -19529,6 +19529,65 @@ paths:
           type: string
       tags:
         - Query
+  /airchains-network/junction/trackgate/get_track_engagement/{extTrackStationId}/{podNumber}:
+    get:
+      summary: Queries a list of GetTrackEngagement items.
+      operationId: JunctionTrackgateQuery_GetTrackEngagement
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              engagement:
+                type: object
+                properties:
+                  extTrackStationId:
+                    type: string
+                  engageBy:
+                    type: string
+                  stateRoot:
+                    type: string
+                  podNumber:
+                    type: string
+                    format: uint64
+                  stationName:
+                    type: string
+                  schemaKey:
+                    type: string
+                  schemaObject:
+                    type: string
+                    format: byte
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: extTrackStationId
+          in: path
+          required: true
+          type: string
+        - name: podNumber
+          in: path
+          required: true
+          type: string
+          format: uint64
+      tags:
+        - Query
   /airchains-network/junction/trackgate/list_ext_track_stations:
     get:
       summary: Queries a list of ListExtTrackStations items.
@@ -27812,6 +27871,25 @@ definitions:
       schema:
         type: string
         format: byte
+  junction.trackgate.ExtTrackSchemaEngagement:
+    type: object
+    properties:
+      extTrackStationId:
+        type: string
+      engageBy:
+        type: string
+      stateRoot:
+        type: string
+      podNumber:
+        type: string
+        format: uint64
+      stationName:
+        type: string
+      schemaKey:
+        type: string
+      schemaObject:
+        type: string
+        format: byte
   junction.trackgate.ExtTrackStations:
     type: object
     properties:
@@ -27871,6 +27949,28 @@ definitions:
             type: string
             format: byte
           proverDetails:
+            type: string
+            format: byte
+  junction.trackgate.QueryGetTrackEngagementResponse:
+    type: object
+    properties:
+      engagement:
+        type: object
+        properties:
+          extTrackStationId:
+            type: string
+          engageBy:
+            type: string
+          stateRoot:
+            type: string
+          podNumber:
+            type: string
+            format: uint64
+          stationName:
+            type: string
+          schemaKey:
+            type: string
+          schemaObject:
             type: string
             format: byte
   junction.trackgate.QueryListExtTrackStationsResponse:

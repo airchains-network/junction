@@ -24,6 +24,7 @@ const (
 	Query_ListExtTrackStations_FullMethodName = "/junction.trackgate.Query/ListExtTrackStations"
 	Query_RetrieveSchemaKey_FullMethodName    = "/junction.trackgate.Query/RetrieveSchemaKey"
 	Query_ListSchemas_FullMethodName          = "/junction.trackgate.Query/ListSchemas"
+	Query_GetTrackEngagement_FullMethodName   = "/junction.trackgate.Query/GetTrackEngagement"
 )
 
 // QueryClient is the client API for Query service.
@@ -40,6 +41,8 @@ type QueryClient interface {
 	RetrieveSchemaKey(ctx context.Context, in *QueryRetrieveSchemaKeyRequest, opts ...grpc.CallOption) (*QueryRetrieveSchemaKeyResponse, error)
 	// Queries a list of ListSchemas items.
 	ListSchemas(ctx context.Context, in *QueryListSchemasRequest, opts ...grpc.CallOption) (*QueryListSchemasResponse, error)
+	// Queries a list of GetTrackEngagement items.
+	GetTrackEngagement(ctx context.Context, in *QueryGetTrackEngagementRequest, opts ...grpc.CallOption) (*QueryGetTrackEngagementResponse, error)
 }
 
 type queryClient struct {
@@ -95,6 +98,15 @@ func (c *queryClient) ListSchemas(ctx context.Context, in *QueryListSchemasReque
 	return out, nil
 }
 
+func (c *queryClient) GetTrackEngagement(ctx context.Context, in *QueryGetTrackEngagementRequest, opts ...grpc.CallOption) (*QueryGetTrackEngagementResponse, error) {
+	out := new(QueryGetTrackEngagementResponse)
+	err := c.cc.Invoke(ctx, Query_GetTrackEngagement_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // QueryServer is the server API for Query service.
 // All implementations must embed UnimplementedQueryServer
 // for forward compatibility
@@ -109,6 +121,8 @@ type QueryServer interface {
 	RetrieveSchemaKey(context.Context, *QueryRetrieveSchemaKeyRequest) (*QueryRetrieveSchemaKeyResponse, error)
 	// Queries a list of ListSchemas items.
 	ListSchemas(context.Context, *QueryListSchemasRequest) (*QueryListSchemasResponse, error)
+	// Queries a list of GetTrackEngagement items.
+	GetTrackEngagement(context.Context, *QueryGetTrackEngagementRequest) (*QueryGetTrackEngagementResponse, error)
 	mustEmbedUnimplementedQueryServer()
 }
 
@@ -130,6 +144,9 @@ func (UnimplementedQueryServer) RetrieveSchemaKey(context.Context, *QueryRetriev
 }
 func (UnimplementedQueryServer) ListSchemas(context.Context, *QueryListSchemasRequest) (*QueryListSchemasResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListSchemas not implemented")
+}
+func (UnimplementedQueryServer) GetTrackEngagement(context.Context, *QueryGetTrackEngagementRequest) (*QueryGetTrackEngagementResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTrackEngagement not implemented")
 }
 func (UnimplementedQueryServer) mustEmbedUnimplementedQueryServer() {}
 
@@ -234,6 +251,24 @@ func _Query_ListSchemas_Handler(srv interface{}, ctx context.Context, dec func(i
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Query_GetTrackEngagement_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryGetTrackEngagementRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).GetTrackEngagement(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Query_GetTrackEngagement_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).GetTrackEngagement(ctx, req.(*QueryGetTrackEngagementRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Query_ServiceDesc is the grpc.ServiceDesc for Query service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -260,6 +295,10 @@ var Query_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListSchemas",
 			Handler:    _Query_ListSchemas_Handler,
+		},
+		{
+			MethodName: "GetTrackEngagement",
+			Handler:    _Query_GetTrackEngagement_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

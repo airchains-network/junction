@@ -45,6 +45,13 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "extTrackStationId"}},
 				},
 
+				{
+					RpcMethod:      "GetTrackEngagement",
+					Use:            "get-track-engagement [ext-track-station-id] [pod-number]",
+					Short:          "Query get-track-engagement",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "extTrackStationId"}, {ProtoField: "podNumber"}},
+				},
+
 				// this line is used by ignite scaffolding # autocli/query
 			},
 		},
