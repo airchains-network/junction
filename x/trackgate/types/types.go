@@ -51,3 +51,8 @@ type ProverDetails struct {
 	Name    string
 	Version string
 }
+
+// SchemaDef represents a structure definition
+type SchemaDef struct {
+	Fields map[string]interface{} // Changed to interface{} to allow nested definitions
+}

@@ -59,7 +59,7 @@ message MsgSchemaCreation {
 }
 
 message MsgSchemaCreationResponse {
-  string trackKey = 1;
+  string schemaKey = 1;
   bool   status   = 2;
 }
 

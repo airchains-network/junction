@@ -19320,7 +19320,7 @@ paths:
           schema:
             type: object
             properties:
-              trackKey:
+              schemaKey:
                 type: string
               status:
                 type: boolean
@@ -27433,7 +27433,7 @@ definitions:
   junction.trackgate.MsgSchemaCreationResponse:
     type: object
     properties:
-      trackKey:
+      schemaKey:
         type: string
       status:
         type: boolean

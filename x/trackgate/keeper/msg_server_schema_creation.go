@@ -30,8 +30,8 @@ func (k msgServer) SchemaCreation(goCtx context.Context, msg *types.MsgSchemaCre
 	stationDataByte := extTrackStationsDataDB.Get([]byte(extTrackStationId))
 	if stationDataByte == nil {
 		return &types.MsgSchemaCreationResponse{
-			TrackKey: "",
-			Status:   false,
+			SchemaKey: "",
+			Status:    false,
 		}, status.Error(codes.NotFound, "station not found")
 	}
 
@@ -46,12 +46,12 @@ func (k msgServer) SchemaCreation(goCtx context.Context, msg *types.MsgSchemaCre
 
 	trackName := stationTrackData.Name
 	// Generate UUID
-	trackKey := uuid.New().String()
+	schemaKey := uuid.New().String()
 	newExtTrackSchema := types.ExtTrackSchema{
 		TrackName:         trackName,
 		ExtTrackStationId: extTrackStationId,
 		Version:           version,
-		TrackKey:          trackKey,
+		TrackKey:          schemaKey,
 		Schema:            schema,
 	}
 
@@ -67,7 +67,7 @@ func (k msgServer) SchemaCreation(goCtx context.Context, msg *types.MsgSchemaCre
 	trackSchemaStore.Set(key, storingData)
 
 	return &types.MsgSchemaCreationResponse{
-		TrackKey: trackKey,
-		Status:   true,
+		SchemaKey: schemaKey,
+		Status:    true,
 	}, nil
 }
