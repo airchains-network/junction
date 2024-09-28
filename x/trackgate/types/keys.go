@@ -11,6 +11,8 @@ const (
 	MemStoreKey = "mem_trackgate"
 
 	ExtTrackStationsDataStoreKey = "ext_track_stations_data"
+
+	ExtTrackSchemaStoreKey = "ext_track_schema"
 )
 
 var (

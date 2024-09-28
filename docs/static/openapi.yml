@@ -19311,6 +19311,55 @@ paths:
                   type: string
       tags:
         - Msg
+  /junction.trackgate.Msg/SchemaCreation:
+    post:
+      operationId: JunctionTrackgateMsg_SchemaCreation
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              trackKey:
+                type: string
+              status:
+                type: boolean
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              creator:
+                type: string
+              extTrackStationId:
+                type: string
+              version:
+                type: string
+              schema:
+                type: string
+                format: byte
+      tags:
+        - Msg
   /junction.trackgate.Msg/UpdateParams:
     post:
       summary: |-
@@ -27367,6 +27416,25 @@ definitions:
   junction.trackgate.MsgInitStationResponse:
     type: object
     properties:
+      status:
+        type: boolean
+  junction.trackgate.MsgSchemaCreation:
+    type: object
+    properties:
+      creator:
+        type: string
+      extTrackStationId:
+        type: string
+      version:
+        type: string
+      schema:
+        type: string
+        format: byte
+  junction.trackgate.MsgSchemaCreationResponse:
+    type: object
+    properties:
+      trackKey:
+        type: string
       status:
         type: boolean
   junction.trackgate.MsgUpdateParams:

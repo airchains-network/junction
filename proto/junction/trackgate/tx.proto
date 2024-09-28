@@ -16,8 +16,9 @@ service Msg {
   
   // UpdateParams defines a (governance) operation for updating the module
   // parameters. The authority defaults to the x/gov module account.
-  rpc UpdateParams (MsgUpdateParams) returns (MsgUpdateParamsResponse);
-  rpc InitStation  (MsgInitStation ) returns (MsgInitStationResponse );
+  rpc UpdateParams   (MsgUpdateParams  ) returns (MsgUpdateParamsResponse  );
+  rpc InitStation    (MsgInitStation   ) returns (MsgInitStationResponse   );
+  rpc SchemaCreation (MsgSchemaCreation) returns (MsgSchemaCreationResponse);
 }
 // MsgUpdateParams is the Msg/UpdateParams request type.
 message MsgUpdateParams {
@@ -39,13 +40,26 @@ message MsgUpdateParamsResponse {}
 
 message MsgInitStation {
   option (cosmos.msg.v1.signer) = "submitter";
-  string submitter   = 1;
-  string stationId   = 2;
-  bytes stationInfo = 3;
-  repeated string operators = 4;
+           string submitter   = 1;
+           string stationId   = 2;
+           bytes  stationInfo = 3;
+  repeated string operators   = 4;
 }
 
 message MsgInitStationResponse {
   bool status = 1;
+}
+
+message MsgSchemaCreation {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator           = 1;
+  string extTrackStationId = 2;
+  string version           = 3;
+  bytes schema            = 4;
+}
+
+message MsgSchemaCreationResponse {
+  string trackKey = 1;
+  bool   status   = 2;
 }
 
