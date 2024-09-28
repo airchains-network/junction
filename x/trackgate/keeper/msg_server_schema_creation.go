@@ -26,6 +26,16 @@ func (k msgServer) SchemaCreation(goCtx context.Context, msg *types.MsgSchemaCre
 		return nil, status.Error(codes.InvalidArgument, "invalid version")
 	}
 
+	// Initialising the accurate store for access
+	dbPath := BuildExtTrackSchemaPath(extTrackStationId)
+	trackSchemaStore := prefix.NewStore(storeAdapter, types.KeyPrefix(dbPath))
+	key := []byte(version)
+	// Checking whether the schema for this version is already created or not
+	uniqueSchema := trackSchemaStore.Get(key)
+	if uniqueSchema != nil {
+		return nil, status.Error(codes.AlreadyExists, "schema already exists for this version")
+	}
+
 	extTrackStationsDataDB := prefix.NewStore(storeAdapter, types.KeyPrefix(types.ExtTrackStationsDataStoreKey))
 	stationDataByte := extTrackStationsDataDB.Get([]byte(extTrackStationId))
 	if stationDataByte == nil {
@@ -61,9 +71,6 @@ func (k msgServer) SchemaCreation(goCtx context.Context, msg *types.MsgSchemaCre
 		key: version
 	*/
 	storingData := k.cdc.MustMarshal(&newExtTrackSchema)
-	dbPath := BuildExtTrackSchemaPath(extTrackStationId)
-	trackSchemaStore := prefix.NewStore(storeAdapter, types.KeyPrefix(dbPath))
-	key := []byte(version)
 	trackSchemaStore.Set(key, storingData)
 
 	return &types.MsgSchemaCreationResponse{
