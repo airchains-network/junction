@@ -42,6 +42,6 @@ func (k Keeper) RetrieveSchemaKey(goCtx context.Context, req *types.QueryRetriev
 
 	return &types.QueryRetrieveSchemaKeyResponse{
 		Track:     &schema,
-		SchemaKey: schema.TrackKey,
+		SchemaKey: schema.SchemaKey,
 	}, nil
 }

@@ -31,6 +31,10 @@ const (
 	// TODO: Determine the simulation weight value
 	defaultWeightMsgSchemaCreation int = 100
 
+	opWeightMsgSchemaEngage = "op_weight_msg_schema_engage"
+	// TODO: Determine the simulation weight value
+	defaultWeightMsgSchemaEngage int = 100
+
 	// this line is used by starport scaffolding # simapp/module/const
 )
 
@@ -81,6 +85,17 @@ func (am AppModule) WeightedOperations(simState module.SimulationState) []simtyp
 		trackgatesimulation.SimulateMsgSchemaCreation(am.accountKeeper, am.bankKeeper, am.keeper),
 	))
 
+	var weightMsgSchemaEngage int
+	simState.AppParams.GetOrGenerate(opWeightMsgSchemaEngage, &weightMsgSchemaEngage, nil,
+		func(_ *rand.Rand) {
+			weightMsgSchemaEngage = defaultWeightMsgSchemaEngage
+		},
+	)
+	operations = append(operations, simulation.NewWeightedOperation(
+		weightMsgSchemaEngage,
+		trackgatesimulation.SimulateMsgSchemaEngage(am.accountKeeper, am.bankKeeper, am.keeper),
+	))
+
 	// this line is used by starport scaffolding # simapp/module/operation
 
 	return operations
@@ -102,6 +117,14 @@ func (am AppModule) ProposalMsgs(simState module.SimulationState) []simtypes.Wei
 			defaultWeightMsgSchemaCreation,
 			func(r *rand.Rand, ctx sdk.Context, accs []simtypes.Account) sdk.Msg {
 				trackgatesimulation.SimulateMsgSchemaCreation(am.accountKeeper, am.bankKeeper, am.keeper)
+				return nil
+			},
+		),
+		simulation.NewWeightedProposalMsg(
+			opWeightMsgSchemaEngage,
+			defaultWeightMsgSchemaEngage,
+			func(r *rand.Rand, ctx sdk.Context, accs []simtypes.Account) sdk.Msg {
+				trackgatesimulation.SimulateMsgSchemaEngage(am.accountKeeper, am.bankKeeper, am.keeper)
 				return nil
 			},
 		),

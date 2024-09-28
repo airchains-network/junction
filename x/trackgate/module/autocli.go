@@ -68,6 +68,12 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					Short:          "Send a schema-creation tx",
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "extTrackStationId"}, {ProtoField: "version"}, {ProtoField: "schema"}},
 				},
+				{
+					RpcMethod:      "SchemaEngage",
+					Use:            "schema-engage [ext-track-station-id] [schema-key] [schema-object] [state-root]",
+					Short:          "Send a schema-engage tx",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "extTrackStationId"}, {ProtoField: "schemaKey"}, {ProtoField: "schemaObject"}, {ProtoField: "stateRoot"}},
+				},
 				// this line is used by ignite scaffolding # autocli/tx
 			},
 		},

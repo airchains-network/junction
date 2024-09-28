@@ -62,7 +62,7 @@ func (k msgServer) SchemaCreation(goCtx context.Context, msg *types.MsgSchemaCre
 		TrackName:         trackName,
 		ExtTrackStationId: extTrackStationId,
 		Version:           version,
-		TrackKey:          schemaKey,
+		SchemaKey:         schemaKey,
 		Schema:            schema,
 	}
 
