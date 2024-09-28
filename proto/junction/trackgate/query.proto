@@ -51,6 +51,12 @@ service Query {
     option (google.api.http).get = "/airchains-network/junction/trackgate/get_track_engagement/{extTrackStationId}/{podNumber}";
   
   }
+  
+  // Queries a list of ListTrackEngagements items.
+  rpc ListTrackEngagements (QueryListTrackEngagementsRequest) returns (QueryListTrackEngagementsResponse) {
+    option (google.api.http).get = "/airchains-network/junction/trackgate/list_track_engagements/{extTrackStationId}";
+  
+  }
 }
 // QueryParamsRequest is request type for the Query/Params RPC method.
 message QueryParamsRequest {}
@@ -106,5 +112,15 @@ message QueryGetTrackEngagementRequest {
 
 message QueryGetTrackEngagementResponse {
   ExtTrackSchemaEngagement engagement = 1;
+}
+
+message QueryListTrackEngagementsRequest {
+  string                                extTrackStationId = 1;
+  cosmos.base.query.v1beta1.PageRequest pagination        = 2;
+}
+
+message QueryListTrackEngagementsResponse {
+  repeated ExtTrackSchemaEngagement               engagements = 1[(gogoproto.nullable) = false];
+  cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 
