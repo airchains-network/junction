@@ -57,6 +57,12 @@ service Query {
     option (google.api.http).get = "/airchains-network/junction/trackgate/list_track_engagements/{extTrackStationId}";
   
   }
+  
+  // Queries a list of GetSchemas items.
+  rpc GetSchemas (QueryGetSchemasRequest) returns (QueryGetSchemasResponse) {
+    option (google.api.http).get = "/airchains-network/junction/trackgate/get_schemas/{extTrackStationId}/{schemaVersion}";
+  
+  }
 }
 // QueryParamsRequest is request type for the Query/Params RPC method.
 message QueryParamsRequest {}
@@ -91,7 +97,7 @@ message QueryRetrieveSchemaKeyRequest {
 }
 
 message QueryRetrieveSchemaKeyResponse {
-  string         schemaKey = 1;
+  string schemaKey = 1;
 }
 
 message QueryListSchemasRequest {
@@ -119,7 +125,16 @@ message QueryListTrackEngagementsRequest {
 }
 
 message QueryListTrackEngagementsResponse {
-  repeated ExtTrackSchemaEngagement               engagements = 1[(gogoproto.nullable) = false];
-  cosmos.base.query.v1beta1.PageResponse pagination = 2;
+  repeated ExtTrackSchemaEngagement               engagements = 1 [(gogoproto.nullable) = false];
+           cosmos.base.query.v1beta1.PageResponse pagination  = 2;
+}
+
+message QueryGetSchemasRequest {
+  string extTrackStationId = 1;
+  string schemaVersion     = 2;
+}
+
+message QueryGetSchemasResponse {
+  ExtTrackSchema schema = 1;
 }
 

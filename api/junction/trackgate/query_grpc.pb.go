@@ -26,6 +26,7 @@ const (
 	Query_ListSchemas_FullMethodName          = "/junction.trackgate.Query/ListSchemas"
 	Query_GetTrackEngagement_FullMethodName   = "/junction.trackgate.Query/GetTrackEngagement"
 	Query_ListTrackEngagements_FullMethodName = "/junction.trackgate.Query/ListTrackEngagements"
+	Query_GetSchemas_FullMethodName           = "/junction.trackgate.Query/GetSchemas"
 )
 
 // QueryClient is the client API for Query service.
@@ -46,6 +47,8 @@ type QueryClient interface {
 	GetTrackEngagement(ctx context.Context, in *QueryGetTrackEngagementRequest, opts ...grpc.CallOption) (*QueryGetTrackEngagementResponse, error)
 	// Queries a list of ListTrackEngagements items.
 	ListTrackEngagements(ctx context.Context, in *QueryListTrackEngagementsRequest, opts ...grpc.CallOption) (*QueryListTrackEngagementsResponse, error)
+	// Queries a list of GetSchemas items.
+	GetSchemas(ctx context.Context, in *QueryGetSchemasRequest, opts ...grpc.CallOption) (*QueryGetSchemasResponse, error)
 }
 
 type queryClient struct {
@@ -119,6 +122,15 @@ func (c *queryClient) ListTrackEngagements(ctx context.Context, in *QueryListTra
 	return out, nil
 }
 
+func (c *queryClient) GetSchemas(ctx context.Context, in *QueryGetSchemasRequest, opts ...grpc.CallOption) (*QueryGetSchemasResponse, error) {
+	out := new(QueryGetSchemasResponse)
+	err := c.cc.Invoke(ctx, Query_GetSchemas_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // QueryServer is the server API for Query service.
 // All implementations must embed UnimplementedQueryServer
 // for forward compatibility
@@ -137,6 +149,8 @@ type QueryServer interface {
 	GetTrackEngagement(context.Context, *QueryGetTrackEngagementRequest) (*QueryGetTrackEngagementResponse, error)
 	// Queries a list of ListTrackEngagements items.
 	ListTrackEngagements(context.Context, *QueryListTrackEngagementsRequest) (*QueryListTrackEngagementsResponse, error)
+	// Queries a list of GetSchemas items.
+	GetSchemas(context.Context, *QueryGetSchemasRequest) (*QueryGetSchemasResponse, error)
 	mustEmbedUnimplementedQueryServer()
 }
 
@@ -164,6 +178,9 @@ func (UnimplementedQueryServer) GetTrackEngagement(context.Context, *QueryGetTra
 }
 func (UnimplementedQueryServer) ListTrackEngagements(context.Context, *QueryListTrackEngagementsRequest) (*QueryListTrackEngagementsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListTrackEngagements not implemented")
+}
+func (UnimplementedQueryServer) GetSchemas(context.Context, *QueryGetSchemasRequest) (*QueryGetSchemasResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetSchemas not implemented")
 }
 func (UnimplementedQueryServer) mustEmbedUnimplementedQueryServer() {}
 
@@ -304,6 +321,24 @@ func _Query_ListTrackEngagements_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Query_GetSchemas_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryGetSchemasRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).GetSchemas(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Query_GetSchemas_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).GetSchemas(ctx, req.(*QueryGetSchemasRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Query_ServiceDesc is the grpc.ServiceDesc for Query service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -338,6 +373,10 @@ var Query_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListTrackEngagements",
 			Handler:    _Query_ListTrackEngagements_Handler,
+		},
+		{
+			MethodName: "GetSchemas",
+			Handler:    _Query_GetSchemas_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -19262,6 +19262,253 @@ paths:
               parameters.
       tags:
         - Msg
+  /junction.trackgate.Msg/InitStation:
+    post:
+      operationId: JunctionTrackgateMsg_InitStation
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              status:
+                type: boolean
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              submitter:
+                type: string
+              stationId:
+                type: string
+              stationInfo:
+                type: string
+                format: byte
+              operators:
+                type: array
+                items:
+                  type: string
+      tags:
+        - Msg
+  /junction.trackgate.Msg/MigrateSchema:
+    post:
+      operationId: JunctionTrackgateMsg_MigrateSchema
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              status:
+                type: boolean
+              description:
+                type: string
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              operator:
+                type: string
+              extTrackStationId:
+                type: string
+              newSchemaKey:
+                type: string
+      tags:
+        - Msg
+  /junction.trackgate.Msg/SchemaCreation:
+    post:
+      operationId: JunctionTrackgateMsg_SchemaCreation
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              schemaKey:
+                type: string
+              status:
+                type: boolean
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              creator:
+                type: string
+              extTrackStationId:
+                type: string
+              version:
+                type: string
+              schema:
+                type: string
+                format: byte
+      tags:
+        - Msg
+  /junction.trackgate.Msg/SchemaEngage:
+    post:
+      operationId: JunctionTrackgateMsg_SchemaEngage
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              status:
+                type: boolean
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              operator:
+                type: string
+              extTrackStationId:
+                type: string
+              schemaObject:
+                type: string
+                format: byte
+              stateRoot:
+                type: string
+              podNumber:
+                type: string
+                format: uint64
+      tags:
+        - Msg
+  /junction.trackgate.Msg/UpdateParams:
+    post:
+      summary: |-
+        UpdateParams defines a (governance) operation for updating the module
+        parameters. The authority defaults to the x/gov module account.
+      operationId: JunctionTrackgateMsg_UpdateParams
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            description: >-
+              MsgUpdateParamsResponse defines the response structure for
+              executing a
+
+              MsgUpdateParams message.
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: body
+          description: MsgUpdateParams is the Msg/UpdateParams request type.
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              authority:
+                type: string
+                description: >-
+                  authority is the address that controls the module (defaults to
+                  x/gov unless overwritten).
+              params:
+                description: 'NOTE: All parameters must be supplied.'
+                type: object
+            description: MsgUpdateParams is the Msg/UpdateParams request type.
+      tags:
+        - Msg
   /airchains-network/junction/trackgate/get_ext_track_station/{id}:
     get:
       summary: Queries a list of GetExtTrackStation items.
@@ -19323,6 +19570,59 @@ paths:
                   additionalProperties: {}
       parameters:
         - name: id
+          in: path
+          required: true
+          type: string
+      tags:
+        - Query
+  /airchains-network/junction/trackgate/get_schemas/{extTrackStationId}/{schemaVersion}:
+    get:
+      summary: Queries a list of GetSchemas items.
+      operationId: JunctionTrackgateQuery_GetSchemas
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              schema:
+                type: object
+                properties:
+                  trackName:
+                    type: string
+                  extTrackStationId:
+                    type: string
+                  version:
+                    type: string
+                  schemaKey:
+                    type: string
+                  schema:
+                    type: string
+                    format: byte
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: extTrackStationId
+          in: path
+          required: true
+          type: string
+        - name: schemaVersion
           in: path
           required: true
           type: string
@@ -19895,253 +20195,6 @@ paths:
           type: string
       tags:
         - Query
-  /junction.trackgate.Msg/InitStation:
-    post:
-      operationId: JunctionTrackgateMsg_InitStation
-      responses:
-        '200':
-          description: A successful response.
-          schema:
-            type: object
-            properties:
-              status:
-                type: boolean
-        default:
-          description: An unexpected error response.
-          schema:
-            type: object
-            properties:
-              code:
-                type: integer
-                format: int32
-              message:
-                type: string
-              details:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    '@type':
-                      type: string
-                  additionalProperties: {}
-      parameters:
-        - name: body
-          in: body
-          required: true
-          schema:
-            type: object
-            properties:
-              submitter:
-                type: string
-              stationId:
-                type: string
-              stationInfo:
-                type: string
-                format: byte
-              operators:
-                type: array
-                items:
-                  type: string
-      tags:
-        - Msg
-  /junction.trackgate.Msg/MigrateSchema:
-    post:
-      operationId: JunctionTrackgateMsg_MigrateSchema
-      responses:
-        '200':
-          description: A successful response.
-          schema:
-            type: object
-            properties:
-              status:
-                type: boolean
-              description:
-                type: string
-        default:
-          description: An unexpected error response.
-          schema:
-            type: object
-            properties:
-              code:
-                type: integer
-                format: int32
-              message:
-                type: string
-              details:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    '@type':
-                      type: string
-                  additionalProperties: {}
-      parameters:
-        - name: body
-          in: body
-          required: true
-          schema:
-            type: object
-            properties:
-              operator:
-                type: string
-              extTrackStationId:
-                type: string
-              newSchemaKey:
-                type: string
-      tags:
-        - Msg
-  /junction.trackgate.Msg/SchemaCreation:
-    post:
-      operationId: JunctionTrackgateMsg_SchemaCreation
-      responses:
-        '200':
-          description: A successful response.
-          schema:
-            type: object
-            properties:
-              schemaKey:
-                type: string
-              status:
-                type: boolean
-        default:
-          description: An unexpected error response.
-          schema:
-            type: object
-            properties:
-              code:
-                type: integer
-                format: int32
-              message:
-                type: string
-              details:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    '@type':
-                      type: string
-                  additionalProperties: {}
-      parameters:
-        - name: body
-          in: body
-          required: true
-          schema:
-            type: object
-            properties:
-              creator:
-                type: string
-              extTrackStationId:
-                type: string
-              version:
-                type: string
-              schema:
-                type: string
-                format: byte
-      tags:
-        - Msg
-  /junction.trackgate.Msg/SchemaEngage:
-    post:
-      operationId: JunctionTrackgateMsg_SchemaEngage
-      responses:
-        '200':
-          description: A successful response.
-          schema:
-            type: object
-            properties:
-              status:
-                type: boolean
-        default:
-          description: An unexpected error response.
-          schema:
-            type: object
-            properties:
-              code:
-                type: integer
-                format: int32
-              message:
-                type: string
-              details:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    '@type':
-                      type: string
-                  additionalProperties: {}
-      parameters:
-        - name: body
-          in: body
-          required: true
-          schema:
-            type: object
-            properties:
-              operator:
-                type: string
-              extTrackStationId:
-                type: string
-              schemaObject:
-                type: string
-                format: byte
-              stateRoot:
-                type: string
-              podNumber:
-                type: string
-                format: uint64
-      tags:
-        - Msg
-  /junction.trackgate.Msg/UpdateParams:
-    post:
-      summary: |-
-        UpdateParams defines a (governance) operation for updating the module
-        parameters. The authority defaults to the x/gov module account.
-      operationId: JunctionTrackgateMsg_UpdateParams
-      responses:
-        '200':
-          description: A successful response.
-          schema:
-            type: object
-            description: >-
-              MsgUpdateParamsResponse defines the response structure for
-              executing a
-
-              MsgUpdateParams message.
-        default:
-          description: An unexpected error response.
-          schema:
-            type: object
-            properties:
-              code:
-                type: integer
-                format: int32
-              message:
-                type: string
-              details:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    '@type':
-                      type: string
-                  additionalProperties: {}
-      parameters:
-        - name: body
-          description: MsgUpdateParams is the Msg/UpdateParams request type.
-          in: body
-          required: true
-          schema:
-            type: object
-            properties:
-              authority:
-                type: string
-                description: >-
-                  authority is the address that controls the module (defaults to
-                  x/gov unless overwritten).
-              params:
-                description: 'NOTE: All parameters must be supplied.'
-                type: object
-            description: MsgUpdateParams is the Msg/UpdateParams request type.
-      tags:
-        - Msg
 definitions:
   cosmos.auth.v1beta1.MsgUpdateParams:
     type: object
@@ -27882,6 +27935,100 @@ definitions:
     description: |-
       Version defines the versioning scheme used to negotiate the IBC verison in
       the connection handshake.
+  junction.trackgate.MsgInitStation:
+    type: object
+    properties:
+      submitter:
+        type: string
+      stationId:
+        type: string
+      stationInfo:
+        type: string
+        format: byte
+      operators:
+        type: array
+        items:
+          type: string
+  junction.trackgate.MsgInitStationResponse:
+    type: object
+    properties:
+      status:
+        type: boolean
+  junction.trackgate.MsgMigrateSchema:
+    type: object
+    properties:
+      operator:
+        type: string
+      extTrackStationId:
+        type: string
+      newSchemaKey:
+        type: string
+  junction.trackgate.MsgMigrateSchemaResponse:
+    type: object
+    properties:
+      status:
+        type: boolean
+      description:
+        type: string
+  junction.trackgate.MsgSchemaCreation:
+    type: object
+    properties:
+      creator:
+        type: string
+      extTrackStationId:
+        type: string
+      version:
+        type: string
+      schema:
+        type: string
+        format: byte
+  junction.trackgate.MsgSchemaCreationResponse:
+    type: object
+    properties:
+      schemaKey:
+        type: string
+      status:
+        type: boolean
+  junction.trackgate.MsgSchemaEngage:
+    type: object
+    properties:
+      operator:
+        type: string
+      extTrackStationId:
+        type: string
+      schemaObject:
+        type: string
+        format: byte
+      stateRoot:
+        type: string
+      podNumber:
+        type: string
+        format: uint64
+  junction.trackgate.MsgSchemaEngageResponse:
+    type: object
+    properties:
+      status:
+        type: boolean
+  junction.trackgate.MsgUpdateParams:
+    type: object
+    properties:
+      authority:
+        type: string
+        description: >-
+          authority is the address that controls the module (defaults to x/gov
+          unless overwritten).
+      params:
+        description: 'NOTE: All parameters must be supplied.'
+        type: object
+    description: MsgUpdateParams is the Msg/UpdateParams request type.
+  junction.trackgate.MsgUpdateParamsResponse:
+    type: object
+    description: |-
+      MsgUpdateParamsResponse defines the response structure for executing a
+      MsgUpdateParams message.
+  junction.trackgate.Params:
+    type: object
+    description: Params defines the parameters for the module.
   cosmos.base.query.v1beta1.PageRequest:
     type: object
     properties:
@@ -28027,9 +28174,6 @@ definitions:
         format: byte
       stationSchemaKey:
         type: string
-  junction.trackgate.Params:
-    type: object
-    description: Params defines the parameters for the module.
   junction.trackgate.QueryGetExtTrackStationResponse:
     type: object
     properties:
@@ -28064,6 +28208,23 @@ definitions:
             format: byte
           stationSchemaKey:
             type: string
+  junction.trackgate.QueryGetSchemasResponse:
+    type: object
+    properties:
+      schema:
+        type: object
+        properties:
+          trackName:
+            type: string
+          extTrackStationId:
+            type: string
+          version:
+            type: string
+          schemaKey:
+            type: string
+          schema:
+            type: string
+            format: byte
   junction.trackgate.QueryGetTrackEngagementResponse:
     type: object
     properties:
@@ -28263,94 +28424,3 @@ definitions:
     properties:
       schemaKey:
         type: string
-  junction.trackgate.MsgInitStation:
-    type: object
-    properties:
-      submitter:
-        type: string
-      stationId:
-        type: string
-      stationInfo:
-        type: string
-        format: byte
-      operators:
-        type: array
-        items:
-          type: string
-  junction.trackgate.MsgInitStationResponse:
-    type: object
-    properties:
-      status:
-        type: boolean
-  junction.trackgate.MsgMigrateSchema:
-    type: object
-    properties:
-      operator:
-        type: string
-      extTrackStationId:
-        type: string
-      newSchemaKey:
-        type: string
-  junction.trackgate.MsgMigrateSchemaResponse:
-    type: object
-    properties:
-      status:
-        type: boolean
-      description:
-        type: string
-  junction.trackgate.MsgSchemaCreation:
-    type: object
-    properties:
-      creator:
-        type: string
-      extTrackStationId:
-        type: string
-      version:
-        type: string
-      schema:
-        type: string
-        format: byte
-  junction.trackgate.MsgSchemaCreationResponse:
-    type: object
-    properties:
-      schemaKey:
-        type: string
-      status:
-        type: boolean
-  junction.trackgate.MsgSchemaEngage:
-    type: object
-    properties:
-      operator:
-        type: string
-      extTrackStationId:
-        type: string
-      schemaObject:
-        type: string
-        format: byte
-      stateRoot:
-        type: string
-      podNumber:
-        type: string
-        format: uint64
-  junction.trackgate.MsgSchemaEngageResponse:
-    type: object
-    properties:
-      status:
-        type: boolean
-  junction.trackgate.MsgUpdateParams:
-    type: object
-    properties:
-      authority:
-        type: string
-        description: >-
-          authority is the address that controls the module (defaults to x/gov
-          unless overwritten).
-      params:
-        description: 'NOTE: All parameters must be supplied.'
-        type: object
-    description: MsgUpdateParams is the Msg/UpdateParams request type.
-  junction.trackgate.MsgUpdateParamsResponse:
-    type: object
-    description: |-
-      MsgUpdateParamsResponse defines the response structure for executing a
-      MsgUpdateParams message.
