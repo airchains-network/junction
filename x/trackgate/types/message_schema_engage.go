@@ -8,13 +8,13 @@ import (
 
 var _ sdk.Msg = &MsgSchemaEngage{}
 
-func NewMsgSchemaEngage(operator string, extTrackStationId string, schemaKey string, schemaObject []byte, stateRoot string) *MsgSchemaEngage {
+func NewMsgSchemaEngage(operator string, extTrackStationId string, schemaObject []byte, stateRoot string, podNumber uint64) *MsgSchemaEngage {
 	return &MsgSchemaEngage{
 		Operator:          operator,
 		ExtTrackStationId: extTrackStationId,
-		SchemaKey:         schemaKey,
 		SchemaObject:      schemaObject,
 		StateRoot:         stateRoot,
+		PodNumber:         podNumber,
 	}
 }
 

@@ -8,11 +8,12 @@ import (
 
 var _ sdk.Msg = &MsgInitStation{}
 
-func NewMsgInitStation(submitter string, stationId string, stationInfo []byte) *MsgInitStation {
+func NewMsgInitStation(submitter string, stationId string, stationInfo []byte, operators []string) *MsgInitStation {
 	return &MsgInitStation{
 		Submitter:   submitter,
 		StationId:   stationId,
 		StationInfo: stationInfo,
+		Operators:   operators,
 	}
 }
 

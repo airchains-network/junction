@@ -72,9 +72,9 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 				},
 				{
 					RpcMethod:      "InitStation",
-					Use:            "init-station [station-id] [station-info]",
+					Use:            "init-station [station-id] [station-info] [operators]",
 					Short:          "Send a init_station tx",
-					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "stationId"}, {ProtoField: "stationInfo"}},
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "stationId"}, {ProtoField: "stationInfo"}, {ProtoField: "operators"}},
 				},
 				{
 					RpcMethod:      "SchemaCreation",
@@ -84,9 +84,9 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 				},
 				{
 					RpcMethod:      "SchemaEngage",
-					Use:            "schema-engage [ext-track-station-id] [schema-key] [schema-object] [state-root]",
+					Use:            "schema-engage [ext-track-station-id] [schema-object] [state-root] [pod-number]",
 					Short:          "Send a schema-engage tx",
-					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "extTrackStationId"}, {ProtoField: "schemaKey"}, {ProtoField: "schemaObject"}, {ProtoField: "stateRoot"}},
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "extTrackStationId"}, {ProtoField: "schemaObject"}, {ProtoField: "stateRoot"}, {ProtoField: "podNumber"}},
 				},
 				// this line is used by ignite scaffolding # autocli/tx
 			},

@@ -68,7 +68,6 @@ message MsgSchemaEngage {
   option (cosmos.msg.v1.signer) = "operator";
   string operator = 1;
   string extTrackStationId = 2;
-  string schemaKey = 3;
   bytes schemaObject = 4;
   string stateRoot = 5;
   uint64 podNumber = 6;
