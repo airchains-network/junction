@@ -23,6 +23,7 @@ const (
 	Msg_InitStation_FullMethodName    = "/junction.trackgate.Msg/InitStation"
 	Msg_SchemaCreation_FullMethodName = "/junction.trackgate.Msg/SchemaCreation"
 	Msg_SchemaEngage_FullMethodName   = "/junction.trackgate.Msg/SchemaEngage"
+	Msg_MigrateSchema_FullMethodName  = "/junction.trackgate.Msg/MigrateSchema"
 )
 
 // MsgClient is the client API for Msg service.
@@ -35,6 +36,7 @@ type MsgClient interface {
 	InitStation(ctx context.Context, in *MsgInitStation, opts ...grpc.CallOption) (*MsgInitStationResponse, error)
 	SchemaCreation(ctx context.Context, in *MsgSchemaCreation, opts ...grpc.CallOption) (*MsgSchemaCreationResponse, error)
 	SchemaEngage(ctx context.Context, in *MsgSchemaEngage, opts ...grpc.CallOption) (*MsgSchemaEngageResponse, error)
+	MigrateSchema(ctx context.Context, in *MsgMigrateSchema, opts ...grpc.CallOption) (*MsgMigrateSchemaResponse, error)
 }
 
 type msgClient struct {
@@ -81,6 +83,15 @@ func (c *msgClient) SchemaEngage(ctx context.Context, in *MsgSchemaEngage, opts 
 	return out, nil
 }
 
+func (c *msgClient) MigrateSchema(ctx context.Context, in *MsgMigrateSchema, opts ...grpc.CallOption) (*MsgMigrateSchemaResponse, error) {
+	out := new(MsgMigrateSchemaResponse)
+	err := c.cc.Invoke(ctx, Msg_MigrateSchema_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MsgServer is the server API for Msg service.
 // All implementations must embed UnimplementedMsgServer
 // for forward compatibility
@@ -91,6 +102,7 @@ type MsgServer interface {
 	InitStation(context.Context, *MsgInitStation) (*MsgInitStationResponse, error)
 	SchemaCreation(context.Context, *MsgSchemaCreation) (*MsgSchemaCreationResponse, error)
 	SchemaEngage(context.Context, *MsgSchemaEngage) (*MsgSchemaEngageResponse, error)
+	MigrateSchema(context.Context, *MsgMigrateSchema) (*MsgMigrateSchemaResponse, error)
 	mustEmbedUnimplementedMsgServer()
 }
 
@@ -109,6 +121,9 @@ func (UnimplementedMsgServer) SchemaCreation(context.Context, *MsgSchemaCreation
 }
 func (UnimplementedMsgServer) SchemaEngage(context.Context, *MsgSchemaEngage) (*MsgSchemaEngageResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SchemaEngage not implemented")
+}
+func (UnimplementedMsgServer) MigrateSchema(context.Context, *MsgMigrateSchema) (*MsgMigrateSchemaResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method MigrateSchema not implemented")
 }
 func (UnimplementedMsgServer) mustEmbedUnimplementedMsgServer() {}
 
@@ -195,6 +210,24 @@ func _Msg_SchemaEngage_Handler(srv interface{}, ctx context.Context, dec func(in
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Msg_MigrateSchema_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgMigrateSchema)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).MigrateSchema(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Msg_MigrateSchema_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).MigrateSchema(ctx, req.(*MsgMigrateSchema))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Msg_ServiceDesc is the grpc.ServiceDesc for Msg service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -217,6 +250,10 @@ var Msg_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SchemaEngage",
 			Handler:    _Msg_SchemaEngage_Handler,
+		},
+		{
+			MethodName: "MigrateSchema",
+			Handler:    _Msg_MigrateSchema_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

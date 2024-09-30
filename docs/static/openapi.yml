@@ -19958,6 +19958,52 @@ paths:
                   type: string
       tags:
         - Msg
+  /junction.trackgate.Msg/MigrateSchema:
+    post:
+      operationId: JunctionTrackgateMsg_MigrateSchema
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              status:
+                type: boolean
+              description:
+                type: string
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              operator:
+                type: string
+              extTrackStationId:
+                type: string
+              newSchemaKey:
+                type: string
+      tags:
+        - Msg
   /junction.trackgate.Msg/SchemaCreation:
     post:
       operationId: JunctionTrackgateMsg_SchemaCreation
@@ -28264,6 +28310,22 @@ definitions:
     properties:
       status:
         type: boolean
+  junction.trackgate.MsgMigrateSchema:
+    type: object
+    properties:
+      operator:
+        type: string
+      extTrackStationId:
+        type: string
+      newSchemaKey:
+        type: string
+  junction.trackgate.MsgMigrateSchemaResponse:
+    type: object
+    properties:
+      status:
+        type: boolean
+      description:
+        type: string
   junction.trackgate.MsgSchemaCreation:
     type: object
     properties:

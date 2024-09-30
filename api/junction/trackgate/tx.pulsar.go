@@ -4115,6 +4115,1028 @@ func (x *fastReflection_MsgSchemaEngageResponse) ProtoMethods() *protoiface.Meth
 	}
 }
 
+var (
+	md_MsgMigrateSchema                   protoreflect.MessageDescriptor
+	fd_MsgMigrateSchema_operator          protoreflect.FieldDescriptor
+	fd_MsgMigrateSchema_extTrackStationId protoreflect.FieldDescriptor
+	fd_MsgMigrateSchema_newSchemaKey      protoreflect.FieldDescriptor
+)
+
+func init() {
+	file_junction_trackgate_tx_proto_init()
+	md_MsgMigrateSchema = File_junction_trackgate_tx_proto.Messages().ByName("MsgMigrateSchema")
+	fd_MsgMigrateSchema_operator = md_MsgMigrateSchema.Fields().ByName("operator")
+	fd_MsgMigrateSchema_extTrackStationId = md_MsgMigrateSchema.Fields().ByName("extTrackStationId")
+	fd_MsgMigrateSchema_newSchemaKey = md_MsgMigrateSchema.Fields().ByName("newSchemaKey")
+}
+
+var _ protoreflect.Message = (*fastReflection_MsgMigrateSchema)(nil)
+
+type fastReflection_MsgMigrateSchema MsgMigrateSchema
+
+func (x *MsgMigrateSchema) ProtoReflect() protoreflect.Message {
+	return (*fastReflection_MsgMigrateSchema)(x)
+}
+
+func (x *MsgMigrateSchema) slowProtoReflect() protoreflect.Message {
+	mi := &file_junction_trackgate_tx_proto_msgTypes[8]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+var _fastReflection_MsgMigrateSchema_messageType fastReflection_MsgMigrateSchema_messageType
+var _ protoreflect.MessageType = fastReflection_MsgMigrateSchema_messageType{}
+
+type fastReflection_MsgMigrateSchema_messageType struct{}
+
+func (x fastReflection_MsgMigrateSchema_messageType) Zero() protoreflect.Message {
+	return (*fastReflection_MsgMigrateSchema)(nil)
+}
+func (x fastReflection_MsgMigrateSchema_messageType) New() protoreflect.Message {
+	return new(fastReflection_MsgMigrateSchema)
+}
+func (x fastReflection_MsgMigrateSchema_messageType) Descriptor() protoreflect.MessageDescriptor {
+	return md_MsgMigrateSchema
+}
+
+// Descriptor returns message descriptor, which contains only the protobuf
+// type information for the message.
+func (x *fastReflection_MsgMigrateSchema) Descriptor() protoreflect.MessageDescriptor {
+	return md_MsgMigrateSchema
+}
+
+// Type returns the message type, which encapsulates both Go and protobuf
+// type information. If the Go type information is not needed,
+// it is recommended that the message descriptor be used instead.
+func (x *fastReflection_MsgMigrateSchema) Type() protoreflect.MessageType {
+	return _fastReflection_MsgMigrateSchema_messageType
+}
+
+// New returns a newly allocated and mutable empty message.
+func (x *fastReflection_MsgMigrateSchema) New() protoreflect.Message {
+	return new(fastReflection_MsgMigrateSchema)
+}
+
+// Interface unwraps the message reflection interface and
+// returns the underlying ProtoMessage interface.
+func (x *fastReflection_MsgMigrateSchema) Interface() protoreflect.ProtoMessage {
+	return (*MsgMigrateSchema)(x)
+}
+
+// Range iterates over every populated field in an undefined order,
+// calling f for each field descriptor and value encountered.
+// Range returns immediately if f returns false.
+// While iterating, mutating operations may only be performed
+// on the current field descriptor.
+func (x *fastReflection_MsgMigrateSchema) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
+	if x.Operator != "" {
+		value := protoreflect.ValueOfString(x.Operator)
+		if !f(fd_MsgMigrateSchema_operator, value) {
+			return
+		}
+	}
+	if x.ExtTrackStationId != "" {
+		value := protoreflect.ValueOfString(x.ExtTrackStationId)
+		if !f(fd_MsgMigrateSchema_extTrackStationId, value) {
+			return
+		}
+	}
+	if x.NewSchemaKey != "" {
+		value := protoreflect.ValueOfString(x.NewSchemaKey)
+		if !f(fd_MsgMigrateSchema_newSchemaKey, value) {
+			return
+		}
+	}
+}
+
+// Has reports whether a field is populated.
+//
+// Some fields have the property of nullability where it is possible to
+// distinguish between the default value of a field and whether the field
+// was explicitly populated with the default value. Singular message fields,
+// member fields of a oneof, and proto2 scalar fields are nullable. Such
+// fields are populated only if explicitly set.
+//
+// In other cases (aside from the nullable cases above),
+// a proto3 scalar field is populated if it contains a non-zero value, and
+// a repeated field is populated if it is non-empty.
+func (x *fastReflection_MsgMigrateSchema) Has(fd protoreflect.FieldDescriptor) bool {
+	switch fd.FullName() {
+	case "junction.trackgate.MsgMigrateSchema.operator":
+		return x.Operator != ""
+	case "junction.trackgate.MsgMigrateSchema.extTrackStationId":
+		return x.ExtTrackStationId != ""
+	case "junction.trackgate.MsgMigrateSchema.newSchemaKey":
+		return x.NewSchemaKey != ""
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: junction.trackgate.MsgMigrateSchema"))
+		}
+		panic(fmt.Errorf("message junction.trackgate.MsgMigrateSchema does not contain field %s", fd.FullName()))
+	}
+}
+
+// Clear clears the field such that a subsequent Has call reports false.
+//
+// Clearing an extension field clears both the extension type and value
+// associated with the given field number.
+//
+// Clear is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_MsgMigrateSchema) Clear(fd protoreflect.FieldDescriptor) {
+	switch fd.FullName() {
+	case "junction.trackgate.MsgMigrateSchema.operator":
+		x.Operator = ""
+	case "junction.trackgate.MsgMigrateSchema.extTrackStationId":
+		x.ExtTrackStationId = ""
+	case "junction.trackgate.MsgMigrateSchema.newSchemaKey":
+		x.NewSchemaKey = ""
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: junction.trackgate.MsgMigrateSchema"))
+		}
+		panic(fmt.Errorf("message junction.trackgate.MsgMigrateSchema does not contain field %s", fd.FullName()))
+	}
+}
+
+// Get retrieves the value for a field.
+//
+// For unpopulated scalars, it returns the default value, where
+// the default value of a bytes scalar is guaranteed to be a copy.
+// For unpopulated composite types, it returns an empty, read-only view
+// of the value; to obtain a mutable reference, use Mutable.
+func (x *fastReflection_MsgMigrateSchema) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
+	switch descriptor.FullName() {
+	case "junction.trackgate.MsgMigrateSchema.operator":
+		value := x.Operator
+		return protoreflect.ValueOfString(value)
+	case "junction.trackgate.MsgMigrateSchema.extTrackStationId":
+		value := x.ExtTrackStationId
+		return protoreflect.ValueOfString(value)
+	case "junction.trackgate.MsgMigrateSchema.newSchemaKey":
+		value := x.NewSchemaKey
+		return protoreflect.ValueOfString(value)
+	default:
+		if descriptor.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: junction.trackgate.MsgMigrateSchema"))
+		}
+		panic(fmt.Errorf("message junction.trackgate.MsgMigrateSchema does not contain field %s", descriptor.FullName()))
+	}
+}
+
+// Set stores the value for a field.
+//
+// For a field belonging to a oneof, it implicitly clears any other field
+// that may be currently set within the same oneof.
+// For extension fields, it implicitly stores the provided ExtensionType.
+// When setting a composite type, it is unspecified whether the stored value
+// aliases the source's memory in any way. If the composite value is an
+// empty, read-only value, then it panics.
+//
+// Set is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_MsgMigrateSchema) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
+	switch fd.FullName() {
+	case "junction.trackgate.MsgMigrateSchema.operator":
+		x.Operator = value.Interface().(string)
+	case "junction.trackgate.MsgMigrateSchema.extTrackStationId":
+		x.ExtTrackStationId = value.Interface().(string)
+	case "junction.trackgate.MsgMigrateSchema.newSchemaKey":
+		x.NewSchemaKey = value.Interface().(string)
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: junction.trackgate.MsgMigrateSchema"))
+		}
+		panic(fmt.Errorf("message junction.trackgate.MsgMigrateSchema does not contain field %s", fd.FullName()))
+	}
+}
+
+// Mutable returns a mutable reference to a composite type.
+//
+// If the field is unpopulated, it may allocate a composite value.
+// For a field belonging to a oneof, it implicitly clears any other field
+// that may be currently set within the same oneof.
+// For extension fields, it implicitly stores the provided ExtensionType
+// if not already stored.
+// It panics if the field does not contain a composite type.
+//
+// Mutable is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_MsgMigrateSchema) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
+	switch fd.FullName() {
+	case "junction.trackgate.MsgMigrateSchema.operator":
+		panic(fmt.Errorf("field operator of message junction.trackgate.MsgMigrateSchema is not mutable"))
+	case "junction.trackgate.MsgMigrateSchema.extTrackStationId":
+		panic(fmt.Errorf("field extTrackStationId of message junction.trackgate.MsgMigrateSchema is not mutable"))
+	case "junction.trackgate.MsgMigrateSchema.newSchemaKey":
+		panic(fmt.Errorf("field newSchemaKey of message junction.trackgate.MsgMigrateSchema is not mutable"))
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: junction.trackgate.MsgMigrateSchema"))
+		}
+		panic(fmt.Errorf("message junction.trackgate.MsgMigrateSchema does not contain field %s", fd.FullName()))
+	}
+}
+
+// NewField returns a new value that is assignable to the field
+// for the given descriptor. For scalars, this returns the default value.
+// For lists, maps, and messages, this returns a new, empty, mutable value.
+func (x *fastReflection_MsgMigrateSchema) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
+	switch fd.FullName() {
+	case "junction.trackgate.MsgMigrateSchema.operator":
+		return protoreflect.ValueOfString("")
+	case "junction.trackgate.MsgMigrateSchema.extTrackStationId":
+		return protoreflect.ValueOfString("")
+	case "junction.trackgate.MsgMigrateSchema.newSchemaKey":
+		return protoreflect.ValueOfString("")
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: junction.trackgate.MsgMigrateSchema"))
+		}
+		panic(fmt.Errorf("message junction.trackgate.MsgMigrateSchema does not contain field %s", fd.FullName()))
+	}
+}
+
+// WhichOneof reports which field within the oneof is populated,
+// returning nil if none are populated.
+// It panics if the oneof descriptor does not belong to this message.
+func (x *fastReflection_MsgMigrateSchema) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
+	switch d.FullName() {
+	default:
+		panic(fmt.Errorf("%s is not a oneof field in junction.trackgate.MsgMigrateSchema", d.FullName()))
+	}
+	panic("unreachable")
+}
+
+// GetUnknown retrieves the entire list of unknown fields.
+// The caller may only mutate the contents of the RawFields
+// if the mutated bytes are stored back into the message with SetUnknown.
+func (x *fastReflection_MsgMigrateSchema) GetUnknown() protoreflect.RawFields {
+	return x.unknownFields
+}
+
+// SetUnknown stores an entire list of unknown fields.
+// The raw fields must be syntactically valid according to the wire format.
+// An implementation may panic if this is not the case.
+// Once stored, the caller must not mutate the content of the RawFields.
+// An empty RawFields may be passed to clear the fields.
+//
+// SetUnknown is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_MsgMigrateSchema) SetUnknown(fields protoreflect.RawFields) {
+	x.unknownFields = fields
+}
+
+// IsValid reports whether the message is valid.
+//
+// An invalid message is an empty, read-only value.
+//
+// An invalid message often corresponds to a nil pointer of the concrete
+// message type, but the details are implementation dependent.
+// Validity is not part of the protobuf data model, and may not
+// be preserved in marshaling or other operations.
+func (x *fastReflection_MsgMigrateSchema) IsValid() bool {
+	return x != nil
+}
+
+// ProtoMethods returns optional fastReflectionFeature-path implementations of various operations.
+// This method may return nil.
+//
+// The returned methods type is identical to
+// "google.golang.org/protobuf/runtime/protoiface".Methods.
+// Consult the protoiface package documentation for details.
+func (x *fastReflection_MsgMigrateSchema) ProtoMethods() *protoiface.Methods {
+	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
+		x := input.Message.Interface().(*MsgMigrateSchema)
+		if x == nil {
+			return protoiface.SizeOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Size:              0,
+			}
+		}
+		options := runtime.SizeInputToOptions(input)
+		_ = options
+		var n int
+		var l int
+		_ = l
+		l = len(x.Operator)
+		if l > 0 {
+			n += 1 + l + runtime.Sov(uint64(l))
+		}
+		l = len(x.ExtTrackStationId)
+		if l > 0 {
+			n += 1 + l + runtime.Sov(uint64(l))
+		}
+		l = len(x.NewSchemaKey)
+		if l > 0 {
+			n += 1 + l + runtime.Sov(uint64(l))
+		}
+		if x.unknownFields != nil {
+			n += len(x.unknownFields)
+		}
+		return protoiface.SizeOutput{
+			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+			Size:              n,
+		}
+	}
+
+	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
+		x := input.Message.Interface().(*MsgMigrateSchema)
+		if x == nil {
+			return protoiface.MarshalOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Buf:               input.Buf,
+			}, nil
+		}
+		options := runtime.MarshalInputToOptions(input)
+		_ = options
+		size := options.Size(x)
+		dAtA := make([]byte, size)
+		i := len(dAtA)
+		_ = i
+		var l int
+		_ = l
+		if x.unknownFields != nil {
+			i -= len(x.unknownFields)
+			copy(dAtA[i:], x.unknownFields)
+		}
+		if len(x.NewSchemaKey) > 0 {
+			i -= len(x.NewSchemaKey)
+			copy(dAtA[i:], x.NewSchemaKey)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.NewSchemaKey)))
+			i--
+			dAtA[i] = 0x1a
+		}
+		if len(x.ExtTrackStationId) > 0 {
+			i -= len(x.ExtTrackStationId)
+			copy(dAtA[i:], x.ExtTrackStationId)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.ExtTrackStationId)))
+			i--
+			dAtA[i] = 0x12
+		}
+		if len(x.Operator) > 0 {
+			i -= len(x.Operator)
+			copy(dAtA[i:], x.Operator)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.Operator)))
+			i--
+			dAtA[i] = 0xa
+		}
+		if input.Buf != nil {
+			input.Buf = append(input.Buf, dAtA...)
+		} else {
+			input.Buf = dAtA
+		}
+		return protoiface.MarshalOutput{
+			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+			Buf:               input.Buf,
+		}, nil
+	}
+	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
+		x := input.Message.Interface().(*MsgMigrateSchema)
+		if x == nil {
+			return protoiface.UnmarshalOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Flags:             input.Flags,
+			}, nil
+		}
+		options := runtime.UnmarshalInputToOptions(input)
+		_ = options
+		dAtA := input.Buf
+		l := len(dAtA)
+		iNdEx := 0
+		for iNdEx < l {
+			preIndex := iNdEx
+			var wire uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+				}
+				if iNdEx >= l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				wire |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			fieldNum := int32(wire >> 3)
+			wireType := int(wire & 0x7)
+			if wireType == 4 {
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: MsgMigrateSchema: wiretype end group for non-group")
+			}
+			if fieldNum <= 0 {
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: MsgMigrateSchema: illegal tag %d (wire type %d)", fieldNum, wire)
+			}
+			switch fieldNum {
+			case 1:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Operator", wireType)
+				}
+				var stringLen uint64
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					stringLen |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				intStringLen := int(stringLen)
+				if intStringLen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + intStringLen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				x.Operator = string(dAtA[iNdEx:postIndex])
+				iNdEx = postIndex
+			case 2:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field ExtTrackStationId", wireType)
+				}
+				var stringLen uint64
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					stringLen |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				intStringLen := int(stringLen)
+				if intStringLen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + intStringLen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				x.ExtTrackStationId = string(dAtA[iNdEx:postIndex])
+				iNdEx = postIndex
+			case 3:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field NewSchemaKey", wireType)
+				}
+				var stringLen uint64
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					stringLen |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				intStringLen := int(stringLen)
+				if intStringLen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + intStringLen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				x.NewSchemaKey = string(dAtA[iNdEx:postIndex])
+				iNdEx = postIndex
+			default:
+				iNdEx = preIndex
+				skippy, err := runtime.Skip(dAtA[iNdEx:])
+				if err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				if (skippy < 0) || (iNdEx+skippy) < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if (iNdEx + skippy) > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				if !options.DiscardUnknown {
+					x.unknownFields = append(x.unknownFields, dAtA[iNdEx:iNdEx+skippy]...)
+				}
+				iNdEx += skippy
+			}
+		}
+
+		if iNdEx > l {
+			return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+		}
+		return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, nil
+	}
+	return &protoiface.Methods{
+		NoUnkeyedLiterals: struct{}{},
+		Flags:             protoiface.SupportMarshalDeterministic | protoiface.SupportUnmarshalDiscardUnknown,
+		Size:              size,
+		Marshal:           marshal,
+		Unmarshal:         unmarshal,
+		Merge:             nil,
+		CheckInitialized:  nil,
+	}
+}
+
+var (
+	md_MsgMigrateSchemaResponse             protoreflect.MessageDescriptor
+	fd_MsgMigrateSchemaResponse_status      protoreflect.FieldDescriptor
+	fd_MsgMigrateSchemaResponse_description protoreflect.FieldDescriptor
+)
+
+func init() {
+	file_junction_trackgate_tx_proto_init()
+	md_MsgMigrateSchemaResponse = File_junction_trackgate_tx_proto.Messages().ByName("MsgMigrateSchemaResponse")
+	fd_MsgMigrateSchemaResponse_status = md_MsgMigrateSchemaResponse.Fields().ByName("status")
+	fd_MsgMigrateSchemaResponse_description = md_MsgMigrateSchemaResponse.Fields().ByName("description")
+}
+
+var _ protoreflect.Message = (*fastReflection_MsgMigrateSchemaResponse)(nil)
+
+type fastReflection_MsgMigrateSchemaResponse MsgMigrateSchemaResponse
+
+func (x *MsgMigrateSchemaResponse) ProtoReflect() protoreflect.Message {
+	return (*fastReflection_MsgMigrateSchemaResponse)(x)
+}
+
+func (x *MsgMigrateSchemaResponse) slowProtoReflect() protoreflect.Message {
+	mi := &file_junction_trackgate_tx_proto_msgTypes[9]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+var _fastReflection_MsgMigrateSchemaResponse_messageType fastReflection_MsgMigrateSchemaResponse_messageType
+var _ protoreflect.MessageType = fastReflection_MsgMigrateSchemaResponse_messageType{}
+
+type fastReflection_MsgMigrateSchemaResponse_messageType struct{}
+
+func (x fastReflection_MsgMigrateSchemaResponse_messageType) Zero() protoreflect.Message {
+	return (*fastReflection_MsgMigrateSchemaResponse)(nil)
+}
+func (x fastReflection_MsgMigrateSchemaResponse_messageType) New() protoreflect.Message {
+	return new(fastReflection_MsgMigrateSchemaResponse)
+}
+func (x fastReflection_MsgMigrateSchemaResponse_messageType) Descriptor() protoreflect.MessageDescriptor {
+	return md_MsgMigrateSchemaResponse
+}
+
+// Descriptor returns message descriptor, which contains only the protobuf
+// type information for the message.
+func (x *fastReflection_MsgMigrateSchemaResponse) Descriptor() protoreflect.MessageDescriptor {
+	return md_MsgMigrateSchemaResponse
+}
+
+// Type returns the message type, which encapsulates both Go and protobuf
+// type information. If the Go type information is not needed,
+// it is recommended that the message descriptor be used instead.
+func (x *fastReflection_MsgMigrateSchemaResponse) Type() protoreflect.MessageType {
+	return _fastReflection_MsgMigrateSchemaResponse_messageType
+}
+
+// New returns a newly allocated and mutable empty message.
+func (x *fastReflection_MsgMigrateSchemaResponse) New() protoreflect.Message {
+	return new(fastReflection_MsgMigrateSchemaResponse)
+}
+
+// Interface unwraps the message reflection interface and
+// returns the underlying ProtoMessage interface.
+func (x *fastReflection_MsgMigrateSchemaResponse) Interface() protoreflect.ProtoMessage {
+	return (*MsgMigrateSchemaResponse)(x)
+}
+
+// Range iterates over every populated field in an undefined order,
+// calling f for each field descriptor and value encountered.
+// Range returns immediately if f returns false.
+// While iterating, mutating operations may only be performed
+// on the current field descriptor.
+func (x *fastReflection_MsgMigrateSchemaResponse) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
+	if x.Status != false {
+		value := protoreflect.ValueOfBool(x.Status)
+		if !f(fd_MsgMigrateSchemaResponse_status, value) {
+			return
+		}
+	}
+	if x.Description != "" {
+		value := protoreflect.ValueOfString(x.Description)
+		if !f(fd_MsgMigrateSchemaResponse_description, value) {
+			return
+		}
+	}
+}
+
+// Has reports whether a field is populated.
+//
+// Some fields have the property of nullability where it is possible to
+// distinguish between the default value of a field and whether the field
+// was explicitly populated with the default value. Singular message fields,
+// member fields of a oneof, and proto2 scalar fields are nullable. Such
+// fields are populated only if explicitly set.
+//
+// In other cases (aside from the nullable cases above),
+// a proto3 scalar field is populated if it contains a non-zero value, and
+// a repeated field is populated if it is non-empty.
+func (x *fastReflection_MsgMigrateSchemaResponse) Has(fd protoreflect.FieldDescriptor) bool {
+	switch fd.FullName() {
+	case "junction.trackgate.MsgMigrateSchemaResponse.status":
+		return x.Status != false
+	case "junction.trackgate.MsgMigrateSchemaResponse.description":
+		return x.Description != ""
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: junction.trackgate.MsgMigrateSchemaResponse"))
+		}
+		panic(fmt.Errorf("message junction.trackgate.MsgMigrateSchemaResponse does not contain field %s", fd.FullName()))
+	}
+}
+
+// Clear clears the field such that a subsequent Has call reports false.
+//
+// Clearing an extension field clears both the extension type and value
+// associated with the given field number.
+//
+// Clear is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_MsgMigrateSchemaResponse) Clear(fd protoreflect.FieldDescriptor) {
+	switch fd.FullName() {
+	case "junction.trackgate.MsgMigrateSchemaResponse.status":
+		x.Status = false
+	case "junction.trackgate.MsgMigrateSchemaResponse.description":
+		x.Description = ""
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: junction.trackgate.MsgMigrateSchemaResponse"))
+		}
+		panic(fmt.Errorf("message junction.trackgate.MsgMigrateSchemaResponse does not contain field %s", fd.FullName()))
+	}
+}
+
+// Get retrieves the value for a field.
+//
+// For unpopulated scalars, it returns the default value, where
+// the default value of a bytes scalar is guaranteed to be a copy.
+// For unpopulated composite types, it returns an empty, read-only view
+// of the value; to obtain a mutable reference, use Mutable.
+func (x *fastReflection_MsgMigrateSchemaResponse) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
+	switch descriptor.FullName() {
+	case "junction.trackgate.MsgMigrateSchemaResponse.status":
+		value := x.Status
+		return protoreflect.ValueOfBool(value)
+	case "junction.trackgate.MsgMigrateSchemaResponse.description":
+		value := x.Description
+		return protoreflect.ValueOfString(value)
+	default:
+		if descriptor.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: junction.trackgate.MsgMigrateSchemaResponse"))
+		}
+		panic(fmt.Errorf("message junction.trackgate.MsgMigrateSchemaResponse does not contain field %s", descriptor.FullName()))
+	}
+}
+
+// Set stores the value for a field.
+//
+// For a field belonging to a oneof, it implicitly clears any other field
+// that may be currently set within the same oneof.
+// For extension fields, it implicitly stores the provided ExtensionType.
+// When setting a composite type, it is unspecified whether the stored value
+// aliases the source's memory in any way. If the composite value is an
+// empty, read-only value, then it panics.
+//
+// Set is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_MsgMigrateSchemaResponse) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
+	switch fd.FullName() {
+	case "junction.trackgate.MsgMigrateSchemaResponse.status":
+		x.Status = value.Bool()
+	case "junction.trackgate.MsgMigrateSchemaResponse.description":
+		x.Description = value.Interface().(string)
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: junction.trackgate.MsgMigrateSchemaResponse"))
+		}
+		panic(fmt.Errorf("message junction.trackgate.MsgMigrateSchemaResponse does not contain field %s", fd.FullName()))
+	}
+}
+
+// Mutable returns a mutable reference to a composite type.
+//
+// If the field is unpopulated, it may allocate a composite value.
+// For a field belonging to a oneof, it implicitly clears any other field
+// that may be currently set within the same oneof.
+// For extension fields, it implicitly stores the provided ExtensionType
+// if not already stored.
+// It panics if the field does not contain a composite type.
+//
+// Mutable is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_MsgMigrateSchemaResponse) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
+	switch fd.FullName() {
+	case "junction.trackgate.MsgMigrateSchemaResponse.status":
+		panic(fmt.Errorf("field status of message junction.trackgate.MsgMigrateSchemaResponse is not mutable"))
+	case "junction.trackgate.MsgMigrateSchemaResponse.description":
+		panic(fmt.Errorf("field description of message junction.trackgate.MsgMigrateSchemaResponse is not mutable"))
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: junction.trackgate.MsgMigrateSchemaResponse"))
+		}
+		panic(fmt.Errorf("message junction.trackgate.MsgMigrateSchemaResponse does not contain field %s", fd.FullName()))
+	}
+}
+
+// NewField returns a new value that is assignable to the field
+// for the given descriptor. For scalars, this returns the default value.
+// For lists, maps, and messages, this returns a new, empty, mutable value.
+func (x *fastReflection_MsgMigrateSchemaResponse) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
+	switch fd.FullName() {
+	case "junction.trackgate.MsgMigrateSchemaResponse.status":
+		return protoreflect.ValueOfBool(false)
+	case "junction.trackgate.MsgMigrateSchemaResponse.description":
+		return protoreflect.ValueOfString("")
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: junction.trackgate.MsgMigrateSchemaResponse"))
+		}
+		panic(fmt.Errorf("message junction.trackgate.MsgMigrateSchemaResponse does not contain field %s", fd.FullName()))
+	}
+}
+
+// WhichOneof reports which field within the oneof is populated,
+// returning nil if none are populated.
+// It panics if the oneof descriptor does not belong to this message.
+func (x *fastReflection_MsgMigrateSchemaResponse) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
+	switch d.FullName() {
+	default:
+		panic(fmt.Errorf("%s is not a oneof field in junction.trackgate.MsgMigrateSchemaResponse", d.FullName()))
+	}
+	panic("unreachable")
+}
+
+// GetUnknown retrieves the entire list of unknown fields.
+// The caller may only mutate the contents of the RawFields
+// if the mutated bytes are stored back into the message with SetUnknown.
+func (x *fastReflection_MsgMigrateSchemaResponse) GetUnknown() protoreflect.RawFields {
+	return x.unknownFields
+}
+
+// SetUnknown stores an entire list of unknown fields.
+// The raw fields must be syntactically valid according to the wire format.
+// An implementation may panic if this is not the case.
+// Once stored, the caller must not mutate the content of the RawFields.
+// An empty RawFields may be passed to clear the fields.
+//
+// SetUnknown is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_MsgMigrateSchemaResponse) SetUnknown(fields protoreflect.RawFields) {
+	x.unknownFields = fields
+}
+
+// IsValid reports whether the message is valid.
+//
+// An invalid message is an empty, read-only value.
+//
+// An invalid message often corresponds to a nil pointer of the concrete
+// message type, but the details are implementation dependent.
+// Validity is not part of the protobuf data model, and may not
+// be preserved in marshaling or other operations.
+func (x *fastReflection_MsgMigrateSchemaResponse) IsValid() bool {
+	return x != nil
+}
+
+// ProtoMethods returns optional fastReflectionFeature-path implementations of various operations.
+// This method may return nil.
+//
+// The returned methods type is identical to
+// "google.golang.org/protobuf/runtime/protoiface".Methods.
+// Consult the protoiface package documentation for details.
+func (x *fastReflection_MsgMigrateSchemaResponse) ProtoMethods() *protoiface.Methods {
+	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
+		x := input.Message.Interface().(*MsgMigrateSchemaResponse)
+		if x == nil {
+			return protoiface.SizeOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Size:              0,
+			}
+		}
+		options := runtime.SizeInputToOptions(input)
+		_ = options
+		var n int
+		var l int
+		_ = l
+		if x.Status {
+			n += 2
+		}
+		l = len(x.Description)
+		if l > 0 {
+			n += 1 + l + runtime.Sov(uint64(l))
+		}
+		if x.unknownFields != nil {
+			n += len(x.unknownFields)
+		}
+		return protoiface.SizeOutput{
+			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+			Size:              n,
+		}
+	}
+
+	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
+		x := input.Message.Interface().(*MsgMigrateSchemaResponse)
+		if x == nil {
+			return protoiface.MarshalOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Buf:               input.Buf,
+			}, nil
+		}
+		options := runtime.MarshalInputToOptions(input)
+		_ = options
+		size := options.Size(x)
+		dAtA := make([]byte, size)
+		i := len(dAtA)
+		_ = i
+		var l int
+		_ = l
+		if x.unknownFields != nil {
+			i -= len(x.unknownFields)
+			copy(dAtA[i:], x.unknownFields)
+		}
+		if len(x.Description) > 0 {
+			i -= len(x.Description)
+			copy(dAtA[i:], x.Description)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.Description)))
+			i--
+			dAtA[i] = 0x12
+		}
+		if x.Status {
+			i--
+			if x.Status {
+				dAtA[i] = 1
+			} else {
+				dAtA[i] = 0
+			}
+			i--
+			dAtA[i] = 0x8
+		}
+		if input.Buf != nil {
+			input.Buf = append(input.Buf, dAtA...)
+		} else {
+			input.Buf = dAtA
+		}
+		return protoiface.MarshalOutput{
+			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+			Buf:               input.Buf,
+		}, nil
+	}
+	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
+		x := input.Message.Interface().(*MsgMigrateSchemaResponse)
+		if x == nil {
+			return protoiface.UnmarshalOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Flags:             input.Flags,
+			}, nil
+		}
+		options := runtime.UnmarshalInputToOptions(input)
+		_ = options
+		dAtA := input.Buf
+		l := len(dAtA)
+		iNdEx := 0
+		for iNdEx < l {
+			preIndex := iNdEx
+			var wire uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+				}
+				if iNdEx >= l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				wire |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			fieldNum := int32(wire >> 3)
+			wireType := int(wire & 0x7)
+			if wireType == 4 {
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: MsgMigrateSchemaResponse: wiretype end group for non-group")
+			}
+			if fieldNum <= 0 {
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: MsgMigrateSchemaResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+			}
+			switch fieldNum {
+			case 1:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Status", wireType)
+				}
+				var v int
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					v |= int(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				x.Status = bool(v != 0)
+			case 2:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Description", wireType)
+				}
+				var stringLen uint64
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					stringLen |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				intStringLen := int(stringLen)
+				if intStringLen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + intStringLen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				x.Description = string(dAtA[iNdEx:postIndex])
+				iNdEx = postIndex
+			default:
+				iNdEx = preIndex
+				skippy, err := runtime.Skip(dAtA[iNdEx:])
+				if err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				if (skippy < 0) || (iNdEx+skippy) < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if (iNdEx + skippy) > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				if !options.DiscardUnknown {
+					x.unknownFields = append(x.unknownFields, dAtA[iNdEx:iNdEx+skippy]...)
+				}
+				iNdEx += skippy
+			}
+		}
+
+		if iNdEx > l {
+			return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+		}
+		return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, nil
+	}
+	return &protoiface.Methods{
+		NoUnkeyedLiterals: struct{}{},
+		Flags:             protoiface.SupportMarshalDeterministic | protoiface.SupportUnmarshalDiscardUnknown,
+		Size:              size,
+		Marshal:           marshal,
+		Unmarshal:         unmarshal,
+		Merge:             nil,
+		CheckInitialized:  nil,
+	}
+}
+
 // Code generated by protoc-gen-go. DO NOT EDIT.
 // versions:
 // 	protoc-gen-go v1.27.0
@@ -4500,6 +5522,100 @@ func (x *MsgSchemaEngageResponse) GetStatus() bool {
 	return false
 }
 
+type MsgMigrateSchema struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Operator          string `protobuf:"bytes,1,opt,name=operator,proto3" json:"operator,omitempty"`
+	ExtTrackStationId string `protobuf:"bytes,2,opt,name=extTrackStationId,proto3" json:"extTrackStationId,omitempty"`
+	NewSchemaKey      string `protobuf:"bytes,3,opt,name=newSchemaKey,proto3" json:"newSchemaKey,omitempty"`
+}
+
+func (x *MsgMigrateSchema) Reset() {
+	*x = MsgMigrateSchema{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_junction_trackgate_tx_proto_msgTypes[8]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *MsgMigrateSchema) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*MsgMigrateSchema) ProtoMessage() {}
+
+// Deprecated: Use MsgMigrateSchema.ProtoReflect.Descriptor instead.
+func (*MsgMigrateSchema) Descriptor() ([]byte, []int) {
+	return file_junction_trackgate_tx_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *MsgMigrateSchema) GetOperator() string {
+	if x != nil {
+		return x.Operator
+	}
+	return ""
+}
+
+func (x *MsgMigrateSchema) GetExtTrackStationId() string {
+	if x != nil {
+		return x.ExtTrackStationId
+	}
+	return ""
+}
+
+func (x *MsgMigrateSchema) GetNewSchemaKey() string {
+	if x != nil {
+		return x.NewSchemaKey
+	}
+	return ""
+}
+
+type MsgMigrateSchemaResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Status      bool   `protobuf:"varint,1,opt,name=status,proto3" json:"status,omitempty"`
+	Description string `protobuf:"bytes,2,opt,name=description,proto3" json:"description,omitempty"`
+}
+
+func (x *MsgMigrateSchemaResponse) Reset() {
+	*x = MsgMigrateSchemaResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_junction_trackgate_tx_proto_msgTypes[9]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *MsgMigrateSchemaResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*MsgMigrateSchemaResponse) ProtoMessage() {}
+
+// Deprecated: Use MsgMigrateSchemaResponse.ProtoReflect.Descriptor instead.
+func (*MsgMigrateSchemaResponse) Descriptor() ([]byte, []int) {
+	return file_junction_trackgate_tx_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *MsgMigrateSchemaResponse) GetStatus() bool {
+	if x != nil {
+		return x.Status
+	}
+	return false
+}
+
+func (x *MsgMigrateSchemaResponse) GetDescription() string {
+	if x != nil {
+		return x.Description
+	}
+	return ""
+}
+
 var File_junction_trackgate_tx_proto protoreflect.FileDescriptor
 
 var file_junction_trackgate_tx_proto_rawDesc = []byte{
@@ -4572,44 +5688,65 @@ var file_junction_trackgate_tx_proto_rawDesc = []byte{
 	0x17, 0x4d, 0x73, 0x67, 0x53, 0x63, 0x68, 0x65, 0x6d, 0x61, 0x45, 0x6e, 0x67, 0x61, 0x67, 0x65,
 	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x16, 0x0a, 0x06, 0x73, 0x74, 0x61, 0x74,
 	0x75, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x08, 0x52, 0x06, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73,
-	0x32, 0x97, 0x03, 0x0a, 0x03, 0x4d, 0x73, 0x67, 0x12, 0x60, 0x0a, 0x0c, 0x55, 0x70, 0x64, 0x61,
-	0x74, 0x65, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x12, 0x23, 0x2e, 0x6a, 0x75, 0x6e, 0x63, 0x74,
-	0x69, 0x6f, 0x6e, 0x2e, 0x74, 0x72, 0x61, 0x63, 0x6b, 0x67, 0x61, 0x74, 0x65, 0x2e, 0x4d, 0x73,
-	0x67, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x1a, 0x2b, 0x2e,
-	0x6a, 0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x74, 0x72, 0x61, 0x63, 0x6b, 0x67, 0x61,
-	0x74, 0x65, 0x2e, 0x4d, 0x73, 0x67, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x50, 0x61, 0x72, 0x61,
-	0x6d, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x5d, 0x0a, 0x0b, 0x49, 0x6e,
-	0x69, 0x74, 0x53, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x22, 0x2e, 0x6a, 0x75, 0x6e, 0x63,
+	0x22, 0x8f, 0x01, 0x0a, 0x10, 0x4d, 0x73, 0x67, 0x4d, 0x69, 0x67, 0x72, 0x61, 0x74, 0x65, 0x53,
+	0x63, 0x68, 0x65, 0x6d, 0x61, 0x12, 0x1a, 0x0a, 0x08, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x6f,
+	0x72, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x6f,
+	0x72, 0x12, 0x2c, 0x0a, 0x11, 0x65, 0x78, 0x74, 0x54, 0x72, 0x61, 0x63, 0x6b, 0x53, 0x74, 0x61,
+	0x74, 0x69, 0x6f, 0x6e, 0x49, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x11, 0x65, 0x78,
+	0x74, 0x54, 0x72, 0x61, 0x63, 0x6b, 0x53, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x49, 0x64, 0x12,
+	0x22, 0x0a, 0x0c, 0x6e, 0x65, 0x77, 0x53, 0x63, 0x68, 0x65, 0x6d, 0x61, 0x4b, 0x65, 0x79, 0x18,
+	0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0c, 0x6e, 0x65, 0x77, 0x53, 0x63, 0x68, 0x65, 0x6d, 0x61,
+	0x4b, 0x65, 0x79, 0x3a, 0x0d, 0x82, 0xe7, 0xb0, 0x2a, 0x08, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74,
+	0x6f, 0x72, 0x22, 0x54, 0x0a, 0x18, 0x4d, 0x73, 0x67, 0x4d, 0x69, 0x67, 0x72, 0x61, 0x74, 0x65,
+	0x53, 0x63, 0x68, 0x65, 0x6d, 0x61, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x16,
+	0x0a, 0x06, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x08, 0x52, 0x06,
+	0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x12, 0x20, 0x0a, 0x0b, 0x64, 0x65, 0x73, 0x63, 0x72, 0x69,
+	0x70, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0b, 0x64, 0x65, 0x73,
+	0x63, 0x72, 0x69, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x32, 0xfc, 0x03, 0x0a, 0x03, 0x4d, 0x73, 0x67,
+	0x12, 0x60, 0x0a, 0x0c, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x73,
+	0x12, 0x23, 0x2e, 0x6a, 0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x74, 0x72, 0x61, 0x63,
+	0x6b, 0x67, 0x61, 0x74, 0x65, 0x2e, 0x4d, 0x73, 0x67, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x50,
+	0x61, 0x72, 0x61, 0x6d, 0x73, 0x1a, 0x2b, 0x2e, 0x6a, 0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e,
+	0x2e, 0x74, 0x72, 0x61, 0x63, 0x6b, 0x67, 0x61, 0x74, 0x65, 0x2e, 0x4d, 0x73, 0x67, 0x55, 0x70,
+	0x64, 0x61, 0x74, 0x65, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
+	0x73, 0x65, 0x12, 0x5d, 0x0a, 0x0b, 0x49, 0x6e, 0x69, 0x74, 0x53, 0x74, 0x61, 0x74, 0x69, 0x6f,
+	0x6e, 0x12, 0x22, 0x2e, 0x6a, 0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x74, 0x72, 0x61,
+	0x63, 0x6b, 0x67, 0x61, 0x74, 0x65, 0x2e, 0x4d, 0x73, 0x67, 0x49, 0x6e, 0x69, 0x74, 0x53, 0x74,
+	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x1a, 0x2a, 0x2e, 0x6a, 0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e,
+	0x2e, 0x74, 0x72, 0x61, 0x63, 0x6b, 0x67, 0x61, 0x74, 0x65, 0x2e, 0x4d, 0x73, 0x67, 0x49, 0x6e,
+	0x69, 0x74, 0x53, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
+	0x65, 0x12, 0x66, 0x0a, 0x0e, 0x53, 0x63, 0x68, 0x65, 0x6d, 0x61, 0x43, 0x72, 0x65, 0x61, 0x74,
+	0x69, 0x6f, 0x6e, 0x12, 0x25, 0x2e, 0x6a, 0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x74,
+	0x72, 0x61, 0x63, 0x6b, 0x67, 0x61, 0x74, 0x65, 0x2e, 0x4d, 0x73, 0x67, 0x53, 0x63, 0x68, 0x65,
+	0x6d, 0x61, 0x43, 0x72, 0x65, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x1a, 0x2d, 0x2e, 0x6a, 0x75, 0x6e,
+	0x63, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x74, 0x72, 0x61, 0x63, 0x6b, 0x67, 0x61, 0x74, 0x65, 0x2e,
+	0x4d, 0x73, 0x67, 0x53, 0x63, 0x68, 0x65, 0x6d, 0x61, 0x43, 0x72, 0x65, 0x61, 0x74, 0x69, 0x6f,
+	0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x60, 0x0a, 0x0c, 0x53, 0x63, 0x68,
+	0x65, 0x6d, 0x61, 0x45, 0x6e, 0x67, 0x61, 0x67, 0x65, 0x12, 0x23, 0x2e, 0x6a, 0x75, 0x6e, 0x63,
 	0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x74, 0x72, 0x61, 0x63, 0x6b, 0x67, 0x61, 0x74, 0x65, 0x2e, 0x4d,
-	0x73, 0x67, 0x49, 0x6e, 0x69, 0x74, 0x53, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x1a, 0x2a, 0x2e,
+	0x73, 0x67, 0x53, 0x63, 0x68, 0x65, 0x6d, 0x61, 0x45, 0x6e, 0x67, 0x61, 0x67, 0x65, 0x1a, 0x2b,
+	0x2e, 0x6a, 0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x74, 0x72, 0x61, 0x63, 0x6b, 0x67,
+	0x61, 0x74, 0x65, 0x2e, 0x4d, 0x73, 0x67, 0x53, 0x63, 0x68, 0x65, 0x6d, 0x61, 0x45, 0x6e, 0x67,
+	0x61, 0x67, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x63, 0x0a, 0x0d, 0x4d,
+	0x69, 0x67, 0x72, 0x61, 0x74, 0x65, 0x53, 0x63, 0x68, 0x65, 0x6d, 0x61, 0x12, 0x24, 0x2e, 0x6a,
+	0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x74, 0x72, 0x61, 0x63, 0x6b, 0x67, 0x61, 0x74,
+	0x65, 0x2e, 0x4d, 0x73, 0x67, 0x4d, 0x69, 0x67, 0x72, 0x61, 0x74, 0x65, 0x53, 0x63, 0x68, 0x65,
+	0x6d, 0x61, 0x1a, 0x2c, 0x2e, 0x6a, 0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x74, 0x72,
+	0x61, 0x63, 0x6b, 0x67, 0x61, 0x74, 0x65, 0x2e, 0x4d, 0x73, 0x67, 0x4d, 0x69, 0x67, 0x72, 0x61,
+	0x74, 0x65, 0x53, 0x63, 0x68, 0x65, 0x6d, 0x61, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
+	0x1a, 0x05, 0x80, 0xe7, 0xb0, 0x2a, 0x01, 0x42, 0xaf, 0x01, 0x0a, 0x16, 0x63, 0x6f, 0x6d, 0x2e,
 	0x6a, 0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x74, 0x72, 0x61, 0x63, 0x6b, 0x67, 0x61,
-	0x74, 0x65, 0x2e, 0x4d, 0x73, 0x67, 0x49, 0x6e, 0x69, 0x74, 0x53, 0x74, 0x61, 0x74, 0x69, 0x6f,
-	0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x66, 0x0a, 0x0e, 0x53, 0x63, 0x68,
-	0x65, 0x6d, 0x61, 0x43, 0x72, 0x65, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x25, 0x2e, 0x6a, 0x75,
-	0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x74, 0x72, 0x61, 0x63, 0x6b, 0x67, 0x61, 0x74, 0x65,
-	0x2e, 0x4d, 0x73, 0x67, 0x53, 0x63, 0x68, 0x65, 0x6d, 0x61, 0x43, 0x72, 0x65, 0x61, 0x74, 0x69,
-	0x6f, 0x6e, 0x1a, 0x2d, 0x2e, 0x6a, 0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x74, 0x72,
-	0x61, 0x63, 0x6b, 0x67, 0x61, 0x74, 0x65, 0x2e, 0x4d, 0x73, 0x67, 0x53, 0x63, 0x68, 0x65, 0x6d,
-	0x61, 0x43, 0x72, 0x65, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
-	0x65, 0x12, 0x60, 0x0a, 0x0c, 0x53, 0x63, 0x68, 0x65, 0x6d, 0x61, 0x45, 0x6e, 0x67, 0x61, 0x67,
-	0x65, 0x12, 0x23, 0x2e, 0x6a, 0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x74, 0x72, 0x61,
-	0x63, 0x6b, 0x67, 0x61, 0x74, 0x65, 0x2e, 0x4d, 0x73, 0x67, 0x53, 0x63, 0x68, 0x65, 0x6d, 0x61,
-	0x45, 0x6e, 0x67, 0x61, 0x67, 0x65, 0x1a, 0x2b, 0x2e, 0x6a, 0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f,
-	0x6e, 0x2e, 0x74, 0x72, 0x61, 0x63, 0x6b, 0x67, 0x61, 0x74, 0x65, 0x2e, 0x4d, 0x73, 0x67, 0x53,
-	0x63, 0x68, 0x65, 0x6d, 0x61, 0x45, 0x6e, 0x67, 0x61, 0x67, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f,
-	0x6e, 0x73, 0x65, 0x1a, 0x05, 0x80, 0xe7, 0xb0, 0x2a, 0x01, 0x42, 0xaf, 0x01, 0x0a, 0x16, 0x63,
-	0x6f, 0x6d, 0x2e, 0x6a, 0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x74, 0x72, 0x61, 0x63,
-	0x6b, 0x67, 0x61, 0x74, 0x65, 0x42, 0x07, 0x54, 0x78, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01,
-	0x5a, 0x23, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x73, 0x64, 0x6b, 0x2e, 0x69, 0x6f, 0x2f, 0x61,
-	0x70, 0x69, 0x2f, 0x6a, 0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x2f, 0x74, 0x72, 0x61, 0x63,
-	0x6b, 0x67, 0x61, 0x74, 0x65, 0xa2, 0x02, 0x03, 0x4a, 0x54, 0x58, 0xaa, 0x02, 0x12, 0x4a, 0x75,
-	0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x54, 0x72, 0x61, 0x63, 0x6b, 0x67, 0x61, 0x74, 0x65,
-	0xca, 0x02, 0x12, 0x4a, 0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x5c, 0x54, 0x72, 0x61, 0x63,
-	0x6b, 0x67, 0x61, 0x74, 0x65, 0xe2, 0x02, 0x1e, 0x4a, 0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e,
-	0x5c, 0x54, 0x72, 0x61, 0x63, 0x6b, 0x67, 0x61, 0x74, 0x65, 0x5c, 0x47, 0x50, 0x42, 0x4d, 0x65,
-	0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0xea, 0x02, 0x13, 0x4a, 0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f,
-	0x6e, 0x3a, 0x3a, 0x54, 0x72, 0x61, 0x63, 0x6b, 0x67, 0x61, 0x74, 0x65, 0x62, 0x06, 0x70, 0x72,
-	0x6f, 0x74, 0x6f, 0x33,
+	0x74, 0x65, 0x42, 0x07, 0x54, 0x78, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a, 0x23, 0x63,
+	0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x73, 0x64, 0x6b, 0x2e, 0x69, 0x6f, 0x2f, 0x61, 0x70, 0x69, 0x2f,
+	0x6a, 0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x2f, 0x74, 0x72, 0x61, 0x63, 0x6b, 0x67, 0x61,
+	0x74, 0x65, 0xa2, 0x02, 0x03, 0x4a, 0x54, 0x58, 0xaa, 0x02, 0x12, 0x4a, 0x75, 0x6e, 0x63, 0x74,
+	0x69, 0x6f, 0x6e, 0x2e, 0x54, 0x72, 0x61, 0x63, 0x6b, 0x67, 0x61, 0x74, 0x65, 0xca, 0x02, 0x12,
+	0x4a, 0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x5c, 0x54, 0x72, 0x61, 0x63, 0x6b, 0x67, 0x61,
+	0x74, 0x65, 0xe2, 0x02, 0x1e, 0x4a, 0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x5c, 0x54, 0x72,
+	0x61, 0x63, 0x6b, 0x67, 0x61, 0x74, 0x65, 0x5c, 0x47, 0x50, 0x42, 0x4d, 0x65, 0x74, 0x61, 0x64,
+	0x61, 0x74, 0x61, 0xea, 0x02, 0x13, 0x4a, 0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x3a, 0x3a,
+	0x54, 0x72, 0x61, 0x63, 0x6b, 0x67, 0x61, 0x74, 0x65, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f,
+	0x33,
 }
 
 var (
@@ -4624,7 +5761,7 @@ func file_junction_trackgate_tx_proto_rawDescGZIP() []byte {
 	return file_junction_trackgate_tx_proto_rawDescData
 }
 
-var file_junction_trackgate_tx_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
+var file_junction_trackgate_tx_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
 var file_junction_trackgate_tx_proto_goTypes = []interface{}{
 	(*MsgUpdateParams)(nil),           // 0: junction.trackgate.MsgUpdateParams
 	(*MsgUpdateParamsResponse)(nil),   // 1: junction.trackgate.MsgUpdateParamsResponse
@@ -4634,23 +5771,27 @@ var file_junction_trackgate_tx_proto_goTypes = []interface{}{
 	(*MsgSchemaCreationResponse)(nil), // 5: junction.trackgate.MsgSchemaCreationResponse
 	(*MsgSchemaEngage)(nil),           // 6: junction.trackgate.MsgSchemaEngage
 	(*MsgSchemaEngageResponse)(nil),   // 7: junction.trackgate.MsgSchemaEngageResponse
-	(*Params)(nil),                    // 8: junction.trackgate.Params
+	(*MsgMigrateSchema)(nil),          // 8: junction.trackgate.MsgMigrateSchema
+	(*MsgMigrateSchemaResponse)(nil),  // 9: junction.trackgate.MsgMigrateSchemaResponse
+	(*Params)(nil),                    // 10: junction.trackgate.Params
 }
 var file_junction_trackgate_tx_proto_depIdxs = []int32{
-	8, // 0: junction.trackgate.MsgUpdateParams.params:type_name -> junction.trackgate.Params
-	0, // 1: junction.trackgate.Msg.UpdateParams:input_type -> junction.trackgate.MsgUpdateParams
-	2, // 2: junction.trackgate.Msg.InitStation:input_type -> junction.trackgate.MsgInitStation
-	4, // 3: junction.trackgate.Msg.SchemaCreation:input_type -> junction.trackgate.MsgSchemaCreation
-	6, // 4: junction.trackgate.Msg.SchemaEngage:input_type -> junction.trackgate.MsgSchemaEngage
-	1, // 5: junction.trackgate.Msg.UpdateParams:output_type -> junction.trackgate.MsgUpdateParamsResponse
-	3, // 6: junction.trackgate.Msg.InitStation:output_type -> junction.trackgate.MsgInitStationResponse
-	5, // 7: junction.trackgate.Msg.SchemaCreation:output_type -> junction.trackgate.MsgSchemaCreationResponse
-	7, // 8: junction.trackgate.Msg.SchemaEngage:output_type -> junction.trackgate.MsgSchemaEngageResponse
-	5, // [5:9] is the sub-list for method output_type
-	1, // [1:5] is the sub-list for method input_type
-	1, // [1:1] is the sub-list for extension type_name
-	1, // [1:1] is the sub-list for extension extendee
-	0, // [0:1] is the sub-list for field type_name
+	10, // 0: junction.trackgate.MsgUpdateParams.params:type_name -> junction.trackgate.Params
+	0,  // 1: junction.trackgate.Msg.UpdateParams:input_type -> junction.trackgate.MsgUpdateParams
+	2,  // 2: junction.trackgate.Msg.InitStation:input_type -> junction.trackgate.MsgInitStation
+	4,  // 3: junction.trackgate.Msg.SchemaCreation:input_type -> junction.trackgate.MsgSchemaCreation
+	6,  // 4: junction.trackgate.Msg.SchemaEngage:input_type -> junction.trackgate.MsgSchemaEngage
+	8,  // 5: junction.trackgate.Msg.MigrateSchema:input_type -> junction.trackgate.MsgMigrateSchema
+	1,  // 6: junction.trackgate.Msg.UpdateParams:output_type -> junction.trackgate.MsgUpdateParamsResponse
+	3,  // 7: junction.trackgate.Msg.InitStation:output_type -> junction.trackgate.MsgInitStationResponse
+	5,  // 8: junction.trackgate.Msg.SchemaCreation:output_type -> junction.trackgate.MsgSchemaCreationResponse
+	7,  // 9: junction.trackgate.Msg.SchemaEngage:output_type -> junction.trackgate.MsgSchemaEngageResponse
+	9,  // 10: junction.trackgate.Msg.MigrateSchema:output_type -> junction.trackgate.MsgMigrateSchemaResponse
+	6,  // [6:11] is the sub-list for method output_type
+	1,  // [1:6] is the sub-list for method input_type
+	1,  // [1:1] is the sub-list for extension type_name
+	1,  // [1:1] is the sub-list for extension extendee
+	0,  // [0:1] is the sub-list for field type_name
 }
 
 func init() { file_junction_trackgate_tx_proto_init() }
@@ -4756,6 +5897,30 @@ func file_junction_trackgate_tx_proto_init() {
 				return nil
 			}
 		}
+		file_junction_trackgate_tx_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*MsgMigrateSchema); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_junction_trackgate_tx_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*MsgMigrateSchemaResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -4763,7 +5928,7 @@ func file_junction_trackgate_tx_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_junction_trackgate_tx_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   8,
+			NumMessages:   10,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
