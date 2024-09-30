@@ -19553,6 +19553,10 @@ paths:
                     format: uint64
                   stationName:
                     type: string
+                  trackName:
+                    type: string
+                  schemaVersion:
+                    type: string
                   schemaKey:
                     type: string
                   schemaObject:
@@ -19894,6 +19898,10 @@ paths:
                       type: string
                       format: uint64
                     stationName:
+                      type: string
+                    trackName:
+                      type: string
+                    schemaVersion:
                       type: string
                     schemaKey:
                       type: string
@@ -28025,6 +28033,10 @@ definitions:
         format: uint64
       stationName:
         type: string
+      trackName:
+        type: string
+      schemaVersion:
+        type: string
       schemaKey:
         type: string
       schemaObject:
@@ -28107,6 +28119,10 @@ definitions:
             type: string
             format: uint64
           stationName:
+            type: string
+          trackName:
+            type: string
+          schemaVersion:
             type: string
           schemaKey:
             type: string
@@ -28236,6 +28252,10 @@ definitions:
               type: string
               format: uint64
             stationName:
+              type: string
+            trackName:
+              type: string
+            schemaVersion:
               type: string
             schemaKey:
               type: string

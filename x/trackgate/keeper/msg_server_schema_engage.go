@@ -84,6 +84,8 @@ func (k msgServer) SchemaEngage(goCtx context.Context, msg *types.MsgSchemaEngag
 		StateRoot:         stateRoot,
 		PodNumber:         podNumber,
 		StationName:       stationData.Name,
+		TrackName:         schema.TrackName,
+		SchemaVersion:     schema.Version,
 		SchemaKey:         schemaKey,
 		SchemaObject:      schemaObject,
 	}
