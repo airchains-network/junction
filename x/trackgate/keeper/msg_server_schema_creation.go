@@ -66,6 +66,26 @@ func (k msgServer) SchemaCreation(goCtx context.Context, msg *types.MsgSchemaCre
 		Schema:            schema,
 	}
 
+	if stationData.StationSchemaKey == "none" {
+		// update codes
+		updateStationDetails := types.ExtTrackStations{
+			Operators:            stationData.Operators,
+			LatestPod:            stationData.LatestPod,
+			LatestMerkleRootHash: stationData.LatestMerkleRootHash,
+			Name:                 stationData.Name,
+			Id:                   stationData.Id,
+			StationType:          stationData.StationType,
+			FheEnabled:           stationData.FheEnabled,
+			SequencerDetails:     stationData.SequencerDetails,
+			DaDetails:            stationData.DaDetails,
+			ProverDetails:        stationData.ProverDetails,
+			StationSchemaKey:     schemaKey,
+		}
+		byteStationId := []byte(stationData.Id)
+		byteUpdateStationDetails := k.cdc.MustMarshal(&updateStationDetails)
+		extTrackStationsDataDB.Set(byteStationId, byteUpdateStationDetails)
+	}
+
 	/*
 		Here we will add the version to the database of version finder
 		Here is what it will look like

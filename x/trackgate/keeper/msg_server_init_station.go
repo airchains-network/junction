@@ -59,6 +59,7 @@ func (k msgServer) InitStation(goCtx context.Context, msg *types.MsgInitStation)
 		SequencerDetails:     byteSequencerDetails,
 		DaDetails:            byteDaDetails,
 		ProverDetails:        byteProverDetails,
+		StationSchemaKey:     "none",
 	}
 
 	extTrackStationsDataDB := prefix.NewStore(storeAdapter, types.KeyPrefix(types.ExtTrackStationsDataStoreKey))

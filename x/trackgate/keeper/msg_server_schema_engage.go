@@ -20,7 +20,7 @@ func (k msgServer) SchemaEngage(goCtx context.Context, msg *types.MsgSchemaEngag
 
 	operator := msg.Operator
 	extTrackStationId := msg.ExtTrackStationId
-	schemaKey := msg.SchemaKey
+
 	schemaObject := msg.SchemaObject
 	stateRoot := msg.StateRoot
 	podNumber := msg.PodNumber
@@ -35,6 +35,7 @@ func (k msgServer) SchemaEngage(goCtx context.Context, msg *types.MsgSchemaEngag
 	var stationData types.ExtTrackStations
 	k.cdc.MustUnmarshal(stationDataByte, &stationData)
 
+	schemaKey := stationData.StationSchemaKey
 	// check operator
 	operators := stationData.Operators
 	if !ContainsOperator(operators, operator) {
@@ -114,6 +115,7 @@ func (k msgServer) SchemaEngage(goCtx context.Context, msg *types.MsgSchemaEngag
 		SequencerDetails:     stationData.SequencerDetails,
 		DaDetails:            stationData.DaDetails,
 		ProverDetails:        stationData.ProverDetails,
+		StationSchemaKey:     schemaKey,
 	}
 
 	byteStationId := []byte(stationData.Id)

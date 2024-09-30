@@ -19400,8 +19400,6 @@ paths:
                 type: string
               extTrackStationId:
                 type: string
-              schemaKey:
-                type: string
               schemaObject:
                 type: string
                 format: byte
@@ -19504,6 +19502,8 @@ paths:
                   proverDetails:
                     type: string
                     format: byte
+                  stationSchemaKey:
+                    type: string
         default:
           description: An unexpected error response.
           schema:
@@ -19633,6 +19633,8 @@ paths:
                     proverDetails:
                       type: string
                       format: byte
+                    stationSchemaKey:
+                      type: string
               pagination:
                 type: object
                 properties:
@@ -27893,8 +27895,6 @@ definitions:
         type: string
       extTrackStationId:
         type: string
-      schemaKey:
-        type: string
       schemaObject:
         type: string
         format: byte
@@ -28071,6 +28071,8 @@ definitions:
       proverDetails:
         type: string
         format: byte
+      stationSchemaKey:
+        type: string
   junction.trackgate.QueryGetExtTrackStationResponse:
     type: object
     properties:
@@ -28103,6 +28105,8 @@ definitions:
           proverDetails:
             type: string
             format: byte
+          stationSchemaKey:
+            type: string
   junction.trackgate.QueryGetTrackEngagementResponse:
     type: object
     properties:
@@ -28163,6 +28167,8 @@ definitions:
             proverDetails:
               type: string
               format: byte
+            stationSchemaKey:
+              type: string
       pagination:
         type: object
         properties:

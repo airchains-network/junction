@@ -15,4 +15,5 @@ message ExtTrackStations {
   bytes sequencerDetails = 8;
   bytes daDetails = 9;
   bytes proverDetails = 10;
+  string stationSchemaKey = 11;
 }
