@@ -16,7 +16,6 @@ func (k Keeper) RetrieveSchemaKey(goCtx context.Context, req *types.QueryRetriev
 	if req == nil {
 		return nil, status.Error(codes.InvalidArgument, "invalid request")
 	}
-	// TODO: Remove this function since its usage is not that needed
 	ctx := sdk.UnwrapSDKContext(goCtx)
 	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
 
@@ -41,7 +40,6 @@ func (k Keeper) RetrieveSchemaKey(goCtx context.Context, req *types.QueryRetriev
 	k.cdc.MustUnmarshal(schemaData, &schema)
 
 	return &types.QueryRetrieveSchemaKeyResponse{
-		Track:     &schema,
 		SchemaKey: schema.SchemaKey,
 	}, nil
 }

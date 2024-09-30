@@ -91,8 +91,7 @@ message QueryRetrieveSchemaKeyRequest {
 }
 
 message QueryRetrieveSchemaKeyResponse {
-  ExtTrackSchema track     = 1;
-  string         schemaKey = 2;
+  string         schemaKey = 1;
 }
 
 message QueryListSchemasRequest {

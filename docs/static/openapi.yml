@@ -19864,20 +19864,6 @@ paths:
           schema:
             type: object
             properties:
-              track:
-                type: object
-                properties:
-                  trackName:
-                    type: string
-                  extTrackStationId:
-                    type: string
-                  version:
-                    type: string
-                  schemaKey:
-                    type: string
-                  schema:
-                    type: string
-                    format: byte
               schemaKey:
                 type: string
         default:
@@ -28275,20 +28261,6 @@ definitions:
   junction.trackgate.QueryRetrieveSchemaKeyResponse:
     type: object
     properties:
-      track:
-        type: object
-        properties:
-          trackName:
-            type: string
-          extTrackStationId:
-            type: string
-          version:
-            type: string
-          schemaKey:
-            type: string
-          schema:
-            type: string
-            format: byte
       schemaKey:
         type: string
   junction.trackgate.MsgInitStation:
