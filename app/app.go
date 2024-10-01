@@ -1,6 +1,8 @@
 package app
 
 import (
+	upgradetypes "cosmossdk.io/x/upgrade/types"
+	trackgatemoduletypes "github.com/airchains-network/junction/x/trackgate/types"
 	"io"
 	"os"
 	"path/filepath"
@@ -354,15 +356,28 @@ func New(
 	// 	app.UpgradeKeeper.SetModuleVersionMap(ctx, app.ModuleManager.GetVersionMap())
 	// 	return app.App.InitChainer(ctx, req)
 	// })
+	// Handle store upgrades
+	upgradeInfo, err := app.UpgradeKeeper.ReadUpgradeInfoFromDisk()
+	if err != nil {
+		panic(err)
+	}
+
+	if upgradeInfo.Name == "jip-2" && !app.UpgradeKeeper.IsSkipHeight(upgradeInfo.Height) {
+		storeUpgrades := storetypes.StoreUpgrades{
+			Added: []string{trackgatemoduletypes.StoreKey},
+		}
+
+		app.SetStoreLoader(upgradetypes.UpgradeStoreLoader(upgradeInfo.Height, &storeUpgrades))
+	}
 
 	if err := app.Load(loadLatest); err != nil {
 		return nil, err
 	}
 
 	configurator := app.Configurator()
-	UpgradeHandleFunc := CreateDefaultUpgradeHandler(app.ModuleManager, configurator)
+	UpgradeHandleFunc := CreateDefaultUpgradeHandler(app.ModuleManager, configurator, app)
 	app.UpgradeKeeper.SetUpgradeHandler(
-		"jip-1",
+		"jip-2",
 		UpgradeHandleFunc, // Upgrade handler function
 	)
 
