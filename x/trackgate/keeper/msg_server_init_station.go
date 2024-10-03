@@ -63,7 +63,8 @@ func (k msgServer) InitStation(goCtx context.Context, msg *types.MsgInitStation)
 	}
 
 	extTrackStationsDataDB := prefix.NewStore(storeAdapter, types.KeyPrefix(types.ExtTrackStationsDataStoreKey))
-	uniqueStationIDCheck := extTrackStationsDataDB.Get([]byte(stationId))
+	stationIdBytes := []byte(stationId)
+	uniqueStationIDCheck := extTrackStationsDataDB.Get(stationIdBytes)
 	if uniqueStationIDCheck != nil {
 		return &types.MsgInitStationResponse{
 			Status: false,

@@ -38,7 +38,8 @@ func (k msgServer) SchemaCreation(goCtx context.Context, msg *types.MsgSchemaCre
 	}
 
 	extTrackStationsDataDB := prefix.NewStore(storeAdapter, types.KeyPrefix(types.ExtTrackStationsDataStoreKey))
-	stationDataByte := extTrackStationsDataDB.Get([]byte(extTrackStationId))
+	extTrackStationIdByte := []byte(extTrackStationId)
+	stationDataByte := extTrackStationsDataDB.Get(extTrackStationIdByte)
 	if stationDataByte == nil {
 		return &types.MsgSchemaCreationResponse{
 			SchemaKey: "",
