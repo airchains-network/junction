@@ -32,7 +32,7 @@ var (
 	_ module.HasInvariants       = (*AppModule)(nil)
 	_ module.HasConsensusVersion = (*AppModule)(nil)
 
-	_ appmodule.AppModule       = (*AppModule)(nil)
+	_ module.AppModule          = (*AppModule)(nil)
 	_ appmodule.HasBeginBlocker = (*AppModule)(nil)
 	_ appmodule.HasEndBlocker   = (*AppModule)(nil)
 )
@@ -114,6 +114,11 @@ func NewAppModule(
 	}
 }
 
+// Name returns the name of the module as a string.
+func (AppModule) Name() string {
+	return types.ModuleName
+}
+
 // RegisterServices registers a gRPC query service to respond to the module-specific gRPC queries
 func (am AppModule) RegisterServices(cfg module.Configurator) {
 	types.RegisterMsgServer(cfg.MsgServer(), keeper.NewMsgServerImpl(am.keeper))
@@ -188,7 +193,7 @@ type ModuleOutputs struct {
 	depinject.Out
 
 	TrackgateKeeper keeper.Keeper
-	Module          appmodule.AppModule
+	Module          module.AppModule
 }
 
 func ProvideModule(in ModuleInputs) ModuleOutputs {
