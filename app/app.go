@@ -380,16 +380,16 @@ func New(
 					"trackgate": 1,
 				}
 
-				authority := authtypes.NewModuleAddress(govtypes.ModuleName)
-
-				// Create the Trackgate Keeper
-				app.TrackgateKeeper = trackgatemodulekeeper.NewKeeper(
-					app.AppCodec(),
-					runtime.NewKVStoreService(app.GetKey(trackgatemoduletypes.StoreKey)),
-					logger,
-					authority.String(),
-					app.BankKeeper,
-				)
+				//authority := authtypes.NewModuleAddress(govtypes.ModuleName)
+				//
+				//// Create the Trackgate Keeper
+				//app.TrackgateKeeper = trackgatemodulekeeper.NewKeeper(
+				//	app.AppCodec(),
+				//	runtime.NewKVStoreService(app.GetKey(trackgatemoduletypes.StoreKey)),
+				//	logger,
+				//	authority.String(),
+				//	app.BankKeeper,
+				//)
 
 				// Create the Trackgate AppModule
 				trackgateModule := trackgate.NewAppModule(
