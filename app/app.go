@@ -3,7 +3,6 @@ package app
 import (
 	"context"
 	upgradetypes "cosmossdk.io/x/upgrade/types"
-	trackgate "github.com/airchains-network/junction/x/trackgate/module"
 	trackgatemoduletypes "github.com/airchains-network/junction/x/trackgate/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"io"
@@ -391,16 +390,16 @@ func New(
 				//	app.BankKeeper,
 				//)
 
-				// Create the Trackgate AppModule
-				trackgateModule := trackgate.NewAppModule(
-					app.AppCodec(),
-					app.TrackgateKeeper,
-					app.AccountKeeper,
-					app.BankKeeper,
-				)
-
-				// Register the Trackgate module using app.RegisterModules
-				err = app.RegisterModules(trackgateModule)
+				//Create the Trackgate AppModule
+				//trackgateModule := trackgate.NewAppModule(
+				//	app.AppCodec(),
+				//	app.TrackgateKeeper,
+				//	app.AccountKeeper,
+				//	app.BankKeeper,
+				//)
+				//
+				//// Register the Trackgate module using app.RegisterModules
+				//err = app.RegisterModules(trackgateModule)
 				if err != nil {
 					return nil, err
 				}
