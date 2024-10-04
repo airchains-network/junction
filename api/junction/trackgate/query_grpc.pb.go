@@ -8,6 +8,7 @@ package trackgate
 
 import (
 	context "context"
+
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -27,6 +28,7 @@ const (
 	Query_GetTrackEngagement_FullMethodName   = "/junction.trackgate.Query/GetTrackEngagement"
 	Query_ListTrackEngagements_FullMethodName = "/junction.trackgate.Query/ListTrackEngagements"
 	Query_GetSchemas_FullMethodName           = "/junction.trackgate.Query/GetSchemas"
+	Query_GetStationMetrics_FullMethodName    = "/junction.trackgate.Query/GetStationMetrics"
 )
 
 // QueryClient is the client API for Query service.
@@ -49,6 +51,8 @@ type QueryClient interface {
 	ListTrackEngagements(ctx context.Context, in *QueryListTrackEngagementsRequest, opts ...grpc.CallOption) (*QueryListTrackEngagementsResponse, error)
 	// Queries a list of GetSchemas items.
 	GetSchemas(ctx context.Context, in *QueryGetSchemasRequest, opts ...grpc.CallOption) (*QueryGetSchemasResponse, error)
+	// Queries a list of GetStationMetrics items.
+	GetStationMetrics(ctx context.Context, in *QueryGetStationMetricsRequest, opts ...grpc.CallOption) (*QueryGetStationMetricsResponse, error)
 }
 
 type queryClient struct {
@@ -131,6 +135,15 @@ func (c *queryClient) GetSchemas(ctx context.Context, in *QueryGetSchemasRequest
 	return out, nil
 }
 
+func (c *queryClient) GetStationMetrics(ctx context.Context, in *QueryGetStationMetricsRequest, opts ...grpc.CallOption) (*QueryGetStationMetricsResponse, error) {
+	out := new(QueryGetStationMetricsResponse)
+	err := c.cc.Invoke(ctx, Query_GetStationMetrics_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // QueryServer is the server API for Query service.
 // All implementations must embed UnimplementedQueryServer
 // for forward compatibility
@@ -151,6 +164,8 @@ type QueryServer interface {
 	ListTrackEngagements(context.Context, *QueryListTrackEngagementsRequest) (*QueryListTrackEngagementsResponse, error)
 	// Queries a list of GetSchemas items.
 	GetSchemas(context.Context, *QueryGetSchemasRequest) (*QueryGetSchemasResponse, error)
+	// Queries a list of GetStationMetrics items.
+	GetStationMetrics(context.Context, *QueryGetStationMetricsRequest) (*QueryGetStationMetricsResponse, error)
 	mustEmbedUnimplementedQueryServer()
 }
 
@@ -181,6 +196,9 @@ func (UnimplementedQueryServer) ListTrackEngagements(context.Context, *QueryList
 }
 func (UnimplementedQueryServer) GetSchemas(context.Context, *QueryGetSchemasRequest) (*QueryGetSchemasResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetSchemas not implemented")
+}
+func (UnimplementedQueryServer) GetStationMetrics(context.Context, *QueryGetStationMetricsRequest) (*QueryGetStationMetricsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetStationMetrics not implemented")
 }
 func (UnimplementedQueryServer) mustEmbedUnimplementedQueryServer() {}
 
@@ -339,6 +357,24 @@ func _Query_GetSchemas_Handler(srv interface{}, ctx context.Context, dec func(in
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Query_GetStationMetrics_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryGetStationMetricsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).GetStationMetrics(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Query_GetStationMetrics_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).GetStationMetrics(ctx, req.(*QueryGetStationMetricsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Query_ServiceDesc is the grpc.ServiceDesc for Query service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -377,6 +413,10 @@ var Query_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetSchemas",
 			Handler:    _Query_GetSchemas_Handler,
+		},
+		{
+			MethodName: "GetStationMetrics",
+			Handler:    _Query_GetStationMetrics_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

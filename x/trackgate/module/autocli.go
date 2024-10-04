@@ -66,6 +66,13 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "extTrackStationId"}, {ProtoField: "schemaVersion"}},
 				},
 
+				{
+					RpcMethod:      "GetStationMetrics",
+					Use:            "get-station-metrics [ext-track-station-id]",
+					Short:          "Query get-station-metrics",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "extTrackStationId"}},
+				},
+
 				// this line is used by ignite scaffolding # autocli/query
 			},
 		},
