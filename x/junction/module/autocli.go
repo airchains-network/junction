@@ -80,6 +80,13 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "trackAddress"}, {ProtoField: "stationId"}},
 				},
 
+				{
+					RpcMethod:      "ListStationPods",
+					Use:            "list-station-pods [station-id]",
+					Short:          "Query list-station-pods",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "stationId"}},
+				},
+
 				// this line is used by ignite scaffolding # autocli/query
 			},
 		},

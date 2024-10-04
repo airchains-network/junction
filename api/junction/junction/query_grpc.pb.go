@@ -29,6 +29,7 @@ const (
 	Query_FetchVrn_FullMethodName                    = "/junction.junction.Query/FetchVrn"
 	Query_GetTracks_FullMethodName                   = "/junction.junction.Query/GetTracks"
 	Query_IsTrackMember_FullMethodName               = "/junction.junction.Query/IsTrackMember"
+	Query_ListStationPods_FullMethodName             = "/junction.junction.Query/ListStationPods"
 )
 
 // QueryClient is the client API for Query service.
@@ -55,6 +56,8 @@ type QueryClient interface {
 	GetTracks(ctx context.Context, in *QueryGetTracksRequest, opts ...grpc.CallOption) (*QueryGetTracksResponse, error)
 	// Queries a list of IsTrackMember items.
 	IsTrackMember(ctx context.Context, in *QueryIsTrackMemberRequest, opts ...grpc.CallOption) (*QueryIsTrackMemberResponse, error)
+	// Queries a list of ListStationPods items.
+	ListStationPods(ctx context.Context, in *QueryListStationPodsRequest, opts ...grpc.CallOption) (*QueryListStationPodsResponse, error)
 }
 
 type queryClient struct {
@@ -155,6 +158,15 @@ func (c *queryClient) IsTrackMember(ctx context.Context, in *QueryIsTrackMemberR
 	return out, nil
 }
 
+func (c *queryClient) ListStationPods(ctx context.Context, in *QueryListStationPodsRequest, opts ...grpc.CallOption) (*QueryListStationPodsResponse, error) {
+	out := new(QueryListStationPodsResponse)
+	err := c.cc.Invoke(ctx, Query_ListStationPods_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // QueryServer is the server API for Query service.
 // All implementations must embed UnimplementedQueryServer
 // for forward compatibility
@@ -179,6 +191,8 @@ type QueryServer interface {
 	GetTracks(context.Context, *QueryGetTracksRequest) (*QueryGetTracksResponse, error)
 	// Queries a list of IsTrackMember items.
 	IsTrackMember(context.Context, *QueryIsTrackMemberRequest) (*QueryIsTrackMemberResponse, error)
+	// Queries a list of ListStationPods items.
+	ListStationPods(context.Context, *QueryListStationPodsRequest) (*QueryListStationPodsResponse, error)
 	mustEmbedUnimplementedQueryServer()
 }
 
@@ -215,6 +229,9 @@ func (UnimplementedQueryServer) GetTracks(context.Context, *QueryGetTracksReques
 }
 func (UnimplementedQueryServer) IsTrackMember(context.Context, *QueryIsTrackMemberRequest) (*QueryIsTrackMemberResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method IsTrackMember not implemented")
+}
+func (UnimplementedQueryServer) ListStationPods(context.Context, *QueryListStationPodsRequest) (*QueryListStationPodsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListStationPods not implemented")
 }
 func (UnimplementedQueryServer) mustEmbedUnimplementedQueryServer() {}
 
@@ -409,6 +426,24 @@ func _Query_IsTrackMember_Handler(srv interface{}, ctx context.Context, dec func
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Query_ListStationPods_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryListStationPodsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).ListStationPods(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Query_ListStationPods_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).ListStationPods(ctx, req.(*QueryListStationPodsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Query_ServiceDesc is the grpc.ServiceDesc for Query service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -455,6 +490,10 @@ var Query_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "IsTrackMember",
 			Handler:    _Query_IsTrackMember_Handler,
+		},
+		{
+			MethodName: "ListStationPods",
+			Handler:    _Query_ListStationPods_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

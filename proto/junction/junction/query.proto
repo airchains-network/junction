@@ -75,6 +75,12 @@ service Query {
     option (google.api.http).get = "/airchains-network/junction/junction/is_track_member/{trackAddress}/{stationId}";
   
   }
+  
+  // Queries a list of ListStationPods items.
+  rpc ListStationPods (QueryListStationPodsRequest) returns (QueryListStationPodsResponse) {
+    option (google.api.http).get = "/airchains-network/junction/junction/list_station_pods/{stationId}";
+  
+  }
 }
 // QueryParamsRequest is request type for the Query/Params RPC method.
 message QueryParamsRequest {}
@@ -165,5 +171,15 @@ message QueryIsTrackMemberRequest {
 
 message QueryIsTrackMemberResponse {
   bool result = 1;
+}
+
+message QueryListStationPodsRequest {
+  string                                stationId  = 1;
+  cosmos.base.query.v1beta1.PageRequest pagination = 2;
+}
+
+message QueryListStationPodsResponse {
+  repeated Pods                                   pods       = 1 [(gogoproto.nullable) = false];
+  cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 
