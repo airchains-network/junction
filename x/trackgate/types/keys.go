@@ -15,6 +15,7 @@ const (
 	ExtTrackSchemaStoreKey            = "ext_track_schema"
 	ExtTrackVersionFinderStoreKey     = "ext_track_version_finder"
 	ExtTrackSchemaEngagementsStoreKey = "ext_track_schema_engagements"
+	TrackGateFigureStoreKey           = "trackgate_figur"
 )
 
 var (

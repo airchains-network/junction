@@ -2,12 +2,13 @@ package app
 
 import (
 	"context"
-	upgradetypes "cosmossdk.io/x/upgrade/types"
-	trackgatemoduletypes "github.com/airchains-network/junction/x/trackgate/types"
-	sdk "github.com/cosmos/cosmos-sdk/types"
 	"io"
 	"os"
 	"path/filepath"
+
+	upgradetypes "cosmossdk.io/x/upgrade/types"
+	trackgatemoduletypes "github.com/airchains-network/junction/x/trackgate/types"
+	sdk "github.com/cosmos/cosmos-sdk/types"
 
 	_ "cosmossdk.io/api/cosmos/tx/config/v1" // import for side-effects
 	"cosmossdk.io/depinject"

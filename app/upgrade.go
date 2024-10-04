@@ -2,6 +2,8 @@ package app
 
 import (
 	"context"
+	"strconv"
+
 	"cosmossdk.io/log"
 	upgradetypes "cosmossdk.io/x/upgrade/types"
 	trackgateKeeper "github.com/airchains-network/junction/x/trackgate/keeper"
@@ -12,7 +14,6 @@ import (
 	"github.com/cosmos/cosmos-sdk/types/module"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types"
-	"strconv"
 )
 
 func CreateUpgradeHandler(

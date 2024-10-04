@@ -1,0 +1,11 @@
+syntax = "proto3";
+package junction.trackgate;
+
+option go_package = "github.com/airchains-network/junction/x/trackgate/types";
+
+message StationMetrics {
+  
+  string totalPodCount = 1; 
+  string totalSchemaCount = 2; 
+  string totalMigrationCount = 3; 
+}
