@@ -5,7 +5,7 @@ option go_package = "github.com/airchains-network/junction/x/trackgate/types";
 
 message StationMetrics {
   
-  string totalPodCount = 1; 
-  string totalSchemaCount = 2; 
-  string totalMigrationCount = 3; 
+  uint64 totalPodCount = 1;
+  uint64 totalSchemaCount = 2;
+  uint64 totalMigrationCount = 3;
 }

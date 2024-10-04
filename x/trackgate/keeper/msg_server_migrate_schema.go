@@ -22,6 +22,17 @@ func (k msgServer) MigrateSchema(goCtx context.Context, msg *types.MsgMigrateSch
 
 	extTrackStationsDataDB := prefix.NewStore(storeAdapter, types.KeyPrefix(types.ExtTrackStationsDataStoreKey))
 	extTrackStationIdByte := []byte(extTrackStationId)
+
+	// Station Metrics Check
+	stationMetricsDB := prefix.NewStore(storeAdapter, types.KeyPrefix(types.TrackGateFigureStoreKey))
+	stationMetricsDataBytes := stationMetricsDB.Get(extTrackStationIdByte)
+	if stationMetricsDataBytes == nil {
+		return nil, status.Errorf(codes.NotFound, "ext track station metrics %s not found", extTrackStationId)
+	}
+
+	var stationMetrics types.StationMetrics
+	k.cdc.MustUnmarshal(stationMetricsDataBytes, &stationMetrics)
+
 	stationDataByte := extTrackStationsDataDB.Get(extTrackStationIdByte)
 	if stationDataByte == nil {
 		return nil, status.Errorf(codes.NotFound, "ext track station %s not found", extTrackStationId)
@@ -72,6 +83,14 @@ func (k msgServer) MigrateSchema(goCtx context.Context, msg *types.MsgMigrateSch
 	byteUpdateStationDetails := k.cdc.MustMarshal(&updateStationDetails)
 
 	extTrackStationsDataDB.Set(byteStationId, byteUpdateStationDetails)
+
+	updatedStationMetrics := types.StationMetrics{
+		TotalPodCount:       stationMetrics.TotalPodCount,
+		TotalSchemaCount:    stationMetrics.TotalSchemaCount,
+		TotalMigrationCount: stationMetrics.TotalMigrationCount + 1,
+	}
+	stationMetricsValue := k.cdc.MustMarshal(&updatedStationMetrics)
+	stationMetricsDB.Set(extTrackStationIdByte, stationMetricsValue)
 
 	return &types.MsgMigrateSchemaResponse{
 		Status:      true,

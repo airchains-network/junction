@@ -3,14 +3,13 @@ package trackgate
 
 import (
 	fmt "fmt"
-	io "io"
-	reflect "reflect"
-	sync "sync"
-
 	runtime "github.com/cosmos/cosmos-proto/runtime"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoiface "google.golang.org/protobuf/runtime/protoiface"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	io "io"
+	reflect "reflect"
+	sync "sync"
 )
 
 var (
@@ -93,20 +92,20 @@ func (x *fastReflection_StationMetrics) Interface() protoreflect.ProtoMessage {
 // While iterating, mutating operations may only be performed
 // on the current field descriptor.
 func (x *fastReflection_StationMetrics) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
-	if x.TotalPodCount != "" {
-		value := protoreflect.ValueOfString(x.TotalPodCount)
+	if x.TotalPodCount != uint64(0) {
+		value := protoreflect.ValueOfUint64(x.TotalPodCount)
 		if !f(fd_StationMetrics_totalPodCount, value) {
 			return
 		}
 	}
-	if x.TotalSchemaCount != "" {
-		value := protoreflect.ValueOfString(x.TotalSchemaCount)
+	if x.TotalSchemaCount != uint64(0) {
+		value := protoreflect.ValueOfUint64(x.TotalSchemaCount)
 		if !f(fd_StationMetrics_totalSchemaCount, value) {
 			return
 		}
 	}
-	if x.TotalMigrationCount != "" {
-		value := protoreflect.ValueOfString(x.TotalMigrationCount)
+	if x.TotalMigrationCount != uint64(0) {
+		value := protoreflect.ValueOfUint64(x.TotalMigrationCount)
 		if !f(fd_StationMetrics_totalMigrationCount, value) {
 			return
 		}
@@ -127,11 +126,11 @@ func (x *fastReflection_StationMetrics) Range(f func(protoreflect.FieldDescripto
 func (x *fastReflection_StationMetrics) Has(fd protoreflect.FieldDescriptor) bool {
 	switch fd.FullName() {
 	case "junction.trackgate.StationMetrics.totalPodCount":
-		return x.TotalPodCount != ""
+		return x.TotalPodCount != uint64(0)
 	case "junction.trackgate.StationMetrics.totalSchemaCount":
-		return x.TotalSchemaCount != ""
+		return x.TotalSchemaCount != uint64(0)
 	case "junction.trackgate.StationMetrics.totalMigrationCount":
-		return x.TotalMigrationCount != ""
+		return x.TotalMigrationCount != uint64(0)
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: junction.trackgate.StationMetrics"))
@@ -149,11 +148,11 @@ func (x *fastReflection_StationMetrics) Has(fd protoreflect.FieldDescriptor) boo
 func (x *fastReflection_StationMetrics) Clear(fd protoreflect.FieldDescriptor) {
 	switch fd.FullName() {
 	case "junction.trackgate.StationMetrics.totalPodCount":
-		x.TotalPodCount = ""
+		x.TotalPodCount = uint64(0)
 	case "junction.trackgate.StationMetrics.totalSchemaCount":
-		x.TotalSchemaCount = ""
+		x.TotalSchemaCount = uint64(0)
 	case "junction.trackgate.StationMetrics.totalMigrationCount":
-		x.TotalMigrationCount = ""
+		x.TotalMigrationCount = uint64(0)
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: junction.trackgate.StationMetrics"))
@@ -172,13 +171,13 @@ func (x *fastReflection_StationMetrics) Get(descriptor protoreflect.FieldDescrip
 	switch descriptor.FullName() {
 	case "junction.trackgate.StationMetrics.totalPodCount":
 		value := x.TotalPodCount
-		return protoreflect.ValueOfString(value)
+		return protoreflect.ValueOfUint64(value)
 	case "junction.trackgate.StationMetrics.totalSchemaCount":
 		value := x.TotalSchemaCount
-		return protoreflect.ValueOfString(value)
+		return protoreflect.ValueOfUint64(value)
 	case "junction.trackgate.StationMetrics.totalMigrationCount":
 		value := x.TotalMigrationCount
-		return protoreflect.ValueOfString(value)
+		return protoreflect.ValueOfUint64(value)
 	default:
 		if descriptor.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: junction.trackgate.StationMetrics"))
@@ -200,11 +199,11 @@ func (x *fastReflection_StationMetrics) Get(descriptor protoreflect.FieldDescrip
 func (x *fastReflection_StationMetrics) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
 	switch fd.FullName() {
 	case "junction.trackgate.StationMetrics.totalPodCount":
-		x.TotalPodCount = value.Interface().(string)
+		x.TotalPodCount = value.Uint()
 	case "junction.trackgate.StationMetrics.totalSchemaCount":
-		x.TotalSchemaCount = value.Interface().(string)
+		x.TotalSchemaCount = value.Uint()
 	case "junction.trackgate.StationMetrics.totalMigrationCount":
-		x.TotalMigrationCount = value.Interface().(string)
+		x.TotalMigrationCount = value.Uint()
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: junction.trackgate.StationMetrics"))
@@ -245,11 +244,11 @@ func (x *fastReflection_StationMetrics) Mutable(fd protoreflect.FieldDescriptor)
 func (x *fastReflection_StationMetrics) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
 	case "junction.trackgate.StationMetrics.totalPodCount":
-		return protoreflect.ValueOfString("")
+		return protoreflect.ValueOfUint64(uint64(0))
 	case "junction.trackgate.StationMetrics.totalSchemaCount":
-		return protoreflect.ValueOfString("")
+		return protoreflect.ValueOfUint64(uint64(0))
 	case "junction.trackgate.StationMetrics.totalMigrationCount":
-		return protoreflect.ValueOfString("")
+		return protoreflect.ValueOfUint64(uint64(0))
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: junction.trackgate.StationMetrics"))
@@ -319,17 +318,14 @@ func (x *fastReflection_StationMetrics) ProtoMethods() *protoiface.Methods {
 		var n int
 		var l int
 		_ = l
-		l = len(x.TotalPodCount)
-		if l > 0 {
-			n += 1 + l + runtime.Sov(uint64(l))
+		if x.TotalPodCount != 0 {
+			n += 1 + runtime.Sov(uint64(x.TotalPodCount))
 		}
-		l = len(x.TotalSchemaCount)
-		if l > 0 {
-			n += 1 + l + runtime.Sov(uint64(l))
+		if x.TotalSchemaCount != 0 {
+			n += 1 + runtime.Sov(uint64(x.TotalSchemaCount))
 		}
-		l = len(x.TotalMigrationCount)
-		if l > 0 {
-			n += 1 + l + runtime.Sov(uint64(l))
+		if x.TotalMigrationCount != 0 {
+			n += 1 + runtime.Sov(uint64(x.TotalMigrationCount))
 		}
 		if x.unknownFields != nil {
 			n += len(x.unknownFields)
@@ -360,26 +356,20 @@ func (x *fastReflection_StationMetrics) ProtoMethods() *protoiface.Methods {
 			i -= len(x.unknownFields)
 			copy(dAtA[i:], x.unknownFields)
 		}
-		if len(x.TotalMigrationCount) > 0 {
-			i -= len(x.TotalMigrationCount)
-			copy(dAtA[i:], x.TotalMigrationCount)
-			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.TotalMigrationCount)))
+		if x.TotalMigrationCount != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.TotalMigrationCount))
 			i--
-			dAtA[i] = 0x1a
+			dAtA[i] = 0x18
 		}
-		if len(x.TotalSchemaCount) > 0 {
-			i -= len(x.TotalSchemaCount)
-			copy(dAtA[i:], x.TotalSchemaCount)
-			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.TotalSchemaCount)))
+		if x.TotalSchemaCount != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.TotalSchemaCount))
 			i--
-			dAtA[i] = 0x12
+			dAtA[i] = 0x10
 		}
-		if len(x.TotalPodCount) > 0 {
-			i -= len(x.TotalPodCount)
-			copy(dAtA[i:], x.TotalPodCount)
-			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.TotalPodCount)))
+		if x.TotalPodCount != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.TotalPodCount))
 			i--
-			dAtA[i] = 0xa
+			dAtA[i] = 0x8
 		}
 		if input.Buf != nil {
 			input.Buf = append(input.Buf, dAtA...)
@@ -431,10 +421,10 @@ func (x *fastReflection_StationMetrics) ProtoMethods() *protoiface.Methods {
 			}
 			switch fieldNum {
 			case 1:
-				if wireType != 2 {
+				if wireType != 0 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field TotalPodCount", wireType)
 				}
-				var stringLen uint64
+				x.TotalPodCount = 0
 				for shift := uint(0); ; shift += 7 {
 					if shift >= 64 {
 						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
@@ -444,29 +434,16 @@ func (x *fastReflection_StationMetrics) ProtoMethods() *protoiface.Methods {
 					}
 					b := dAtA[iNdEx]
 					iNdEx++
-					stringLen |= uint64(b&0x7F) << shift
+					x.TotalPodCount |= uint64(b&0x7F) << shift
 					if b < 0x80 {
 						break
 					}
 				}
-				intStringLen := int(stringLen)
-				if intStringLen < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				postIndex := iNdEx + intStringLen
-				if postIndex < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				if postIndex > l {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-				}
-				x.TotalPodCount = string(dAtA[iNdEx:postIndex])
-				iNdEx = postIndex
 			case 2:
-				if wireType != 2 {
+				if wireType != 0 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field TotalSchemaCount", wireType)
 				}
-				var stringLen uint64
+				x.TotalSchemaCount = 0
 				for shift := uint(0); ; shift += 7 {
 					if shift >= 64 {
 						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
@@ -476,29 +453,16 @@ func (x *fastReflection_StationMetrics) ProtoMethods() *protoiface.Methods {
 					}
 					b := dAtA[iNdEx]
 					iNdEx++
-					stringLen |= uint64(b&0x7F) << shift
+					x.TotalSchemaCount |= uint64(b&0x7F) << shift
 					if b < 0x80 {
 						break
 					}
 				}
-				intStringLen := int(stringLen)
-				if intStringLen < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				postIndex := iNdEx + intStringLen
-				if postIndex < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				if postIndex > l {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-				}
-				x.TotalSchemaCount = string(dAtA[iNdEx:postIndex])
-				iNdEx = postIndex
 			case 3:
-				if wireType != 2 {
+				if wireType != 0 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field TotalMigrationCount", wireType)
 				}
-				var stringLen uint64
+				x.TotalMigrationCount = 0
 				for shift := uint(0); ; shift += 7 {
 					if shift >= 64 {
 						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
@@ -508,24 +472,11 @@ func (x *fastReflection_StationMetrics) ProtoMethods() *protoiface.Methods {
 					}
 					b := dAtA[iNdEx]
 					iNdEx++
-					stringLen |= uint64(b&0x7F) << shift
+					x.TotalMigrationCount |= uint64(b&0x7F) << shift
 					if b < 0x80 {
 						break
 					}
 				}
-				intStringLen := int(stringLen)
-				if intStringLen < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				postIndex := iNdEx + intStringLen
-				if postIndex < 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
-				}
-				if postIndex > l {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-				}
-				x.TotalMigrationCount = string(dAtA[iNdEx:postIndex])
-				iNdEx = postIndex
 			default:
 				iNdEx = preIndex
 				skippy, err := runtime.Skip(dAtA[iNdEx:])
@@ -579,9 +530,9 @@ type StationMetrics struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	TotalPodCount       string `protobuf:"bytes,1,opt,name=totalPodCount,proto3" json:"totalPodCount,omitempty"`
-	TotalSchemaCount    string `protobuf:"bytes,2,opt,name=totalSchemaCount,proto3" json:"totalSchemaCount,omitempty"`
-	TotalMigrationCount string `protobuf:"bytes,3,opt,name=totalMigrationCount,proto3" json:"totalMigrationCount,omitempty"`
+	TotalPodCount       uint64 `protobuf:"varint,1,opt,name=totalPodCount,proto3" json:"totalPodCount,omitempty"`
+	TotalSchemaCount    uint64 `protobuf:"varint,2,opt,name=totalSchemaCount,proto3" json:"totalSchemaCount,omitempty"`
+	TotalMigrationCount uint64 `protobuf:"varint,3,opt,name=totalMigrationCount,proto3" json:"totalMigrationCount,omitempty"`
 }
 
 func (x *StationMetrics) Reset() {
@@ -604,25 +555,25 @@ func (*StationMetrics) Descriptor() ([]byte, []int) {
 	return file_junction_trackgate_station_metrics_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *StationMetrics) GetTotalPodCount() string {
+func (x *StationMetrics) GetTotalPodCount() uint64 {
 	if x != nil {
 		return x.TotalPodCount
 	}
-	return ""
+	return 0
 }
 
-func (x *StationMetrics) GetTotalSchemaCount() string {
+func (x *StationMetrics) GetTotalSchemaCount() uint64 {
 	if x != nil {
 		return x.TotalSchemaCount
 	}
-	return ""
+	return 0
 }
 
-func (x *StationMetrics) GetTotalMigrationCount() string {
+func (x *StationMetrics) GetTotalMigrationCount() uint64 {
 	if x != nil {
 		return x.TotalMigrationCount
 	}
-	return ""
+	return 0
 }
 
 var File_junction_trackgate_station_metrics_proto protoreflect.FileDescriptor
@@ -634,12 +585,12 @@ var file_junction_trackgate_station_metrics_proto_rawDesc = []byte{
 	0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x74, 0x72, 0x61, 0x63, 0x6b, 0x67, 0x61, 0x74, 0x65, 0x22, 0x94,
 	0x01, 0x0a, 0x0e, 0x53, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x4d, 0x65, 0x74, 0x72, 0x69, 0x63,
 	0x73, 0x12, 0x24, 0x0a, 0x0d, 0x74, 0x6f, 0x74, 0x61, 0x6c, 0x50, 0x6f, 0x64, 0x43, 0x6f, 0x75,
-	0x6e, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0d, 0x74, 0x6f, 0x74, 0x61, 0x6c, 0x50,
+	0x6e, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x04, 0x52, 0x0d, 0x74, 0x6f, 0x74, 0x61, 0x6c, 0x50,
 	0x6f, 0x64, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x12, 0x2a, 0x0a, 0x10, 0x74, 0x6f, 0x74, 0x61, 0x6c,
 	0x53, 0x63, 0x68, 0x65, 0x6d, 0x61, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x18, 0x02, 0x20, 0x01, 0x28,
-	0x09, 0x52, 0x10, 0x74, 0x6f, 0x74, 0x61, 0x6c, 0x53, 0x63, 0x68, 0x65, 0x6d, 0x61, 0x43, 0x6f,
+	0x04, 0x52, 0x10, 0x74, 0x6f, 0x74, 0x61, 0x6c, 0x53, 0x63, 0x68, 0x65, 0x6d, 0x61, 0x43, 0x6f,
 	0x75, 0x6e, 0x74, 0x12, 0x30, 0x0a, 0x13, 0x74, 0x6f, 0x74, 0x61, 0x6c, 0x4d, 0x69, 0x67, 0x72,
-	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09,
+	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x18, 0x03, 0x20, 0x01, 0x28, 0x04,
 	0x52, 0x13, 0x74, 0x6f, 0x74, 0x61, 0x6c, 0x4d, 0x69, 0x67, 0x72, 0x61, 0x74, 0x69, 0x6f, 0x6e,
 	0x43, 0x6f, 0x75, 0x6e, 0x74, 0x42, 0xbb, 0x01, 0x0a, 0x16, 0x63, 0x6f, 0x6d, 0x2e, 0x6a, 0x75,
 	0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x74, 0x72, 0x61, 0x63, 0x6b, 0x67, 0x61, 0x74, 0x65,

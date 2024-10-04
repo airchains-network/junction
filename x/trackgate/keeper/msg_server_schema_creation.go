@@ -52,6 +52,16 @@ func (k msgServer) SchemaCreation(goCtx context.Context, msg *types.MsgSchemaCre
 	var stationData types.ExtTrackStations
 	k.cdc.MustUnmarshal(stationDataByte, &stationData)
 
+	// Station Metrics Check
+	stationMetricsDB := prefix.NewStore(storeAdapter, types.KeyPrefix(types.TrackGateFigureStoreKey))
+	stationMetricsDataBytes := stationMetricsDB.Get(extTrackStationIdByte)
+	if stationMetricsDataBytes == nil {
+		return nil, status.Errorf(codes.NotFound, "ext track station metrics %s not found", extTrackStationId)
+	}
+
+	var stationMetrics types.StationMetrics
+	k.cdc.MustUnmarshal(stationMetricsDataBytes, &stationMetrics)
+
 	var stationTrackData types.SequencerDetails
 	errCheck := json.Unmarshal(stationData.SequencerDetails, &stationTrackData)
 	if errCheck != nil {
@@ -109,6 +119,14 @@ func (k msgServer) SchemaCreation(goCtx context.Context, msg *types.MsgSchemaCre
 	*/
 	storingData := k.cdc.MustMarshal(&newExtTrackSchema)
 	trackSchemaStore.Set(key, storingData)
+
+	updatedStationMetrics := types.StationMetrics{
+		TotalPodCount:       stationMetrics.TotalPodCount,
+		TotalSchemaCount:    stationMetrics.TotalSchemaCount + 1,
+		TotalMigrationCount: stationMetrics.TotalMigrationCount,
+	}
+	stationMetricsValue := k.cdc.MustMarshal(&updatedStationMetrics)
+	stationMetricsDB.Set(extTrackStationIdByte, stationMetricsValue)
 
 	return &types.MsgSchemaCreationResponse{
 		SchemaKey: schemaKey,

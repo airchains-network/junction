@@ -62,6 +62,17 @@ func (k msgServer) InitStation(goCtx context.Context, msg *types.MsgInitStation)
 		StationSchemaKey:     "none",
 	}
 
+	newStationMetrics := types.StationMetrics{
+		TotalPodCount:       0,
+		TotalSchemaCount:    0,
+		TotalMigrationCount: 0,
+	}
+
+	stationMetricsDB := prefix.NewStore(storeAdapter, types.KeyPrefix(types.TrackGateFigureStoreKey))
+	stationMetricsKey := []byte(stationId)
+	stationMetricsValue := k.cdc.MustMarshal(&newStationMetrics)
+	stationMetricsDB.Set(stationMetricsKey, stationMetricsValue)
+
 	extTrackStationsDataDB := prefix.NewStore(storeAdapter, types.KeyPrefix(types.ExtTrackStationsDataStoreKey))
 	stationIdBytes := []byte(stationId)
 	uniqueStationIDCheck := extTrackStationsDataDB.Get(stationIdBytes)

@@ -35,6 +35,16 @@ func (k msgServer) SchemaEngage(goCtx context.Context, msg *types.MsgSchemaEngag
 	var stationData types.ExtTrackStations
 	k.cdc.MustUnmarshal(stationDataByte, &stationData)
 
+	// Station Metrics Check
+	stationMetricsDB := prefix.NewStore(storeAdapter, types.KeyPrefix(types.TrackGateFigureStoreKey))
+	stationMetricsDataBytes := stationMetricsDB.Get(extTrackStationIdByte)
+	if stationMetricsDataBytes == nil {
+		return nil, status.Errorf(codes.NotFound, "ext track station metrics %s not found", extTrackStationId)
+	}
+
+	var stationMetrics types.StationMetrics
+	k.cdc.MustUnmarshal(stationMetricsDataBytes, &stationMetrics)
+
 	schemaKey := stationData.StationSchemaKey
 	// check operator
 	operators := stationData.Operators
@@ -122,6 +132,14 @@ func (k msgServer) SchemaEngage(goCtx context.Context, msg *types.MsgSchemaEngag
 	byteUpdateStationDetails := k.cdc.MustMarshal(&updateStationDetails)
 
 	extTrackStationsDataDB.Set(byteStationId, byteUpdateStationDetails)
+
+	updatedStationMetrics := types.StationMetrics{
+		TotalPodCount:       stationMetrics.TotalPodCount + 1,
+		TotalSchemaCount:    stationMetrics.TotalSchemaCount,
+		TotalMigrationCount: stationMetrics.TotalMigrationCount,
+	}
+	stationMetricsValue := k.cdc.MustMarshal(&updatedStationMetrics)
+	stationMetricsDB.Set(extTrackStationIdByte, stationMetricsValue)
 
 	return &types.MsgSchemaEngageResponse{
 		Status: true,

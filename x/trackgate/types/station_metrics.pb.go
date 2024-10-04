@@ -5,11 +5,10 @@ package types
 
 import (
 	fmt "fmt"
+	proto "github.com/cosmos/gogoproto/proto"
 	io "io"
 	math "math"
 	math_bits "math/bits"
-
-	proto "github.com/cosmos/gogoproto/proto"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -24,9 +23,9 @@ var _ = math.Inf
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
 type StationMetrics struct {
-	TotalPodCount       string `protobuf:"bytes,1,opt,name=totalPodCount,proto3" json:"totalPodCount,omitempty"`
-	TotalSchemaCount    string `protobuf:"bytes,2,opt,name=totalSchemaCount,proto3" json:"totalSchemaCount,omitempty"`
-	TotalMigrationCount string `protobuf:"bytes,3,opt,name=totalMigrationCount,proto3" json:"totalMigrationCount,omitempty"`
+	TotalPodCount       uint64 `protobuf:"varint,1,opt,name=totalPodCount,proto3" json:"totalPodCount,omitempty"`
+	TotalSchemaCount    uint64 `protobuf:"varint,2,opt,name=totalSchemaCount,proto3" json:"totalSchemaCount,omitempty"`
+	TotalMigrationCount uint64 `protobuf:"varint,3,opt,name=totalMigrationCount,proto3" json:"totalMigrationCount,omitempty"`
 }
 
 func (m *StationMetrics) Reset()         { *m = StationMetrics{} }
@@ -62,25 +61,25 @@ func (m *StationMetrics) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_StationMetrics proto.InternalMessageInfo
 
-func (m *StationMetrics) GetTotalPodCount() string {
+func (m *StationMetrics) GetTotalPodCount() uint64 {
 	if m != nil {
 		return m.TotalPodCount
 	}
-	return ""
+	return 0
 }
 
-func (m *StationMetrics) GetTotalSchemaCount() string {
+func (m *StationMetrics) GetTotalSchemaCount() uint64 {
 	if m != nil {
 		return m.TotalSchemaCount
 	}
-	return ""
+	return 0
 }
 
-func (m *StationMetrics) GetTotalMigrationCount() string {
+func (m *StationMetrics) GetTotalMigrationCount() uint64 {
 	if m != nil {
 		return m.TotalMigrationCount
 	}
-	return ""
+	return 0
 }
 
 func init() {
@@ -98,7 +97,7 @@ var fileDescriptor_eac1dbaf9d85c719 = []byte{
 	0x2e, 0x49, 0x04, 0x89, 0xc4, 0xe7, 0xa6, 0x96, 0x14, 0x65, 0x26, 0x17, 0xeb, 0x15, 0x14, 0xe5,
 	0x97, 0xe4, 0x0b, 0x09, 0xc1, 0x54, 0xea, 0xc1, 0x55, 0x2a, 0x4d, 0x61, 0xe4, 0xe2, 0x0b, 0x86,
 	0xa8, 0xf6, 0x85, 0x28, 0x16, 0x52, 0xe1, 0xe2, 0x2d, 0xc9, 0x2f, 0x49, 0xcc, 0x09, 0xc8, 0x4f,
-	0x71, 0xce, 0x2f, 0xcd, 0x2b, 0x91, 0x60, 0x54, 0x60, 0xd4, 0xe0, 0x0c, 0x42, 0x15, 0x14, 0xd2,
+	0x71, 0xce, 0x2f, 0xcd, 0x2b, 0x91, 0x60, 0x54, 0x60, 0xd4, 0x60, 0x09, 0x42, 0x15, 0x14, 0xd2,
 	0xe2, 0x12, 0x00, 0x0b, 0x04, 0x27, 0x67, 0xa4, 0xe6, 0x26, 0x42, 0x14, 0x32, 0x81, 0x15, 0x62,
 	0x88, 0x0b, 0x19, 0x70, 0x09, 0x83, 0xc5, 0x7c, 0x33, 0xd3, 0x8b, 0xc0, 0x56, 0x41, 0x94, 0x33,
 	0x83, 0x95, 0x63, 0x93, 0x72, 0x0a, 0x3c, 0xf1, 0x48, 0x8e, 0xf1, 0xc2, 0x23, 0x39, 0xc6, 0x07,
@@ -106,7 +105,7 @@ var fileDescriptor_eac1dbaf9d85c719 = []byte{
 	0x28, 0xf3, 0xf4, 0xcc, 0x92, 0x8c, 0xd2, 0x24, 0xbd, 0xe4, 0xfc, 0x5c, 0xfd, 0xc4, 0xcc, 0xa2,
 	0xe4, 0x8c, 0xc4, 0xcc, 0xbc, 0x62, 0xdd, 0xbc, 0xd4, 0x92, 0xf2, 0xfc, 0xa2, 0x6c, 0x7d, 0x78,
 	0x58, 0x54, 0x20, 0x85, 0x46, 0x49, 0x65, 0x41, 0x6a, 0x71, 0x12, 0x1b, 0x38, 0x10, 0x8c, 0x01,
-	0x01, 0x00, 0x00, 0xff, 0xff, 0x6a, 0x4e, 0xd9, 0x65, 0x30, 0x01, 0x00, 0x00,
+	0x01, 0x00, 0x00, 0xff, 0xff, 0x5b, 0xbb, 0xd8, 0x2a, 0x30, 0x01, 0x00, 0x00,
 }
 
 func (m *StationMetrics) Marshal() (dAtA []byte, err error) {
@@ -129,26 +128,20 @@ func (m *StationMetrics) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
-	if len(m.TotalMigrationCount) > 0 {
-		i -= len(m.TotalMigrationCount)
-		copy(dAtA[i:], m.TotalMigrationCount)
-		i = encodeVarintStationMetrics(dAtA, i, uint64(len(m.TotalMigrationCount)))
+	if m.TotalMigrationCount != 0 {
+		i = encodeVarintStationMetrics(dAtA, i, uint64(m.TotalMigrationCount))
 		i--
-		dAtA[i] = 0x1a
+		dAtA[i] = 0x18
 	}
-	if len(m.TotalSchemaCount) > 0 {
-		i -= len(m.TotalSchemaCount)
-		copy(dAtA[i:], m.TotalSchemaCount)
-		i = encodeVarintStationMetrics(dAtA, i, uint64(len(m.TotalSchemaCount)))
+	if m.TotalSchemaCount != 0 {
+		i = encodeVarintStationMetrics(dAtA, i, uint64(m.TotalSchemaCount))
 		i--
-		dAtA[i] = 0x12
+		dAtA[i] = 0x10
 	}
-	if len(m.TotalPodCount) > 0 {
-		i -= len(m.TotalPodCount)
-		copy(dAtA[i:], m.TotalPodCount)
-		i = encodeVarintStationMetrics(dAtA, i, uint64(len(m.TotalPodCount)))
+	if m.TotalPodCount != 0 {
+		i = encodeVarintStationMetrics(dAtA, i, uint64(m.TotalPodCount))
 		i--
-		dAtA[i] = 0xa
+		dAtA[i] = 0x8
 	}
 	return len(dAtA) - i, nil
 }
@@ -170,17 +163,14 @@ func (m *StationMetrics) Size() (n int) {
 	}
 	var l int
 	_ = l
-	l = len(m.TotalPodCount)
-	if l > 0 {
-		n += 1 + l + sovStationMetrics(uint64(l))
+	if m.TotalPodCount != 0 {
+		n += 1 + sovStationMetrics(uint64(m.TotalPodCount))
 	}
-	l = len(m.TotalSchemaCount)
-	if l > 0 {
-		n += 1 + l + sovStationMetrics(uint64(l))
+	if m.TotalSchemaCount != 0 {
+		n += 1 + sovStationMetrics(uint64(m.TotalSchemaCount))
 	}
-	l = len(m.TotalMigrationCount)
-	if l > 0 {
-		n += 1 + l + sovStationMetrics(uint64(l))
+	if m.TotalMigrationCount != 0 {
+		n += 1 + sovStationMetrics(uint64(m.TotalMigrationCount))
 	}
 	return n
 }
@@ -221,10 +211,10 @@ func (m *StationMetrics) Unmarshal(dAtA []byte) error {
 		}
 		switch fieldNum {
 		case 1:
-			if wireType != 2 {
+			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field TotalPodCount", wireType)
 			}
-			var stringLen uint64
+			m.TotalPodCount = 0
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowStationMetrics
@@ -234,29 +224,16 @@ func (m *StationMetrics) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
+				m.TotalPodCount |= uint64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthStationMetrics
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthStationMetrics
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.TotalPodCount = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
 		case 2:
-			if wireType != 2 {
+			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field TotalSchemaCount", wireType)
 			}
-			var stringLen uint64
+			m.TotalSchemaCount = 0
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowStationMetrics
@@ -266,29 +243,16 @@ func (m *StationMetrics) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
+				m.TotalSchemaCount |= uint64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthStationMetrics
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthStationMetrics
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.TotalSchemaCount = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
 		case 3:
-			if wireType != 2 {
+			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field TotalMigrationCount", wireType)
 			}
-			var stringLen uint64
+			m.TotalMigrationCount = 0
 			for shift := uint(0); ; shift += 7 {
 				if shift >= 64 {
 					return ErrIntOverflowStationMetrics
@@ -298,24 +262,11 @@ func (m *StationMetrics) Unmarshal(dAtA []byte) error {
 				}
 				b := dAtA[iNdEx]
 				iNdEx++
-				stringLen |= uint64(b&0x7F) << shift
+				m.TotalMigrationCount |= uint64(b&0x7F) << shift
 				if b < 0x80 {
 					break
 				}
 			}
-			intStringLen := int(stringLen)
-			if intStringLen < 0 {
-				return ErrInvalidLengthStationMetrics
-			}
-			postIndex := iNdEx + intStringLen
-			if postIndex < 0 {
-				return ErrInvalidLengthStationMetrics
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			m.TotalMigrationCount = string(dAtA[iNdEx:postIndex])
-			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
 			skippy, err := skipStationMetrics(dAtA[iNdEx:])
