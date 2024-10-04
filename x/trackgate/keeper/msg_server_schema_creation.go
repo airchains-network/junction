@@ -2,11 +2,12 @@ package keeper
 
 import (
 	"context"
+	"crypto/sha256"
+	"encoding/hex"
 	"encoding/json"
 
 	"cosmossdk.io/store/prefix"
 	"github.com/cosmos/cosmos-sdk/runtime"
-	"github.com/google/uuid"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
@@ -19,6 +20,7 @@ func (k msgServer) SchemaCreation(goCtx context.Context, msg *types.MsgSchemaCre
 	ctx := sdk.UnwrapSDKContext(goCtx)
 	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
 
+	creator := msg.Creator
 	extTrackStationId := msg.ExtTrackStationId
 	version := msg.Version
 	schema := msg.Schema
@@ -38,7 +40,8 @@ func (k msgServer) SchemaCreation(goCtx context.Context, msg *types.MsgSchemaCre
 	}
 
 	extTrackStationsDataDB := prefix.NewStore(storeAdapter, types.KeyPrefix(types.ExtTrackStationsDataStoreKey))
-	stationDataByte := extTrackStationsDataDB.Get([]byte(extTrackStationId))
+	extTrackStationIdByte := []byte(extTrackStationId)
+	stationDataByte := extTrackStationsDataDB.Get(extTrackStationIdByte)
 	if stationDataByte == nil {
 		return &types.MsgSchemaCreationResponse{
 			SchemaKey: "",
@@ -56,8 +59,10 @@ func (k msgServer) SchemaCreation(goCtx context.Context, msg *types.MsgSchemaCre
 	}
 
 	trackName := stationTrackData.Name
-	// Generate UUID
-	schemaKey := uuid.New().String()
+	// Generate schemaKey
+	schemaKeyBytes := sha256.Sum256([]byte(creator + extTrackStationId + version))
+	schemaKey := hex.EncodeToString(schemaKeyBytes[:])
+
 	newExtTrackSchema := types.ExtTrackSchema{
 		TrackName:         trackName,
 		ExtTrackStationId: extTrackStationId,
