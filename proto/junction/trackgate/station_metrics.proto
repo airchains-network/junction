@@ -8,4 +8,5 @@ message StationMetrics {
   uint64 totalPodCount = 1;
   uint64 totalSchemaCount = 2;
   uint64 totalMigrationCount = 3;
+  uint64 totalVerifiedPodCount = 4;
 }

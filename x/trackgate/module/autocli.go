@@ -100,7 +100,7 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					RpcMethod:      "SchemaEngage",
 					Use:            "schema-engage [ext-track-station-id] [schema-object] [state-root] [pod-number]",
 					Short:          "Send a schema-engage tx",
-					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "extTrackStationId"}, {ProtoField: "schemaObject"}, {ProtoField: "stateRoot"}, {ProtoField: "podNumber"}},
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "extTrackStationId"}, {ProtoField: "schemaObject"}, {ProtoField: "acknowledgementHash"}, {ProtoField: "podNumber"}, {ProtoField: "sequencerDetails"}},
 				},
 				{
 					RpcMethod:      "MigrateSchema",

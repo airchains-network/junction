@@ -66,17 +66,17 @@ func (k msgServer) MigrateSchema(goCtx context.Context, msg *types.MsgMigrateSch
 
 	// update codes
 	updateStationDetails := types.ExtTrackStations{
-		Operators:            stationData.Operators,
-		LatestPod:            stationData.LatestPod,
-		LatestMerkleRootHash: stationData.LatestMerkleRootHash,
-		Name:                 stationData.Name,
-		Id:                   stationData.Id,
-		StationType:          stationData.StationType,
-		FheEnabled:           stationData.FheEnabled,
-		SequencerDetails:     stationData.SequencerDetails,
-		DaDetails:            stationData.DaDetails,
-		ProverDetails:        stationData.ProverDetails,
-		StationSchemaKey:     newSchemaKey,
+		Operators:                 stationData.Operators,
+		LatestPod:                 stationData.LatestPod,
+		LatestAcknowledgementHash: stationData.LatestAcknowledgementHash,
+		Name:                      stationData.Name,
+		Id:                        stationData.Id,
+		StationType:               stationData.StationType,
+		FheEnabled:                stationData.FheEnabled,
+		SequencerDetails:          stationData.SequencerDetails,
+		DaDetails:                 stationData.DaDetails,
+		ProverDetails:             stationData.ProverDetails,
+		StationSchemaKey:          newSchemaKey,
 	}
 
 	byteStationId := []byte(stationData.Id)
@@ -85,9 +85,10 @@ func (k msgServer) MigrateSchema(goCtx context.Context, msg *types.MsgMigrateSch
 	extTrackStationsDataDB.Set(byteStationId, byteUpdateStationDetails)
 
 	updatedStationMetrics := types.StationMetrics{
-		TotalPodCount:       stationMetrics.TotalPodCount,
-		TotalSchemaCount:    stationMetrics.TotalSchemaCount,
-		TotalMigrationCount: stationMetrics.TotalMigrationCount + 1,
+		TotalPodCount:         stationMetrics.TotalPodCount,
+		TotalSchemaCount:      stationMetrics.TotalSchemaCount,
+		TotalMigrationCount:   stationMetrics.TotalMigrationCount + 1,
+		TotalVerifiedPodCount: stationMetrics.TotalVerifiedPodCount,
 	}
 	stationMetricsValue := k.cdc.MustMarshal(&updatedStationMetrics)
 	stationMetricsDB.Set(extTrackStationIdByte, stationMetricsValue)

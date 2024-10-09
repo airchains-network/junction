@@ -13,16 +13,18 @@ import (
 )
 
 var (
-	md_ExtTrackSchemaEngagement                   protoreflect.MessageDescriptor
-	fd_ExtTrackSchemaEngagement_extTrackStationId protoreflect.FieldDescriptor
-	fd_ExtTrackSchemaEngagement_engageBy          protoreflect.FieldDescriptor
-	fd_ExtTrackSchemaEngagement_stateRoot         protoreflect.FieldDescriptor
-	fd_ExtTrackSchemaEngagement_podNumber         protoreflect.FieldDescriptor
-	fd_ExtTrackSchemaEngagement_stationName       protoreflect.FieldDescriptor
-	fd_ExtTrackSchemaEngagement_trackName         protoreflect.FieldDescriptor
-	fd_ExtTrackSchemaEngagement_schemaVersion     protoreflect.FieldDescriptor
-	fd_ExtTrackSchemaEngagement_schemaKey         protoreflect.FieldDescriptor
-	fd_ExtTrackSchemaEngagement_schemaObject      protoreflect.FieldDescriptor
+	md_ExtTrackSchemaEngagement                     protoreflect.MessageDescriptor
+	fd_ExtTrackSchemaEngagement_extTrackStationId   protoreflect.FieldDescriptor
+	fd_ExtTrackSchemaEngagement_engageBy            protoreflect.FieldDescriptor
+	fd_ExtTrackSchemaEngagement_acknowledgementHash protoreflect.FieldDescriptor
+	fd_ExtTrackSchemaEngagement_podNumber           protoreflect.FieldDescriptor
+	fd_ExtTrackSchemaEngagement_stationName         protoreflect.FieldDescriptor
+	fd_ExtTrackSchemaEngagement_trackName           protoreflect.FieldDescriptor
+	fd_ExtTrackSchemaEngagement_schemaVersion       protoreflect.FieldDescriptor
+	fd_ExtTrackSchemaEngagement_schemaKey           protoreflect.FieldDescriptor
+	fd_ExtTrackSchemaEngagement_schemaObject        protoreflect.FieldDescriptor
+	fd_ExtTrackSchemaEngagement_sequencerDetails    protoreflect.FieldDescriptor
+	fd_ExtTrackSchemaEngagement_isVerified          protoreflect.FieldDescriptor
 )
 
 func init() {
@@ -30,13 +32,15 @@ func init() {
 	md_ExtTrackSchemaEngagement = File_junction_trackgate_ext_track_schema_engagement_proto.Messages().ByName("ExtTrackSchemaEngagement")
 	fd_ExtTrackSchemaEngagement_extTrackStationId = md_ExtTrackSchemaEngagement.Fields().ByName("extTrackStationId")
 	fd_ExtTrackSchemaEngagement_engageBy = md_ExtTrackSchemaEngagement.Fields().ByName("engageBy")
-	fd_ExtTrackSchemaEngagement_stateRoot = md_ExtTrackSchemaEngagement.Fields().ByName("stateRoot")
+	fd_ExtTrackSchemaEngagement_acknowledgementHash = md_ExtTrackSchemaEngagement.Fields().ByName("acknowledgementHash")
 	fd_ExtTrackSchemaEngagement_podNumber = md_ExtTrackSchemaEngagement.Fields().ByName("podNumber")
 	fd_ExtTrackSchemaEngagement_stationName = md_ExtTrackSchemaEngagement.Fields().ByName("stationName")
 	fd_ExtTrackSchemaEngagement_trackName = md_ExtTrackSchemaEngagement.Fields().ByName("trackName")
 	fd_ExtTrackSchemaEngagement_schemaVersion = md_ExtTrackSchemaEngagement.Fields().ByName("schemaVersion")
 	fd_ExtTrackSchemaEngagement_schemaKey = md_ExtTrackSchemaEngagement.Fields().ByName("schemaKey")
 	fd_ExtTrackSchemaEngagement_schemaObject = md_ExtTrackSchemaEngagement.Fields().ByName("schemaObject")
+	fd_ExtTrackSchemaEngagement_sequencerDetails = md_ExtTrackSchemaEngagement.Fields().ByName("sequencerDetails")
+	fd_ExtTrackSchemaEngagement_isVerified = md_ExtTrackSchemaEngagement.Fields().ByName("isVerified")
 }
 
 var _ protoreflect.Message = (*fastReflection_ExtTrackSchemaEngagement)(nil)
@@ -116,9 +120,9 @@ func (x *fastReflection_ExtTrackSchemaEngagement) Range(f func(protoreflect.Fiel
 			return
 		}
 	}
-	if x.StateRoot != "" {
-		value := protoreflect.ValueOfString(x.StateRoot)
-		if !f(fd_ExtTrackSchemaEngagement_stateRoot, value) {
+	if x.AcknowledgementHash != "" {
+		value := protoreflect.ValueOfString(x.AcknowledgementHash)
+		if !f(fd_ExtTrackSchemaEngagement_acknowledgementHash, value) {
 			return
 		}
 	}
@@ -158,6 +162,18 @@ func (x *fastReflection_ExtTrackSchemaEngagement) Range(f func(protoreflect.Fiel
 			return
 		}
 	}
+	if len(x.SequencerDetails) != 0 {
+		value := protoreflect.ValueOfBytes(x.SequencerDetails)
+		if !f(fd_ExtTrackSchemaEngagement_sequencerDetails, value) {
+			return
+		}
+	}
+	if x.IsVerified != false {
+		value := protoreflect.ValueOfBool(x.IsVerified)
+		if !f(fd_ExtTrackSchemaEngagement_isVerified, value) {
+			return
+		}
+	}
 }
 
 // Has reports whether a field is populated.
@@ -177,8 +193,8 @@ func (x *fastReflection_ExtTrackSchemaEngagement) Has(fd protoreflect.FieldDescr
 		return x.ExtTrackStationId != ""
 	case "junction.trackgate.ExtTrackSchemaEngagement.engageBy":
 		return x.EngageBy != ""
-	case "junction.trackgate.ExtTrackSchemaEngagement.stateRoot":
-		return x.StateRoot != ""
+	case "junction.trackgate.ExtTrackSchemaEngagement.acknowledgementHash":
+		return x.AcknowledgementHash != ""
 	case "junction.trackgate.ExtTrackSchemaEngagement.podNumber":
 		return x.PodNumber != uint64(0)
 	case "junction.trackgate.ExtTrackSchemaEngagement.stationName":
@@ -191,6 +207,10 @@ func (x *fastReflection_ExtTrackSchemaEngagement) Has(fd protoreflect.FieldDescr
 		return x.SchemaKey != ""
 	case "junction.trackgate.ExtTrackSchemaEngagement.schemaObject":
 		return len(x.SchemaObject) != 0
+	case "junction.trackgate.ExtTrackSchemaEngagement.sequencerDetails":
+		return len(x.SequencerDetails) != 0
+	case "junction.trackgate.ExtTrackSchemaEngagement.isVerified":
+		return x.IsVerified != false
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: junction.trackgate.ExtTrackSchemaEngagement"))
@@ -211,8 +231,8 @@ func (x *fastReflection_ExtTrackSchemaEngagement) Clear(fd protoreflect.FieldDes
 		x.ExtTrackStationId = ""
 	case "junction.trackgate.ExtTrackSchemaEngagement.engageBy":
 		x.EngageBy = ""
-	case "junction.trackgate.ExtTrackSchemaEngagement.stateRoot":
-		x.StateRoot = ""
+	case "junction.trackgate.ExtTrackSchemaEngagement.acknowledgementHash":
+		x.AcknowledgementHash = ""
 	case "junction.trackgate.ExtTrackSchemaEngagement.podNumber":
 		x.PodNumber = uint64(0)
 	case "junction.trackgate.ExtTrackSchemaEngagement.stationName":
@@ -225,6 +245,10 @@ func (x *fastReflection_ExtTrackSchemaEngagement) Clear(fd protoreflect.FieldDes
 		x.SchemaKey = ""
 	case "junction.trackgate.ExtTrackSchemaEngagement.schemaObject":
 		x.SchemaObject = nil
+	case "junction.trackgate.ExtTrackSchemaEngagement.sequencerDetails":
+		x.SequencerDetails = nil
+	case "junction.trackgate.ExtTrackSchemaEngagement.isVerified":
+		x.IsVerified = false
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: junction.trackgate.ExtTrackSchemaEngagement"))
@@ -247,8 +271,8 @@ func (x *fastReflection_ExtTrackSchemaEngagement) Get(descriptor protoreflect.Fi
 	case "junction.trackgate.ExtTrackSchemaEngagement.engageBy":
 		value := x.EngageBy
 		return protoreflect.ValueOfString(value)
-	case "junction.trackgate.ExtTrackSchemaEngagement.stateRoot":
-		value := x.StateRoot
+	case "junction.trackgate.ExtTrackSchemaEngagement.acknowledgementHash":
+		value := x.AcknowledgementHash
 		return protoreflect.ValueOfString(value)
 	case "junction.trackgate.ExtTrackSchemaEngagement.podNumber":
 		value := x.PodNumber
@@ -268,6 +292,12 @@ func (x *fastReflection_ExtTrackSchemaEngagement) Get(descriptor protoreflect.Fi
 	case "junction.trackgate.ExtTrackSchemaEngagement.schemaObject":
 		value := x.SchemaObject
 		return protoreflect.ValueOfBytes(value)
+	case "junction.trackgate.ExtTrackSchemaEngagement.sequencerDetails":
+		value := x.SequencerDetails
+		return protoreflect.ValueOfBytes(value)
+	case "junction.trackgate.ExtTrackSchemaEngagement.isVerified":
+		value := x.IsVerified
+		return protoreflect.ValueOfBool(value)
 	default:
 		if descriptor.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: junction.trackgate.ExtTrackSchemaEngagement"))
@@ -292,8 +322,8 @@ func (x *fastReflection_ExtTrackSchemaEngagement) Set(fd protoreflect.FieldDescr
 		x.ExtTrackStationId = value.Interface().(string)
 	case "junction.trackgate.ExtTrackSchemaEngagement.engageBy":
 		x.EngageBy = value.Interface().(string)
-	case "junction.trackgate.ExtTrackSchemaEngagement.stateRoot":
-		x.StateRoot = value.Interface().(string)
+	case "junction.trackgate.ExtTrackSchemaEngagement.acknowledgementHash":
+		x.AcknowledgementHash = value.Interface().(string)
 	case "junction.trackgate.ExtTrackSchemaEngagement.podNumber":
 		x.PodNumber = value.Uint()
 	case "junction.trackgate.ExtTrackSchemaEngagement.stationName":
@@ -306,6 +336,10 @@ func (x *fastReflection_ExtTrackSchemaEngagement) Set(fd protoreflect.FieldDescr
 		x.SchemaKey = value.Interface().(string)
 	case "junction.trackgate.ExtTrackSchemaEngagement.schemaObject":
 		x.SchemaObject = value.Bytes()
+	case "junction.trackgate.ExtTrackSchemaEngagement.sequencerDetails":
+		x.SequencerDetails = value.Bytes()
+	case "junction.trackgate.ExtTrackSchemaEngagement.isVerified":
+		x.IsVerified = value.Bool()
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: junction.trackgate.ExtTrackSchemaEngagement"))
@@ -330,8 +364,8 @@ func (x *fastReflection_ExtTrackSchemaEngagement) Mutable(fd protoreflect.FieldD
 		panic(fmt.Errorf("field extTrackStationId of message junction.trackgate.ExtTrackSchemaEngagement is not mutable"))
 	case "junction.trackgate.ExtTrackSchemaEngagement.engageBy":
 		panic(fmt.Errorf("field engageBy of message junction.trackgate.ExtTrackSchemaEngagement is not mutable"))
-	case "junction.trackgate.ExtTrackSchemaEngagement.stateRoot":
-		panic(fmt.Errorf("field stateRoot of message junction.trackgate.ExtTrackSchemaEngagement is not mutable"))
+	case "junction.trackgate.ExtTrackSchemaEngagement.acknowledgementHash":
+		panic(fmt.Errorf("field acknowledgementHash of message junction.trackgate.ExtTrackSchemaEngagement is not mutable"))
 	case "junction.trackgate.ExtTrackSchemaEngagement.podNumber":
 		panic(fmt.Errorf("field podNumber of message junction.trackgate.ExtTrackSchemaEngagement is not mutable"))
 	case "junction.trackgate.ExtTrackSchemaEngagement.stationName":
@@ -344,6 +378,10 @@ func (x *fastReflection_ExtTrackSchemaEngagement) Mutable(fd protoreflect.FieldD
 		panic(fmt.Errorf("field schemaKey of message junction.trackgate.ExtTrackSchemaEngagement is not mutable"))
 	case "junction.trackgate.ExtTrackSchemaEngagement.schemaObject":
 		panic(fmt.Errorf("field schemaObject of message junction.trackgate.ExtTrackSchemaEngagement is not mutable"))
+	case "junction.trackgate.ExtTrackSchemaEngagement.sequencerDetails":
+		panic(fmt.Errorf("field sequencerDetails of message junction.trackgate.ExtTrackSchemaEngagement is not mutable"))
+	case "junction.trackgate.ExtTrackSchemaEngagement.isVerified":
+		panic(fmt.Errorf("field isVerified of message junction.trackgate.ExtTrackSchemaEngagement is not mutable"))
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: junction.trackgate.ExtTrackSchemaEngagement"))
@@ -361,7 +399,7 @@ func (x *fastReflection_ExtTrackSchemaEngagement) NewField(fd protoreflect.Field
 		return protoreflect.ValueOfString("")
 	case "junction.trackgate.ExtTrackSchemaEngagement.engageBy":
 		return protoreflect.ValueOfString("")
-	case "junction.trackgate.ExtTrackSchemaEngagement.stateRoot":
+	case "junction.trackgate.ExtTrackSchemaEngagement.acknowledgementHash":
 		return protoreflect.ValueOfString("")
 	case "junction.trackgate.ExtTrackSchemaEngagement.podNumber":
 		return protoreflect.ValueOfUint64(uint64(0))
@@ -375,6 +413,10 @@ func (x *fastReflection_ExtTrackSchemaEngagement) NewField(fd protoreflect.Field
 		return protoreflect.ValueOfString("")
 	case "junction.trackgate.ExtTrackSchemaEngagement.schemaObject":
 		return protoreflect.ValueOfBytes(nil)
+	case "junction.trackgate.ExtTrackSchemaEngagement.sequencerDetails":
+		return protoreflect.ValueOfBytes(nil)
+	case "junction.trackgate.ExtTrackSchemaEngagement.isVerified":
+		return protoreflect.ValueOfBool(false)
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: junction.trackgate.ExtTrackSchemaEngagement"))
@@ -452,7 +494,7 @@ func (x *fastReflection_ExtTrackSchemaEngagement) ProtoMethods() *protoiface.Met
 		if l > 0 {
 			n += 1 + l + runtime.Sov(uint64(l))
 		}
-		l = len(x.StateRoot)
+		l = len(x.AcknowledgementHash)
 		if l > 0 {
 			n += 1 + l + runtime.Sov(uint64(l))
 		}
@@ -478,6 +520,13 @@ func (x *fastReflection_ExtTrackSchemaEngagement) ProtoMethods() *protoiface.Met
 		l = len(x.SchemaObject)
 		if l > 0 {
 			n += 1 + l + runtime.Sov(uint64(l))
+		}
+		l = len(x.SequencerDetails)
+		if l > 0 {
+			n += 1 + l + runtime.Sov(uint64(l))
+		}
+		if x.IsVerified {
+			n += 2
 		}
 		if x.unknownFields != nil {
 			n += len(x.unknownFields)
@@ -507,6 +556,23 @@ func (x *fastReflection_ExtTrackSchemaEngagement) ProtoMethods() *protoiface.Met
 		if x.unknownFields != nil {
 			i -= len(x.unknownFields)
 			copy(dAtA[i:], x.unknownFields)
+		}
+		if x.IsVerified {
+			i--
+			if x.IsVerified {
+				dAtA[i] = 1
+			} else {
+				dAtA[i] = 0
+			}
+			i--
+			dAtA[i] = 0x58
+		}
+		if len(x.SequencerDetails) > 0 {
+			i -= len(x.SequencerDetails)
+			copy(dAtA[i:], x.SequencerDetails)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.SequencerDetails)))
+			i--
+			dAtA[i] = 0x52
 		}
 		if len(x.SchemaObject) > 0 {
 			i -= len(x.SchemaObject)
@@ -548,10 +614,10 @@ func (x *fastReflection_ExtTrackSchemaEngagement) ProtoMethods() *protoiface.Met
 			i--
 			dAtA[i] = 0x20
 		}
-		if len(x.StateRoot) > 0 {
-			i -= len(x.StateRoot)
-			copy(dAtA[i:], x.StateRoot)
-			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.StateRoot)))
+		if len(x.AcknowledgementHash) > 0 {
+			i -= len(x.AcknowledgementHash)
+			copy(dAtA[i:], x.AcknowledgementHash)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.AcknowledgementHash)))
 			i--
 			dAtA[i] = 0x1a
 		}
@@ -684,7 +750,7 @@ func (x *fastReflection_ExtTrackSchemaEngagement) ProtoMethods() *protoiface.Met
 				iNdEx = postIndex
 			case 3:
 				if wireType != 2 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field StateRoot", wireType)
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field AcknowledgementHash", wireType)
 				}
 				var stringLen uint64
 				for shift := uint(0); ; shift += 7 {
@@ -712,7 +778,7 @@ func (x *fastReflection_ExtTrackSchemaEngagement) ProtoMethods() *protoiface.Met
 				if postIndex > l {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
 				}
-				x.StateRoot = string(dAtA[iNdEx:postIndex])
+				x.AcknowledgementHash = string(dAtA[iNdEx:postIndex])
 				iNdEx = postIndex
 			case 4:
 				if wireType != 0 {
@@ -895,6 +961,60 @@ func (x *fastReflection_ExtTrackSchemaEngagement) ProtoMethods() *protoiface.Met
 					x.SchemaObject = []byte{}
 				}
 				iNdEx = postIndex
+			case 10:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field SequencerDetails", wireType)
+				}
+				var byteLen int
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					byteLen |= int(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				if byteLen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + byteLen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				x.SequencerDetails = append(x.SequencerDetails[:0], dAtA[iNdEx:postIndex]...)
+				if x.SequencerDetails == nil {
+					x.SequencerDetails = []byte{}
+				}
+				iNdEx = postIndex
+			case 11:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field IsVerified", wireType)
+				}
+				var v int
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					v |= int(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				x.IsVerified = bool(v != 0)
 			default:
 				iNdEx = preIndex
 				skippy, err := runtime.Skip(dAtA[iNdEx:])
@@ -948,15 +1068,17 @@ type ExtTrackSchemaEngagement struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	ExtTrackStationId string `protobuf:"bytes,1,opt,name=extTrackStationId,proto3" json:"extTrackStationId,omitempty"`
-	EngageBy          string `protobuf:"bytes,2,opt,name=engageBy,proto3" json:"engageBy,omitempty"`
-	StateRoot         string `protobuf:"bytes,3,opt,name=stateRoot,proto3" json:"stateRoot,omitempty"`
-	PodNumber         uint64 `protobuf:"varint,4,opt,name=podNumber,proto3" json:"podNumber,omitempty"`
-	StationName       string `protobuf:"bytes,5,opt,name=stationName,proto3" json:"stationName,omitempty"`
-	TrackName         string `protobuf:"bytes,6,opt,name=trackName,proto3" json:"trackName,omitempty"`
-	SchemaVersion     string `protobuf:"bytes,7,opt,name=schemaVersion,proto3" json:"schemaVersion,omitempty"`
-	SchemaKey         string `protobuf:"bytes,8,opt,name=schemaKey,proto3" json:"schemaKey,omitempty"`
-	SchemaObject      []byte `protobuf:"bytes,9,opt,name=schemaObject,proto3" json:"schemaObject,omitempty"`
+	ExtTrackStationId   string `protobuf:"bytes,1,opt,name=extTrackStationId,proto3" json:"extTrackStationId,omitempty"`
+	EngageBy            string `protobuf:"bytes,2,opt,name=engageBy,proto3" json:"engageBy,omitempty"`
+	AcknowledgementHash string `protobuf:"bytes,3,opt,name=acknowledgementHash,proto3" json:"acknowledgementHash,omitempty"`
+	PodNumber           uint64 `protobuf:"varint,4,opt,name=podNumber,proto3" json:"podNumber,omitempty"`
+	StationName         string `protobuf:"bytes,5,opt,name=stationName,proto3" json:"stationName,omitempty"`
+	TrackName           string `protobuf:"bytes,6,opt,name=trackName,proto3" json:"trackName,omitempty"`
+	SchemaVersion       string `protobuf:"bytes,7,opt,name=schemaVersion,proto3" json:"schemaVersion,omitempty"`
+	SchemaKey           string `protobuf:"bytes,8,opt,name=schemaKey,proto3" json:"schemaKey,omitempty"`
+	SchemaObject        []byte `protobuf:"bytes,9,opt,name=schemaObject,proto3" json:"schemaObject,omitempty"`
+	SequencerDetails    []byte `protobuf:"bytes,10,opt,name=sequencerDetails,proto3" json:"sequencerDetails,omitempty"`
+	IsVerified          bool   `protobuf:"varint,11,opt,name=isVerified,proto3" json:"isVerified,omitempty"`
 }
 
 func (x *ExtTrackSchemaEngagement) Reset() {
@@ -993,9 +1115,9 @@ func (x *ExtTrackSchemaEngagement) GetEngageBy() string {
 	return ""
 }
 
-func (x *ExtTrackSchemaEngagement) GetStateRoot() string {
+func (x *ExtTrackSchemaEngagement) GetAcknowledgementHash() string {
 	if x != nil {
-		return x.StateRoot
+		return x.AcknowledgementHash
 	}
 	return ""
 }
@@ -1042,6 +1164,20 @@ func (x *ExtTrackSchemaEngagement) GetSchemaObject() []byte {
 	return nil
 }
 
+func (x *ExtTrackSchemaEngagement) GetSequencerDetails() []byte {
+	if x != nil {
+		return x.SequencerDetails
+	}
+	return nil
+}
+
+func (x *ExtTrackSchemaEngagement) GetIsVerified() bool {
+	if x != nil {
+		return x.IsVerified
+	}
+	return false
+}
+
 var File_junction_trackgate_ext_track_schema_engagement_proto protoreflect.FileDescriptor
 
 var file_junction_trackgate_ext_track_schema_engagement_proto_rawDesc = []byte{
@@ -1049,28 +1185,34 @@ var file_junction_trackgate_ext_track_schema_engagement_proto_rawDesc = []byte{
 	0x67, 0x61, 0x74, 0x65, 0x2f, 0x65, 0x78, 0x74, 0x5f, 0x74, 0x72, 0x61, 0x63, 0x6b, 0x5f, 0x73,
 	0x63, 0x68, 0x65, 0x6d, 0x61, 0x5f, 0x65, 0x6e, 0x67, 0x61, 0x67, 0x65, 0x6d, 0x65, 0x6e, 0x74,
 	0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x12, 0x6a, 0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e,
-	0x2e, 0x74, 0x72, 0x61, 0x63, 0x6b, 0x67, 0x61, 0x74, 0x65, 0x22, 0xc8, 0x02, 0x0a, 0x18, 0x45,
+	0x2e, 0x74, 0x72, 0x61, 0x63, 0x6b, 0x67, 0x61, 0x74, 0x65, 0x22, 0xa8, 0x03, 0x0a, 0x18, 0x45,
 	0x78, 0x74, 0x54, 0x72, 0x61, 0x63, 0x6b, 0x53, 0x63, 0x68, 0x65, 0x6d, 0x61, 0x45, 0x6e, 0x67,
 	0x61, 0x67, 0x65, 0x6d, 0x65, 0x6e, 0x74, 0x12, 0x2c, 0x0a, 0x11, 0x65, 0x78, 0x74, 0x54, 0x72,
 	0x61, 0x63, 0x6b, 0x53, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x49, 0x64, 0x18, 0x01, 0x20, 0x01,
 	0x28, 0x09, 0x52, 0x11, 0x65, 0x78, 0x74, 0x54, 0x72, 0x61, 0x63, 0x6b, 0x53, 0x74, 0x61, 0x74,
 	0x69, 0x6f, 0x6e, 0x49, 0x64, 0x12, 0x1a, 0x0a, 0x08, 0x65, 0x6e, 0x67, 0x61, 0x67, 0x65, 0x42,
 	0x79, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x65, 0x6e, 0x67, 0x61, 0x67, 0x65, 0x42,
-	0x79, 0x12, 0x1c, 0x0a, 0x09, 0x73, 0x74, 0x61, 0x74, 0x65, 0x52, 0x6f, 0x6f, 0x74, 0x18, 0x03,
-	0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x73, 0x74, 0x61, 0x74, 0x65, 0x52, 0x6f, 0x6f, 0x74, 0x12,
-	0x1c, 0x0a, 0x09, 0x70, 0x6f, 0x64, 0x4e, 0x75, 0x6d, 0x62, 0x65, 0x72, 0x18, 0x04, 0x20, 0x01,
-	0x28, 0x04, 0x52, 0x09, 0x70, 0x6f, 0x64, 0x4e, 0x75, 0x6d, 0x62, 0x65, 0x72, 0x12, 0x20, 0x0a,
-	0x0b, 0x73, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x4e, 0x61, 0x6d, 0x65, 0x18, 0x05, 0x20, 0x01,
-	0x28, 0x09, 0x52, 0x0b, 0x73, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x4e, 0x61, 0x6d, 0x65, 0x12,
-	0x1c, 0x0a, 0x09, 0x74, 0x72, 0x61, 0x63, 0x6b, 0x4e, 0x61, 0x6d, 0x65, 0x18, 0x06, 0x20, 0x01,
-	0x28, 0x09, 0x52, 0x09, 0x74, 0x72, 0x61, 0x63, 0x6b, 0x4e, 0x61, 0x6d, 0x65, 0x12, 0x24, 0x0a,
-	0x0d, 0x73, 0x63, 0x68, 0x65, 0x6d, 0x61, 0x56, 0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x18, 0x07,
-	0x20, 0x01, 0x28, 0x09, 0x52, 0x0d, 0x73, 0x63, 0x68, 0x65, 0x6d, 0x61, 0x56, 0x65, 0x72, 0x73,
-	0x69, 0x6f, 0x6e, 0x12, 0x1c, 0x0a, 0x09, 0x73, 0x63, 0x68, 0x65, 0x6d, 0x61, 0x4b, 0x65, 0x79,
-	0x18, 0x08, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x73, 0x63, 0x68, 0x65, 0x6d, 0x61, 0x4b, 0x65,
-	0x79, 0x12, 0x22, 0x0a, 0x0c, 0x73, 0x63, 0x68, 0x65, 0x6d, 0x61, 0x4f, 0x62, 0x6a, 0x65, 0x63,
-	0x74, 0x18, 0x09, 0x20, 0x01, 0x28, 0x0c, 0x52, 0x0c, 0x73, 0x63, 0x68, 0x65, 0x6d, 0x61, 0x4f,
-	0x62, 0x6a, 0x65, 0x63, 0x74, 0x42, 0xc5, 0x01, 0x0a, 0x16, 0x63, 0x6f, 0x6d, 0x2e, 0x6a, 0x75,
+	0x79, 0x12, 0x30, 0x0a, 0x13, 0x61, 0x63, 0x6b, 0x6e, 0x6f, 0x77, 0x6c, 0x65, 0x64, 0x67, 0x65,
+	0x6d, 0x65, 0x6e, 0x74, 0x48, 0x61, 0x73, 0x68, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x13,
+	0x61, 0x63, 0x6b, 0x6e, 0x6f, 0x77, 0x6c, 0x65, 0x64, 0x67, 0x65, 0x6d, 0x65, 0x6e, 0x74, 0x48,
+	0x61, 0x73, 0x68, 0x12, 0x1c, 0x0a, 0x09, 0x70, 0x6f, 0x64, 0x4e, 0x75, 0x6d, 0x62, 0x65, 0x72,
+	0x18, 0x04, 0x20, 0x01, 0x28, 0x04, 0x52, 0x09, 0x70, 0x6f, 0x64, 0x4e, 0x75, 0x6d, 0x62, 0x65,
+	0x72, 0x12, 0x20, 0x0a, 0x0b, 0x73, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x4e, 0x61, 0x6d, 0x65,
+	0x18, 0x05, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0b, 0x73, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x4e,
+	0x61, 0x6d, 0x65, 0x12, 0x1c, 0x0a, 0x09, 0x74, 0x72, 0x61, 0x63, 0x6b, 0x4e, 0x61, 0x6d, 0x65,
+	0x18, 0x06, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x74, 0x72, 0x61, 0x63, 0x6b, 0x4e, 0x61, 0x6d,
+	0x65, 0x12, 0x24, 0x0a, 0x0d, 0x73, 0x63, 0x68, 0x65, 0x6d, 0x61, 0x56, 0x65, 0x72, 0x73, 0x69,
+	0x6f, 0x6e, 0x18, 0x07, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0d, 0x73, 0x63, 0x68, 0x65, 0x6d, 0x61,
+	0x56, 0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x12, 0x1c, 0x0a, 0x09, 0x73, 0x63, 0x68, 0x65, 0x6d,
+	0x61, 0x4b, 0x65, 0x79, 0x18, 0x08, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x73, 0x63, 0x68, 0x65,
+	0x6d, 0x61, 0x4b, 0x65, 0x79, 0x12, 0x22, 0x0a, 0x0c, 0x73, 0x63, 0x68, 0x65, 0x6d, 0x61, 0x4f,
+	0x62, 0x6a, 0x65, 0x63, 0x74, 0x18, 0x09, 0x20, 0x01, 0x28, 0x0c, 0x52, 0x0c, 0x73, 0x63, 0x68,
+	0x65, 0x6d, 0x61, 0x4f, 0x62, 0x6a, 0x65, 0x63, 0x74, 0x12, 0x2a, 0x0a, 0x10, 0x73, 0x65, 0x71,
+	0x75, 0x65, 0x6e, 0x63, 0x65, 0x72, 0x44, 0x65, 0x74, 0x61, 0x69, 0x6c, 0x73, 0x18, 0x0a, 0x20,
+	0x01, 0x28, 0x0c, 0x52, 0x10, 0x73, 0x65, 0x71, 0x75, 0x65, 0x6e, 0x63, 0x65, 0x72, 0x44, 0x65,
+	0x74, 0x61, 0x69, 0x6c, 0x73, 0x12, 0x1e, 0x0a, 0x0a, 0x69, 0x73, 0x56, 0x65, 0x72, 0x69, 0x66,
+	0x69, 0x65, 0x64, 0x18, 0x0b, 0x20, 0x01, 0x28, 0x08, 0x52, 0x0a, 0x69, 0x73, 0x56, 0x65, 0x72,
+	0x69, 0x66, 0x69, 0x65, 0x64, 0x42, 0xc5, 0x01, 0x0a, 0x16, 0x63, 0x6f, 0x6d, 0x2e, 0x6a, 0x75,
 	0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x74, 0x72, 0x61, 0x63, 0x6b, 0x67, 0x61, 0x74, 0x65,
 	0x42, 0x1d, 0x45, 0x78, 0x74, 0x54, 0x72, 0x61, 0x63, 0x6b, 0x53, 0x63, 0x68, 0x65, 0x6d, 0x61,
 	0x45, 0x6e, 0x67, 0x61, 0x67, 0x65, 0x6d, 0x65, 0x6e, 0x74, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50,

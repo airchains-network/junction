@@ -3044,12 +3044,13 @@ func (x *fastReflection_MsgSchemaCreationResponse) ProtoMethods() *protoiface.Me
 }
 
 var (
-	md_MsgSchemaEngage                   protoreflect.MessageDescriptor
-	fd_MsgSchemaEngage_operator          protoreflect.FieldDescriptor
-	fd_MsgSchemaEngage_extTrackStationId protoreflect.FieldDescriptor
-	fd_MsgSchemaEngage_schemaObject      protoreflect.FieldDescriptor
-	fd_MsgSchemaEngage_stateRoot         protoreflect.FieldDescriptor
-	fd_MsgSchemaEngage_podNumber         protoreflect.FieldDescriptor
+	md_MsgSchemaEngage                     protoreflect.MessageDescriptor
+	fd_MsgSchemaEngage_operator            protoreflect.FieldDescriptor
+	fd_MsgSchemaEngage_extTrackStationId   protoreflect.FieldDescriptor
+	fd_MsgSchemaEngage_schemaObject        protoreflect.FieldDescriptor
+	fd_MsgSchemaEngage_acknowledgementHash protoreflect.FieldDescriptor
+	fd_MsgSchemaEngage_podNumber           protoreflect.FieldDescriptor
+	fd_MsgSchemaEngage_sequencerDetails    protoreflect.FieldDescriptor
 )
 
 func init() {
@@ -3058,8 +3059,9 @@ func init() {
 	fd_MsgSchemaEngage_operator = md_MsgSchemaEngage.Fields().ByName("operator")
 	fd_MsgSchemaEngage_extTrackStationId = md_MsgSchemaEngage.Fields().ByName("extTrackStationId")
 	fd_MsgSchemaEngage_schemaObject = md_MsgSchemaEngage.Fields().ByName("schemaObject")
-	fd_MsgSchemaEngage_stateRoot = md_MsgSchemaEngage.Fields().ByName("stateRoot")
+	fd_MsgSchemaEngage_acknowledgementHash = md_MsgSchemaEngage.Fields().ByName("acknowledgementHash")
 	fd_MsgSchemaEngage_podNumber = md_MsgSchemaEngage.Fields().ByName("podNumber")
+	fd_MsgSchemaEngage_sequencerDetails = md_MsgSchemaEngage.Fields().ByName("sequencerDetails")
 }
 
 var _ protoreflect.Message = (*fastReflection_MsgSchemaEngage)(nil)
@@ -3145,15 +3147,21 @@ func (x *fastReflection_MsgSchemaEngage) Range(f func(protoreflect.FieldDescript
 			return
 		}
 	}
-	if x.StateRoot != "" {
-		value := protoreflect.ValueOfString(x.StateRoot)
-		if !f(fd_MsgSchemaEngage_stateRoot, value) {
+	if x.AcknowledgementHash != "" {
+		value := protoreflect.ValueOfString(x.AcknowledgementHash)
+		if !f(fd_MsgSchemaEngage_acknowledgementHash, value) {
 			return
 		}
 	}
 	if x.PodNumber != uint64(0) {
 		value := protoreflect.ValueOfUint64(x.PodNumber)
 		if !f(fd_MsgSchemaEngage_podNumber, value) {
+			return
+		}
+	}
+	if len(x.SequencerDetails) != 0 {
+		value := protoreflect.ValueOfBytes(x.SequencerDetails)
+		if !f(fd_MsgSchemaEngage_sequencerDetails, value) {
 			return
 		}
 	}
@@ -3178,10 +3186,12 @@ func (x *fastReflection_MsgSchemaEngage) Has(fd protoreflect.FieldDescriptor) bo
 		return x.ExtTrackStationId != ""
 	case "junction.trackgate.MsgSchemaEngage.schemaObject":
 		return len(x.SchemaObject) != 0
-	case "junction.trackgate.MsgSchemaEngage.stateRoot":
-		return x.StateRoot != ""
+	case "junction.trackgate.MsgSchemaEngage.acknowledgementHash":
+		return x.AcknowledgementHash != ""
 	case "junction.trackgate.MsgSchemaEngage.podNumber":
 		return x.PodNumber != uint64(0)
+	case "junction.trackgate.MsgSchemaEngage.sequencerDetails":
+		return len(x.SequencerDetails) != 0
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: junction.trackgate.MsgSchemaEngage"))
@@ -3204,10 +3214,12 @@ func (x *fastReflection_MsgSchemaEngage) Clear(fd protoreflect.FieldDescriptor) 
 		x.ExtTrackStationId = ""
 	case "junction.trackgate.MsgSchemaEngage.schemaObject":
 		x.SchemaObject = nil
-	case "junction.trackgate.MsgSchemaEngage.stateRoot":
-		x.StateRoot = ""
+	case "junction.trackgate.MsgSchemaEngage.acknowledgementHash":
+		x.AcknowledgementHash = ""
 	case "junction.trackgate.MsgSchemaEngage.podNumber":
 		x.PodNumber = uint64(0)
+	case "junction.trackgate.MsgSchemaEngage.sequencerDetails":
+		x.SequencerDetails = nil
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: junction.trackgate.MsgSchemaEngage"))
@@ -3233,12 +3245,15 @@ func (x *fastReflection_MsgSchemaEngage) Get(descriptor protoreflect.FieldDescri
 	case "junction.trackgate.MsgSchemaEngage.schemaObject":
 		value := x.SchemaObject
 		return protoreflect.ValueOfBytes(value)
-	case "junction.trackgate.MsgSchemaEngage.stateRoot":
-		value := x.StateRoot
+	case "junction.trackgate.MsgSchemaEngage.acknowledgementHash":
+		value := x.AcknowledgementHash
 		return protoreflect.ValueOfString(value)
 	case "junction.trackgate.MsgSchemaEngage.podNumber":
 		value := x.PodNumber
 		return protoreflect.ValueOfUint64(value)
+	case "junction.trackgate.MsgSchemaEngage.sequencerDetails":
+		value := x.SequencerDetails
+		return protoreflect.ValueOfBytes(value)
 	default:
 		if descriptor.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: junction.trackgate.MsgSchemaEngage"))
@@ -3265,10 +3280,12 @@ func (x *fastReflection_MsgSchemaEngage) Set(fd protoreflect.FieldDescriptor, va
 		x.ExtTrackStationId = value.Interface().(string)
 	case "junction.trackgate.MsgSchemaEngage.schemaObject":
 		x.SchemaObject = value.Bytes()
-	case "junction.trackgate.MsgSchemaEngage.stateRoot":
-		x.StateRoot = value.Interface().(string)
+	case "junction.trackgate.MsgSchemaEngage.acknowledgementHash":
+		x.AcknowledgementHash = value.Interface().(string)
 	case "junction.trackgate.MsgSchemaEngage.podNumber":
 		x.PodNumber = value.Uint()
+	case "junction.trackgate.MsgSchemaEngage.sequencerDetails":
+		x.SequencerDetails = value.Bytes()
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: junction.trackgate.MsgSchemaEngage"))
@@ -3295,10 +3312,12 @@ func (x *fastReflection_MsgSchemaEngage) Mutable(fd protoreflect.FieldDescriptor
 		panic(fmt.Errorf("field extTrackStationId of message junction.trackgate.MsgSchemaEngage is not mutable"))
 	case "junction.trackgate.MsgSchemaEngage.schemaObject":
 		panic(fmt.Errorf("field schemaObject of message junction.trackgate.MsgSchemaEngage is not mutable"))
-	case "junction.trackgate.MsgSchemaEngage.stateRoot":
-		panic(fmt.Errorf("field stateRoot of message junction.trackgate.MsgSchemaEngage is not mutable"))
+	case "junction.trackgate.MsgSchemaEngage.acknowledgementHash":
+		panic(fmt.Errorf("field acknowledgementHash of message junction.trackgate.MsgSchemaEngage is not mutable"))
 	case "junction.trackgate.MsgSchemaEngage.podNumber":
 		panic(fmt.Errorf("field podNumber of message junction.trackgate.MsgSchemaEngage is not mutable"))
+	case "junction.trackgate.MsgSchemaEngage.sequencerDetails":
+		panic(fmt.Errorf("field sequencerDetails of message junction.trackgate.MsgSchemaEngage is not mutable"))
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: junction.trackgate.MsgSchemaEngage"))
@@ -3318,10 +3337,12 @@ func (x *fastReflection_MsgSchemaEngage) NewField(fd protoreflect.FieldDescripto
 		return protoreflect.ValueOfString("")
 	case "junction.trackgate.MsgSchemaEngage.schemaObject":
 		return protoreflect.ValueOfBytes(nil)
-	case "junction.trackgate.MsgSchemaEngage.stateRoot":
+	case "junction.trackgate.MsgSchemaEngage.acknowledgementHash":
 		return protoreflect.ValueOfString("")
 	case "junction.trackgate.MsgSchemaEngage.podNumber":
 		return protoreflect.ValueOfUint64(uint64(0))
+	case "junction.trackgate.MsgSchemaEngage.sequencerDetails":
+		return protoreflect.ValueOfBytes(nil)
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: junction.trackgate.MsgSchemaEngage"))
@@ -3403,12 +3424,16 @@ func (x *fastReflection_MsgSchemaEngage) ProtoMethods() *protoiface.Methods {
 		if l > 0 {
 			n += 1 + l + runtime.Sov(uint64(l))
 		}
-		l = len(x.StateRoot)
+		l = len(x.AcknowledgementHash)
 		if l > 0 {
 			n += 1 + l + runtime.Sov(uint64(l))
 		}
 		if x.PodNumber != 0 {
 			n += 1 + runtime.Sov(uint64(x.PodNumber))
+		}
+		l = len(x.SequencerDetails)
+		if l > 0 {
+			n += 1 + l + runtime.Sov(uint64(l))
 		}
 		if x.unknownFields != nil {
 			n += len(x.unknownFields)
@@ -3439,15 +3464,22 @@ func (x *fastReflection_MsgSchemaEngage) ProtoMethods() *protoiface.Methods {
 			i -= len(x.unknownFields)
 			copy(dAtA[i:], x.unknownFields)
 		}
+		if len(x.SequencerDetails) > 0 {
+			i -= len(x.SequencerDetails)
+			copy(dAtA[i:], x.SequencerDetails)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.SequencerDetails)))
+			i--
+			dAtA[i] = 0x3a
+		}
 		if x.PodNumber != 0 {
 			i = runtime.EncodeVarint(dAtA, i, uint64(x.PodNumber))
 			i--
 			dAtA[i] = 0x30
 		}
-		if len(x.StateRoot) > 0 {
-			i -= len(x.StateRoot)
-			copy(dAtA[i:], x.StateRoot)
-			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.StateRoot)))
+		if len(x.AcknowledgementHash) > 0 {
+			i -= len(x.AcknowledgementHash)
+			copy(dAtA[i:], x.AcknowledgementHash)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.AcknowledgementHash)))
 			i--
 			dAtA[i] = 0x2a
 		}
@@ -3621,7 +3653,7 @@ func (x *fastReflection_MsgSchemaEngage) ProtoMethods() *protoiface.Methods {
 				iNdEx = postIndex
 			case 5:
 				if wireType != 2 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field StateRoot", wireType)
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field AcknowledgementHash", wireType)
 				}
 				var stringLen uint64
 				for shift := uint(0); ; shift += 7 {
@@ -3649,7 +3681,7 @@ func (x *fastReflection_MsgSchemaEngage) ProtoMethods() *protoiface.Methods {
 				if postIndex > l {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
 				}
-				x.StateRoot = string(dAtA[iNdEx:postIndex])
+				x.AcknowledgementHash = string(dAtA[iNdEx:postIndex])
 				iNdEx = postIndex
 			case 6:
 				if wireType != 0 {
@@ -3670,6 +3702,40 @@ func (x *fastReflection_MsgSchemaEngage) ProtoMethods() *protoiface.Methods {
 						break
 					}
 				}
+			case 7:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field SequencerDetails", wireType)
+				}
+				var byteLen int
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					byteLen |= int(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				if byteLen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + byteLen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				x.SequencerDetails = append(x.SequencerDetails[:0], dAtA[iNdEx:postIndex]...)
+				if x.SequencerDetails == nil {
+					x.SequencerDetails = []byte{}
+				}
+				iNdEx = postIndex
 			default:
 				iNdEx = preIndex
 				skippy, err := runtime.Skip(dAtA[iNdEx:])
@@ -5425,11 +5491,12 @@ type MsgSchemaEngage struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Operator          string `protobuf:"bytes,1,opt,name=operator,proto3" json:"operator,omitempty"`
-	ExtTrackStationId string `protobuf:"bytes,2,opt,name=extTrackStationId,proto3" json:"extTrackStationId,omitempty"`
-	SchemaObject      []byte `protobuf:"bytes,4,opt,name=schemaObject,proto3" json:"schemaObject,omitempty"`
-	StateRoot         string `protobuf:"bytes,5,opt,name=stateRoot,proto3" json:"stateRoot,omitempty"`
-	PodNumber         uint64 `protobuf:"varint,6,opt,name=podNumber,proto3" json:"podNumber,omitempty"`
+	Operator            string `protobuf:"bytes,1,opt,name=operator,proto3" json:"operator,omitempty"`
+	ExtTrackStationId   string `protobuf:"bytes,2,opt,name=extTrackStationId,proto3" json:"extTrackStationId,omitempty"`
+	SchemaObject        []byte `protobuf:"bytes,4,opt,name=schemaObject,proto3" json:"schemaObject,omitempty"`
+	AcknowledgementHash string `protobuf:"bytes,5,opt,name=acknowledgementHash,proto3" json:"acknowledgementHash,omitempty"`
+	PodNumber           uint64 `protobuf:"varint,6,opt,name=podNumber,proto3" json:"podNumber,omitempty"`
+	SequencerDetails    []byte `protobuf:"bytes,7,opt,name=sequencerDetails,proto3" json:"sequencerDetails,omitempty"`
 }
 
 func (x *MsgSchemaEngage) Reset() {
@@ -5473,9 +5540,9 @@ func (x *MsgSchemaEngage) GetSchemaObject() []byte {
 	return nil
 }
 
-func (x *MsgSchemaEngage) GetStateRoot() string {
+func (x *MsgSchemaEngage) GetAcknowledgementHash() string {
 	if x != nil {
-		return x.StateRoot
+		return x.AcknowledgementHash
 	}
 	return ""
 }
@@ -5485,6 +5552,13 @@ func (x *MsgSchemaEngage) GetPodNumber() uint64 {
 		return x.PodNumber
 	}
 	return 0
+}
+
+func (x *MsgSchemaEngage) GetSequencerDetails() []byte {
+	if x != nil {
+		return x.SequencerDetails
+	}
+	return nil
 }
 
 type MsgSchemaEngageResponse struct {
@@ -5672,7 +5746,7 @@ var file_junction_trackgate_tx_proto_rawDesc = []byte{
 	0x68, 0x65, 0x6d, 0x61, 0x4b, 0x65, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x73,
 	0x63, 0x68, 0x65, 0x6d, 0x61, 0x4b, 0x65, 0x79, 0x12, 0x16, 0x0a, 0x06, 0x73, 0x74, 0x61, 0x74,
 	0x75, 0x73, 0x18, 0x02, 0x20, 0x01, 0x28, 0x08, 0x52, 0x06, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73,
-	0x22, 0xca, 0x01, 0x0a, 0x0f, 0x4d, 0x73, 0x67, 0x53, 0x63, 0x68, 0x65, 0x6d, 0x61, 0x45, 0x6e,
+	0x22, 0x8a, 0x02, 0x0a, 0x0f, 0x4d, 0x73, 0x67, 0x53, 0x63, 0x68, 0x65, 0x6d, 0x61, 0x45, 0x6e,
 	0x67, 0x61, 0x67, 0x65, 0x12, 0x1a, 0x0a, 0x08, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x6f, 0x72,
 	0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x6f, 0x72,
 	0x12, 0x2c, 0x0a, 0x11, 0x65, 0x78, 0x74, 0x54, 0x72, 0x61, 0x63, 0x6b, 0x53, 0x74, 0x61, 0x74,
@@ -5680,10 +5754,14 @@ var file_junction_trackgate_tx_proto_rawDesc = []byte{
 	0x54, 0x72, 0x61, 0x63, 0x6b, 0x53, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x49, 0x64, 0x12, 0x22,
 	0x0a, 0x0c, 0x73, 0x63, 0x68, 0x65, 0x6d, 0x61, 0x4f, 0x62, 0x6a, 0x65, 0x63, 0x74, 0x18, 0x04,
 	0x20, 0x01, 0x28, 0x0c, 0x52, 0x0c, 0x73, 0x63, 0x68, 0x65, 0x6d, 0x61, 0x4f, 0x62, 0x6a, 0x65,
-	0x63, 0x74, 0x12, 0x1c, 0x0a, 0x09, 0x73, 0x74, 0x61, 0x74, 0x65, 0x52, 0x6f, 0x6f, 0x74, 0x18,
-	0x05, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x73, 0x74, 0x61, 0x74, 0x65, 0x52, 0x6f, 0x6f, 0x74,
-	0x12, 0x1c, 0x0a, 0x09, 0x70, 0x6f, 0x64, 0x4e, 0x75, 0x6d, 0x62, 0x65, 0x72, 0x18, 0x06, 0x20,
-	0x01, 0x28, 0x04, 0x52, 0x09, 0x70, 0x6f, 0x64, 0x4e, 0x75, 0x6d, 0x62, 0x65, 0x72, 0x3a, 0x0d,
+	0x63, 0x74, 0x12, 0x30, 0x0a, 0x13, 0x61, 0x63, 0x6b, 0x6e, 0x6f, 0x77, 0x6c, 0x65, 0x64, 0x67,
+	0x65, 0x6d, 0x65, 0x6e, 0x74, 0x48, 0x61, 0x73, 0x68, 0x18, 0x05, 0x20, 0x01, 0x28, 0x09, 0x52,
+	0x13, 0x61, 0x63, 0x6b, 0x6e, 0x6f, 0x77, 0x6c, 0x65, 0x64, 0x67, 0x65, 0x6d, 0x65, 0x6e, 0x74,
+	0x48, 0x61, 0x73, 0x68, 0x12, 0x1c, 0x0a, 0x09, 0x70, 0x6f, 0x64, 0x4e, 0x75, 0x6d, 0x62, 0x65,
+	0x72, 0x18, 0x06, 0x20, 0x01, 0x28, 0x04, 0x52, 0x09, 0x70, 0x6f, 0x64, 0x4e, 0x75, 0x6d, 0x62,
+	0x65, 0x72, 0x12, 0x2a, 0x0a, 0x10, 0x73, 0x65, 0x71, 0x75, 0x65, 0x6e, 0x63, 0x65, 0x72, 0x44,
+	0x65, 0x74, 0x61, 0x69, 0x6c, 0x73, 0x18, 0x07, 0x20, 0x01, 0x28, 0x0c, 0x52, 0x10, 0x73, 0x65,
+	0x71, 0x75, 0x65, 0x6e, 0x63, 0x65, 0x72, 0x44, 0x65, 0x74, 0x61, 0x69, 0x6c, 0x73, 0x3a, 0x0d,
 	0x82, 0xe7, 0xb0, 0x2a, 0x08, 0x6f, 0x70, 0x65, 0x72, 0x61, 0x74, 0x6f, 0x72, 0x22, 0x31, 0x0a,
 	0x17, 0x4d, 0x73, 0x67, 0x53, 0x63, 0x68, 0x65, 0x6d, 0x61, 0x45, 0x6e, 0x67, 0x61, 0x67, 0x65,
 	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x16, 0x0a, 0x06, 0x73, 0x74, 0x61, 0x74,

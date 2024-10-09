@@ -7,7 +7,7 @@ message ExtTrackStations {
   
   repeated string operators = 1; 
   uint64 latestPod = 2; 
-  string latestMerkleRootHash = 3; 
+  string latestAcknowledgementHash = 3;
   string name = 4; 
   string id = 5; 
   string stationType = 6; 
@@ -16,4 +16,5 @@ message ExtTrackStations {
   bytes daDetails = 9;
   bytes proverDetails = 10;
   string stationSchemaKey = 11;
+  string creator = 12;
 }

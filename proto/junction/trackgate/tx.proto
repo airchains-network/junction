@@ -13,25 +13,25 @@ option go_package = "github.com/airchains-network/junction/x/trackgate/types";
 // Msg defines the Msg service.
 service Msg {
   option (cosmos.msg.v1.service) = true;
-  
+
   // UpdateParams defines a (governance) operation for updating the module
   // parameters. The authority defaults to the x/gov module account.
-  rpc UpdateParams   (MsgUpdateParams  ) returns (MsgUpdateParamsResponse  );
-  rpc InitStation    (MsgInitStation   ) returns (MsgInitStationResponse   );
+  rpc UpdateParams   (MsgUpdateParams) returns (MsgUpdateParamsResponse);
+  rpc InitStation    (MsgInitStation) returns (MsgInitStationResponse);
   rpc SchemaCreation (MsgSchemaCreation) returns (MsgSchemaCreationResponse);
-  rpc SchemaEngage   (MsgSchemaEngage  ) returns (MsgSchemaEngageResponse  );
-  rpc MigrateSchema  (MsgMigrateSchema ) returns (MsgMigrateSchemaResponse );
+  rpc SchemaEngage   (MsgSchemaEngage) returns (MsgSchemaEngageResponse);
+  rpc MigrateSchema  (MsgMigrateSchema) returns (MsgMigrateSchemaResponse);
 }
 // MsgUpdateParams is the Msg/UpdateParams request type.
 message MsgUpdateParams {
-  option (cosmos.msg.v1.signer) =                            "authority";
+  option (cosmos.msg.v1.signer) = "authority";
   option           (amino.name) = "junction/x/trackgate/MsgUpdateParams";
-  
+
   // authority is the address that controls the module (defaults to x/gov unless overwritten).
   string authority = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
 
   // params defines the module parameters to update.
-  
+
   // NOTE: All parameters must be supplied.
   Params params = 2 [(gogoproto.nullable) = false, (amino.dont_omitempty) = true];
 }
@@ -42,10 +42,10 @@ message MsgUpdateParamsResponse {}
 
 message MsgInitStation {
   option (cosmos.msg.v1.signer) = "submitter";
-           string submitter   = 1;
-           string stationId   = 2;
-           bytes  stationInfo = 3;
-  repeated string operators   = 4;
+  string submitter = 1;
+  string stationId = 2;
+  bytes  stationInfo = 3;
+  repeated string operators = 4;
 }
 
 message MsgInitStationResponse {
@@ -54,24 +54,25 @@ message MsgInitStationResponse {
 
 message MsgSchemaCreation {
   option (cosmos.msg.v1.signer) = "creator";
-  string creator           = 1;
+  string creator = 1;
   string extTrackStationId = 2;
-  string version           = 3;
-  bytes  schema            = 4;
+  string version = 3;
+  bytes  schema = 4;
 }
 
 message MsgSchemaCreationResponse {
   string schemaKey = 1;
-  bool   status    = 2;
+  bool   status = 2;
 }
 
 message MsgSchemaEngage {
   option (cosmos.msg.v1.signer) = "operator";
-  string operator          = 1;
+  string operator = 1;
   string extTrackStationId = 2;
-  bytes  schemaObject      = 4;
-  string stateRoot         = 5;
-  uint64 podNumber         = 6;
+  bytes  schemaObject = 4;
+  string acknowledgementHash = 5;
+  uint64 podNumber = 6;
+  bytes sequencerDetails = 7;
 }
 
 message MsgSchemaEngageResponse {
@@ -80,13 +81,13 @@ message MsgSchemaEngageResponse {
 
 message MsgMigrateSchema {
   option (cosmos.msg.v1.signer) = "operator";
-  string operator          = 1;
+  string operator = 1;
   string extTrackStationId = 2;
-  string newSchemaKey         = 3;
+  string newSchemaKey = 3;
 }
 
 message MsgMigrateSchemaResponse {
-  bool   status      = 1;
+  bool   status = 1;
   string description = 2;
 }
 
