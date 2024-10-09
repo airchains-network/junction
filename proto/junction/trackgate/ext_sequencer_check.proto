@@ -1,0 +1,11 @@
+syntax = "proto3";
+package junction.trackgate;
+
+option go_package = "github.com/airchains-network/junction/x/trackgate/types";
+
+message ExtSequencerCheck {
+  string podNumber = 1; 
+  string extTrackStationId = 2; 
+  bool verificationStatus = 3;
+  string namespace = 4; 
+}

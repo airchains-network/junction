@@ -102,6 +102,7 @@ func (k msgServer) SchemaEngage(goCtx context.Context, msg *types.MsgSchemaEngag
 		SchemaObject:        schemaObject,
 		SequencerDetails:    sequencerDetails,
 		IsVerified:          false,
+		VerifiedBy:          "none",
 	}
 
 	newSchemaEngagementDbPath := BuildExtTrackSchemaEngagementsStoreKey(extTrackStationId)

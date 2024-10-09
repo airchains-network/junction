@@ -24,6 +24,7 @@ const (
 	Msg_SchemaCreation_FullMethodName = "/junction.trackgate.Msg/SchemaCreation"
 	Msg_SchemaEngage_FullMethodName   = "/junction.trackgate.Msg/SchemaEngage"
 	Msg_MigrateSchema_FullMethodName  = "/junction.trackgate.Msg/MigrateSchema"
+	Msg_AuditSequencer_FullMethodName = "/junction.trackgate.Msg/AuditSequencer"
 )
 
 // MsgClient is the client API for Msg service.
@@ -37,6 +38,7 @@ type MsgClient interface {
 	SchemaCreation(ctx context.Context, in *MsgSchemaCreation, opts ...grpc.CallOption) (*MsgSchemaCreationResponse, error)
 	SchemaEngage(ctx context.Context, in *MsgSchemaEngage, opts ...grpc.CallOption) (*MsgSchemaEngageResponse, error)
 	MigrateSchema(ctx context.Context, in *MsgMigrateSchema, opts ...grpc.CallOption) (*MsgMigrateSchemaResponse, error)
+	AuditSequencer(ctx context.Context, in *MsgAuditSequencer, opts ...grpc.CallOption) (*MsgAuditSequencerResponse, error)
 }
 
 type msgClient struct {
@@ -92,6 +94,15 @@ func (c *msgClient) MigrateSchema(ctx context.Context, in *MsgMigrateSchema, opt
 	return out, nil
 }
 
+func (c *msgClient) AuditSequencer(ctx context.Context, in *MsgAuditSequencer, opts ...grpc.CallOption) (*MsgAuditSequencerResponse, error) {
+	out := new(MsgAuditSequencerResponse)
+	err := c.cc.Invoke(ctx, Msg_AuditSequencer_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MsgServer is the server API for Msg service.
 // All implementations must embed UnimplementedMsgServer
 // for forward compatibility
@@ -103,6 +114,7 @@ type MsgServer interface {
 	SchemaCreation(context.Context, *MsgSchemaCreation) (*MsgSchemaCreationResponse, error)
 	SchemaEngage(context.Context, *MsgSchemaEngage) (*MsgSchemaEngageResponse, error)
 	MigrateSchema(context.Context, *MsgMigrateSchema) (*MsgMigrateSchemaResponse, error)
+	AuditSequencer(context.Context, *MsgAuditSequencer) (*MsgAuditSequencerResponse, error)
 	mustEmbedUnimplementedMsgServer()
 }
 
@@ -124,6 +136,9 @@ func (UnimplementedMsgServer) SchemaEngage(context.Context, *MsgSchemaEngage) (*
 }
 func (UnimplementedMsgServer) MigrateSchema(context.Context, *MsgMigrateSchema) (*MsgMigrateSchemaResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method MigrateSchema not implemented")
+}
+func (UnimplementedMsgServer) AuditSequencer(context.Context, *MsgAuditSequencer) (*MsgAuditSequencerResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AuditSequencer not implemented")
 }
 func (UnimplementedMsgServer) mustEmbedUnimplementedMsgServer() {}
 
@@ -228,6 +243,24 @@ func _Msg_MigrateSchema_Handler(srv interface{}, ctx context.Context, dec func(i
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Msg_AuditSequencer_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgAuditSequencer)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).AuditSequencer(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Msg_AuditSequencer_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).AuditSequencer(ctx, req.(*MsgAuditSequencer))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Msg_ServiceDesc is the grpc.ServiceDesc for Msg service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -254,6 +287,10 @@ var Msg_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "MigrateSchema",
 			Handler:    _Msg_MigrateSchema_Handler,
+		},
+		{
+			MethodName: "AuditSequencer",
+			Handler:    _Msg_AuditSequencer_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

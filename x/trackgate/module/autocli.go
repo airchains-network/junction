@@ -108,6 +108,12 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					Short:          "Send a migrate-schema tx",
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "extTrackStationId"}, {ProtoField: "newSchemaKey"}},
 				},
+				{
+					RpcMethod:      "AuditSequencer",
+					Use:            "audit-sequencer [sequencer-checks]",
+					Short:          "Send a audit-sequencer tx",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "sequencerChecks"}},
+				},
 				// this line is used by ignite scaffolding # autocli/tx
 			},
 		},

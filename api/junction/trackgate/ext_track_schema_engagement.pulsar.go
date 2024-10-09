@@ -25,6 +25,7 @@ var (
 	fd_ExtTrackSchemaEngagement_schemaObject        protoreflect.FieldDescriptor
 	fd_ExtTrackSchemaEngagement_sequencerDetails    protoreflect.FieldDescriptor
 	fd_ExtTrackSchemaEngagement_isVerified          protoreflect.FieldDescriptor
+	fd_ExtTrackSchemaEngagement_verifiedBy          protoreflect.FieldDescriptor
 )
 
 func init() {
@@ -41,6 +42,7 @@ func init() {
 	fd_ExtTrackSchemaEngagement_schemaObject = md_ExtTrackSchemaEngagement.Fields().ByName("schemaObject")
 	fd_ExtTrackSchemaEngagement_sequencerDetails = md_ExtTrackSchemaEngagement.Fields().ByName("sequencerDetails")
 	fd_ExtTrackSchemaEngagement_isVerified = md_ExtTrackSchemaEngagement.Fields().ByName("isVerified")
+	fd_ExtTrackSchemaEngagement_verifiedBy = md_ExtTrackSchemaEngagement.Fields().ByName("verifiedBy")
 }
 
 var _ protoreflect.Message = (*fastReflection_ExtTrackSchemaEngagement)(nil)
@@ -174,6 +176,12 @@ func (x *fastReflection_ExtTrackSchemaEngagement) Range(f func(protoreflect.Fiel
 			return
 		}
 	}
+	if x.VerifiedBy != "" {
+		value := protoreflect.ValueOfString(x.VerifiedBy)
+		if !f(fd_ExtTrackSchemaEngagement_verifiedBy, value) {
+			return
+		}
+	}
 }
 
 // Has reports whether a field is populated.
@@ -211,6 +219,8 @@ func (x *fastReflection_ExtTrackSchemaEngagement) Has(fd protoreflect.FieldDescr
 		return len(x.SequencerDetails) != 0
 	case "junction.trackgate.ExtTrackSchemaEngagement.isVerified":
 		return x.IsVerified != false
+	case "junction.trackgate.ExtTrackSchemaEngagement.verifiedBy":
+		return x.VerifiedBy != ""
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: junction.trackgate.ExtTrackSchemaEngagement"))
@@ -249,6 +259,8 @@ func (x *fastReflection_ExtTrackSchemaEngagement) Clear(fd protoreflect.FieldDes
 		x.SequencerDetails = nil
 	case "junction.trackgate.ExtTrackSchemaEngagement.isVerified":
 		x.IsVerified = false
+	case "junction.trackgate.ExtTrackSchemaEngagement.verifiedBy":
+		x.VerifiedBy = ""
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: junction.trackgate.ExtTrackSchemaEngagement"))
@@ -298,6 +310,9 @@ func (x *fastReflection_ExtTrackSchemaEngagement) Get(descriptor protoreflect.Fi
 	case "junction.trackgate.ExtTrackSchemaEngagement.isVerified":
 		value := x.IsVerified
 		return protoreflect.ValueOfBool(value)
+	case "junction.trackgate.ExtTrackSchemaEngagement.verifiedBy":
+		value := x.VerifiedBy
+		return protoreflect.ValueOfString(value)
 	default:
 		if descriptor.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: junction.trackgate.ExtTrackSchemaEngagement"))
@@ -340,6 +355,8 @@ func (x *fastReflection_ExtTrackSchemaEngagement) Set(fd protoreflect.FieldDescr
 		x.SequencerDetails = value.Bytes()
 	case "junction.trackgate.ExtTrackSchemaEngagement.isVerified":
 		x.IsVerified = value.Bool()
+	case "junction.trackgate.ExtTrackSchemaEngagement.verifiedBy":
+		x.VerifiedBy = value.Interface().(string)
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: junction.trackgate.ExtTrackSchemaEngagement"))
@@ -382,6 +399,8 @@ func (x *fastReflection_ExtTrackSchemaEngagement) Mutable(fd protoreflect.FieldD
 		panic(fmt.Errorf("field sequencerDetails of message junction.trackgate.ExtTrackSchemaEngagement is not mutable"))
 	case "junction.trackgate.ExtTrackSchemaEngagement.isVerified":
 		panic(fmt.Errorf("field isVerified of message junction.trackgate.ExtTrackSchemaEngagement is not mutable"))
+	case "junction.trackgate.ExtTrackSchemaEngagement.verifiedBy":
+		panic(fmt.Errorf("field verifiedBy of message junction.trackgate.ExtTrackSchemaEngagement is not mutable"))
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: junction.trackgate.ExtTrackSchemaEngagement"))
@@ -417,6 +436,8 @@ func (x *fastReflection_ExtTrackSchemaEngagement) NewField(fd protoreflect.Field
 		return protoreflect.ValueOfBytes(nil)
 	case "junction.trackgate.ExtTrackSchemaEngagement.isVerified":
 		return protoreflect.ValueOfBool(false)
+	case "junction.trackgate.ExtTrackSchemaEngagement.verifiedBy":
+		return protoreflect.ValueOfString("")
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: junction.trackgate.ExtTrackSchemaEngagement"))
@@ -528,6 +549,10 @@ func (x *fastReflection_ExtTrackSchemaEngagement) ProtoMethods() *protoiface.Met
 		if x.IsVerified {
 			n += 2
 		}
+		l = len(x.VerifiedBy)
+		if l > 0 {
+			n += 1 + l + runtime.Sov(uint64(l))
+		}
 		if x.unknownFields != nil {
 			n += len(x.unknownFields)
 		}
@@ -556,6 +581,13 @@ func (x *fastReflection_ExtTrackSchemaEngagement) ProtoMethods() *protoiface.Met
 		if x.unknownFields != nil {
 			i -= len(x.unknownFields)
 			copy(dAtA[i:], x.unknownFields)
+		}
+		if len(x.VerifiedBy) > 0 {
+			i -= len(x.VerifiedBy)
+			copy(dAtA[i:], x.VerifiedBy)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.VerifiedBy)))
+			i--
+			dAtA[i] = 0x62
 		}
 		if x.IsVerified {
 			i--
@@ -1015,6 +1047,38 @@ func (x *fastReflection_ExtTrackSchemaEngagement) ProtoMethods() *protoiface.Met
 					}
 				}
 				x.IsVerified = bool(v != 0)
+			case 12:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field VerifiedBy", wireType)
+				}
+				var stringLen uint64
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					stringLen |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				intStringLen := int(stringLen)
+				if intStringLen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + intStringLen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				x.VerifiedBy = string(dAtA[iNdEx:postIndex])
+				iNdEx = postIndex
 			default:
 				iNdEx = preIndex
 				skippy, err := runtime.Skip(dAtA[iNdEx:])
@@ -1079,6 +1143,7 @@ type ExtTrackSchemaEngagement struct {
 	SchemaObject        []byte `protobuf:"bytes,9,opt,name=schemaObject,proto3" json:"schemaObject,omitempty"`
 	SequencerDetails    []byte `protobuf:"bytes,10,opt,name=sequencerDetails,proto3" json:"sequencerDetails,omitempty"`
 	IsVerified          bool   `protobuf:"varint,11,opt,name=isVerified,proto3" json:"isVerified,omitempty"`
+	VerifiedBy          string `protobuf:"bytes,12,opt,name=verifiedBy,proto3" json:"verifiedBy,omitempty"`
 }
 
 func (x *ExtTrackSchemaEngagement) Reset() {
@@ -1178,6 +1243,13 @@ func (x *ExtTrackSchemaEngagement) GetIsVerified() bool {
 	return false
 }
 
+func (x *ExtTrackSchemaEngagement) GetVerifiedBy() string {
+	if x != nil {
+		return x.VerifiedBy
+	}
+	return ""
+}
+
 var File_junction_trackgate_ext_track_schema_engagement_proto protoreflect.FileDescriptor
 
 var file_junction_trackgate_ext_track_schema_engagement_proto_rawDesc = []byte{
@@ -1185,7 +1257,7 @@ var file_junction_trackgate_ext_track_schema_engagement_proto_rawDesc = []byte{
 	0x67, 0x61, 0x74, 0x65, 0x2f, 0x65, 0x78, 0x74, 0x5f, 0x74, 0x72, 0x61, 0x63, 0x6b, 0x5f, 0x73,
 	0x63, 0x68, 0x65, 0x6d, 0x61, 0x5f, 0x65, 0x6e, 0x67, 0x61, 0x67, 0x65, 0x6d, 0x65, 0x6e, 0x74,
 	0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x12, 0x6a, 0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e,
-	0x2e, 0x74, 0x72, 0x61, 0x63, 0x6b, 0x67, 0x61, 0x74, 0x65, 0x22, 0xa8, 0x03, 0x0a, 0x18, 0x45,
+	0x2e, 0x74, 0x72, 0x61, 0x63, 0x6b, 0x67, 0x61, 0x74, 0x65, 0x22, 0xc8, 0x03, 0x0a, 0x18, 0x45,
 	0x78, 0x74, 0x54, 0x72, 0x61, 0x63, 0x6b, 0x53, 0x63, 0x68, 0x65, 0x6d, 0x61, 0x45, 0x6e, 0x67,
 	0x61, 0x67, 0x65, 0x6d, 0x65, 0x6e, 0x74, 0x12, 0x2c, 0x0a, 0x11, 0x65, 0x78, 0x74, 0x54, 0x72,
 	0x61, 0x63, 0x6b, 0x53, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x49, 0x64, 0x18, 0x01, 0x20, 0x01,
@@ -1212,7 +1284,9 @@ var file_junction_trackgate_ext_track_schema_engagement_proto_rawDesc = []byte{
 	0x01, 0x28, 0x0c, 0x52, 0x10, 0x73, 0x65, 0x71, 0x75, 0x65, 0x6e, 0x63, 0x65, 0x72, 0x44, 0x65,
 	0x74, 0x61, 0x69, 0x6c, 0x73, 0x12, 0x1e, 0x0a, 0x0a, 0x69, 0x73, 0x56, 0x65, 0x72, 0x69, 0x66,
 	0x69, 0x65, 0x64, 0x18, 0x0b, 0x20, 0x01, 0x28, 0x08, 0x52, 0x0a, 0x69, 0x73, 0x56, 0x65, 0x72,
-	0x69, 0x66, 0x69, 0x65, 0x64, 0x42, 0xc5, 0x01, 0x0a, 0x16, 0x63, 0x6f, 0x6d, 0x2e, 0x6a, 0x75,
+	0x69, 0x66, 0x69, 0x65, 0x64, 0x12, 0x1e, 0x0a, 0x0a, 0x76, 0x65, 0x72, 0x69, 0x66, 0x69, 0x65,
+	0x64, 0x42, 0x79, 0x18, 0x0c, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x76, 0x65, 0x72, 0x69, 0x66,
+	0x69, 0x65, 0x64, 0x42, 0x79, 0x42, 0xc5, 0x01, 0x0a, 0x16, 0x63, 0x6f, 0x6d, 0x2e, 0x6a, 0x75,
 	0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x74, 0x72, 0x61, 0x63, 0x6b, 0x67, 0x61, 0x74, 0x65,
 	0x42, 0x1d, 0x45, 0x78, 0x74, 0x54, 0x72, 0x61, 0x63, 0x6b, 0x53, 0x63, 0x68, 0x65, 0x6d, 0x61,
 	0x45, 0x6e, 0x67, 0x61, 0x67, 0x65, 0x6d, 0x65, 0x6e, 0x74, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50,

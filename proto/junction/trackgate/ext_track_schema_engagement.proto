@@ -16,4 +16,5 @@ message ExtTrackSchemaEngagement {
   bytes schemaObject = 9;
   bytes sequencerDetails = 10;
   bool isVerified = 11;
+  string verifiedBy = 12;
 }

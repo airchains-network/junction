@@ -19262,6 +19262,61 @@ paths:
               parameters.
       tags:
         - Msg
+  /junction.trackgate.Msg/AuditSequencer:
+    post:
+      operationId: JunctionTrackgateMsg_AuditSequencer
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              status:
+                type: boolean
+              description:
+                type: string
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              verifier:
+                type: string
+              sequencerChecks:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    podNumber:
+                      type: string
+                    extTrackStationId:
+                      type: string
+                    verificationStatus:
+                      type: boolean
+                    namespace:
+                      type: string
+      tags:
+        - Msg
   /junction.trackgate.Msg/InitStation:
     post:
       operationId: JunctionTrackgateMsg_InitStation
@@ -19721,6 +19776,8 @@ paths:
                     format: byte
                   isVerified:
                     type: boolean
+                  verifiedBy:
+                    type: string
         default:
           description: An unexpected error response.
           schema:
@@ -20076,6 +20133,8 @@ paths:
                       format: byte
                     isVerified:
                       type: boolean
+                    verifiedBy:
+                      type: string
               pagination:
                 type: object
                 properties:
@@ -28002,6 +28061,42 @@ definitions:
     description: |-
       Version defines the versioning scheme used to negotiate the IBC verison in
       the connection handshake.
+  junction.trackgate.ExtSequencerCheck:
+    type: object
+    properties:
+      podNumber:
+        type: string
+      extTrackStationId:
+        type: string
+      verificationStatus:
+        type: boolean
+      namespace:
+        type: string
+  junction.trackgate.MsgAuditSequencer:
+    type: object
+    properties:
+      verifier:
+        type: string
+      sequencerChecks:
+        type: array
+        items:
+          type: object
+          properties:
+            podNumber:
+              type: string
+            extTrackStationId:
+              type: string
+            verificationStatus:
+              type: boolean
+            namespace:
+              type: string
+  junction.trackgate.MsgAuditSequencerResponse:
+    type: object
+    properties:
+      status:
+        type: boolean
+      description:
+        type: string
   junction.trackgate.MsgInitStation:
     type: object
     properties:
@@ -28218,6 +28313,8 @@ definitions:
         format: byte
       isVerified:
         type: boolean
+      verifiedBy:
+        type: string
   junction.trackgate.ExtTrackStations:
     type: object
     properties:
@@ -28353,6 +28450,8 @@ definitions:
             format: byte
           isVerified:
             type: boolean
+          verifiedBy:
+            type: string
   junction.trackgate.QueryListExtTrackStationsResponse:
     type: object
     properties:
@@ -28495,6 +28594,8 @@ definitions:
               format: byte
             isVerified:
               type: boolean
+            verifiedBy:
+              type: string
       pagination:
         type: object
         properties:
