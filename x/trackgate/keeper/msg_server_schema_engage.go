@@ -119,6 +119,7 @@ func (k msgServer) SchemaEngage(goCtx context.Context, msg *types.MsgSchemaEngag
 	newSchemaEngagementStore.Set(newEngagementKey, newEngagementValue)
 	// update codes
 	updateStationDetails := types.ExtTrackStations{
+		Creator:                   stationData.Creator,
 		Operators:                 stationData.Operators,
 		LatestPod:                 podNumber,
 		LatestAcknowledgementHash: acknowledgementHash,

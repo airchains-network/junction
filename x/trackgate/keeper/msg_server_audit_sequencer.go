@@ -60,19 +60,19 @@ func (k msgServer) AuditSequencer(goCtx context.Context, msg *types.MsgAuditSequ
 
 		sequencerDetails := engagementData.SequencerDetails
 		if sequencerDetails == nil {
-			return nil, status.Errorf(codes.NotFound, "ext track engagement sequencer details %s not found", podNumber)
+			return nil, status.Errorf(codes.NotFound, "ext-track-engagement sequencer details %s not found", podNumber)
 		}
 
 		var engagementSequencerDetails types.EngagementSequencerDetails
 		err := json.Unmarshal(sequencerDetails, &engagementSequencerDetails)
 		if err != nil {
-			return nil, status.Errorf(codes.NotFound, "ext track engagement sequencer details %s not found", podNumber)
+			return nil, status.Errorf(codes.NotFound, "ext-track-engagement sequencer identifier details %s not found", podNumber)
 		}
 
 		verifyNamespace := engagementSequencerDetails.NameSpace
 
 		if verifyNamespace != namespace {
-			return nil, status.Errorf(codes.NotFound, "ext track engagement sequencer details %s not found", podNumber)
+			return nil, status.Errorf(codes.NotFound, "namespace verification failed for pod %s", podNumber)
 		}
 
 		updateEngagementData := types.ExtTrackSchemaEngagement{
