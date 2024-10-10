@@ -4,12 +4,12 @@ import (
 	"context"
 	"cosmossdk.io/store/prefix"
 	"fmt"
+	"github.com/airchains-network/junction/x/trackgate/types"
 	"github.com/cosmos/cosmos-sdk/runtime"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-
-	"github.com/airchains-network/junction/x/trackgate/types"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
+	"strconv"
 )
 
 func (k Keeper) ListTrackEngagements(goCtx context.Context, req *types.QueryListTrackEngagementsRequest) (*types.QueryListTrackEngagementsResponse, error) {
@@ -69,7 +69,7 @@ func (k Keeper) ListTrackEngagements(goCtx context.Context, req *types.QueryList
 	if order == "asc" {
 		var loopError error
 		for i := offset; i < offset+limit && i < totalPodDataCount; i++ {
-			key := fmt.Sprintf("%d", i)
+			key := fmt.Sprintf("%d", i+1)
 			keyByte := []byte(key)
 			value := schemaEngagementStore.Get(keyByte)
 			if value == nil {
@@ -89,24 +89,30 @@ func (k Keeper) ListTrackEngagements(goCtx context.Context, req *types.QueryList
 		}
 	} else if order == "desc" {
 		var loopError error
-		startIndex := totalPodDataCount - 1 - offset
+		startIndex := totalPodDataCount - offset
+		if startIndex < 1 {
+			// No data to return
+			return &types.QueryListTrackEngagementsResponse{
+				Engagements: []types.ExtTrackSchemaEngagement{},
+			}, nil
+		}
 		endIndex := startIndex - limit + 1
-		if endIndex < 0 {
-			endIndex = 0
+		if endIndex < 1 {
+			endIndex = 1 // Assuming keys start from 1
 		}
 
 		for i := startIndex; i >= endIndex; i-- {
-			key := fmt.Sprintf("%d", i)
+			key := strconv.FormatUint(i, 10)
 			keyByte := []byte(key)
 			value := schemaEngagementStore.Get(keyByte)
 			if value == nil {
-				loopError = status.Errorf(codes.NotFound, "ext track schema engagement %s not found", key)
-				break
+				continue // Skip missing entries
 			}
 
 			var engagement types.ExtTrackSchemaEngagement
 			if err := k.cdc.Unmarshal(value, &engagement); err != nil {
-				return nil, err
+				loopError = err
+				break
 			}
 
 			schemaEngagements = append(schemaEngagements, engagement)
