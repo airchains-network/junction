@@ -7,6 +7,7 @@ import "cosmos/msg/v1/msg.proto";
 import "cosmos_proto/cosmos.proto";
 import "gogoproto/gogo.proto";
 import "junction/trackgate/params.proto";
+import "junction/trackgate/ext_sequencer_check.proto";
 
 option go_package = "github.com/airchains-network/junction/x/trackgate/types";
 
@@ -21,6 +22,7 @@ service Msg {
   rpc SchemaCreation (MsgSchemaCreation) returns (MsgSchemaCreationResponse);
   rpc SchemaEngage   (MsgSchemaEngage  ) returns (MsgSchemaEngageResponse  );
   rpc MigrateSchema  (MsgMigrateSchema ) returns (MsgMigrateSchemaResponse );
+  rpc AuditSequencer (MsgAuditSequencer) returns (MsgAuditSequencerResponse);
 }
 // MsgUpdateParams is the Msg/UpdateParams request type.
 message MsgUpdateParams {
@@ -67,11 +69,12 @@ message MsgSchemaCreationResponse {
 
 message MsgSchemaEngage {
   option (cosmos.msg.v1.signer) = "operator";
-  string operator          = 1;
-  string extTrackStationId = 2;
-  bytes  schemaObject      = 4;
-  string stateRoot         = 5;
-  uint64 podNumber         = 6;
+  string operator            = 1;
+  string extTrackStationId   = 2;
+  bytes  schemaObject        = 4;
+  string acknowledgementHash = 5;
+  uint64 podNumber           = 6;
+  bytes  sequencerDetails    = 7;
 }
 
 message MsgSchemaEngageResponse {
@@ -82,10 +85,21 @@ message MsgMigrateSchema {
   option (cosmos.msg.v1.signer) = "operator";
   string operator          = 1;
   string extTrackStationId = 2;
-  string newSchemaKey         = 3;
+  string newSchemaKey      = 3;
 }
 
 message MsgMigrateSchemaResponse {
+  bool   status      = 1;
+  string description = 2;
+}
+
+message MsgAuditSequencer {
+  option (cosmos.msg.v1.signer) = "verifier";
+  string verifier        = 1;
+  repeated ExtSequencerCheck sequencerChecks = 2 [(gogoproto.nullable) = false];
+}
+
+message MsgAuditSequencerResponse {
   bool   status      = 1;
   string description = 2;
 }

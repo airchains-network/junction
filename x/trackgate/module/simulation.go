@@ -39,6 +39,10 @@ const (
 	// TODO: Determine the simulation weight value
 	defaultWeightMsgMigrateSchema int = 100
 
+	opWeightMsgAuditSequencer = "op_weight_msg_audit_sequencer"
+	// TODO: Determine the simulation weight value
+	defaultWeightMsgAuditSequencer int = 100
+
 	// this line is used by starport scaffolding # simapp/module/const
 )
 
@@ -111,6 +115,17 @@ func (am AppModule) WeightedOperations(simState module.SimulationState) []simtyp
 		trackgatesimulation.SimulateMsgMigrateSchema(am.accountKeeper, am.bankKeeper, am.keeper),
 	))
 
+	var weightMsgAuditSequencer int
+	simState.AppParams.GetOrGenerate(opWeightMsgAuditSequencer, &weightMsgAuditSequencer, nil,
+		func(_ *rand.Rand) {
+			weightMsgAuditSequencer = defaultWeightMsgAuditSequencer
+		},
+	)
+	operations = append(operations, simulation.NewWeightedOperation(
+		weightMsgAuditSequencer,
+		trackgatesimulation.SimulateMsgAuditSequencer(am.accountKeeper, am.bankKeeper, am.keeper),
+	))
+
 	// this line is used by starport scaffolding # simapp/module/operation
 
 	return operations
@@ -148,6 +163,14 @@ func (am AppModule) ProposalMsgs(simState module.SimulationState) []simtypes.Wei
 			defaultWeightMsgMigrateSchema,
 			func(r *rand.Rand, ctx sdk.Context, accs []simtypes.Account) sdk.Msg {
 				trackgatesimulation.SimulateMsgMigrateSchema(am.accountKeeper, am.bankKeeper, am.keeper)
+				return nil
+			},
+		),
+		simulation.NewWeightedProposalMsg(
+			opWeightMsgAuditSequencer,
+			defaultWeightMsgAuditSequencer,
+			func(r *rand.Rand, ctx sdk.Context, accs []simtypes.Account) sdk.Msg {
+				trackgatesimulation.SimulateMsgAuditSequencer(am.accountKeeper, am.bankKeeper, am.keeper)
 				return nil
 			},
 		),

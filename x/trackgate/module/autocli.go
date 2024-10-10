@@ -100,13 +100,19 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					RpcMethod:      "SchemaEngage",
 					Use:            "schema-engage [ext-track-station-id] [schema-object] [state-root] [pod-number]",
 					Short:          "Send a schema-engage tx",
-					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "extTrackStationId"}, {ProtoField: "schemaObject"}, {ProtoField: "stateRoot"}, {ProtoField: "podNumber"}},
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "extTrackStationId"}, {ProtoField: "schemaObject"}, {ProtoField: "acknowledgementHash"}, {ProtoField: "podNumber"}, {ProtoField: "sequencerDetails"}},
 				},
 				{
 					RpcMethod:      "MigrateSchema",
 					Use:            "migrate-schema [ext-track-station-id] [new-schema-key]",
 					Short:          "Send a migrate-schema tx",
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "extTrackStationId"}, {ProtoField: "newSchemaKey"}},
+				},
+				{
+					RpcMethod:      "AuditSequencer",
+					Use:            "audit-sequencer [sequencer-checks]",
+					Short:          "Send a audit-sequencer tx",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "sequencerChecks"}},
 				},
 				// this line is used by ignite scaffolding # autocli/tx
 			},

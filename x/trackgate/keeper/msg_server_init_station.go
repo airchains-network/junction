@@ -17,7 +17,7 @@ func (k msgServer) InitStation(goCtx context.Context, msg *types.MsgInitStation)
 	ctx := sdk.UnwrapSDKContext(goCtx)
 	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
 
-	//submitter := msg.Submitter
+	submitter := msg.Submitter
 	stationId := msg.StationId
 	stationInfo := msg.StationInfo
 	operators := msg.Operators
@@ -49,23 +49,25 @@ func (k msgServer) InitStation(goCtx context.Context, msg *types.MsgInitStation)
 		}, status.Error(codes.InvalidArgument, "incorrect extra data argument")
 	}
 	var newExtTrackStation = types.ExtTrackStations{
-		Operators:            operators,
-		LatestPod:            0,
-		LatestMerkleRootHash: "0",
-		Name:                 stationInfoDetails.StationName,
-		Id:                   stationId,
-		StationType:          stationInfoDetails.Type,
-		FheEnabled:           stationInfoDetails.FheEnabled,
-		SequencerDetails:     byteSequencerDetails,
-		DaDetails:            byteDaDetails,
-		ProverDetails:        byteProverDetails,
-		StationSchemaKey:     "none",
+		Creator:                   submitter,
+		Operators:                 operators,
+		LatestPod:                 0,
+		LatestAcknowledgementHash: "0",
+		Name:                      stationInfoDetails.StationName,
+		Id:                        stationId,
+		StationType:               stationInfoDetails.Type,
+		FheEnabled:                stationInfoDetails.FheEnabled,
+		SequencerDetails:          byteSequencerDetails,
+		DaDetails:                 byteDaDetails,
+		ProverDetails:             byteProverDetails,
+		StationSchemaKey:          "none",
 	}
 
 	newStationMetrics := types.StationMetrics{
-		TotalPodCount:       0,
-		TotalSchemaCount:    0,
-		TotalMigrationCount: 0,
+		TotalPodCount:         0,
+		TotalSchemaCount:      0,
+		TotalMigrationCount:   0,
+		TotalVerifiedPodCount: 0,
 	}
 
 	stationMetricsDB := prefix.NewStore(storeAdapter, types.KeyPrefix(types.TrackGateFigureStoreKey))

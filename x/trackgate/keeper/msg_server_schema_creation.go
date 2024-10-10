@@ -84,17 +84,17 @@ func (k msgServer) SchemaCreation(goCtx context.Context, msg *types.MsgSchemaCre
 	if stationData.StationSchemaKey == "none" {
 		// update codes
 		updateStationDetails := types.ExtTrackStations{
-			Operators:            stationData.Operators,
-			LatestPod:            stationData.LatestPod,
-			LatestMerkleRootHash: stationData.LatestMerkleRootHash,
-			Name:                 stationData.Name,
-			Id:                   stationData.Id,
-			StationType:          stationData.StationType,
-			FheEnabled:           stationData.FheEnabled,
-			SequencerDetails:     stationData.SequencerDetails,
-			DaDetails:            stationData.DaDetails,
-			ProverDetails:        stationData.ProverDetails,
-			StationSchemaKey:     schemaKey,
+			Operators:                 stationData.Operators,
+			LatestPod:                 stationData.LatestPod,
+			LatestAcknowledgementHash: stationData.LatestAcknowledgementHash,
+			Name:                      stationData.Name,
+			Id:                        stationData.Id,
+			StationType:               stationData.StationType,
+			FheEnabled:                stationData.FheEnabled,
+			SequencerDetails:          stationData.SequencerDetails,
+			DaDetails:                 stationData.DaDetails,
+			ProverDetails:             stationData.ProverDetails,
+			StationSchemaKey:          schemaKey,
 		}
 		byteStationId := []byte(stationData.Id)
 		byteUpdateStationDetails := k.cdc.MustMarshal(&updateStationDetails)
@@ -121,9 +121,10 @@ func (k msgServer) SchemaCreation(goCtx context.Context, msg *types.MsgSchemaCre
 	trackSchemaStore.Set(key, storingData)
 
 	updatedStationMetrics := types.StationMetrics{
-		TotalPodCount:       stationMetrics.TotalPodCount,
-		TotalSchemaCount:    stationMetrics.TotalSchemaCount + 1,
-		TotalMigrationCount: stationMetrics.TotalMigrationCount,
+		TotalPodCount:         stationMetrics.TotalPodCount,
+		TotalSchemaCount:      stationMetrics.TotalSchemaCount + 1,
+		TotalMigrationCount:   stationMetrics.TotalMigrationCount,
+		TotalVerifiedPodCount: stationMetrics.TotalVerifiedPodCount,
 	}
 	stationMetricsValue := k.cdc.MustMarshal(&updatedStationMetrics)
 	stationMetricsDB.Set(extTrackStationIdByte, stationMetricsValue)

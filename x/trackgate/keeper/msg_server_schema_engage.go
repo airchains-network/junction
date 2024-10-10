@@ -22,8 +22,9 @@ func (k msgServer) SchemaEngage(goCtx context.Context, msg *types.MsgSchemaEngag
 	extTrackStationId := msg.ExtTrackStationId
 
 	schemaObject := msg.SchemaObject
-	stateRoot := msg.StateRoot
+	acknowledgementHash := msg.AcknowledgementHash
 	podNumber := msg.PodNumber
+	sequencerDetails := msg.SequencerDetails
 
 	extTrackStationsDataDB := prefix.NewStore(storeAdapter, types.KeyPrefix(types.ExtTrackStationsDataStoreKey))
 	extTrackStationIdByte := []byte(extTrackStationId)
@@ -90,15 +91,18 @@ func (k msgServer) SchemaEngage(goCtx context.Context, msg *types.MsgSchemaEngag
 	}
 
 	newSchemaEngagement := types.ExtTrackSchemaEngagement{
-		ExtTrackStationId: extTrackStationId,
-		EngageBy:          operator,
-		StateRoot:         stateRoot,
-		PodNumber:         podNumber,
-		StationName:       stationData.Name,
-		TrackName:         schema.TrackName,
-		SchemaVersion:     schema.Version,
-		SchemaKey:         schemaKey,
-		SchemaObject:      schemaObject,
+		ExtTrackStationId:   extTrackStationId,
+		EngageBy:            operator,
+		AcknowledgementHash: acknowledgementHash,
+		PodNumber:           podNumber,
+		StationName:         stationData.Name,
+		TrackName:           schema.TrackName,
+		SchemaVersion:       schema.Version,
+		SchemaKey:           schemaKey,
+		SchemaObject:        schemaObject,
+		SequencerDetails:    sequencerDetails,
+		IsVerified:          false,
+		VerifiedBy:          "none",
 	}
 
 	newSchemaEngagementDbPath := BuildExtTrackSchemaEngagementsStoreKey(extTrackStationId)
@@ -115,17 +119,18 @@ func (k msgServer) SchemaEngage(goCtx context.Context, msg *types.MsgSchemaEngag
 	newSchemaEngagementStore.Set(newEngagementKey, newEngagementValue)
 	// update codes
 	updateStationDetails := types.ExtTrackStations{
-		Operators:            stationData.Operators,
-		LatestPod:            podNumber,
-		LatestMerkleRootHash: stateRoot,
-		Name:                 stationData.Name,
-		Id:                   stationData.Id,
-		StationType:          stationData.StationType,
-		FheEnabled:           stationData.FheEnabled,
-		SequencerDetails:     stationData.SequencerDetails,
-		DaDetails:            stationData.DaDetails,
-		ProverDetails:        stationData.ProverDetails,
-		StationSchemaKey:     schemaKey,
+		Creator:                   stationData.Creator,
+		Operators:                 stationData.Operators,
+		LatestPod:                 podNumber,
+		LatestAcknowledgementHash: acknowledgementHash,
+		Name:                      stationData.Name,
+		Id:                        stationData.Id,
+		StationType:               stationData.StationType,
+		FheEnabled:                stationData.FheEnabled,
+		SequencerDetails:          stationData.SequencerDetails,
+		DaDetails:                 stationData.DaDetails,
+		ProverDetails:             stationData.ProverDetails,
+		StationSchemaKey:          schemaKey,
 	}
 
 	byteStationId := []byte(stationData.Id)
@@ -134,9 +139,10 @@ func (k msgServer) SchemaEngage(goCtx context.Context, msg *types.MsgSchemaEngag
 	extTrackStationsDataDB.Set(byteStationId, byteUpdateStationDetails)
 
 	updatedStationMetrics := types.StationMetrics{
-		TotalPodCount:       stationMetrics.TotalPodCount + 1,
-		TotalSchemaCount:    stationMetrics.TotalSchemaCount,
-		TotalMigrationCount: stationMetrics.TotalMigrationCount,
+		TotalPodCount:         stationMetrics.TotalPodCount + 1,
+		TotalSchemaCount:      stationMetrics.TotalSchemaCount,
+		TotalMigrationCount:   stationMetrics.TotalMigrationCount,
+		TotalVerifiedPodCount: stationMetrics.TotalVerifiedPodCount,
 	}
 	stationMetricsValue := k.cdc.MustMarshal(&updatedStationMetrics)
 	stationMetricsDB.Set(extTrackStationIdByte, stationMetricsValue)
