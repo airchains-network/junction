@@ -10,6 +10,7 @@ import "junction/junction/params.proto";
 import "junction/junction/stations.proto";
 import "junction/junction/pods.proto";
 import "junction/junction/vrf_record.proto";
+import "junction/junction/junction_pagination.proto";
 
 option go_package = "github.com/airchains-network/junction/x/junction/types";
 
@@ -175,11 +176,11 @@ message QueryIsTrackMemberResponse {
 
 message QueryListStationPodsRequest {
   string                                stationId  = 1;
-  cosmos.base.query.v1beta1.PageRequest pagination = 2;
+  JunctionPaginationRequest pagination = 2;
 }
 
 message QueryListStationPodsResponse {
   repeated Pods                                   pods       = 1 [(gogoproto.nullable) = false];
-  cosmos.base.query.v1beta1.PageResponse pagination = 2;
+  JunctionPaginationResponse pagination = 2;
 }
 
