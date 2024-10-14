@@ -106,7 +106,8 @@ func (k Keeper) ListTrackEngagements(goCtx context.Context, req *types.QueryList
 			keyByte := []byte(key)
 			value := schemaEngagementStore.Get(keyByte)
 			if value == nil {
-				continue // Skip missing entries
+				loopError = status.Errorf(codes.NotFound, "ext track schema engagement %s not found", key)
+				break
 			}
 
 			var engagement types.ExtTrackSchemaEngagement
