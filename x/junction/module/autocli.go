@@ -87,6 +87,13 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "stationId"}},
 				},
 
+				{
+					RpcMethod:      "ListStationPodsCustomPagination",
+					Use:            "list-station-pods-custom-pagination [station-id] [offset] [limit] [order]",
+					Short:          "Query list-station-pods-custom-pagination",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "stationId"}, {ProtoField: "offset"}, {ProtoField: "limit"}, {ProtoField: "order"}},
+				},
+
 				// this line is used by ignite scaffolding # autocli/query
 			},
 		},

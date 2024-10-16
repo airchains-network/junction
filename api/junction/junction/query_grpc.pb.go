@@ -8,7 +8,6 @@ package junction
 
 import (
 	context "context"
-
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -20,17 +19,18 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	Query_Params_FullMethodName                      = "/junction.junction.Query/Params"
-	Query_GetStation_FullMethodName                  = "/junction.junction.Query/GetStation"
-	Query_ListStations_FullMethodName                = "/junction.junction.Query/ListStations"
-	Query_GetStationDetailsByAddress_FullMethodName  = "/junction.junction.Query/GetStationDetailsByAddress"
-	Query_GetPod_FullMethodName                      = "/junction.junction.Query/GetPod"
-	Query_GetLatestSubmittedPodNumber_FullMethodName = "/junction.junction.Query/GetLatestSubmittedPodNumber"
-	Query_GetLatestVerifiedPodNumber_FullMethodName  = "/junction.junction.Query/GetLatestVerifiedPodNumber"
-	Query_FetchVrn_FullMethodName                    = "/junction.junction.Query/FetchVrn"
-	Query_GetTracks_FullMethodName                   = "/junction.junction.Query/GetTracks"
-	Query_IsTrackMember_FullMethodName               = "/junction.junction.Query/IsTrackMember"
-	Query_ListStationPods_FullMethodName             = "/junction.junction.Query/ListStationPods"
+	Query_Params_FullMethodName                          = "/junction.junction.Query/Params"
+	Query_GetStation_FullMethodName                      = "/junction.junction.Query/GetStation"
+	Query_ListStations_FullMethodName                    = "/junction.junction.Query/ListStations"
+	Query_GetStationDetailsByAddress_FullMethodName      = "/junction.junction.Query/GetStationDetailsByAddress"
+	Query_GetPod_FullMethodName                          = "/junction.junction.Query/GetPod"
+	Query_GetLatestSubmittedPodNumber_FullMethodName     = "/junction.junction.Query/GetLatestSubmittedPodNumber"
+	Query_GetLatestVerifiedPodNumber_FullMethodName      = "/junction.junction.Query/GetLatestVerifiedPodNumber"
+	Query_FetchVrn_FullMethodName                        = "/junction.junction.Query/FetchVrn"
+	Query_GetTracks_FullMethodName                       = "/junction.junction.Query/GetTracks"
+	Query_IsTrackMember_FullMethodName                   = "/junction.junction.Query/IsTrackMember"
+	Query_ListStationPods_FullMethodName                 = "/junction.junction.Query/ListStationPods"
+	Query_ListStationPodsCustomPagination_FullMethodName = "/junction.junction.Query/ListStationPodsCustomPagination"
 )
 
 // QueryClient is the client API for Query service.
@@ -59,6 +59,8 @@ type QueryClient interface {
 	IsTrackMember(ctx context.Context, in *QueryIsTrackMemberRequest, opts ...grpc.CallOption) (*QueryIsTrackMemberResponse, error)
 	// Queries a list of ListStationPods items.
 	ListStationPods(ctx context.Context, in *QueryListStationPodsRequest, opts ...grpc.CallOption) (*QueryListStationPodsResponse, error)
+	// Queries a list of ListStationPodsCustomPagination items.
+	ListStationPodsCustomPagination(ctx context.Context, in *QueryListStationPodsCustomPaginationRequest, opts ...grpc.CallOption) (*QueryListStationPodsCustomPaginationResponse, error)
 }
 
 type queryClient struct {
@@ -168,6 +170,15 @@ func (c *queryClient) ListStationPods(ctx context.Context, in *QueryListStationP
 	return out, nil
 }
 
+func (c *queryClient) ListStationPodsCustomPagination(ctx context.Context, in *QueryListStationPodsCustomPaginationRequest, opts ...grpc.CallOption) (*QueryListStationPodsCustomPaginationResponse, error) {
+	out := new(QueryListStationPodsCustomPaginationResponse)
+	err := c.cc.Invoke(ctx, Query_ListStationPodsCustomPagination_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // QueryServer is the server API for Query service.
 // All implementations must embed UnimplementedQueryServer
 // for forward compatibility
@@ -194,6 +205,8 @@ type QueryServer interface {
 	IsTrackMember(context.Context, *QueryIsTrackMemberRequest) (*QueryIsTrackMemberResponse, error)
 	// Queries a list of ListStationPods items.
 	ListStationPods(context.Context, *QueryListStationPodsRequest) (*QueryListStationPodsResponse, error)
+	// Queries a list of ListStationPodsCustomPagination items.
+	ListStationPodsCustomPagination(context.Context, *QueryListStationPodsCustomPaginationRequest) (*QueryListStationPodsCustomPaginationResponse, error)
 	mustEmbedUnimplementedQueryServer()
 }
 
@@ -233,6 +246,9 @@ func (UnimplementedQueryServer) IsTrackMember(context.Context, *QueryIsTrackMemb
 }
 func (UnimplementedQueryServer) ListStationPods(context.Context, *QueryListStationPodsRequest) (*QueryListStationPodsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListStationPods not implemented")
+}
+func (UnimplementedQueryServer) ListStationPodsCustomPagination(context.Context, *QueryListStationPodsCustomPaginationRequest) (*QueryListStationPodsCustomPaginationResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListStationPodsCustomPagination not implemented")
 }
 func (UnimplementedQueryServer) mustEmbedUnimplementedQueryServer() {}
 
@@ -445,6 +461,24 @@ func _Query_ListStationPods_Handler(srv interface{}, ctx context.Context, dec fu
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Query_ListStationPodsCustomPagination_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryListStationPodsCustomPaginationRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).ListStationPodsCustomPagination(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Query_ListStationPodsCustomPagination_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).ListStationPodsCustomPagination(ctx, req.(*QueryListStationPodsCustomPaginationRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Query_ServiceDesc is the grpc.ServiceDesc for Query service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -495,6 +529,10 @@ var Query_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListStationPods",
 			Handler:    _Query_ListStationPods_Handler,
+		},
+		{
+			MethodName: "ListStationPodsCustomPagination",
+			Handler:    _Query_ListStationPodsCustomPagination_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

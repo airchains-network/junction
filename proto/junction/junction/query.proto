@@ -10,6 +10,7 @@ import "junction/junction/params.proto";
 import "junction/junction/stations.proto";
 import "junction/junction/pods.proto";
 import "junction/junction/vrf_record.proto";
+import "junction/junction/junction_pagination_response.proto";
 
 option go_package = "github.com/airchains-network/junction/x/junction/types";
 
@@ -79,6 +80,12 @@ service Query {
   // Queries a list of ListStationPods items.
   rpc ListStationPods (QueryListStationPodsRequest) returns (QueryListStationPodsResponse) {
     option (google.api.http).get = "/airchains-network/junction/junction/list_station_pods/{stationId}";
+  
+  }
+  
+  // Queries a list of ListStationPodsCustomPagination items.
+  rpc ListStationPodsCustomPagination (QueryListStationPodsCustomPaginationRequest) returns (QueryListStationPodsCustomPaginationResponse) {
+    option (google.api.http).get = "/airchains-network/junction/junction/list_station_pods_custom_pagination/{stationId}/{offset}/{limit}/{order}";
   
   }
 }
@@ -180,6 +187,18 @@ message QueryListStationPodsRequest {
 
 message QueryListStationPodsResponse {
   repeated Pods                                   pods       = 1 [(gogoproto.nullable) = false];
-  cosmos.base.query.v1beta1.PageResponse pagination = 2;
+           cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+message QueryListStationPodsCustomPaginationRequest {
+  string stationId = 1;
+  uint64 offset    = 2;
+  uint64 limit     = 3;
+  string order     = 4;
+}
+
+message QueryListStationPodsCustomPaginationResponse {
+  repeated Pods                       pods       = 1 [(gogoproto.nullable) = false];
+  JunctionPaginationResponse pagination = 2;
 }
 

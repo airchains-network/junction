@@ -19951,6 +19951,91 @@ paths:
           type: boolean
       tags:
         - Query
+  /airchains-network/junction/junction/list_station_pods_custom_pagination/{stationId}/{offset}/{limit}/{order}:
+    get:
+      summary: Queries a list of ListStationPodsCustomPagination items.
+      operationId: JunctionJunctionQuery_ListStationPodsCustomPagination
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              pods:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    podNumber:
+                      type: string
+                      format: uint64
+                    merkleRootHash:
+                      type: string
+                    previousMerkleRootHash:
+                      type: string
+                    zkProof:
+                      type: string
+                      format: byte
+                    witness:
+                      type: string
+                      format: byte
+                    timestamp:
+                      type: string
+                    isVerified:
+                      type: boolean
+              pagination:
+                type: object
+                properties:
+                  offset:
+                    type: string
+                    format: uint64
+                  limit:
+                    type: string
+                    format: uint64
+                  order:
+                    type: string
+                  total:
+                    type: string
+                    format: uint64
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: stationId
+          in: path
+          required: true
+          type: string
+        - name: offset
+          in: path
+          required: true
+          type: string
+          format: uint64
+        - name: limit
+          in: path
+          required: true
+          type: string
+          format: uint64
+        - name: order
+          in: path
+          required: true
+          type: string
+      tags:
+        - Query
   /airchains-network/junction/junction/list_stations:
     get:
       summary: Queries a list of ListStations items.
@@ -28761,6 +28846,20 @@ definitions:
                repeated Bar results = 1;
                PageResponse page = 2;
        }
+  junction.junction.JunctionPaginationResponse:
+    type: object
+    properties:
+      offset:
+        type: string
+        format: uint64
+      limit:
+        type: string
+        format: uint64
+      order:
+        type: string
+      total:
+        type: string
+        format: uint64
   junction.junction.Params:
     type: object
     description: Params defines the parameters for the module.
@@ -29002,6 +29101,45 @@ definitions:
     properties:
       result:
         type: boolean
+  junction.junction.QueryListStationPodsCustomPaginationResponse:
+    type: object
+    properties:
+      pods:
+        type: array
+        items:
+          type: object
+          properties:
+            podNumber:
+              type: string
+              format: uint64
+            merkleRootHash:
+              type: string
+            previousMerkleRootHash:
+              type: string
+            zkProof:
+              type: string
+              format: byte
+            witness:
+              type: string
+              format: byte
+            timestamp:
+              type: string
+            isVerified:
+              type: boolean
+      pagination:
+        type: object
+        properties:
+          offset:
+            type: string
+            format: uint64
+          limit:
+            type: string
+            format: uint64
+          order:
+            type: string
+          total:
+            type: string
+            format: uint64
   junction.junction.QueryListStationPodsResponse:
     type: object
     properties:
