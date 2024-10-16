@@ -73,6 +73,13 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "extTrackStationId"}},
 				},
 
+				{
+					RpcMethod:      "ListTrackEngagementsCustomPagination",
+					Use:            "list-track-engagements-custom-pagination [ext-track-station-id] [offset] [limit] [order]",
+					Short:          "Query list-track-engagements-custom-pagination",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "extTrackStationId"}, {ProtoField: "offset"}, {ProtoField: "limit"}, {ProtoField: "order"}},
+				},
+
 				// this line is used by ignite scaffolding # autocli/query
 			},
 		},

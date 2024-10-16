@@ -11,6 +11,7 @@ import "junction/trackgate/ext_track_stations.proto";
 import "junction/trackgate/ext_track_schema.proto";
 import "junction/trackgate/ext_track_schema_engagement.proto";
 import "junction/trackgate/station_metrics.proto";
+import "junction/trackgate/trackgate_pagination_response.proto";
 
 option go_package = "github.com/airchains-network/junction/x/trackgate/types";
 
@@ -68,6 +69,12 @@ service Query {
   // Queries a list of GetStationMetrics items.
   rpc GetStationMetrics (QueryGetStationMetricsRequest) returns (QueryGetStationMetricsResponse) {
     option (google.api.http).get = "/airchains-network/junction/trackgate/get_station_metrics/{extTrackStationId}";
+  
+  }
+  
+  // Queries a list of ListTrackEngagementsCustomPagination items.
+  rpc ListTrackEngagementsCustomPagination (QueryListTrackEngagementsCustomPaginationRequest) returns (QueryListTrackEngagementsCustomPaginationResponse) {
+    option (google.api.http).get = "/airchains-network/junction/trackgate/list_track_engagements_custom_pagination/{extTrackStationId}/{offset}/{limit}/{order}";
   
   }
 }
@@ -151,5 +158,17 @@ message QueryGetStationMetricsRequest {
 
 message QueryGetStationMetricsResponse {
   StationMetrics metrics = 1;
+}
+
+message QueryListTrackEngagementsCustomPaginationRequest {
+  string extTrackStationId = 1;
+  uint64 offset            = 2;
+  uint64 limit             = 3;
+  string order             = 4;
+}
+
+message QueryListTrackEngagementsCustomPaginationResponse {
+  repeated ExtTrackSchemaEngagement    engagements = 1 [(gogoproto.nullable) = false];
+  TrackgatePaginationResponse pagination  = 2;
 }
 

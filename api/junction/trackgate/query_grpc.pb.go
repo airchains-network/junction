@@ -8,7 +8,6 @@ package trackgate
 
 import (
 	context "context"
-
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -20,15 +19,16 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	Query_Params_FullMethodName               = "/junction.trackgate.Query/Params"
-	Query_GetExtTrackStation_FullMethodName   = "/junction.trackgate.Query/GetExtTrackStation"
-	Query_ListExtTrackStations_FullMethodName = "/junction.trackgate.Query/ListExtTrackStations"
-	Query_RetrieveSchemaKey_FullMethodName    = "/junction.trackgate.Query/RetrieveSchemaKey"
-	Query_ListSchemas_FullMethodName          = "/junction.trackgate.Query/ListSchemas"
-	Query_GetTrackEngagement_FullMethodName   = "/junction.trackgate.Query/GetTrackEngagement"
-	Query_ListTrackEngagements_FullMethodName = "/junction.trackgate.Query/ListTrackEngagements"
-	Query_GetSchemas_FullMethodName           = "/junction.trackgate.Query/GetSchemas"
-	Query_GetStationMetrics_FullMethodName    = "/junction.trackgate.Query/GetStationMetrics"
+	Query_Params_FullMethodName                               = "/junction.trackgate.Query/Params"
+	Query_GetExtTrackStation_FullMethodName                   = "/junction.trackgate.Query/GetExtTrackStation"
+	Query_ListExtTrackStations_FullMethodName                 = "/junction.trackgate.Query/ListExtTrackStations"
+	Query_RetrieveSchemaKey_FullMethodName                    = "/junction.trackgate.Query/RetrieveSchemaKey"
+	Query_ListSchemas_FullMethodName                          = "/junction.trackgate.Query/ListSchemas"
+	Query_GetTrackEngagement_FullMethodName                   = "/junction.trackgate.Query/GetTrackEngagement"
+	Query_ListTrackEngagements_FullMethodName                 = "/junction.trackgate.Query/ListTrackEngagements"
+	Query_GetSchemas_FullMethodName                           = "/junction.trackgate.Query/GetSchemas"
+	Query_GetStationMetrics_FullMethodName                    = "/junction.trackgate.Query/GetStationMetrics"
+	Query_ListTrackEngagementsCustomPagination_FullMethodName = "/junction.trackgate.Query/ListTrackEngagementsCustomPagination"
 )
 
 // QueryClient is the client API for Query service.
@@ -53,6 +53,8 @@ type QueryClient interface {
 	GetSchemas(ctx context.Context, in *QueryGetSchemasRequest, opts ...grpc.CallOption) (*QueryGetSchemasResponse, error)
 	// Queries a list of GetStationMetrics items.
 	GetStationMetrics(ctx context.Context, in *QueryGetStationMetricsRequest, opts ...grpc.CallOption) (*QueryGetStationMetricsResponse, error)
+	// Queries a list of ListTrackEngagementsCustomPagination items.
+	ListTrackEngagementsCustomPagination(ctx context.Context, in *QueryListTrackEngagementsCustomPaginationRequest, opts ...grpc.CallOption) (*QueryListTrackEngagementsCustomPaginationResponse, error)
 }
 
 type queryClient struct {
@@ -144,6 +146,15 @@ func (c *queryClient) GetStationMetrics(ctx context.Context, in *QueryGetStation
 	return out, nil
 }
 
+func (c *queryClient) ListTrackEngagementsCustomPagination(ctx context.Context, in *QueryListTrackEngagementsCustomPaginationRequest, opts ...grpc.CallOption) (*QueryListTrackEngagementsCustomPaginationResponse, error) {
+	out := new(QueryListTrackEngagementsCustomPaginationResponse)
+	err := c.cc.Invoke(ctx, Query_ListTrackEngagementsCustomPagination_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // QueryServer is the server API for Query service.
 // All implementations must embed UnimplementedQueryServer
 // for forward compatibility
@@ -166,6 +177,8 @@ type QueryServer interface {
 	GetSchemas(context.Context, *QueryGetSchemasRequest) (*QueryGetSchemasResponse, error)
 	// Queries a list of GetStationMetrics items.
 	GetStationMetrics(context.Context, *QueryGetStationMetricsRequest) (*QueryGetStationMetricsResponse, error)
+	// Queries a list of ListTrackEngagementsCustomPagination items.
+	ListTrackEngagementsCustomPagination(context.Context, *QueryListTrackEngagementsCustomPaginationRequest) (*QueryListTrackEngagementsCustomPaginationResponse, error)
 	mustEmbedUnimplementedQueryServer()
 }
 
@@ -199,6 +212,9 @@ func (UnimplementedQueryServer) GetSchemas(context.Context, *QueryGetSchemasRequ
 }
 func (UnimplementedQueryServer) GetStationMetrics(context.Context, *QueryGetStationMetricsRequest) (*QueryGetStationMetricsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetStationMetrics not implemented")
+}
+func (UnimplementedQueryServer) ListTrackEngagementsCustomPagination(context.Context, *QueryListTrackEngagementsCustomPaginationRequest) (*QueryListTrackEngagementsCustomPaginationResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListTrackEngagementsCustomPagination not implemented")
 }
 func (UnimplementedQueryServer) mustEmbedUnimplementedQueryServer() {}
 
@@ -375,6 +391,24 @@ func _Query_GetStationMetrics_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Query_ListTrackEngagementsCustomPagination_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryListTrackEngagementsCustomPaginationRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).ListTrackEngagementsCustomPagination(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Query_ListTrackEngagementsCustomPagination_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).ListTrackEngagementsCustomPagination(ctx, req.(*QueryListTrackEngagementsCustomPaginationRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Query_ServiceDesc is the grpc.ServiceDesc for Query service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -417,6 +451,10 @@ var Query_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetStationMetrics",
 			Handler:    _Query_GetStationMetrics_Handler,
+		},
+		{
+			MethodName: "ListTrackEngagementsCustomPagination",
+			Handler:    _Query_ListTrackEngagementsCustomPagination_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
