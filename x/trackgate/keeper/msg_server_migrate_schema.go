@@ -66,6 +66,7 @@ func (k msgServer) MigrateSchema(goCtx context.Context, msg *types.MsgMigrateSch
 
 	// update codes
 	updateStationDetails := types.ExtTrackStations{
+		Creator:                   stationData.Creator,
 		Operators:                 stationData.Operators,
 		LatestPod:                 stationData.LatestPod,
 		LatestAcknowledgementHash: stationData.LatestAcknowledgementHash,

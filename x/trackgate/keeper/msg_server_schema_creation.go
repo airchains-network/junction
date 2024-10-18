@@ -84,6 +84,7 @@ func (k msgServer) SchemaCreation(goCtx context.Context, msg *types.MsgSchemaCre
 	if stationData.StationSchemaKey == "none" {
 		// update codes
 		updateStationDetails := types.ExtTrackStations{
+			Creator:                   stationData.Creator,
 			Operators:                 stationData.Operators,
 			LatestPod:                 stationData.LatestPod,
 			LatestAcknowledgementHash: stationData.LatestAcknowledgementHash,
