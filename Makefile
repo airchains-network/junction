@@ -1,7 +1,7 @@
 # Makefile for building and linting Go project
 
 # Basic project settings
-BINARY_NAME=junction-jip-2
+BINARY_NAME=junctiond
 BUILD_DIR=./build
 SOURCE_DIR=./cmd/junctiond
 CHECKSUM_FILE=$(BUILD_DIR)/checksums.txt
@@ -76,13 +76,13 @@ build-all: go.sum
 	rm -f $(CHECKSUM_FILE)
 	GOOS=linux GOARCH=amd64 $(GO_BUILD) -tags "$(build_tags)" -ldflags '$(ldflags)' -o $(BUILD_DIR)/$(BINARY_NAME)-linux-amd64 $(SOURCE_DIR)
 	@shasum -a 256 $(BUILD_DIR)/$(BINARY_NAME)-linux-amd64 >> $(CHECKSUM_FILE)
-#	GOOS=linux GOARCH=arm64 $(GO_BUILD) -tags "$(build_tags)" -ldflags '$(ldflags)' -o $(BUILD_DIR)/$(BINARY_NAME)-linux-arm64 $(SOURCE_DIR)
-#	@shasum -a 256 $(BUILD_DIR)/$(BINARY_NAME)-linux-arm64 >> $(CHECKSUM_FILE)
-#	GOOS=darwin GOARCH=amd64 $(GO_BUILD) -tags "$(build_tags)" -ldflags '$(ldflags)' -o $(BUILD_DIR)/$(BINARY_NAME)-darwin-amd64 $(SOURCE_DIR)
-#	@shasum -a 256 $(BUILD_DIR)/$(BINARY_NAME)-darwin-amd64 >> $(CHECKSUM_FILE)
-#	GOOS=darwin GOARCH=arm64 $(GO_BUILD) -tags "$(build_tags)" -ldflags '$(ldflags)' -o $(BUILD_DIR)/$(BINARY_NAME)-darwin-arm64 $(SOURCE_DIR)
-#	@shasum -a 256 $(BUILD_DIR)/$(BINARY_NAME)-darwin-arm64 >> $(CHECKSUM_FILE)
-#	GOOS=windows GOARCH=amd64 $(GO_BUILD) -tags "$(build_tags)" -ldflags '$(ldflags)' -o $(BUILD_DIR)/$(BINARY_NAME)-windows-amd64.exe $(SOURCE_DIR)
-#	@shasum -a 256 $(BUILD_DIR)/$(BINARY_NAME)-windows-amd64.exe >> $(CHECKSUM_FILE)
+	GOOS=linux GOARCH=arm64 $(GO_BUILD) -tags "$(build_tags)" -ldflags '$(ldflags)' -o $(BUILD_DIR)/$(BINARY_NAME)-linux-arm64 $(SOURCE_DIR)
+	@shasum -a 256 $(BUILD_DIR)/$(BINARY_NAME)-linux-arm64 >> $(CHECKSUM_FILE)
+	GOOS=darwin GOARCH=amd64 $(GO_BUILD) -tags "$(build_tags)" -ldflags '$(ldflags)' -o $(BUILD_DIR)/$(BINARY_NAME)-darwin-amd64 $(SOURCE_DIR)
+	@shasum -a 256 $(BUILD_DIR)/$(BINARY_NAME)-darwin-amd64 >> $(CHECKSUM_FILE)
+	GOOS=darwin GOARCH=arm64 $(GO_BUILD) -tags "$(build_tags)" -ldflags '$(ldflags)' -o $(BUILD_DIR)/$(BINARY_NAME)-darwin-arm64 $(SOURCE_DIR)
+	@shasum -a 256 $(BUILD_DIR)/$(BINARY_NAME)-darwin-arm64 >> $(CHECKSUM_FILE)
+	GOOS=windows GOARCH=amd64 $(GO_BUILD) -tags "$(build_tags)" -ldflags '$(ldflags)' -o $(BUILD_DIR)/$(BINARY_NAME)-windows-amd64.exe $(SOURCE_DIR)
+	@shasum -a 256 $(BUILD_DIR)/$(BINARY_NAME)-windows-amd64.exe >> $(CHECKSUM_FILE)
 
 .PHONY: default build install test clean lint print-system build-all
