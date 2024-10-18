@@ -1,0 +1,17 @@
+syntax = "proto3";
+package junction.trackgate;
+
+import "amino/amino.proto";
+import "gogoproto/gogo.proto";
+import "junction/trackgate/params.proto";
+
+option go_package = "github.com/airchains-network/junction/x/trackgate/types";
+
+// GenesisState defines the trackgate module's genesis state.
+message GenesisState {
+  // params defines all the parameters of the module.
+  Params params = 1 [
+    (gogoproto.nullable) = false,
+    (amino.dont_omitempty) = true
+  ];
+}

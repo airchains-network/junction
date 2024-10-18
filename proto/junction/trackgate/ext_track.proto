@@ -1,0 +1,14 @@
+syntax = "proto3";
+package junction.trackgate;
+
+option go_package = "github.com/airchains-network/junction/x/trackgate/types";
+
+message ExtTrack {
+  
+  string trackName = 1; 
+  string trackId = 2; 
+  string trackKey = 3; 
+  string version = 4; 
+  bytes schema = 5; 
+  repeated string creators = 6; 
+}

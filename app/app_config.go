@@ -54,8 +54,11 @@ import (
 	"google.golang.org/protobuf/types/known/durationpb"
 
 	junctionmodulev1 "github.com/airchains-network/junction/api/junction/junction/module"
+	trackgatemodulev1 "github.com/airchains-network/junction/api/junction/trackgate/module"
 	_ "github.com/airchains-network/junction/x/junction/module" // import for side-effects
 	junctionmoduletypes "github.com/airchains-network/junction/x/junction/types"
+	_ "github.com/airchains-network/junction/x/trackgate/module" // import for side-effects
+	trackgatemoduletypes "github.com/airchains-network/junction/x/trackgate/types"
 	// this line is used by starport scaffolding # stargate/app/moduleImport
 )
 
@@ -95,6 +98,7 @@ var (
 		circuittypes.ModuleName,
 		// chain modules
 		junctionmoduletypes.ModuleName,
+		trackgatemoduletypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/initGenesis
 	}
 
@@ -120,6 +124,7 @@ var (
 		ibcfeetypes.ModuleName,
 		// chain modules
 		junctionmoduletypes.ModuleName,
+		trackgatemoduletypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/beginBlockers
 	}
 
@@ -139,6 +144,7 @@ var (
 		ibcfeetypes.ModuleName,
 		// chain modules
 		junctionmoduletypes.ModuleName,
+		trackgatemoduletypes.ModuleName,
 		// this line is used by starport scaffolding # stargate/app/endBlockers
 	}
 
@@ -159,6 +165,7 @@ var (
 		{Account: ibctransfertypes.ModuleName, Permissions: []string{authtypes.Minter, authtypes.Burner}},
 		{Account: ibcfeetypes.ModuleName},
 		{Account: icatypes.ModuleName},
+		{Account: trackgatemoduletypes.ModuleName, Permissions: []string{authtypes.Minter, authtypes.Burner, authtypes.Staking}},
 		// this line is used by starport scaffolding # stargate/app/maccPerms
 	}
 
@@ -297,6 +304,10 @@ var (
 			{
 				Name:   junctionmoduletypes.ModuleName,
 				Config: appconfig.WrapAny(&junctionmodulev1.Module{}),
+			},
+			{
+				Name:   trackgatemoduletypes.ModuleName,
+				Config: appconfig.WrapAny(&trackgatemodulev1.Module{}),
 			},
 			// this line is used by starport scaffolding # stargate/app/moduleConfig
 		},

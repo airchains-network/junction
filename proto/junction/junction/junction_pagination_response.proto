@@ -1,0 +1,12 @@
+syntax = "proto3";
+package junction.junction;
+
+option go_package = "github.com/airchains-network/junction/x/junction/types";
+
+message JunctionPaginationResponse {
+  
+  uint64 offset = 1; 
+  uint64 limit = 2; 
+  string order = 3; 
+  uint64 total = 4; 
+}
