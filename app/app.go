@@ -2,6 +2,7 @@ package app
 
 import (
 	"context"
+	wasmkeeper "github.com/airchains-network/junction/x/wasm/keeper"
 	"io"
 	"os"
 	"path/filepath"
@@ -149,6 +150,7 @@ type App struct {
 
 	JunctionKeeper  junctionmodulekeeper.Keeper
 	TrackgateKeeper trackgatemodulekeeper.Keeper
+	WasmKeeper      wasmkeeper.Keeper
 	// this line is used by starport scaffolding # stargate/app/keeperDeclaration
 
 	// simulation manager
@@ -201,6 +203,7 @@ func New(
 	traceStore io.Writer,
 	loadLatest bool,
 	appOpts servertypes.AppOptions,
+	wasmOpts []wasmkeeper.Option,
 	baseAppOptions ...func(*baseapp.BaseApp),
 ) (*App, error) {
 	var (
@@ -553,4 +556,16 @@ func BlockedAddresses() map[string]bool {
 		}
 	}
 	return result
+}
+
+// *Wasm Implementation Functions
+
+// InterfaceRegistry returns WasmApp's InterfaceRegistry
+func (app *App) InterfaceRegistry() codectypes.InterfaceRegistry {
+	return app.interfaceRegistry
+}
+
+// TxConfig returns WasmApp's TxConfig
+func (app *App) TxConfig() client.TxConfig {
+	return app.txConfig
 }
