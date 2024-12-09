@@ -1,6 +1,6 @@
 module github.com/airchains-network/junction
 
-go 1.23.4
+go 1.23
 
 replace (
 	// fix upstream GHSA-h395-qcrw-5vmq vulnerability.
