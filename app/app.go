@@ -416,7 +416,7 @@ func New(
 		)
 	}
 	// Register legacy modules
-	app.registerIBCModules(appOpts, wasmOpts)
+	app.registerWasmAndIBCModules(appOpts, wasmOpts)
 
 	// register streaming services
 	if err := app.RegisterStreamingServices(appOpts, app.kvStoreKeys()); err != nil {
