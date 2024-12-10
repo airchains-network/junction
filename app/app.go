@@ -141,16 +141,18 @@ type App struct {
 	ICAControllerKeeper icacontrollerkeeper.Keeper
 	ICAHostKeeper       icahostkeeper.Keeper
 	TransferKeeper      ibctransferkeeper.Keeper
+	WasmKeeper          wasmkeeper.Keeper
 
 	// Scoped IBC
 	ScopedIBCKeeper           capabilitykeeper.ScopedKeeper
 	ScopedIBCTransferKeeper   capabilitykeeper.ScopedKeeper
 	ScopedICAControllerKeeper capabilitykeeper.ScopedKeeper
 	ScopedICAHostKeeper       capabilitykeeper.ScopedKeeper
+	ScopedIBCFeeKeeper        capabilitykeeper.ScopedKeeper
+	ScopedWasmKeeper          capabilitykeeper.ScopedKeeper
 
 	JunctionKeeper  junctionmodulekeeper.Keeper
 	TrackgateKeeper trackgatemodulekeeper.Keeper
-	WasmKeeper      wasmkeeper.Keeper
 	// this line is used by starport scaffolding # stargate/app/keeperDeclaration
 
 	// simulation manager
@@ -414,7 +416,7 @@ func New(
 		)
 	}
 	// Register legacy modules
-	app.registerIBCModules()
+	app.registerIBCModules(appOpts, wasmOpts)
 
 	// register streaming services
 	if err := app.RegisterStreamingServices(appOpts, app.kvStoreKeys()); err != nil {
