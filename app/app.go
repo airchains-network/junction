@@ -221,6 +221,7 @@ func New(
 				// Passing the getter, the app IBC Keeper will always be accessible.
 				// This needs to be removed after IBC supports App Wiring.
 				app.GetIBCKeeper,
+				app.GetWasmKeeper,
 				app.GetCapabilityScopedKeeper,
 				// Supply the logger
 				logger,

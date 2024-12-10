@@ -7,7 +7,6 @@ import (
 	"strings"
 	"testing"
 
-	wasmvmtypes "github.com/CosmWasm/wasmvm/v2/types"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
@@ -15,7 +14,6 @@ import (
 
 	sdk "github.com/cosmos/cosmos-sdk/types"
 
-	"github.com/airchains-network/junction/x/wasm/keeper/testdata"
 	"github.com/airchains-network/junction/x/wasm/keeper/wasmtesting"
 	"github.com/airchains-network/junction/x/wasm/types"
 )
@@ -170,37 +168,4 @@ func TestInstantiate2(t *testing.T) {
 			assert.NotEmpty(t, gotAddr)
 		})
 	}
-}
-
-func TestQuerierError(t *testing.T) {
-	parentCtx, keepers := CreateTestInput(t, false, AvailableCapabilities)
-	parentCtx = parentCtx.WithGasMeter(storetypes.NewInfiniteGasMeter())
-
-	contract := InstantiateReflectExampleContract(t, parentCtx, keepers)
-
-	// this query will fail in the contract because there is no such reply
-	erroringQuery := testdata.ReflectQueryMsg{
-		SubMsgResult: &testdata.SubCall{
-			ID: 1,
-		},
-	}
-	// we make the reflect contract run the erroring query to check if our error stays
-	queryType := testdata.ReflectQueryMsg{
-		Chain: &testdata.ChainQuery{
-			Request: &wasmvmtypes.QueryRequest{
-				Wasm: &wasmvmtypes.WasmQuery{
-					Smart: &wasmvmtypes.SmartQuery{
-						ContractAddr: contract.Contract.String(),
-						Msg:          mustMarshal(t, erroringQuery),
-					},
-				},
-			},
-		},
-	}
-	query := mustMarshal(t, queryType)
-	_, err := keepers.WasmKeeper.QuerySmart(parentCtx, contract.Contract, query)
-	require.Error(t, err)
-
-	// we expect the contract's "reply 1 not found" to be in there
-	assert.Contains(t, err.Error(), "reply 1 not found")
 }

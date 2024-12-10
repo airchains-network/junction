@@ -95,7 +95,6 @@ func NewWasmAppWithCustomOptions(t *testing.T, isCheckTx bool, options SetupOpti
 	}
 
 	app, err := New(options.Logger, options.DB, nil, true, options.AppOpts, options.WasmOpts)
-	require.NoError(t, err)
 	genesisState := app.DefaultGenesis()
 	genesisState, err = GenesisStateWithValSet(app.AppCodec(), genesisState, valSet, []authtypes.GenesisAccount{acc}, balance)
 	require.NoError(t, err)

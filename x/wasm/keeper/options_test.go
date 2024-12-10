@@ -59,9 +59,7 @@ func TestConstructorOptions(t *testing.T) {
 		"message handler": {
 			srcOpt: WithMessageHandler(&wasmtesting.MockMessageHandler{}),
 			verify: func(t *testing.T, k Keeper) {
-				require.IsType(t, callDepthMessageHandler{}, k.messenger)
-				messenger, _ := k.messenger.(callDepthMessageHandler)
-				assert.IsType(t, &wasmtesting.MockMessageHandler{}, messenger.Messenger)
+				assert.IsType(t, &wasmtesting.MockMessageHandler{}, k.messenger)
 			},
 		},
 		"query plugins": {
@@ -72,7 +70,7 @@ func TestConstructorOptions(t *testing.T) {
 		},
 		"message handler decorator": {
 			srcOpt: WithMessageHandlerDecorator(func(old Messenger) Messenger {
-				require.IsType(t, callDepthMessageHandler{}, old)
+				require.IsType(t, &MessageHandlerChain{}, old)
 				return &wasmtesting.MockMessageHandler{}
 			}),
 			verify: func(t *testing.T, k Keeper) {
@@ -110,16 +108,10 @@ func TestConstructorOptions(t *testing.T) {
 				assert.Equal(t, uint64(2), costCanonical)
 			},
 		},
-		"max query recursion limit": {
+		"max recursion query limit": {
 			srcOpt: WithMaxQueryStackSize(1),
 			verify: func(t *testing.T, k Keeper) {
 				assert.IsType(t, uint32(1), k.maxQueryStackSize)
-			},
-		},
-		"max message recursion limit": {
-			srcOpt: WithMaxCallDepth(1),
-			verify: func(t *testing.T, k Keeper) {
-				assert.IsType(t, uint32(1), k.maxCallDepth)
 			},
 		},
 		"accepted account types": {

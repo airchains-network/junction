@@ -12,8 +12,6 @@ import (
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 )
 
-const maxCodeIDCount = 50
-
 // RawContractMessage defines a json message that is sent or returned by a wasm contract.
 // This type can hold any type of bytes. Until validateBasic is called there should not be
 // any assumptions made that the data is valid syntax or semantic.
@@ -358,14 +356,15 @@ func (msg MsgPinCodes) ValidateBasic() error {
 	return validateCodeIDs(msg.CodeIDs)
 }
 
-// validateCodeIDs ensures the list is not empty, has no duplicates
-// and does not exceed the max number of code IDs
+const maxCodeIDTotal = 50
+
+// ensure not empty, not duplicates and not exceeding max number
 func validateCodeIDs(codeIDs []uint64) error {
 	switch n := len(codeIDs); {
 	case n == 0:
 		return errorsmod.Wrap(sdkerrors.ErrInvalidRequest, "empty code ids")
-	case n > maxCodeIDCount:
-		return errorsmod.Wrapf(sdkerrors.ErrInvalidRequest, "total number of code ids is greater than %d", maxCodeIDCount)
+	case n > maxCodeIDTotal:
+		return errorsmod.Wrapf(sdkerrors.ErrInvalidRequest, "total number of code ids is greater than %d", maxCodeIDTotal)
 	}
 	if hasDuplicates(codeIDs) {
 		return errorsmod.Wrap(sdkerrors.ErrInvalidRequest, "duplicate code ids")
@@ -469,7 +468,11 @@ func (msg MsgAddCodeUploadParamsAddresses) ValidateBasic() error {
 		return errorsmod.Wrap(err, "authority")
 	}
 
-	return validateBech32Addresses(msg.Addresses)
+	if len(msg.Addresses) == 0 {
+		return errorsmod.Wrap(ErrEmpty, "addresses")
+	}
+
+	return checkDuplicatedAddresses(msg.Addresses)
 }
 
 func (msg MsgRemoveCodeUploadParamsAddresses) Route() string {
@@ -485,7 +488,26 @@ func (msg MsgRemoveCodeUploadParamsAddresses) ValidateBasic() error {
 		return errorsmod.Wrap(err, "authority")
 	}
 
-	return validateBech32Addresses(msg.Addresses)
+	if len(msg.Addresses) == 0 {
+		return errorsmod.Wrap(ErrEmpty, "addresses")
+	}
+
+	return checkDuplicatedAddresses(msg.Addresses)
+}
+
+func checkDuplicatedAddresses(addresses []string) error {
+	index := map[string]struct{}{}
+	for _, addr := range addresses {
+		addr = strings.ToUpper(addr)
+		if _, err := sdk.AccAddressFromBech32(addr); err != nil {
+			return errorsmod.Wrap(err, "addresses")
+		}
+		if _, found := index[addr]; found {
+			return errorsmod.Wrap(ErrInvalid, "duplicate addresses")
+		}
+		index[addr] = struct{}{}
+	}
+	return nil
 }
 
 func (msg MsgStoreAndMigrateContract) Route() string {
