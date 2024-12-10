@@ -88,7 +88,7 @@ func (p PermissionedKeeper) Instantiate2(
 		initMsg,
 		label,
 		deposit,
-		PredictableAddressGenerator(creator, salt, initMsg, fixMsg),
+		PredicableAddressGenerator(creator, salt, initMsg, fixMsg),
 		p.authZPolicy,
 	)
 }

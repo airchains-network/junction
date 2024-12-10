@@ -1,7 +1,6 @@
 package app
 
 import (
-	wasmtypes "github.com/airchains-network/junction/x/wasm/types"
 	"time"
 
 	runtimev1alpha1 "cosmossdk.io/api/cosmos/app/runtime/v1alpha1"
@@ -97,8 +96,6 @@ var (
 		group.ModuleName,
 		consensustypes.ModuleName,
 		circuittypes.ModuleName,
-		// wasm after ibc transfer
-		wasmtypes.ModuleName,
 		// chain modules
 		junctionmoduletypes.ModuleName,
 		trackgatemoduletypes.ModuleName,
@@ -125,8 +122,6 @@ var (
 		ibctransfertypes.ModuleName,
 		icatypes.ModuleName,
 		ibcfeetypes.ModuleName,
-		//wasm module
-		wasmtypes.ModuleName,
 		// chain modules
 		junctionmoduletypes.ModuleName,
 		trackgatemoduletypes.ModuleName,
@@ -147,8 +142,6 @@ var (
 		capabilitytypes.ModuleName,
 		icatypes.ModuleName,
 		ibcfeetypes.ModuleName,
-		//wasm module
-		wasmtypes.ModuleName,
 		// chain modules
 		junctionmoduletypes.ModuleName,
 		trackgatemoduletypes.ModuleName,
@@ -172,8 +165,6 @@ var (
 		{Account: ibctransfertypes.ModuleName, Permissions: []string{authtypes.Minter, authtypes.Burner}},
 		{Account: ibcfeetypes.ModuleName},
 		{Account: icatypes.ModuleName},
-		// wasm module permissions
-		{Account: wasmtypes.ModuleName, Permissions: []string{authtypes.Burner}},
 		{Account: trackgatemoduletypes.ModuleName, Permissions: []string{authtypes.Minter, authtypes.Burner, authtypes.Staking}},
 		// this line is used by starport scaffolding # stargate/app/maccPerms
 	}

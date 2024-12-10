@@ -35,25 +35,43 @@ jq '.app_state.gov.params.max_deposit_period = "600s" |
     $GENESIS_FILE > "$GENESIS_FILE.tmp" && mv "$GENESIS_FILE.tmp" "$GENESIS_FILE"
 echo "Genesis file updated with new voting and deposit periods"
 
-# Modify the app.toml file with the required changes
+# Detect the operating system
+OS=$(uname)
+
+# Function to apply sed command based on the OS
+apply_sed() {
+    local file="$1"
+    local pattern="$2"
+    local replacement="$3"
+
+    if [ "$OS" = "Darwin" ]; then
+        sed -i '' "s|$pattern|$replacement|" "$file"
+    else
+        sed -i "s|$pattern|$replacement|" "$file"
+    fi
+}
+# Paths to configuration files
 APP_TOML="$HOME/.junction/config/app.toml"
-sed -i 's/minimum-gas-prices = ""/minimum-gas-prices = "0.00025amf"/' $APP_TOML
-sed -i 's/enable = false/enable = true/' $APP_TOML
-sed -i 's/swagger = false/swagger = true/' $APP_TOML
-sed -i 's/tcp:\/\/localhost:1317/tcp:\/\/0.0.0.0:1317/' $APP_TOML
+CONFIG_TOML="$HOME/.junction/config/config.toml"
+CLIENT_TOML="$HOME/.junction/config/client.toml"
+
+# Modify the app.toml file with the required changes
+apply_sed "$APP_TOML" 'minimum-gas-prices = ""' 'minimum-gas-prices = "0.00025amf"'
+apply_sed "$APP_TOML" 'enable = false' 'enable = true'
+apply_sed "$APP_TOML" 'swagger = false' 'swagger = true'
+apply_sed "$APP_TOML" 'tcp://localhost:1317' 'tcp://0.0.0.0:1317'
 echo "App.toml file updated with new gas prices, enabled Swagger, and updated address"
 
 # Modify laddr in config.toml to listen on all interfaces (0.0.0.0)
-CONFIG_TOML="$HOME/.junction/config/config.toml"
-sed -i 's/laddr = "tcp:\/\/127.0.0.1:26657"/laddr = "tcp:\/\/0.0.0.0:26657"/' $CONFIG_TOML
+apply_sed "$CONFIG_TOML" 'laddr = "tcp://127.0.0.1:26657"' 'laddr = "tcp://0.0.0.0:26657"'
 echo "Config.toml file updated to listen on all interfaces (0.0.0.0) on port 26657"
 
 # Modify node address in client.toml to 0.0.0.0
-CLIENT_TOML="$HOME/.junction/config/client.toml"
-sed -i 's/node = "tcp:\/\/localhost:26657"/node = "tcp:\/\/0.0.0.0:26657"/' $CLIENT_TOML
+apply_sed "$CLIENT_TOML" 'node = "tcp://localhost:26657"' 'node = "tcp://0.0.0.0:26657"'
 echo "Client.toml file updated with new node address (0.0.0.0)"
 
+# Validate genesis file
 ./build/junctiond genesis validate-genesis
 
-# Run the junctiond node :
+# Run the junctiond node
 ./build/junctiond start

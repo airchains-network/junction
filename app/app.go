@@ -3,8 +3,6 @@ package app
 import (
 	"context"
 	wasmkeeper "github.com/airchains-network/junction/x/wasm/keeper"
-	wasmtypes "github.com/airchains-network/junction/x/wasm/types"
-	"github.com/cosmos/cosmos-sdk/version"
 	"io"
 	"os"
 	"path/filepath"
@@ -223,7 +221,7 @@ func New(
 				// Passing the getter, the app IBC Keeper will always be accessible.
 				// This needs to be removed after IBC supports App Wiring.
 				app.GetIBCKeeper,
-				app.GetWasmKeeper(),
+				app.GetWasmKeeper,
 				app.GetCapabilityScopedKeeper,
 				// Supply the logger
 				logger,
@@ -331,11 +329,8 @@ func New(
 	// 	voteExtHandler := NewVoteExtensionHandler()
 	// 	voteExtHandler.SetHandlers(bApp)
 	// }
-	// Register legacy modules
-	app.registerIBCModules(appOpts, wasmOpts)
 
 	app.App = appBuilder.Build(db, traceStore, baseAppOptions...)
-	app.App.BaseApp.SetVersion(version.Version)
 
 	upgradeInfo, err := app.UpgradeKeeper.ReadUpgradeInfoFromDisk()
 	if err != nil {
@@ -418,43 +413,9 @@ func New(
 			}, // Upgrade handler function
 		)
 	}
+	// Register legacy modules
+	app.registerIBCModules()
 
-	if upgradeInfo.Name == "jip-3" && !app.UpgradeKeeper.IsSkipHeight(upgradeInfo.Height) {
-		storeUpgrades := storetypes.StoreUpgrades{
-			Added: []string{wasmtypes.StoreKey},
-		}
-
-		app.SetStoreLoader(upgradetypes.UpgradeStoreLoader(upgradeInfo.Height, &storeUpgrades))
-		app.UpgradeKeeper.SetUpgradeHandler(
-			"jip-3",
-			func(ctx context.Context, plan upgradetypes.Plan, fromVM module.VersionMap) (module.VersionMap, error) {
-				sdkCtx := sdk.UnwrapSDKContext(ctx)
-
-				// Skip the capability module migration to avoid setting the index again
-				// You can use the module manager to skip migrations for the capability module by adjusting the version map
-
-				// Check if the capability index is already set before attempting to initialize it
-				latestIndex := app.CapabilityKeeper.GetLatestIndex(sdkCtx)
-				if latestIndex == 0 {
-					// The index is not set, so we can safely initialize it
-					err := app.CapabilityKeeper.InitializeIndex(sdkCtx, 1) // Initialize with index 1 or a value > 0
-					if err != nil {
-						return nil, err
-					}
-				} else {
-					logger.Info("Capability index already initialized, skipping re-initialization")
-				}
-				versionMap := module.VersionMap{
-					"wasm": 1,
-				}
-				if err != nil {
-					return nil, err
-				}
-
-				return versionMap, nil
-			}, // Upgrade handler function
-		)
-	}
 	// register streaming services
 	if err := app.RegisterStreamingServices(appOpts, app.kvStoreKeys()); err != nil {
 		return nil, err
