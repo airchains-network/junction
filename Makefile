@@ -44,6 +44,7 @@ default: build
 build: go.sum
 	@echo "Building $(BINARY_NAME) binary..."
 	$(GO_BUILD) -tags "$(build_tags)" -ldflags '$(ldflags)' -o $(BUILD_DIR)/$(BINARY_NAME) $(SOURCE_DIR)
+	@shasum -a 256 $(BUILD_DIR)/$(BINARY_NAME) >> $(CHECKSUM_FILE)
 
 # Install the binary
 install:

@@ -1,15 +1,10 @@
 package app
 
 import (
-	"context"
 	wasmkeeper "github.com/airchains-network/junction/x/wasm/keeper"
 	"io"
 	"os"
 	"path/filepath"
-
-	upgradetypes "cosmossdk.io/x/upgrade/types"
-	trackgatemoduletypes "github.com/airchains-network/junction/x/trackgate/types"
-	sdk "github.com/cosmos/cosmos-sdk/types"
 
 	_ "cosmossdk.io/api/cosmos/tx/config/v1" // import for side-effects
 	"cosmossdk.io/depinject"
@@ -334,87 +329,12 @@ func New(
 
 	app.App = appBuilder.Build(db, traceStore, baseAppOptions...)
 
-	upgradeInfo, err := app.UpgradeKeeper.ReadUpgradeInfoFromDisk()
-	if err != nil {
-		panic(err)
-	}
+	//upgradeInfo, err := app.UpgradeKeeper.ReadUpgradeInfoFromDisk()
+	//if err != nil {
+	//	panic(err)
+	//}
 
-	if upgradeInfo.Name == "jip-2" && !app.UpgradeKeeper.IsSkipHeight(upgradeInfo.Height) {
-		storeUpgrades := storetypes.StoreUpgrades{
-			Added: []string{trackgatemoduletypes.StoreKey},
-		}
-
-		app.SetStoreLoader(upgradetypes.UpgradeStoreLoader(upgradeInfo.Height, &storeUpgrades))
-		app.UpgradeKeeper.SetUpgradeHandler(
-			"jip-2",
-			func(ctx context.Context, plan upgradetypes.Plan, fromVM module.VersionMap) (module.VersionMap, error) {
-				sdkCtx := sdk.UnwrapSDKContext(ctx)
-				//storeUpgrades := storetypes.StoreUpgrades{
-				//	Added: []string{trackgateTypes.StoreKey},
-				//}
-				//
-				//app.SetStoreLoader(upgradetypes.UpgradeStoreLoader(plan.Height, &storeUpgrades))
-
-				// Skip the capability module migration to avoid setting the index again
-				// You can use the module manager to skip migrations for the capability module by adjusting the version map
-
-				// Check if the capability index is already set before attempting to initialize it
-				latestIndex := app.CapabilityKeeper.GetLatestIndex(sdkCtx)
-				if latestIndex == 0 {
-					// The index is not set, so we can safely initialize it
-					err := app.CapabilityKeeper.InitializeIndex(sdkCtx, 1) // Initialize with index 1 or a value > 0
-					if err != nil {
-						return nil, err
-					}
-				} else {
-					logger.Info("Capability index already initialized, skipping re-initialization")
-				}
-				//configurator := app.Configurator()
-				//versionMap, err := app.ModuleManager.RunMigrations(sdkCtx, configurator, fromVM)
-				//if err != nil {
-				//	return nil, err
-				//}
-				//// Convert the VersionMap to a string for logging
-				//versionMapString := fmt.Sprintf("%v", versionMap)
-				//logger.Info(versionMapString)
-				//
-				//// Ensure the capability module is not migrated again
-				//if version, exists := versionMap["capability"]; exists && version >= 1 {
-				//	logger.Info("Skipping capability module migration")
-				//}
-				versionMap := module.VersionMap{
-					"trackgate": 1,
-				}
-
-				//authority := authtypes.NewModuleAddress(govtypes.ModuleName)
-				//
-				//// Create the Trackgate Keeper
-				//app.TrackgateKeeper = trackgatemodulekeeper.NewKeeper(
-				//	app.AppCodec(),
-				//	runtime.NewKVStoreService(app.GetKey(trackgatemoduletypes.StoreKey)),
-				//	logger,
-				//	authority.String(),
-				//	app.BankKeeper,
-				//)
-
-				//Create the Trackgate AppModule
-				//trackgateModule := trackgate.NewAppModule(
-				//	app.AppCodec(),
-				//	app.TrackgateKeeper,
-				//	app.AccountKeeper,
-				//	app.BankKeeper,
-				//)
-				//
-				//// Register the Trackgate module using app.RegisterModules
-				//err = app.RegisterModules(trackgateModule)
-				if err != nil {
-					return nil, err
-				}
-
-				return versionMap, nil
-			}, // Upgrade handler function
-		)
-	}
+	app.RegisterUpgradeHandlers()
 	// Register legacy modules
 	app.registerWasmAndIBCModules(appOpts, wasmOpts)
 
