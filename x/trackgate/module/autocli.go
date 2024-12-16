@@ -127,6 +127,12 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					Short:          "Send a log-blob-data tx",
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "daData"}},
 				},
+				{
+					RpcMethod:      "IntegrityCheck",
+					Use:            "integrity-check [da-commitment]",
+					Short:          "Send a integrity-check tx",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "daCommitment"}},
+				},
 				// this line is used by ignite scaffolding # autocli/tx
 			},
 		},

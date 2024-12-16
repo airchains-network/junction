@@ -25,6 +25,7 @@ service Msg {
   rpc MigrateSchema  (MsgMigrateSchema ) returns (MsgMigrateSchemaResponse );
   rpc AuditSequencer (MsgAuditSequencer) returns (MsgAuditSequencerResponse);
   rpc LogBlobData    (MsgLogBlobData   ) returns (MsgLogBlobDataResponse   );
+  rpc IntegrityCheck (MsgIntegrityCheck) returns (MsgIntegrityCheckResponse);
 }
 // MsgUpdateParams is the Msg/UpdateParams request type.
 message MsgUpdateParams {
@@ -113,6 +114,16 @@ message MsgLogBlobData {
 }
 
 message MsgLogBlobDataResponse {
+  bool status = 1;
+}
+
+message MsgIntegrityCheck {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator      = 1;
+  string daCommitment = 2;
+}
+
+message MsgIntegrityCheckResponse {
   bool status = 1;
 }
 

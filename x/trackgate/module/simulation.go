@@ -47,6 +47,10 @@ const (
 	// TODO: Determine the simulation weight value
 	defaultWeightMsgLogBlobData int = 100
 
+	opWeightMsgIntegrityCheck = "op_weight_msg_integrity_check"
+	// TODO: Determine the simulation weight value
+	defaultWeightMsgIntegrityCheck int = 100
+
 	// this line is used by starport scaffolding # simapp/module/const
 )
 
@@ -141,6 +145,17 @@ func (am AppModule) WeightedOperations(simState module.SimulationState) []simtyp
 		trackgatesimulation.SimulateMsgLogBlobData(am.accountKeeper, am.bankKeeper, am.keeper),
 	))
 
+	var weightMsgIntegrityCheck int
+	simState.AppParams.GetOrGenerate(opWeightMsgIntegrityCheck, &weightMsgIntegrityCheck, nil,
+		func(_ *rand.Rand) {
+			weightMsgIntegrityCheck = defaultWeightMsgIntegrityCheck
+		},
+	)
+	operations = append(operations, simulation.NewWeightedOperation(
+		weightMsgIntegrityCheck,
+		trackgatesimulation.SimulateMsgIntegrityCheck(am.accountKeeper, am.bankKeeper, am.keeper),
+	))
+
 	// this line is used by starport scaffolding # simapp/module/operation
 
 	return operations
@@ -194,6 +209,14 @@ func (am AppModule) ProposalMsgs(simState module.SimulationState) []simtypes.Wei
 			defaultWeightMsgLogBlobData,
 			func(r *rand.Rand, ctx sdk.Context, accs []simtypes.Account) sdk.Msg {
 				trackgatesimulation.SimulateMsgLogBlobData(am.accountKeeper, am.bankKeeper, am.keeper)
+				return nil
+			},
+		),
+		simulation.NewWeightedProposalMsg(
+			opWeightMsgIntegrityCheck,
+			defaultWeightMsgIntegrityCheck,
+			func(r *rand.Rand, ctx sdk.Context, accs []simtypes.Account) sdk.Msg {
+				trackgatesimulation.SimulateMsgIntegrityCheck(am.accountKeeper, am.bankKeeper, am.keeper)
 				return nil
 			},
 		),

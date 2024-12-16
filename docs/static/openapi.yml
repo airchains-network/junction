@@ -20215,6 +20215,48 @@ paths:
                   type: string
       tags:
         - Msg
+  /junction.trackgate.Msg/IntegrityCheck:
+    post:
+      operationId: JunctionTrackgateMsg_IntegrityCheck
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              status:
+                type: boolean
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              creator:
+                type: string
+              daCommitment:
+                type: string
+      tags:
+        - Msg
   /junction.trackgate.Msg/LogBlobData:
     post:
       operationId: JunctionTrackgateMsg_LogBlobData
@@ -28794,6 +28836,18 @@ definitions:
         items:
           type: string
   junction.trackgate.MsgInitStationResponse:
+    type: object
+    properties:
+      status:
+        type: boolean
+  junction.trackgate.MsgIntegrityCheck:
+    type: object
+    properties:
+      creator:
+        type: string
+      daCommitment:
+        type: string
+  junction.trackgate.MsgIntegrityCheckResponse:
     type: object
     properties:
       status:
