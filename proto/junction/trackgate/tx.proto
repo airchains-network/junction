@@ -110,7 +110,8 @@ message MsgAuditSequencerResponse {
 message MsgLogBlobData {
   option (cosmos.msg.v1.signer) = "creator";
   string     creator = 1;
-  DaBlobData daData  = 2;
+  string extTrackStationId = 2;
+  DaBlobData daData  = 3;
 }
 
 message MsgLogBlobDataResponse {
