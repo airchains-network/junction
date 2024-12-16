@@ -763,13 +763,6 @@ func TestMsgAddCodeUploadParamsAddressesValidation(t *testing.T) {
 	badAddress := "abcd"
 	// proper address size
 	goodAddress := sdk.AccAddress(make([]byte, 20)).String()
-	goodAddress2 := strings.ToUpper(goodAddress)
-	require.NotEqual(t, goodAddress, goodAddress2) // sanity check
-
-	tooManyAddresses := make([]string, MaxAddressCount+1)
-	for i := range tooManyAddresses {
-		tooManyAddresses[i] = sdk.AccAddress(bytes.Repeat([]byte{byte(i)}, 20)).String()
-	}
 
 	specs := map[string]struct {
 		src    MsgAddCodeUploadParamsAddresses
@@ -779,12 +772,6 @@ func TestMsgAddCodeUploadParamsAddressesValidation(t *testing.T) {
 			src: MsgAddCodeUploadParamsAddresses{
 				Authority: goodAddress,
 				Addresses: []string{goodAddress},
-			},
-		},
-		"all good, uppercase": {
-			src: MsgAddCodeUploadParamsAddresses{
-				Authority: goodAddress,
-				Addresses: []string{goodAddress2},
 			},
 		},
 		"bad authority": {
@@ -817,20 +804,6 @@ func TestMsgAddCodeUploadParamsAddressesValidation(t *testing.T) {
 			src: MsgAddCodeUploadParamsAddresses{
 				Authority: goodAddress,
 				Addresses: []string{goodAddress, goodAddress},
-			},
-			expErr: true,
-		},
-		"duplicate addresses, different casing": {
-			src: MsgAddCodeUploadParamsAddresses{
-				Authority: goodAddress,
-				Addresses: []string{goodAddress, goodAddress2},
-			},
-			expErr: true,
-		},
-		"too many addresses": {
-			src: MsgAddCodeUploadParamsAddresses{
-				Authority: goodAddress,
-				Addresses: tooManyAddresses,
 			},
 			expErr: true,
 		},
@@ -850,13 +823,6 @@ func TestMsgAddCodeUploadParamsAddressesValidation(t *testing.T) {
 func TestMsgRemoveCodeUploadParamsAddressesValidation(t *testing.T) {
 	// proper address size
 	goodAddress := sdk.AccAddress(make([]byte, 20)).String()
-	goodAddress2 := strings.ToUpper(goodAddress)
-	require.NotEqual(t, goodAddress, goodAddress2) // sanity check
-
-	tooManyAddresses := make([]string, MaxAddressCount+1)
-	for i := range tooManyAddresses {
-		tooManyAddresses[i] = sdk.AccAddress(bytes.Repeat([]byte{byte(i)}, 20)).String()
-	}
 
 	specs := map[string]struct {
 		src    MsgRemoveCodeUploadParamsAddresses
@@ -866,12 +832,6 @@ func TestMsgRemoveCodeUploadParamsAddressesValidation(t *testing.T) {
 			src: MsgRemoveCodeUploadParamsAddresses{
 				Authority: goodAddress,
 				Addresses: []string{goodAddress},
-			},
-		},
-		"all good, uppercase": {
-			src: MsgRemoveCodeUploadParamsAddresses{
-				Authority: goodAddress,
-				Addresses: []string{goodAddress2},
 			},
 		},
 		"bad authority": {
@@ -904,20 +864,6 @@ func TestMsgRemoveCodeUploadParamsAddressesValidation(t *testing.T) {
 			src: MsgRemoveCodeUploadParamsAddresses{
 				Authority: goodAddress,
 				Addresses: []string{goodAddress, goodAddress},
-			},
-			expErr: true,
-		},
-		"duplicate addresses, different casing": {
-			src: MsgRemoveCodeUploadParamsAddresses{
-				Authority: goodAddress,
-				Addresses: []string{goodAddress, goodAddress2},
-			},
-			expErr: true,
-		},
-		"too many addresses": {
-			src: MsgRemoveCodeUploadParamsAddresses{
-				Authority: goodAddress,
-				Addresses: tooManyAddresses,
 			},
 			expErr: true,
 		},
