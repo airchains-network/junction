@@ -1,10 +1,11 @@
 package app
 
 import (
-	wasmkeeper "github.com/airchains-network/junction/x/wasm/keeper"
 	"io"
 	"os"
 	"path/filepath"
+
+	wasmkeeper "github.com/airchains-network/junction/x/wasm/keeper"
 
 	_ "cosmossdk.io/api/cosmos/tx/config/v1" // import for side-effects
 	"cosmossdk.io/depinject"

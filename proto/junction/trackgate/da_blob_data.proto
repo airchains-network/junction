@@ -1,0 +1,11 @@
+syntax = "proto3";
+package junction.trackgate;
+
+option go_package = "github.com/airchains-network/junction/x/trackgate/types";
+
+message DaBlobData {
+  string daType = 1; 
+  uint64 height = 2; 
+  bytes blob = 3;
+  string stationRefId = 4; 
+}
