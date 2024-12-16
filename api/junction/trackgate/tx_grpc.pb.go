@@ -8,6 +8,7 @@ package trackgate
 
 import (
 	context "context"
+
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -25,6 +26,7 @@ const (
 	Msg_SchemaEngage_FullMethodName   = "/junction.trackgate.Msg/SchemaEngage"
 	Msg_MigrateSchema_FullMethodName  = "/junction.trackgate.Msg/MigrateSchema"
 	Msg_AuditSequencer_FullMethodName = "/junction.trackgate.Msg/AuditSequencer"
+	Msg_LogBlobData_FullMethodName    = "/junction.trackgate.Msg/LogBlobData"
 )
 
 // MsgClient is the client API for Msg service.
@@ -41,6 +43,7 @@ type MsgClient interface {
 	SchemaEngage(ctx context.Context, in *MsgSchemaEngage, opts ...grpc.CallOption) (*MsgSchemaEngageResponse, error)
 	MigrateSchema(ctx context.Context, in *MsgMigrateSchema, opts ...grpc.CallOption) (*MsgMigrateSchemaResponse, error)
 	AuditSequencer(ctx context.Context, in *MsgAuditSequencer, opts ...grpc.CallOption) (*MsgAuditSequencerResponse, error)
+	LogBlobData(ctx context.Context, in *MsgLogBlobData, opts ...grpc.CallOption) (*MsgLogBlobDataResponse, error)
 }
 
 type msgClient struct {
@@ -111,6 +114,16 @@ func (c *msgClient) AuditSequencer(ctx context.Context, in *MsgAuditSequencer, o
 	return out, nil
 }
 
+func (c *msgClient) LogBlobData(ctx context.Context, in *MsgLogBlobData, opts ...grpc.CallOption) (*MsgLogBlobDataResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(MsgLogBlobDataResponse)
+	err := c.cc.Invoke(ctx, Msg_LogBlobData_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MsgServer is the server API for Msg service.
 // All implementations must embed UnimplementedMsgServer
 // for forward compatibility.
@@ -125,6 +138,7 @@ type MsgServer interface {
 	SchemaEngage(context.Context, *MsgSchemaEngage) (*MsgSchemaEngageResponse, error)
 	MigrateSchema(context.Context, *MsgMigrateSchema) (*MsgMigrateSchemaResponse, error)
 	AuditSequencer(context.Context, *MsgAuditSequencer) (*MsgAuditSequencerResponse, error)
+	LogBlobData(context.Context, *MsgLogBlobData) (*MsgLogBlobDataResponse, error)
 	mustEmbedUnimplementedMsgServer()
 }
 
@@ -152,6 +166,9 @@ func (UnimplementedMsgServer) MigrateSchema(context.Context, *MsgMigrateSchema) 
 }
 func (UnimplementedMsgServer) AuditSequencer(context.Context, *MsgAuditSequencer) (*MsgAuditSequencerResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AuditSequencer not implemented")
+}
+func (UnimplementedMsgServer) LogBlobData(context.Context, *MsgLogBlobData) (*MsgLogBlobDataResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method LogBlobData not implemented")
 }
 func (UnimplementedMsgServer) mustEmbedUnimplementedMsgServer() {}
 func (UnimplementedMsgServer) testEmbeddedByValue()             {}
@@ -282,6 +299,24 @@ func _Msg_AuditSequencer_Handler(srv interface{}, ctx context.Context, dec func(
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Msg_LogBlobData_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgLogBlobData)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).LogBlobData(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Msg_LogBlobData_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).LogBlobData(ctx, req.(*MsgLogBlobData))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Msg_ServiceDesc is the grpc.ServiceDesc for Msg service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -312,6 +347,10 @@ var Msg_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "AuditSequencer",
 			Handler:    _Msg_AuditSequencer_Handler,
+		},
+		{
+			MethodName: "LogBlobData",
+			Handler:    _Msg_LogBlobData_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

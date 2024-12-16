@@ -121,6 +121,12 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					Short:          "Send a audit-sequencer tx",
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "sequencerChecks"}},
 				},
+				{
+					RpcMethod:      "LogBlobData",
+					Use:            "log-blob-data [da-data]",
+					Short:          "Send a log-blob-data tx",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "daData"}},
+				},
 				// this line is used by ignite scaffolding # autocli/tx
 			},
 		},
