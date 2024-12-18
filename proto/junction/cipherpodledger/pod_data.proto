@@ -1,0 +1,14 @@
+syntax = "proto3";
+package junction.cipherpodledger;
+
+option go_package = "github.com/airchains-network/junction/x/cipherpodledger/types";
+
+message PodData {
+  
+  string ascContractAddress = 1; 
+  uint64 podNumber = 2; 
+  string daBlobId = 3; 
+  string submittedBy = 4; 
+  string status = 5; 
+  int32 timestamp = 6; 
+}
