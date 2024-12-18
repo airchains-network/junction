@@ -41,11 +41,13 @@ This function should log these details in the state.
 func (k msgServer) LogBlobData(goCtx context.Context, msg *types.MsgLogBlobData) (*types.MsgLogBlobDataResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
-	daData := msg.DaData
-	stationRefID := daData.StationRefId
-	daType := daData.DaType
-	height := daData.Height
-	blob := daData.Blob
+	// daData := msg.DaData
+	// stationRefID := daData.StationRefId
+	// daType := daData.DaType
+	// height := daData.Height
+	// blob := daData.Blob
+
+	_ = ctx
 
 	return &types.MsgLogBlobDataResponse{}, nil
 }
