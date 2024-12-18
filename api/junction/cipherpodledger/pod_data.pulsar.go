@@ -3,14 +3,13 @@ package cipherpodledger
 
 import (
 	fmt "fmt"
-	io "io"
-	reflect "reflect"
-	sync "sync"
-
 	runtime "github.com/cosmos/cosmos-proto/runtime"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoiface "google.golang.org/protobuf/runtime/protoiface"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	io "io"
+	reflect "reflect"
+	sync "sync"
 )
 
 var (
@@ -21,6 +20,10 @@ var (
 	fd_PodData_submittedBy        protoreflect.FieldDescriptor
 	fd_PodData_status             protoreflect.FieldDescriptor
 	fd_PodData_timestamp          protoreflect.FieldDescriptor
+	fd_PodData_provingNetwork     protoreflect.FieldDescriptor
+	fd_PodData_zkFHEProof         protoreflect.FieldDescriptor
+	fd_PodData_zkFHEWitness       protoreflect.FieldDescriptor
+	fd_PodData_isProofVerified    protoreflect.FieldDescriptor
 )
 
 func init() {
@@ -32,6 +35,10 @@ func init() {
 	fd_PodData_submittedBy = md_PodData.Fields().ByName("submittedBy")
 	fd_PodData_status = md_PodData.Fields().ByName("status")
 	fd_PodData_timestamp = md_PodData.Fields().ByName("timestamp")
+	fd_PodData_provingNetwork = md_PodData.Fields().ByName("provingNetwork")
+	fd_PodData_zkFHEProof = md_PodData.Fields().ByName("zkFHEProof")
+	fd_PodData_zkFHEWitness = md_PodData.Fields().ByName("zkFHEWitness")
+	fd_PodData_isProofVerified = md_PodData.Fields().ByName("isProofVerified")
 }
 
 var _ protoreflect.Message = (*fastReflection_PodData)(nil)
@@ -135,6 +142,30 @@ func (x *fastReflection_PodData) Range(f func(protoreflect.FieldDescriptor, prot
 			return
 		}
 	}
+	if x.ProvingNetwork != "" {
+		value := protoreflect.ValueOfString(x.ProvingNetwork)
+		if !f(fd_PodData_provingNetwork, value) {
+			return
+		}
+	}
+	if len(x.ZkFHEProof) != 0 {
+		value := protoreflect.ValueOfBytes(x.ZkFHEProof)
+		if !f(fd_PodData_zkFHEProof, value) {
+			return
+		}
+	}
+	if len(x.ZkFHEWitness) != 0 {
+		value := protoreflect.ValueOfBytes(x.ZkFHEWitness)
+		if !f(fd_PodData_zkFHEWitness, value) {
+			return
+		}
+	}
+	if x.IsProofVerified != false {
+		value := protoreflect.ValueOfBool(x.IsProofVerified)
+		if !f(fd_PodData_isProofVerified, value) {
+			return
+		}
+	}
 }
 
 // Has reports whether a field is populated.
@@ -162,6 +193,14 @@ func (x *fastReflection_PodData) Has(fd protoreflect.FieldDescriptor) bool {
 		return x.Status != ""
 	case "junction.cipherpodledger.PodData.timestamp":
 		return x.Timestamp != int32(0)
+	case "junction.cipherpodledger.PodData.provingNetwork":
+		return x.ProvingNetwork != ""
+	case "junction.cipherpodledger.PodData.zkFHEProof":
+		return len(x.ZkFHEProof) != 0
+	case "junction.cipherpodledger.PodData.zkFHEWitness":
+		return len(x.ZkFHEWitness) != 0
+	case "junction.cipherpodledger.PodData.isProofVerified":
+		return x.IsProofVerified != false
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: junction.cipherpodledger.PodData"))
@@ -190,6 +229,14 @@ func (x *fastReflection_PodData) Clear(fd protoreflect.FieldDescriptor) {
 		x.Status = ""
 	case "junction.cipherpodledger.PodData.timestamp":
 		x.Timestamp = int32(0)
+	case "junction.cipherpodledger.PodData.provingNetwork":
+		x.ProvingNetwork = ""
+	case "junction.cipherpodledger.PodData.zkFHEProof":
+		x.ZkFHEProof = nil
+	case "junction.cipherpodledger.PodData.zkFHEWitness":
+		x.ZkFHEWitness = nil
+	case "junction.cipherpodledger.PodData.isProofVerified":
+		x.IsProofVerified = false
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: junction.cipherpodledger.PodData"))
@@ -224,6 +271,18 @@ func (x *fastReflection_PodData) Get(descriptor protoreflect.FieldDescriptor) pr
 	case "junction.cipherpodledger.PodData.timestamp":
 		value := x.Timestamp
 		return protoreflect.ValueOfInt32(value)
+	case "junction.cipherpodledger.PodData.provingNetwork":
+		value := x.ProvingNetwork
+		return protoreflect.ValueOfString(value)
+	case "junction.cipherpodledger.PodData.zkFHEProof":
+		value := x.ZkFHEProof
+		return protoreflect.ValueOfBytes(value)
+	case "junction.cipherpodledger.PodData.zkFHEWitness":
+		value := x.ZkFHEWitness
+		return protoreflect.ValueOfBytes(value)
+	case "junction.cipherpodledger.PodData.isProofVerified":
+		value := x.IsProofVerified
+		return protoreflect.ValueOfBool(value)
 	default:
 		if descriptor.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: junction.cipherpodledger.PodData"))
@@ -256,6 +315,14 @@ func (x *fastReflection_PodData) Set(fd protoreflect.FieldDescriptor, value prot
 		x.Status = value.Interface().(string)
 	case "junction.cipherpodledger.PodData.timestamp":
 		x.Timestamp = int32(value.Int())
+	case "junction.cipherpodledger.PodData.provingNetwork":
+		x.ProvingNetwork = value.Interface().(string)
+	case "junction.cipherpodledger.PodData.zkFHEProof":
+		x.ZkFHEProof = value.Bytes()
+	case "junction.cipherpodledger.PodData.zkFHEWitness":
+		x.ZkFHEWitness = value.Bytes()
+	case "junction.cipherpodledger.PodData.isProofVerified":
+		x.IsProofVerified = value.Bool()
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: junction.cipherpodledger.PodData"))
@@ -288,6 +355,14 @@ func (x *fastReflection_PodData) Mutable(fd protoreflect.FieldDescriptor) protor
 		panic(fmt.Errorf("field status of message junction.cipherpodledger.PodData is not mutable"))
 	case "junction.cipherpodledger.PodData.timestamp":
 		panic(fmt.Errorf("field timestamp of message junction.cipherpodledger.PodData is not mutable"))
+	case "junction.cipherpodledger.PodData.provingNetwork":
+		panic(fmt.Errorf("field provingNetwork of message junction.cipherpodledger.PodData is not mutable"))
+	case "junction.cipherpodledger.PodData.zkFHEProof":
+		panic(fmt.Errorf("field zkFHEProof of message junction.cipherpodledger.PodData is not mutable"))
+	case "junction.cipherpodledger.PodData.zkFHEWitness":
+		panic(fmt.Errorf("field zkFHEWitness of message junction.cipherpodledger.PodData is not mutable"))
+	case "junction.cipherpodledger.PodData.isProofVerified":
+		panic(fmt.Errorf("field isProofVerified of message junction.cipherpodledger.PodData is not mutable"))
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: junction.cipherpodledger.PodData"))
@@ -313,6 +388,14 @@ func (x *fastReflection_PodData) NewField(fd protoreflect.FieldDescriptor) proto
 		return protoreflect.ValueOfString("")
 	case "junction.cipherpodledger.PodData.timestamp":
 		return protoreflect.ValueOfInt32(int32(0))
+	case "junction.cipherpodledger.PodData.provingNetwork":
+		return protoreflect.ValueOfString("")
+	case "junction.cipherpodledger.PodData.zkFHEProof":
+		return protoreflect.ValueOfBytes(nil)
+	case "junction.cipherpodledger.PodData.zkFHEWitness":
+		return protoreflect.ValueOfBytes(nil)
+	case "junction.cipherpodledger.PodData.isProofVerified":
+		return protoreflect.ValueOfBool(false)
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: junction.cipherpodledger.PodData"))
@@ -404,6 +487,21 @@ func (x *fastReflection_PodData) ProtoMethods() *protoiface.Methods {
 		if x.Timestamp != 0 {
 			n += 1 + runtime.Sov(uint64(x.Timestamp))
 		}
+		l = len(x.ProvingNetwork)
+		if l > 0 {
+			n += 1 + l + runtime.Sov(uint64(l))
+		}
+		l = len(x.ZkFHEProof)
+		if l > 0 {
+			n += 1 + l + runtime.Sov(uint64(l))
+		}
+		l = len(x.ZkFHEWitness)
+		if l > 0 {
+			n += 1 + l + runtime.Sov(uint64(l))
+		}
+		if x.IsProofVerified {
+			n += 2
+		}
 		if x.unknownFields != nil {
 			n += len(x.unknownFields)
 		}
@@ -432,6 +530,37 @@ func (x *fastReflection_PodData) ProtoMethods() *protoiface.Methods {
 		if x.unknownFields != nil {
 			i -= len(x.unknownFields)
 			copy(dAtA[i:], x.unknownFields)
+		}
+		if x.IsProofVerified {
+			i--
+			if x.IsProofVerified {
+				dAtA[i] = 1
+			} else {
+				dAtA[i] = 0
+			}
+			i--
+			dAtA[i] = 0x50
+		}
+		if len(x.ZkFHEWitness) > 0 {
+			i -= len(x.ZkFHEWitness)
+			copy(dAtA[i:], x.ZkFHEWitness)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.ZkFHEWitness)))
+			i--
+			dAtA[i] = 0x4a
+		}
+		if len(x.ZkFHEProof) > 0 {
+			i -= len(x.ZkFHEProof)
+			copy(dAtA[i:], x.ZkFHEProof)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.ZkFHEProof)))
+			i--
+			dAtA[i] = 0x42
+		}
+		if len(x.ProvingNetwork) > 0 {
+			i -= len(x.ProvingNetwork)
+			copy(dAtA[i:], x.ProvingNetwork)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.ProvingNetwork)))
+			i--
+			dAtA[i] = 0x3a
 		}
 		if x.Timestamp != 0 {
 			i = runtime.EncodeVarint(dAtA, i, uint64(x.Timestamp))
@@ -686,6 +815,126 @@ func (x *fastReflection_PodData) ProtoMethods() *protoiface.Methods {
 						break
 					}
 				}
+			case 7:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field ProvingNetwork", wireType)
+				}
+				var stringLen uint64
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					stringLen |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				intStringLen := int(stringLen)
+				if intStringLen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + intStringLen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				x.ProvingNetwork = string(dAtA[iNdEx:postIndex])
+				iNdEx = postIndex
+			case 8:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field ZkFHEProof", wireType)
+				}
+				var byteLen int
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					byteLen |= int(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				if byteLen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + byteLen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				x.ZkFHEProof = append(x.ZkFHEProof[:0], dAtA[iNdEx:postIndex]...)
+				if x.ZkFHEProof == nil {
+					x.ZkFHEProof = []byte{}
+				}
+				iNdEx = postIndex
+			case 9:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field ZkFHEWitness", wireType)
+				}
+				var byteLen int
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					byteLen |= int(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				if byteLen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + byteLen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				x.ZkFHEWitness = append(x.ZkFHEWitness[:0], dAtA[iNdEx:postIndex]...)
+				if x.ZkFHEWitness == nil {
+					x.ZkFHEWitness = []byte{}
+				}
+				iNdEx = postIndex
+			case 10:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field IsProofVerified", wireType)
+				}
+				var v int
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					v |= int(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				x.IsProofVerified = bool(v != 0)
 			default:
 				iNdEx = preIndex
 				skippy, err := runtime.Skip(dAtA[iNdEx:])
@@ -745,6 +994,11 @@ type PodData struct {
 	SubmittedBy        string `protobuf:"bytes,4,opt,name=submittedBy,proto3" json:"submittedBy,omitempty"`
 	Status             string `protobuf:"bytes,5,opt,name=status,proto3" json:"status,omitempty"`
 	Timestamp          int32  `protobuf:"varint,6,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
+	// proof state update related fields
+	ProvingNetwork  string `protobuf:"bytes,7,opt,name=provingNetwork,proto3" json:"provingNetwork,omitempty"`
+	ZkFHEProof      []byte `protobuf:"bytes,8,opt,name=zkFHEProof,proto3" json:"zkFHEProof,omitempty"`
+	ZkFHEWitness    []byte `protobuf:"bytes,9,opt,name=zkFHEWitness,proto3" json:"zkFHEWitness,omitempty"`
+	IsProofVerified bool   `protobuf:"varint,10,opt,name=isProofVerified,proto3" json:"isProofVerified,omitempty"`
 }
 
 func (x *PodData) Reset() {
@@ -809,6 +1063,34 @@ func (x *PodData) GetTimestamp() int32 {
 	return 0
 }
 
+func (x *PodData) GetProvingNetwork() string {
+	if x != nil {
+		return x.ProvingNetwork
+	}
+	return ""
+}
+
+func (x *PodData) GetZkFHEProof() []byte {
+	if x != nil {
+		return x.ZkFHEProof
+	}
+	return nil
+}
+
+func (x *PodData) GetZkFHEWitness() []byte {
+	if x != nil {
+		return x.ZkFHEWitness
+	}
+	return nil
+}
+
+func (x *PodData) GetIsProofVerified() bool {
+	if x != nil {
+		return x.IsProofVerified
+	}
+	return false
+}
+
 var File_junction_cipherpodledger_pod_data_proto protoreflect.FileDescriptor
 
 var file_junction_cipherpodledger_pod_data_proto_rawDesc = []byte{
@@ -816,7 +1098,7 @@ var file_junction_cipherpodledger_pod_data_proto_rawDesc = []byte{
 	0x72, 0x70, 0x6f, 0x64, 0x6c, 0x65, 0x64, 0x67, 0x65, 0x72, 0x2f, 0x70, 0x6f, 0x64, 0x5f, 0x64,
 	0x61, 0x74, 0x61, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x18, 0x6a, 0x75, 0x6e, 0x63, 0x74,
 	0x69, 0x6f, 0x6e, 0x2e, 0x63, 0x69, 0x70, 0x68, 0x65, 0x72, 0x70, 0x6f, 0x64, 0x6c, 0x65, 0x64,
-	0x67, 0x65, 0x72, 0x22, 0xcb, 0x01, 0x0a, 0x07, 0x50, 0x6f, 0x64, 0x44, 0x61, 0x74, 0x61, 0x12,
+	0x67, 0x65, 0x72, 0x22, 0xe1, 0x02, 0x0a, 0x07, 0x50, 0x6f, 0x64, 0x44, 0x61, 0x74, 0x61, 0x12,
 	0x2e, 0x0a, 0x12, 0x61, 0x73, 0x63, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x41, 0x64,
 	0x64, 0x72, 0x65, 0x73, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x12, 0x61, 0x73, 0x63,
 	0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x12,
@@ -829,21 +1111,30 @@ var file_junction_cipherpodledger_pod_data_proto_rawDesc = []byte{
 	0x74, 0x61, 0x74, 0x75, 0x73, 0x18, 0x05, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x73, 0x74, 0x61,
 	0x74, 0x75, 0x73, 0x12, 0x1c, 0x0a, 0x09, 0x74, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70,
 	0x18, 0x06, 0x20, 0x01, 0x28, 0x05, 0x52, 0x09, 0x74, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d,
-	0x70, 0x42, 0xd8, 0x01, 0x0a, 0x1c, 0x63, 0x6f, 0x6d, 0x2e, 0x6a, 0x75, 0x6e, 0x63, 0x74, 0x69,
-	0x6f, 0x6e, 0x2e, 0x63, 0x69, 0x70, 0x68, 0x65, 0x72, 0x70, 0x6f, 0x64, 0x6c, 0x65, 0x64, 0x67,
-	0x65, 0x72, 0x42, 0x0c, 0x50, 0x6f, 0x64, 0x44, 0x61, 0x74, 0x61, 0x50, 0x72, 0x6f, 0x74, 0x6f,
-	0x50, 0x01, 0x5a, 0x29, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x73, 0x64, 0x6b, 0x2e, 0x69, 0x6f,
-	0x2f, 0x61, 0x70, 0x69, 0x2f, 0x6a, 0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x2f, 0x63, 0x69,
-	0x70, 0x68, 0x65, 0x72, 0x70, 0x6f, 0x64, 0x6c, 0x65, 0x64, 0x67, 0x65, 0x72, 0xa2, 0x02, 0x03,
-	0x4a, 0x43, 0x58, 0xaa, 0x02, 0x18, 0x4a, 0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x43,
-	0x69, 0x70, 0x68, 0x65, 0x72, 0x70, 0x6f, 0x64, 0x6c, 0x65, 0x64, 0x67, 0x65, 0x72, 0xca, 0x02,
-	0x18, 0x4a, 0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x5c, 0x43, 0x69, 0x70, 0x68, 0x65, 0x72,
-	0x70, 0x6f, 0x64, 0x6c, 0x65, 0x64, 0x67, 0x65, 0x72, 0xe2, 0x02, 0x24, 0x4a, 0x75, 0x6e, 0x63,
-	0x74, 0x69, 0x6f, 0x6e, 0x5c, 0x43, 0x69, 0x70, 0x68, 0x65, 0x72, 0x70, 0x6f, 0x64, 0x6c, 0x65,
-	0x64, 0x67, 0x65, 0x72, 0x5c, 0x47, 0x50, 0x42, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61,
-	0xea, 0x02, 0x19, 0x4a, 0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x3a, 0x3a, 0x43, 0x69, 0x70,
-	0x68, 0x65, 0x72, 0x70, 0x6f, 0x64, 0x6c, 0x65, 0x64, 0x67, 0x65, 0x72, 0x62, 0x06, 0x70, 0x72,
-	0x6f, 0x74, 0x6f, 0x33,
+	0x70, 0x12, 0x26, 0x0a, 0x0e, 0x70, 0x72, 0x6f, 0x76, 0x69, 0x6e, 0x67, 0x4e, 0x65, 0x74, 0x77,
+	0x6f, 0x72, 0x6b, 0x18, 0x07, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0e, 0x70, 0x72, 0x6f, 0x76, 0x69,
+	0x6e, 0x67, 0x4e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x12, 0x1e, 0x0a, 0x0a, 0x7a, 0x6b, 0x46,
+	0x48, 0x45, 0x50, 0x72, 0x6f, 0x6f, 0x66, 0x18, 0x08, 0x20, 0x01, 0x28, 0x0c, 0x52, 0x0a, 0x7a,
+	0x6b, 0x46, 0x48, 0x45, 0x50, 0x72, 0x6f, 0x6f, 0x66, 0x12, 0x22, 0x0a, 0x0c, 0x7a, 0x6b, 0x46,
+	0x48, 0x45, 0x57, 0x69, 0x74, 0x6e, 0x65, 0x73, 0x73, 0x18, 0x09, 0x20, 0x01, 0x28, 0x0c, 0x52,
+	0x0c, 0x7a, 0x6b, 0x46, 0x48, 0x45, 0x57, 0x69, 0x74, 0x6e, 0x65, 0x73, 0x73, 0x12, 0x28, 0x0a,
+	0x0f, 0x69, 0x73, 0x50, 0x72, 0x6f, 0x6f, 0x66, 0x56, 0x65, 0x72, 0x69, 0x66, 0x69, 0x65, 0x64,
+	0x18, 0x0a, 0x20, 0x01, 0x28, 0x08, 0x52, 0x0f, 0x69, 0x73, 0x50, 0x72, 0x6f, 0x6f, 0x66, 0x56,
+	0x65, 0x72, 0x69, 0x66, 0x69, 0x65, 0x64, 0x42, 0xd8, 0x01, 0x0a, 0x1c, 0x63, 0x6f, 0x6d, 0x2e,
+	0x6a, 0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x63, 0x69, 0x70, 0x68, 0x65, 0x72, 0x70,
+	0x6f, 0x64, 0x6c, 0x65, 0x64, 0x67, 0x65, 0x72, 0x42, 0x0c, 0x50, 0x6f, 0x64, 0x44, 0x61, 0x74,
+	0x61, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a, 0x29, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73,
+	0x73, 0x64, 0x6b, 0x2e, 0x69, 0x6f, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x6a, 0x75, 0x6e, 0x63, 0x74,
+	0x69, 0x6f, 0x6e, 0x2f, 0x63, 0x69, 0x70, 0x68, 0x65, 0x72, 0x70, 0x6f, 0x64, 0x6c, 0x65, 0x64,
+	0x67, 0x65, 0x72, 0xa2, 0x02, 0x03, 0x4a, 0x43, 0x58, 0xaa, 0x02, 0x18, 0x4a, 0x75, 0x6e, 0x63,
+	0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x43, 0x69, 0x70, 0x68, 0x65, 0x72, 0x70, 0x6f, 0x64, 0x6c, 0x65,
+	0x64, 0x67, 0x65, 0x72, 0xca, 0x02, 0x18, 0x4a, 0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x5c,
+	0x43, 0x69, 0x70, 0x68, 0x65, 0x72, 0x70, 0x6f, 0x64, 0x6c, 0x65, 0x64, 0x67, 0x65, 0x72, 0xe2,
+	0x02, 0x24, 0x4a, 0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x5c, 0x43, 0x69, 0x70, 0x68, 0x65,
+	0x72, 0x70, 0x6f, 0x64, 0x6c, 0x65, 0x64, 0x67, 0x65, 0x72, 0x5c, 0x47, 0x50, 0x42, 0x4d, 0x65,
+	0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0xea, 0x02, 0x19, 0x4a, 0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f,
+	0x6e, 0x3a, 0x3a, 0x43, 0x69, 0x70, 0x68, 0x65, 0x72, 0x70, 0x6f, 0x64, 0x6c, 0x65, 0x64, 0x67,
+	0x65, 0x72, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (

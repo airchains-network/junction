@@ -11,4 +11,9 @@ message PodData {
   string submittedBy = 4; 
   string status = 5; 
   int32 timestamp = 6; 
+  // proof state update related fields
+  string provingNetwork = 7;
+  bytes zkFHEProof = 8;
+  bytes zkFHEWitness = 9;
+  bool isProofVerified = 10;
 }
