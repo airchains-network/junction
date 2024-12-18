@@ -1,0 +1,24 @@
+syntax = "proto3";
+package junction.cipherpodledger;
+
+option go_package = "github.com/airchains-network/junction/x/cipherpodledger/types";
+
+message FhvmsMeta {
+  
+  string chainId = 1; 
+  string chainName = 2; 
+  string proofType = 3; 
+  string daProvider = 4; 
+  string daBlobId = 5; 
+  string relayerGAddress = 6; 
+  string relayerAscAddress = 7; 
+  string picContractAddress = 8; 
+  string aclContractAddress = 9; 
+  string tfheExecutorContractAddress = 10; 
+  string kmsVerifierContractAddress = 11; 
+  string gatewayContractAddress = 12; 
+  string ascChildContractAddress = 13; 
+  uint64 latestVerifiedPodNumber = 14; 
+  uint64 finalityPodNumber = 15; 
+  bool status = 16; 
+}
