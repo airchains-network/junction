@@ -41,6 +41,7 @@ const (
 
 var FlagEnableStreamingValue bool
 var emptyWasmOpts []wasmkeeper.Option
+
 // Get flags every time the simulator is run
 func init() {
 	simcli.GetSimulatorFlags()
@@ -88,7 +89,7 @@ func BenchmarkSimulation(b *testing.B) {
 	appOptions[flags.FlagHome] = app.DefaultNodeHome
 	appOptions[server.FlagInvCheckPeriod] = simcli.FlagPeriodValue
 
-	bApp, err := app.New(logger, db, nil, true, appOptions,emptyWasmOpts, fauxMerkleModeOpt, baseapp.SetChainID(SimAppChainID))
+	bApp, err := app.New(logger, db, nil, true, appOptions, emptyWasmOpts, fauxMerkleModeOpt, baseapp.SetChainID(SimAppChainID))
 	require.NoError(b, err)
 	require.Equal(b, app.Name, bApp.Name())
 

@@ -4,14 +4,15 @@ package junction
 import (
 	binary "encoding/binary"
 	fmt "fmt"
-	runtime "github.com/cosmos/cosmos-proto/runtime"
-	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
-	protoiface "google.golang.org/protobuf/runtime/protoiface"
-	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	io "io"
 	math "math"
 	reflect "reflect"
 	sync "sync"
+
+	runtime "github.com/cosmos/cosmos-proto/runtime"
+	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
+	protoiface "google.golang.org/protobuf/runtime/protoiface"
+	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 )
 
 var _ protoreflect.List = (*_VrfDisputeResult_1_list)(nil)
