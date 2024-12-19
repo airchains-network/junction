@@ -18,6 +18,7 @@ service Msg {
   // parameters. The authority defaults to the x/gov module account.
   rpc UpdateParams (MsgUpdateParams) returns (MsgUpdateParamsResponse);
   rpc RegisterFhvm (MsgRegisterFhvm) returns (MsgRegisterFhvmResponse);
+  rpc SubmitPod    (MsgSubmitPod   ) returns (MsgSubmitPodResponse   );
 }
 // MsgUpdateParams is the Msg/UpdateParams request type.
 message MsgUpdateParams {
@@ -43,7 +44,7 @@ message MsgRegisterFhvm {
   string chainId                       =  2;
   string chainName                     =  3;
   string proofType                     =  4;
-  bytes provingNetworkVerificationKey =  5;
+  bytes  provingNetworkVerificationKey =  5;
   string daProvider                    =  6;
   string daBlobId                      =  7;
   string relayerGaddress               =  8;
@@ -57,6 +58,23 @@ message MsgRegisterFhvm {
 }
 
 message MsgRegisterFhvmResponse {
+  bool status = 1;
+}
+
+message MsgSubmitPod {
+  option (cosmos.msg.v1.signer) = "submittedBy";
+  string submittedBy        =  1;
+  string ascChildContractAddress =  2;
+  uint64 podNumber          =  3;
+  string stationId          =  4;
+  string daBlobId           =  5;
+  int32  timestamp          =  6;
+  string provingNetwork     =  7;
+  bytes zkFheproof         =  8;
+  bytes zkFhepublicWitness =  9;
+}
+
+message MsgSubmitPodResponse {
   bool status = 1;
 }
 

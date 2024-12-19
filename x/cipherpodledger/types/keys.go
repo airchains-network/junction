@@ -30,6 +30,17 @@ const (
 	 * Value: chainId
 	 */
 	AscChildContractRegistryKey = "asc-child-contract-registry"
+
+	/**
+	 * Store for Pod data
+	 * Key for this will be created as "pods/{stationId}/ to create this key call func GetPodKeyByte()
+	 * Key: podNumber
+	 * Value: podData
+	 */
+	PodDataStoreKey = "pod-data"
+
+	// FiguresDBPath is the path for the figures database
+	FiguresDBPath = "Figure/Data/"
 )
 
 var (

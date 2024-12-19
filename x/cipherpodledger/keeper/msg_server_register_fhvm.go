@@ -53,26 +53,27 @@ func (k msgServer) RegisterFhvm(goCtx context.Context, msg *types.MsgRegisterFhv
 	if ascChildContractRegistryDataBytes != nil {
 		return nil, status.Error(codes.AlreadyExists, "ascChildContractAddress is already registered")
 	}
-	
+
 	// 1. Register the FHVM metadata with the chainId
 	var newFhvmMetadata = types.FhvmsMeta{
-		ChainId: chainId,
-		ChainName: chainName,
-		Status: true,
-		ProofType: proofType,
+		ChainId:                       chainId,
+		ChainName:                     chainName,
+		Status:                        true,
+		ProofType:                     proofType,
 		ProvingNetworkVerificationKey: provingNetworkVerificationKey,
-		DaProvider: daProvider,
-		DaBlobId: daBlobId,
-		RelayerGAddress: relayerGaddress,
-		RelayerAscAddress: relayerAscAddress,
-		PicContractAddress: picContractAddress,
-		AclContractAddress: aclContractAddress,
-		TfheExecutorContractAddress: tfheExecutorContractAddress,
-		KmsVerifierContractAddress: kmsVerifierContractAddress,
-		GatewayContractAddress: gatewayContractAddress,
-		AscChildContractAddress: ascChildContractAddress,
-		LatestVerifiedPodNumber: 0,
-		FinalityPodNumber: 0,
+		DaProvider:                    daProvider,
+		DaBlobId:                      daBlobId,
+		RelayerGAddress:               relayerGaddress,
+		RelayerAscAddress:             relayerAscAddress,
+		PicContractAddress:            picContractAddress,
+		AclContractAddress:            aclContractAddress,
+		TfheExecutorContractAddress:   tfheExecutorContractAddress,
+		KmsVerifierContractAddress:    kmsVerifierContractAddress,
+		GatewayContractAddress:        gatewayContractAddress,
+		AscChildContractAddress:       ascChildContractAddress,
+		LatestPodNumber:               0,
+		LatestVerifiedPodNumber:       0,
+		FinalityPodNumber:             0,
 	}
 
 	byteFhvmMetadata := k.cdc.MustMarshal(&newFhvmMetadata)

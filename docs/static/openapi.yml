@@ -19270,6 +19270,9 @@ paths:
           description: A successful response.
           schema:
             type: object
+            properties:
+              status:
+                type: boolean
         default:
           description: An unexpected error response.
           schema:
@@ -19305,6 +19308,7 @@ paths:
                 type: string
               provingNetworkVerificationKey:
                 type: string
+                format: byte
               daProvider:
                 type: string
               daBlobId:
@@ -19325,6 +19329,63 @@ paths:
                 type: string
               ascChildContractAddress:
                 type: string
+      tags:
+        - Msg
+  /junction.cipherpodledger.Msg/SubmitPod:
+    post:
+      operationId: JunctionCipherpodledgerMsg_SubmitPod
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              submittedBy:
+                type: string
+              ascContractAddress:
+                type: string
+              podNumber:
+                type: string
+                format: uint64
+              stationId:
+                type: string
+              daBlobId:
+                type: string
+              timestamp:
+                type: integer
+                format: int32
+              provingNetwork:
+                type: string
+              zkFheproof:
+                type: string
+              zkFhepublicWitness:
+                type: string
+              isProofVerified:
+                type: boolean
       tags:
         - Msg
   /junction.cipherpodledger.Msg/UpdateParams:
@@ -27571,6 +27632,7 @@ definitions:
         type: string
       provingNetworkVerificationKey:
         type: string
+        format: byte
       daProvider:
         type: string
       daBlobId:
@@ -27592,6 +27654,36 @@ definitions:
       ascChildContractAddress:
         type: string
   junction.cipherpodledger.MsgRegisterFhvmResponse:
+    type: object
+    properties:
+      status:
+        type: boolean
+  junction.cipherpodledger.MsgSubmitPod:
+    type: object
+    properties:
+      submittedBy:
+        type: string
+      ascContractAddress:
+        type: string
+      podNumber:
+        type: string
+        format: uint64
+      stationId:
+        type: string
+      daBlobId:
+        type: string
+      timestamp:
+        type: integer
+        format: int32
+      provingNetwork:
+        type: string
+      zkFheproof:
+        type: string
+      zkFhepublicWitness:
+        type: string
+      isProofVerified:
+        type: boolean
+  junction.cipherpodledger.MsgSubmitPodResponse:
     type: object
   junction.cipherpodledger.MsgUpdateParams:
     type: object

@@ -21,6 +21,7 @@ const _ = grpc.SupportPackageIsVersion9
 const (
 	Msg_UpdateParams_FullMethodName = "/junction.cipherpodledger.Msg/UpdateParams"
 	Msg_RegisterFhvm_FullMethodName = "/junction.cipherpodledger.Msg/RegisterFhvm"
+	Msg_SubmitPod_FullMethodName    = "/junction.cipherpodledger.Msg/SubmitPod"
 )
 
 // MsgClient is the client API for Msg service.
@@ -33,6 +34,7 @@ type MsgClient interface {
 	// parameters. The authority defaults to the x/gov module account.
 	UpdateParams(ctx context.Context, in *MsgUpdateParams, opts ...grpc.CallOption) (*MsgUpdateParamsResponse, error)
 	RegisterFhvm(ctx context.Context, in *MsgRegisterFhvm, opts ...grpc.CallOption) (*MsgRegisterFhvmResponse, error)
+	SubmitPod(ctx context.Context, in *MsgSubmitPod, opts ...grpc.CallOption) (*MsgSubmitPodResponse, error)
 }
 
 type msgClient struct {
@@ -63,6 +65,16 @@ func (c *msgClient) RegisterFhvm(ctx context.Context, in *MsgRegisterFhvm, opts 
 	return out, nil
 }
 
+func (c *msgClient) SubmitPod(ctx context.Context, in *MsgSubmitPod, opts ...grpc.CallOption) (*MsgSubmitPodResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(MsgSubmitPodResponse)
+	err := c.cc.Invoke(ctx, Msg_SubmitPod_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MsgServer is the server API for Msg service.
 // All implementations must embed UnimplementedMsgServer
 // for forward compatibility.
@@ -73,6 +85,7 @@ type MsgServer interface {
 	// parameters. The authority defaults to the x/gov module account.
 	UpdateParams(context.Context, *MsgUpdateParams) (*MsgUpdateParamsResponse, error)
 	RegisterFhvm(context.Context, *MsgRegisterFhvm) (*MsgRegisterFhvmResponse, error)
+	SubmitPod(context.Context, *MsgSubmitPod) (*MsgSubmitPodResponse, error)
 	mustEmbedUnimplementedMsgServer()
 }
 
@@ -88,6 +101,9 @@ func (UnimplementedMsgServer) UpdateParams(context.Context, *MsgUpdateParams) (*
 }
 func (UnimplementedMsgServer) RegisterFhvm(context.Context, *MsgRegisterFhvm) (*MsgRegisterFhvmResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RegisterFhvm not implemented")
+}
+func (UnimplementedMsgServer) SubmitPod(context.Context, *MsgSubmitPod) (*MsgSubmitPodResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SubmitPod not implemented")
 }
 func (UnimplementedMsgServer) mustEmbedUnimplementedMsgServer() {}
 func (UnimplementedMsgServer) testEmbeddedByValue()             {}
@@ -146,6 +162,24 @@ func _Msg_RegisterFhvm_Handler(srv interface{}, ctx context.Context, dec func(in
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Msg_SubmitPod_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgSubmitPod)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).SubmitPod(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Msg_SubmitPod_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).SubmitPod(ctx, req.(*MsgSubmitPod))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Msg_ServiceDesc is the grpc.ServiceDesc for Msg service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -160,6 +194,10 @@ var Msg_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "RegisterFhvm",
 			Handler:    _Msg_RegisterFhvm_Handler,
+		},
+		{
+			MethodName: "SubmitPod",
+			Handler:    _Msg_SubmitPod_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

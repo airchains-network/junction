@@ -34,6 +34,12 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					Short:          "Send a register_fhvm tx",
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "chainId"}, {ProtoField: "chainName"}, {ProtoField: "proofType"}, {ProtoField: "provingNetworkVerificationKey"}, {ProtoField: "daProvider"}, {ProtoField: "daBlobId"}, {ProtoField: "relayerGaddress"}, {ProtoField: "relayerAscAddress"}, {ProtoField: "picContractAddress"}, {ProtoField: "aclContractAddress"}, {ProtoField: "tfheExecutorContractAddress"}, {ProtoField: "kmsVerifierContractAddress"}, {ProtoField: "gatewayContractAddress"}, {ProtoField: "ascChildContractAddress"}},
 				},
+				{
+					RpcMethod:      "SubmitPod",
+					Use:            "submit-pod [asc-contract-address] [pod-number] [station-id] [da-blob-id] [timestamp] [proving-network] [zk-fhe-proof] [zk-fhe-public-witness]",
+					Short:          "Send a submit_pod tx",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "ascContractAddress"}, {ProtoField: "podNumber"}, {ProtoField: "stationId"}, {ProtoField: "daBlobId"}, {ProtoField: "timestamp"}, {ProtoField: "provingNetwork"}, {ProtoField: "zkFheproof"}, {ProtoField: "zkFhepublicWitness"}},
+				},
 				// this line is used by ignite scaffolding # autocli/tx
 			},
 		},
