@@ -7,18 +7,24 @@ message FhvmsMeta {
   
   string chainId = 1; 
   string chainName = 2; 
-  string proofType = 3; 
-  string daProvider = 4; 
-  string daBlobId = 5; 
-  string relayerGAddress = 6; 
-  string relayerAscAddress = 7; 
-  string picContractAddress = 8; 
-  string aclContractAddress = 9; 
-  string tfheExecutorContractAddress = 10; 
-  string kmsVerifierContractAddress = 11; 
-  string gatewayContractAddress = 12; 
-  string ascChildContractAddress = 13; 
-  uint64 latestVerifiedPodNumber = 14; 
-  uint64 finalityPodNumber = 15; 
-  bool status = 16; 
+  bool status = 3; 
+  // proof related fields
+  string proofType = 4; 
+  bytes provingNetworkVerificationKey = 5; 
+  // da related fields
+  string daProvider = 6; 
+  string daBlobId = 7; 
+  // relayer related fields
+  string relayerGAddress = 8; 
+  string relayerAscAddress = 9; 
+  // contract related fields
+  string picContractAddress = 10; 
+  string aclContractAddress = 11; 
+  string tfheExecutorContractAddress = 12; 
+  string kmsVerifierContractAddress = 13; 
+  string gatewayContractAddress = 14; 
+  string ascChildContractAddress = 15; 
+  // pod related fields
+  uint64 latestVerifiedPodNumber = 16; 
+  uint64 finalityPodNumber = 17; 
 }

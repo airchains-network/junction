@@ -28,6 +28,12 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					RpcMethod: "UpdateParams",
 					Skip:      true, // skipped because authority gated
 				},
+				{
+					RpcMethod:      "RegisterFhvm",
+					Use:            "register-fhvm [chain-id] [chain-name] [proof-type] [proving-network-verification-key] [da-provider] [da-blob-id] [relayer-g-address] [relayer-asc-address] [pic-contract-address] [acl-contract-address] [tfhe-executor-contract-address] [kms-verifier-contract-address] [gateway-contract-address] [asc-child-contract-address]",
+					Short:          "Send a register_fhvm tx",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "chainId"}, {ProtoField: "chainName"}, {ProtoField: "proofType"}, {ProtoField: "provingNetworkVerificationKey"}, {ProtoField: "daProvider"}, {ProtoField: "daBlobId"}, {ProtoField: "relayerGaddress"}, {ProtoField: "relayerAscAddress"}, {ProtoField: "picContractAddress"}, {ProtoField: "aclContractAddress"}, {ProtoField: "tfheExecutorContractAddress"}, {ProtoField: "kmsVerifierContractAddress"}, {ProtoField: "gatewayContractAddress"}, {ProtoField: "ascChildContractAddress"}},
+				},
 				// this line is used by ignite scaffolding # autocli/tx
 			},
 		},

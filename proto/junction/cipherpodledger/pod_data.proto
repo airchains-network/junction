@@ -14,6 +14,6 @@ message PodData {
   // proof state update related fields
   string provingNetwork = 7;
   bytes zkFHEProof = 8;
-  bytes zkFHEPublicInputJson = 9;
+  bytes zkFHEPublicWitness = 9;
   bool isProofVerified = 10;
 }

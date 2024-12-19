@@ -23,22 +23,28 @@ var _ = math.Inf
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
 type FhvmsMeta struct {
-	ChainId                     string `protobuf:"bytes,1,opt,name=chainId,proto3" json:"chainId,omitempty"`
-	ChainName                   string `protobuf:"bytes,2,opt,name=chainName,proto3" json:"chainName,omitempty"`
-	ProofType                   string `protobuf:"bytes,3,opt,name=proofType,proto3" json:"proofType,omitempty"`
-	DaProvider                  string `protobuf:"bytes,4,opt,name=daProvider,proto3" json:"daProvider,omitempty"`
-	DaBlobId                    string `protobuf:"bytes,5,opt,name=daBlobId,proto3" json:"daBlobId,omitempty"`
-	RelayerGAddress             string `protobuf:"bytes,6,opt,name=relayerGAddress,proto3" json:"relayerGAddress,omitempty"`
-	RelayerAscAddress           string `protobuf:"bytes,7,opt,name=relayerAscAddress,proto3" json:"relayerAscAddress,omitempty"`
-	PicContractAddress          string `protobuf:"bytes,8,opt,name=picContractAddress,proto3" json:"picContractAddress,omitempty"`
-	AclContractAddress          string `protobuf:"bytes,9,opt,name=aclContractAddress,proto3" json:"aclContractAddress,omitempty"`
-	TfheExecutorContractAddress string `protobuf:"bytes,10,opt,name=tfheExecutorContractAddress,proto3" json:"tfheExecutorContractAddress,omitempty"`
-	KmsVerifierContractAddress  string `protobuf:"bytes,11,opt,name=kmsVerifierContractAddress,proto3" json:"kmsVerifierContractAddress,omitempty"`
-	GatewayContractAddress      string `protobuf:"bytes,12,opt,name=gatewayContractAddress,proto3" json:"gatewayContractAddress,omitempty"`
-	AscChildContractAddress     string `protobuf:"bytes,13,opt,name=ascChildContractAddress,proto3" json:"ascChildContractAddress,omitempty"`
-	LatestVerifiedPodNumber     uint64 `protobuf:"varint,14,opt,name=latestVerifiedPodNumber,proto3" json:"latestVerifiedPodNumber,omitempty"`
-	FinalityPodNumber           uint64 `protobuf:"varint,15,opt,name=finalityPodNumber,proto3" json:"finalityPodNumber,omitempty"`
-	Status                      bool   `protobuf:"varint,16,opt,name=status,proto3" json:"status,omitempty"`
+	ChainId   string `protobuf:"bytes,1,opt,name=chainId,proto3" json:"chainId,omitempty"`
+	ChainName string `protobuf:"bytes,2,opt,name=chainName,proto3" json:"chainName,omitempty"`
+	Status    bool   `protobuf:"varint,3,opt,name=status,proto3" json:"status,omitempty"`
+	// proof related fields
+	ProofType                     string `protobuf:"bytes,4,opt,name=proofType,proto3" json:"proofType,omitempty"`
+	ProvingNetworkVerificationKey []byte `protobuf:"bytes,5,opt,name=provingNetworkVerificationKey,proto3" json:"provingNetworkVerificationKey,omitempty"`
+	// da related fields
+	DaProvider string `protobuf:"bytes,6,opt,name=daProvider,proto3" json:"daProvider,omitempty"`
+	DaBlobId   string `protobuf:"bytes,7,opt,name=daBlobId,proto3" json:"daBlobId,omitempty"`
+	// relayer related fields
+	RelayerGAddress   string `protobuf:"bytes,8,opt,name=relayerGAddress,proto3" json:"relayerGAddress,omitempty"`
+	RelayerAscAddress string `protobuf:"bytes,9,opt,name=relayerAscAddress,proto3" json:"relayerAscAddress,omitempty"`
+	// contract related fields
+	PicContractAddress          string `protobuf:"bytes,10,opt,name=picContractAddress,proto3" json:"picContractAddress,omitempty"`
+	AclContractAddress          string `protobuf:"bytes,11,opt,name=aclContractAddress,proto3" json:"aclContractAddress,omitempty"`
+	TfheExecutorContractAddress string `protobuf:"bytes,12,opt,name=tfheExecutorContractAddress,proto3" json:"tfheExecutorContractAddress,omitempty"`
+	KmsVerifierContractAddress  string `protobuf:"bytes,13,opt,name=kmsVerifierContractAddress,proto3" json:"kmsVerifierContractAddress,omitempty"`
+	GatewayContractAddress      string `protobuf:"bytes,14,opt,name=gatewayContractAddress,proto3" json:"gatewayContractAddress,omitempty"`
+	AscChildContractAddress     string `protobuf:"bytes,15,opt,name=ascChildContractAddress,proto3" json:"ascChildContractAddress,omitempty"`
+	// pod related fields
+	LatestVerifiedPodNumber uint64 `protobuf:"varint,16,opt,name=latestVerifiedPodNumber,proto3" json:"latestVerifiedPodNumber,omitempty"`
+	FinalityPodNumber       uint64 `protobuf:"varint,17,opt,name=finalityPodNumber,proto3" json:"finalityPodNumber,omitempty"`
 }
 
 func (m *FhvmsMeta) Reset()         { *m = FhvmsMeta{} }
@@ -88,11 +94,25 @@ func (m *FhvmsMeta) GetChainName() string {
 	return ""
 }
 
+func (m *FhvmsMeta) GetStatus() bool {
+	if m != nil {
+		return m.Status
+	}
+	return false
+}
+
 func (m *FhvmsMeta) GetProofType() string {
 	if m != nil {
 		return m.ProofType
 	}
 	return ""
+}
+
+func (m *FhvmsMeta) GetProvingNetworkVerificationKey() []byte {
+	if m != nil {
+		return m.ProvingNetworkVerificationKey
+	}
+	return nil
 }
 
 func (m *FhvmsMeta) GetDaProvider() string {
@@ -179,13 +199,6 @@ func (m *FhvmsMeta) GetFinalityPodNumber() uint64 {
 	return 0
 }
 
-func (m *FhvmsMeta) GetStatus() bool {
-	if m != nil {
-		return m.Status
-	}
-	return false
-}
-
 func init() {
 	proto.RegisterType((*FhvmsMeta)(nil), "junction.cipherpodledger.FhvmsMeta")
 }
@@ -195,35 +208,37 @@ func init() {
 }
 
 var fileDescriptor_2997be451ff4723d = []byte{
-	// 439 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x7c, 0x93, 0xcf, 0x6e, 0xd3, 0x40,
-	0x10, 0xc6, 0x63, 0x68, 0xd3, 0x64, 0xf9, 0x53, 0xd8, 0x43, 0x59, 0x15, 0x64, 0x45, 0x9c, 0x82,
-	0x04, 0xc9, 0x01, 0x09, 0x71, 0x01, 0xd1, 0x56, 0x80, 0x7a, 0xa0, 0xaa, 0x22, 0x04, 0x12, 0x17,
-	0x34, 0xd9, 0x1d, 0xc7, 0x4b, 0x6d, 0xaf, 0xb5, 0x3b, 0x6e, 0xeb, 0xb7, 0xe0, 0xb1, 0xe0, 0xd6,
-	0x23, 0x47, 0x94, 0xbc, 0x08, 0xf2, 0x36, 0x4e, 0x91, 0xdd, 0xf4, 0xe6, 0xf9, 0x7e, 0xbf, 0x6f,
-	0x64, 0xc9, 0x1e, 0xf6, 0xec, 0x47, 0x91, 0x49, 0xd2, 0x26, 0x1b, 0x4b, 0x9d, 0xc7, 0x68, 0x73,
-	0xa3, 0x12, 0x54, 0x33, 0xb4, 0xe3, 0x28, 0x3e, 0x4d, 0xdd, 0xf7, 0x14, 0x09, 0x46, 0xb9, 0x35,
-	0x64, 0xb8, 0xa8, 0xd5, 0x51, 0x43, 0x7d, 0xfa, 0x7b, 0x93, 0xf5, 0x3f, 0x54, 0xfa, 0x27, 0x24,
-	0xe0, 0x82, 0x6d, 0xc9, 0x18, 0x74, 0x76, 0xa8, 0x44, 0x30, 0x08, 0x86, 0xfd, 0x49, 0x3d, 0xf2,
-	0x27, 0xac, 0xef, 0x1f, 0x8f, 0x20, 0x45, 0x71, 0xcb, 0xb3, 0xab, 0xa0, 0xa2, 0xb9, 0x35, 0x26,
-	0xfa, 0x5c, 0xe6, 0x28, 0x6e, 0x5f, 0xd2, 0x55, 0xc0, 0x43, 0xc6, 0x14, 0x1c, 0x5b, 0x73, 0xaa,
-	0x15, 0x5a, 0xb1, 0xe1, 0xf1, 0x7f, 0x09, 0xdf, 0x65, 0x3d, 0x05, 0xfb, 0x89, 0x99, 0x1e, 0x2a,
-	0xb1, 0xe9, 0xe9, 0x6a, 0xe6, 0x43, 0xb6, 0x6d, 0x31, 0x81, 0x12, 0xed, 0xc7, 0x3d, 0xa5, 0x2c,
-	0x3a, 0x27, 0xba, 0x5e, 0x69, 0xc6, 0xfc, 0x39, 0x7b, 0xb8, 0x8c, 0xf6, 0x9c, 0xac, 0xdd, 0x2d,
-	0xef, 0xb6, 0x01, 0x1f, 0x31, 0x9e, 0x6b, 0x79, 0x60, 0x32, 0xb2, 0x20, 0xa9, 0xd6, 0x7b, 0x5e,
-	0xbf, 0x86, 0x54, 0x3e, 0xc8, 0xa4, 0xe9, 0xf7, 0x2f, 0xfd, 0x36, 0xe1, 0xef, 0xd8, 0x63, 0x8a,
-	0x62, 0x7c, 0x7f, 0x8e, 0xb2, 0x20, 0x63, 0x9b, 0x45, 0xe6, 0x8b, 0x37, 0x29, 0xfc, 0x2d, 0xdb,
-	0x3d, 0x49, 0xdd, 0x17, 0xb4, 0x3a, 0xd2, 0xd8, 0x5a, 0x70, 0xc7, 0x2f, 0xb8, 0xc1, 0xe0, 0xaf,
-	0xd8, 0xce, 0x0c, 0x08, 0xcf, 0xa0, 0x6c, 0x76, 0xef, 0xfa, 0xee, 0x1a, 0xca, 0x5f, 0xb3, 0x47,
-	0xe0, 0xe4, 0x41, 0xac, 0x13, 0xd5, 0x2c, 0xde, 0xf3, 0xc5, 0x75, 0xb8, 0x6a, 0x26, 0x40, 0xe8,
-	0x68, 0xf9, 0x4a, 0xea, 0xd8, 0xa8, 0xa3, 0x22, 0x9d, 0xa2, 0x15, 0xf7, 0x07, 0xc1, 0x70, 0x63,
-	0xb2, 0x0e, 0x57, 0xdf, 0x2e, 0xd2, 0x19, 0x24, 0x9a, 0xca, 0xab, 0xce, 0xb6, 0xef, 0xb4, 0x01,
-	0xdf, 0x61, 0x5d, 0x47, 0x40, 0x85, 0x13, 0x0f, 0x06, 0xc1, 0xb0, 0x37, 0x59, 0x4e, 0xfb, 0x5f,
-	0x7f, 0xcd, 0xc3, 0xe0, 0x62, 0x1e, 0x06, 0x7f, 0xe7, 0x61, 0xf0, 0x73, 0x11, 0x76, 0x2e, 0x16,
-	0x61, 0xe7, 0xcf, 0x22, 0xec, 0x7c, 0x7b, 0x33, 0xd3, 0x14, 0x17, 0xd3, 0x91, 0x34, 0xe9, 0x18,
-	0xb4, 0xf5, 0x3f, 0xae, 0x7b, 0x91, 0x21, 0x9d, 0x19, 0x7b, 0x32, 0x5e, 0xdd, 0xd1, 0x79, 0xeb,
-	0x92, 0xa8, 0xcc, 0xd1, 0x4d, 0xbb, 0xfe, 0x8a, 0x5e, 0xfe, 0x0b, 0x00, 0x00, 0xff, 0xff, 0xcf,
-	0xe5, 0x68, 0xfe, 0x72, 0x03, 0x00, 0x00,
+	// 467 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x7c, 0x93, 0x4f, 0x6f, 0xd3, 0x30,
+	0x18, 0xc6, 0x1b, 0x18, 0x5d, 0x6b, 0x06, 0x63, 0x3e, 0x0c, 0x6b, 0x40, 0x54, 0x71, 0x0a, 0x12,
+	0xb4, 0x07, 0x24, 0xc4, 0x05, 0xc4, 0x36, 0xfe, 0x68, 0x42, 0x54, 0x53, 0x85, 0x40, 0xe2, 0x82,
+	0x5c, 0xfb, 0x4d, 0x63, 0x96, 0xc4, 0x91, 0xfd, 0x66, 0x5b, 0x3e, 0x05, 0x7c, 0x2c, 0x8e, 0x3b,
+	0x72, 0x44, 0xed, 0x17, 0x41, 0x71, 0x9b, 0x16, 0x25, 0x6b, 0x6f, 0xf1, 0xf3, 0xfc, 0x7e, 0x8e,
+	0x95, 0xf8, 0x25, 0x4f, 0x7e, 0xe4, 0xa9, 0x40, 0xa5, 0xd3, 0x81, 0x50, 0x59, 0x04, 0x26, 0xd3,
+	0x32, 0x06, 0x39, 0x01, 0x33, 0x08, 0xa3, 0xf3, 0xc4, 0x7e, 0x4f, 0x00, 0x79, 0x3f, 0x33, 0x1a,
+	0x35, 0x65, 0x15, 0xda, 0xaf, 0xa1, 0x8f, 0x7f, 0xb6, 0x49, 0xf7, 0x7d, 0x89, 0x7f, 0x02, 0xe4,
+	0x94, 0x91, 0x6d, 0x11, 0x71, 0x95, 0x9e, 0x48, 0xe6, 0xf5, 0xbc, 0xa0, 0x3b, 0xaa, 0x96, 0xf4,
+	0x21, 0xe9, 0xba, 0xc7, 0x21, 0x4f, 0x80, 0xdd, 0x70, 0xdd, 0x2a, 0xa0, 0xfb, 0xa4, 0x6d, 0x91,
+	0x63, 0x6e, 0xd9, 0xcd, 0x9e, 0x17, 0x74, 0x46, 0x8b, 0x55, 0x69, 0x65, 0x46, 0xeb, 0xf0, 0x73,
+	0x91, 0x01, 0xdb, 0x9a, 0x5b, 0xcb, 0x80, 0xbe, 0x25, 0x8f, 0x32, 0xa3, 0xcf, 0x55, 0x3a, 0x19,
+	0x02, 0x5e, 0x68, 0x73, 0xf6, 0x05, 0x8c, 0x0a, 0x95, 0xe0, 0xe5, 0x49, 0x3f, 0x42, 0xc1, 0x6e,
+	0xf5, 0xbc, 0x60, 0x67, 0xb4, 0x19, 0xa2, 0x3e, 0x21, 0x92, 0x9f, 0x96, 0x88, 0x04, 0xc3, 0xda,
+	0xee, 0x25, 0xff, 0x25, 0xf4, 0x80, 0x74, 0x24, 0x3f, 0x8a, 0xf5, 0xf8, 0x44, 0xb2, 0x6d, 0xd7,
+	0x2e, 0xd7, 0x34, 0x20, 0xbb, 0x06, 0x62, 0x5e, 0x80, 0xf9, 0x70, 0x28, 0xa5, 0x01, 0x6b, 0x59,
+	0xc7, 0x21, 0xf5, 0x98, 0x3e, 0x25, 0x7b, 0x8b, 0xe8, 0xd0, 0x8a, 0x8a, 0xed, 0x3a, 0xb6, 0x59,
+	0xd0, 0x3e, 0xa1, 0x99, 0x12, 0xc7, 0x3a, 0x45, 0xc3, 0x05, 0x56, 0x38, 0x71, 0xf8, 0x35, 0x4d,
+	0xc9, 0x73, 0x11, 0xd7, 0xf9, 0xdb, 0x73, 0xbe, 0xd9, 0xd0, 0x37, 0xe4, 0x01, 0x86, 0x11, 0xbc,
+	0xbb, 0x04, 0x91, 0xa3, 0x36, 0x75, 0x71, 0xc7, 0x89, 0x9b, 0x10, 0xfa, 0x9a, 0x1c, 0x9c, 0x25,
+	0x76, 0xfe, 0x2d, 0xa1, 0xb1, 0xc1, 0x1d, 0xb7, 0xc1, 0x06, 0x82, 0xbe, 0x20, 0xfb, 0x13, 0x8e,
+	0x70, 0xc1, 0x8b, 0xba, 0x7b, 0xd7, 0xb9, 0x6b, 0x5a, 0xfa, 0x92, 0xdc, 0xe7, 0x56, 0x1c, 0x47,
+	0x2a, 0x96, 0x75, 0x71, 0xd7, 0x89, 0xeb, 0xea, 0xd2, 0x8c, 0x39, 0x82, 0xc5, 0xc5, 0x91, 0xe4,
+	0xa9, 0x96, 0xc3, 0x3c, 0x19, 0x83, 0x61, 0xf7, 0x7a, 0x5e, 0xb0, 0x35, 0x5a, 0x57, 0x97, 0xff,
+	0x2e, 0x54, 0x29, 0x8f, 0x15, 0x16, 0x2b, 0x67, 0xcf, 0x39, 0xcd, 0xe2, 0xe8, 0xeb, 0xef, 0xa9,
+	0xef, 0x5d, 0x4d, 0x7d, 0xef, 0xef, 0xd4, 0xf7, 0x7e, 0xcd, 0xfc, 0xd6, 0xd5, 0xcc, 0x6f, 0xfd,
+	0x99, 0xf9, 0xad, 0x6f, 0xaf, 0x26, 0x0a, 0xa3, 0x7c, 0xdc, 0x17, 0x3a, 0x19, 0x70, 0x65, 0xdc,
+	0xf5, 0xb7, 0xcf, 0xd2, 0xf9, 0xb5, 0x1c, 0x2c, 0xa7, 0xf1, 0xb2, 0x31, 0x8f, 0x58, 0x64, 0x60,
+	0xc7, 0x6d, 0x37, 0x8b, 0xcf, 0xff, 0x05, 0x00, 0x00, 0xff, 0xff, 0xa7, 0xec, 0x96, 0x11, 0xb8,
+	0x03, 0x00, 0x00,
 }
 
 func (m *FhvmsMeta) Marshal() (dAtA []byte, err error) {
@@ -246,6 +261,104 @@ func (m *FhvmsMeta) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
+	if m.FinalityPodNumber != 0 {
+		i = encodeVarintFhvmsMeta(dAtA, i, uint64(m.FinalityPodNumber))
+		i--
+		dAtA[i] = 0x1
+		i--
+		dAtA[i] = 0x88
+	}
+	if m.LatestVerifiedPodNumber != 0 {
+		i = encodeVarintFhvmsMeta(dAtA, i, uint64(m.LatestVerifiedPodNumber))
+		i--
+		dAtA[i] = 0x1
+		i--
+		dAtA[i] = 0x80
+	}
+	if len(m.AscChildContractAddress) > 0 {
+		i -= len(m.AscChildContractAddress)
+		copy(dAtA[i:], m.AscChildContractAddress)
+		i = encodeVarintFhvmsMeta(dAtA, i, uint64(len(m.AscChildContractAddress)))
+		i--
+		dAtA[i] = 0x7a
+	}
+	if len(m.GatewayContractAddress) > 0 {
+		i -= len(m.GatewayContractAddress)
+		copy(dAtA[i:], m.GatewayContractAddress)
+		i = encodeVarintFhvmsMeta(dAtA, i, uint64(len(m.GatewayContractAddress)))
+		i--
+		dAtA[i] = 0x72
+	}
+	if len(m.KmsVerifierContractAddress) > 0 {
+		i -= len(m.KmsVerifierContractAddress)
+		copy(dAtA[i:], m.KmsVerifierContractAddress)
+		i = encodeVarintFhvmsMeta(dAtA, i, uint64(len(m.KmsVerifierContractAddress)))
+		i--
+		dAtA[i] = 0x6a
+	}
+	if len(m.TfheExecutorContractAddress) > 0 {
+		i -= len(m.TfheExecutorContractAddress)
+		copy(dAtA[i:], m.TfheExecutorContractAddress)
+		i = encodeVarintFhvmsMeta(dAtA, i, uint64(len(m.TfheExecutorContractAddress)))
+		i--
+		dAtA[i] = 0x62
+	}
+	if len(m.AclContractAddress) > 0 {
+		i -= len(m.AclContractAddress)
+		copy(dAtA[i:], m.AclContractAddress)
+		i = encodeVarintFhvmsMeta(dAtA, i, uint64(len(m.AclContractAddress)))
+		i--
+		dAtA[i] = 0x5a
+	}
+	if len(m.PicContractAddress) > 0 {
+		i -= len(m.PicContractAddress)
+		copy(dAtA[i:], m.PicContractAddress)
+		i = encodeVarintFhvmsMeta(dAtA, i, uint64(len(m.PicContractAddress)))
+		i--
+		dAtA[i] = 0x52
+	}
+	if len(m.RelayerAscAddress) > 0 {
+		i -= len(m.RelayerAscAddress)
+		copy(dAtA[i:], m.RelayerAscAddress)
+		i = encodeVarintFhvmsMeta(dAtA, i, uint64(len(m.RelayerAscAddress)))
+		i--
+		dAtA[i] = 0x4a
+	}
+	if len(m.RelayerGAddress) > 0 {
+		i -= len(m.RelayerGAddress)
+		copy(dAtA[i:], m.RelayerGAddress)
+		i = encodeVarintFhvmsMeta(dAtA, i, uint64(len(m.RelayerGAddress)))
+		i--
+		dAtA[i] = 0x42
+	}
+	if len(m.DaBlobId) > 0 {
+		i -= len(m.DaBlobId)
+		copy(dAtA[i:], m.DaBlobId)
+		i = encodeVarintFhvmsMeta(dAtA, i, uint64(len(m.DaBlobId)))
+		i--
+		dAtA[i] = 0x3a
+	}
+	if len(m.DaProvider) > 0 {
+		i -= len(m.DaProvider)
+		copy(dAtA[i:], m.DaProvider)
+		i = encodeVarintFhvmsMeta(dAtA, i, uint64(len(m.DaProvider)))
+		i--
+		dAtA[i] = 0x32
+	}
+	if len(m.ProvingNetworkVerificationKey) > 0 {
+		i -= len(m.ProvingNetworkVerificationKey)
+		copy(dAtA[i:], m.ProvingNetworkVerificationKey)
+		i = encodeVarintFhvmsMeta(dAtA, i, uint64(len(m.ProvingNetworkVerificationKey)))
+		i--
+		dAtA[i] = 0x2a
+	}
+	if len(m.ProofType) > 0 {
+		i -= len(m.ProofType)
+		copy(dAtA[i:], m.ProofType)
+		i = encodeVarintFhvmsMeta(dAtA, i, uint64(len(m.ProofType)))
+		i--
+		dAtA[i] = 0x22
+	}
 	if m.Status {
 		i--
 		if m.Status {
@@ -254,96 +367,7 @@ func (m *FhvmsMeta) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 			dAtA[i] = 0
 		}
 		i--
-		dAtA[i] = 0x1
-		i--
-		dAtA[i] = 0x80
-	}
-	if m.FinalityPodNumber != 0 {
-		i = encodeVarintFhvmsMeta(dAtA, i, uint64(m.FinalityPodNumber))
-		i--
-		dAtA[i] = 0x78
-	}
-	if m.LatestVerifiedPodNumber != 0 {
-		i = encodeVarintFhvmsMeta(dAtA, i, uint64(m.LatestVerifiedPodNumber))
-		i--
-		dAtA[i] = 0x70
-	}
-	if len(m.AscChildContractAddress) > 0 {
-		i -= len(m.AscChildContractAddress)
-		copy(dAtA[i:], m.AscChildContractAddress)
-		i = encodeVarintFhvmsMeta(dAtA, i, uint64(len(m.AscChildContractAddress)))
-		i--
-		dAtA[i] = 0x6a
-	}
-	if len(m.GatewayContractAddress) > 0 {
-		i -= len(m.GatewayContractAddress)
-		copy(dAtA[i:], m.GatewayContractAddress)
-		i = encodeVarintFhvmsMeta(dAtA, i, uint64(len(m.GatewayContractAddress)))
-		i--
-		dAtA[i] = 0x62
-	}
-	if len(m.KmsVerifierContractAddress) > 0 {
-		i -= len(m.KmsVerifierContractAddress)
-		copy(dAtA[i:], m.KmsVerifierContractAddress)
-		i = encodeVarintFhvmsMeta(dAtA, i, uint64(len(m.KmsVerifierContractAddress)))
-		i--
-		dAtA[i] = 0x5a
-	}
-	if len(m.TfheExecutorContractAddress) > 0 {
-		i -= len(m.TfheExecutorContractAddress)
-		copy(dAtA[i:], m.TfheExecutorContractAddress)
-		i = encodeVarintFhvmsMeta(dAtA, i, uint64(len(m.TfheExecutorContractAddress)))
-		i--
-		dAtA[i] = 0x52
-	}
-	if len(m.AclContractAddress) > 0 {
-		i -= len(m.AclContractAddress)
-		copy(dAtA[i:], m.AclContractAddress)
-		i = encodeVarintFhvmsMeta(dAtA, i, uint64(len(m.AclContractAddress)))
-		i--
-		dAtA[i] = 0x4a
-	}
-	if len(m.PicContractAddress) > 0 {
-		i -= len(m.PicContractAddress)
-		copy(dAtA[i:], m.PicContractAddress)
-		i = encodeVarintFhvmsMeta(dAtA, i, uint64(len(m.PicContractAddress)))
-		i--
-		dAtA[i] = 0x42
-	}
-	if len(m.RelayerAscAddress) > 0 {
-		i -= len(m.RelayerAscAddress)
-		copy(dAtA[i:], m.RelayerAscAddress)
-		i = encodeVarintFhvmsMeta(dAtA, i, uint64(len(m.RelayerAscAddress)))
-		i--
-		dAtA[i] = 0x3a
-	}
-	if len(m.RelayerGAddress) > 0 {
-		i -= len(m.RelayerGAddress)
-		copy(dAtA[i:], m.RelayerGAddress)
-		i = encodeVarintFhvmsMeta(dAtA, i, uint64(len(m.RelayerGAddress)))
-		i--
-		dAtA[i] = 0x32
-	}
-	if len(m.DaBlobId) > 0 {
-		i -= len(m.DaBlobId)
-		copy(dAtA[i:], m.DaBlobId)
-		i = encodeVarintFhvmsMeta(dAtA, i, uint64(len(m.DaBlobId)))
-		i--
-		dAtA[i] = 0x2a
-	}
-	if len(m.DaProvider) > 0 {
-		i -= len(m.DaProvider)
-		copy(dAtA[i:], m.DaProvider)
-		i = encodeVarintFhvmsMeta(dAtA, i, uint64(len(m.DaProvider)))
-		i--
-		dAtA[i] = 0x22
-	}
-	if len(m.ProofType) > 0 {
-		i -= len(m.ProofType)
-		copy(dAtA[i:], m.ProofType)
-		i = encodeVarintFhvmsMeta(dAtA, i, uint64(len(m.ProofType)))
-		i--
-		dAtA[i] = 0x1a
+		dAtA[i] = 0x18
 	}
 	if len(m.ChainName) > 0 {
 		i -= len(m.ChainName)
@@ -387,7 +411,14 @@ func (m *FhvmsMeta) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovFhvmsMeta(uint64(l))
 	}
+	if m.Status {
+		n += 2
+	}
 	l = len(m.ProofType)
+	if l > 0 {
+		n += 1 + l + sovFhvmsMeta(uint64(l))
+	}
+	l = len(m.ProvingNetworkVerificationKey)
 	if l > 0 {
 		n += 1 + l + sovFhvmsMeta(uint64(l))
 	}
@@ -432,13 +463,10 @@ func (m *FhvmsMeta) Size() (n int) {
 		n += 1 + l + sovFhvmsMeta(uint64(l))
 	}
 	if m.LatestVerifiedPodNumber != 0 {
-		n += 1 + sovFhvmsMeta(uint64(m.LatestVerifiedPodNumber))
+		n += 2 + sovFhvmsMeta(uint64(m.LatestVerifiedPodNumber))
 	}
 	if m.FinalityPodNumber != 0 {
-		n += 1 + sovFhvmsMeta(uint64(m.FinalityPodNumber))
-	}
-	if m.Status {
-		n += 3
+		n += 2 + sovFhvmsMeta(uint64(m.FinalityPodNumber))
 	}
 	return n
 }
@@ -543,6 +571,26 @@ func (m *FhvmsMeta) Unmarshal(dAtA []byte) error {
 			m.ChainName = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 3:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Status", wireType)
+			}
+			var v int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowFhvmsMeta
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				v |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			m.Status = bool(v != 0)
+		case 4:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field ProofType", wireType)
 			}
@@ -574,7 +622,41 @@ func (m *FhvmsMeta) Unmarshal(dAtA []byte) error {
 			}
 			m.ProofType = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 4:
+		case 5:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ProvingNetworkVerificationKey", wireType)
+			}
+			var byteLen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowFhvmsMeta
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				byteLen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if byteLen < 0 {
+				return ErrInvalidLengthFhvmsMeta
+			}
+			postIndex := iNdEx + byteLen
+			if postIndex < 0 {
+				return ErrInvalidLengthFhvmsMeta
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.ProvingNetworkVerificationKey = append(m.ProvingNetworkVerificationKey[:0], dAtA[iNdEx:postIndex]...)
+			if m.ProvingNetworkVerificationKey == nil {
+				m.ProvingNetworkVerificationKey = []byte{}
+			}
+			iNdEx = postIndex
+		case 6:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field DaProvider", wireType)
 			}
@@ -606,7 +688,7 @@ func (m *FhvmsMeta) Unmarshal(dAtA []byte) error {
 			}
 			m.DaProvider = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 5:
+		case 7:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field DaBlobId", wireType)
 			}
@@ -638,7 +720,7 @@ func (m *FhvmsMeta) Unmarshal(dAtA []byte) error {
 			}
 			m.DaBlobId = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 6:
+		case 8:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field RelayerGAddress", wireType)
 			}
@@ -670,7 +752,7 @@ func (m *FhvmsMeta) Unmarshal(dAtA []byte) error {
 			}
 			m.RelayerGAddress = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 7:
+		case 9:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field RelayerAscAddress", wireType)
 			}
@@ -702,7 +784,7 @@ func (m *FhvmsMeta) Unmarshal(dAtA []byte) error {
 			}
 			m.RelayerAscAddress = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 8:
+		case 10:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field PicContractAddress", wireType)
 			}
@@ -734,7 +816,7 @@ func (m *FhvmsMeta) Unmarshal(dAtA []byte) error {
 			}
 			m.PicContractAddress = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 9:
+		case 11:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field AclContractAddress", wireType)
 			}
@@ -766,7 +848,7 @@ func (m *FhvmsMeta) Unmarshal(dAtA []byte) error {
 			}
 			m.AclContractAddress = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 10:
+		case 12:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field TfheExecutorContractAddress", wireType)
 			}
@@ -798,7 +880,7 @@ func (m *FhvmsMeta) Unmarshal(dAtA []byte) error {
 			}
 			m.TfheExecutorContractAddress = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 11:
+		case 13:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field KmsVerifierContractAddress", wireType)
 			}
@@ -830,7 +912,7 @@ func (m *FhvmsMeta) Unmarshal(dAtA []byte) error {
 			}
 			m.KmsVerifierContractAddress = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 12:
+		case 14:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field GatewayContractAddress", wireType)
 			}
@@ -862,7 +944,7 @@ func (m *FhvmsMeta) Unmarshal(dAtA []byte) error {
 			}
 			m.GatewayContractAddress = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 13:
+		case 15:
 			if wireType != 2 {
 				return fmt.Errorf("proto: wrong wireType = %d for field AscChildContractAddress", wireType)
 			}
@@ -894,7 +976,7 @@ func (m *FhvmsMeta) Unmarshal(dAtA []byte) error {
 			}
 			m.AscChildContractAddress = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
-		case 14:
+		case 16:
 			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field LatestVerifiedPodNumber", wireType)
 			}
@@ -913,7 +995,7 @@ func (m *FhvmsMeta) Unmarshal(dAtA []byte) error {
 					break
 				}
 			}
-		case 15:
+		case 17:
 			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field FinalityPodNumber", wireType)
 			}
@@ -932,26 +1014,6 @@ func (m *FhvmsMeta) Unmarshal(dAtA []byte) error {
 					break
 				}
 			}
-		case 16:
-			if wireType != 0 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Status", wireType)
-			}
-			var v int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowFhvmsMeta
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				v |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			m.Status = bool(v != 0)
 		default:
 			iNdEx = preIndex
 			skippy, err := skipFhvmsMeta(dAtA[iNdEx:])

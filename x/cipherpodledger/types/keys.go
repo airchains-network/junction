@@ -15,6 +15,21 @@ const (
 
 	// PortID is the default port id that module binds to
 	PortID = "cipherpodledger"
+
+	/**
+	 * FhvmKeyStoreKey is the key store key for the FHVM metadata
+	 * stored with the `chain ID` as the key.
+	 * Key: chainId
+	 * Value: FHVM metadata
+	 */
+	FhvmKeyStoreKey = "fhvm-key-store"
+
+	/**
+	 * Store for ASC Child contract address to chainId mapping
+	 * Key: ascChildContractAddress
+	 * Value: chainId
+	 */
+	AscChildContractRegistryKey = "asc-child-contract-registry"
 )
 
 var (

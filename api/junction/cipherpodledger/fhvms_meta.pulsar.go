@@ -13,23 +13,24 @@ import (
 )
 
 var (
-	md_FhvmsMeta                             protoreflect.MessageDescriptor
-	fd_FhvmsMeta_chainId                     protoreflect.FieldDescriptor
-	fd_FhvmsMeta_chainName                   protoreflect.FieldDescriptor
-	fd_FhvmsMeta_proofType                   protoreflect.FieldDescriptor
-	fd_FhvmsMeta_daProvider                  protoreflect.FieldDescriptor
-	fd_FhvmsMeta_daBlobId                    protoreflect.FieldDescriptor
-	fd_FhvmsMeta_relayerGAddress             protoreflect.FieldDescriptor
-	fd_FhvmsMeta_relayerAscAddress           protoreflect.FieldDescriptor
-	fd_FhvmsMeta_picContractAddress          protoreflect.FieldDescriptor
-	fd_FhvmsMeta_aclContractAddress          protoreflect.FieldDescriptor
-	fd_FhvmsMeta_tfheExecutorContractAddress protoreflect.FieldDescriptor
-	fd_FhvmsMeta_kmsVerifierContractAddress  protoreflect.FieldDescriptor
-	fd_FhvmsMeta_gatewayContractAddress      protoreflect.FieldDescriptor
-	fd_FhvmsMeta_ascChildContractAddress     protoreflect.FieldDescriptor
-	fd_FhvmsMeta_latestVerifiedPodNumber     protoreflect.FieldDescriptor
-	fd_FhvmsMeta_finalityPodNumber           protoreflect.FieldDescriptor
-	fd_FhvmsMeta_status                      protoreflect.FieldDescriptor
+	md_FhvmsMeta                               protoreflect.MessageDescriptor
+	fd_FhvmsMeta_chainId                       protoreflect.FieldDescriptor
+	fd_FhvmsMeta_chainName                     protoreflect.FieldDescriptor
+	fd_FhvmsMeta_status                        protoreflect.FieldDescriptor
+	fd_FhvmsMeta_proofType                     protoreflect.FieldDescriptor
+	fd_FhvmsMeta_provingNetworkVerificationKey protoreflect.FieldDescriptor
+	fd_FhvmsMeta_daProvider                    protoreflect.FieldDescriptor
+	fd_FhvmsMeta_daBlobId                      protoreflect.FieldDescriptor
+	fd_FhvmsMeta_relayerGAddress               protoreflect.FieldDescriptor
+	fd_FhvmsMeta_relayerAscAddress             protoreflect.FieldDescriptor
+	fd_FhvmsMeta_picContractAddress            protoreflect.FieldDescriptor
+	fd_FhvmsMeta_aclContractAddress            protoreflect.FieldDescriptor
+	fd_FhvmsMeta_tfheExecutorContractAddress   protoreflect.FieldDescriptor
+	fd_FhvmsMeta_kmsVerifierContractAddress    protoreflect.FieldDescriptor
+	fd_FhvmsMeta_gatewayContractAddress        protoreflect.FieldDescriptor
+	fd_FhvmsMeta_ascChildContractAddress       protoreflect.FieldDescriptor
+	fd_FhvmsMeta_latestVerifiedPodNumber       protoreflect.FieldDescriptor
+	fd_FhvmsMeta_finalityPodNumber             protoreflect.FieldDescriptor
 )
 
 func init() {
@@ -37,7 +38,9 @@ func init() {
 	md_FhvmsMeta = File_junction_cipherpodledger_fhvms_meta_proto.Messages().ByName("FhvmsMeta")
 	fd_FhvmsMeta_chainId = md_FhvmsMeta.Fields().ByName("chainId")
 	fd_FhvmsMeta_chainName = md_FhvmsMeta.Fields().ByName("chainName")
+	fd_FhvmsMeta_status = md_FhvmsMeta.Fields().ByName("status")
 	fd_FhvmsMeta_proofType = md_FhvmsMeta.Fields().ByName("proofType")
+	fd_FhvmsMeta_provingNetworkVerificationKey = md_FhvmsMeta.Fields().ByName("provingNetworkVerificationKey")
 	fd_FhvmsMeta_daProvider = md_FhvmsMeta.Fields().ByName("daProvider")
 	fd_FhvmsMeta_daBlobId = md_FhvmsMeta.Fields().ByName("daBlobId")
 	fd_FhvmsMeta_relayerGAddress = md_FhvmsMeta.Fields().ByName("relayerGAddress")
@@ -50,7 +53,6 @@ func init() {
 	fd_FhvmsMeta_ascChildContractAddress = md_FhvmsMeta.Fields().ByName("ascChildContractAddress")
 	fd_FhvmsMeta_latestVerifiedPodNumber = md_FhvmsMeta.Fields().ByName("latestVerifiedPodNumber")
 	fd_FhvmsMeta_finalityPodNumber = md_FhvmsMeta.Fields().ByName("finalityPodNumber")
-	fd_FhvmsMeta_status = md_FhvmsMeta.Fields().ByName("status")
 }
 
 var _ protoreflect.Message = (*fastReflection_FhvmsMeta)(nil)
@@ -130,9 +132,21 @@ func (x *fastReflection_FhvmsMeta) Range(f func(protoreflect.FieldDescriptor, pr
 			return
 		}
 	}
+	if x.Status != false {
+		value := protoreflect.ValueOfBool(x.Status)
+		if !f(fd_FhvmsMeta_status, value) {
+			return
+		}
+	}
 	if x.ProofType != "" {
 		value := protoreflect.ValueOfString(x.ProofType)
 		if !f(fd_FhvmsMeta_proofType, value) {
+			return
+		}
+	}
+	if len(x.ProvingNetworkVerificationKey) != 0 {
+		value := protoreflect.ValueOfBytes(x.ProvingNetworkVerificationKey)
+		if !f(fd_FhvmsMeta_provingNetworkVerificationKey, value) {
 			return
 		}
 	}
@@ -208,12 +222,6 @@ func (x *fastReflection_FhvmsMeta) Range(f func(protoreflect.FieldDescriptor, pr
 			return
 		}
 	}
-	if x.Status != false {
-		value := protoreflect.ValueOfBool(x.Status)
-		if !f(fd_FhvmsMeta_status, value) {
-			return
-		}
-	}
 }
 
 // Has reports whether a field is populated.
@@ -233,8 +241,12 @@ func (x *fastReflection_FhvmsMeta) Has(fd protoreflect.FieldDescriptor) bool {
 		return x.ChainId != ""
 	case "junction.cipherpodledger.FhvmsMeta.chainName":
 		return x.ChainName != ""
+	case "junction.cipherpodledger.FhvmsMeta.status":
+		return x.Status != false
 	case "junction.cipherpodledger.FhvmsMeta.proofType":
 		return x.ProofType != ""
+	case "junction.cipherpodledger.FhvmsMeta.provingNetworkVerificationKey":
+		return len(x.ProvingNetworkVerificationKey) != 0
 	case "junction.cipherpodledger.FhvmsMeta.daProvider":
 		return x.DaProvider != ""
 	case "junction.cipherpodledger.FhvmsMeta.daBlobId":
@@ -259,8 +271,6 @@ func (x *fastReflection_FhvmsMeta) Has(fd protoreflect.FieldDescriptor) bool {
 		return x.LatestVerifiedPodNumber != uint64(0)
 	case "junction.cipherpodledger.FhvmsMeta.finalityPodNumber":
 		return x.FinalityPodNumber != uint64(0)
-	case "junction.cipherpodledger.FhvmsMeta.status":
-		return x.Status != false
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: junction.cipherpodledger.FhvmsMeta"))
@@ -281,8 +291,12 @@ func (x *fastReflection_FhvmsMeta) Clear(fd protoreflect.FieldDescriptor) {
 		x.ChainId = ""
 	case "junction.cipherpodledger.FhvmsMeta.chainName":
 		x.ChainName = ""
+	case "junction.cipherpodledger.FhvmsMeta.status":
+		x.Status = false
 	case "junction.cipherpodledger.FhvmsMeta.proofType":
 		x.ProofType = ""
+	case "junction.cipherpodledger.FhvmsMeta.provingNetworkVerificationKey":
+		x.ProvingNetworkVerificationKey = nil
 	case "junction.cipherpodledger.FhvmsMeta.daProvider":
 		x.DaProvider = ""
 	case "junction.cipherpodledger.FhvmsMeta.daBlobId":
@@ -307,8 +321,6 @@ func (x *fastReflection_FhvmsMeta) Clear(fd protoreflect.FieldDescriptor) {
 		x.LatestVerifiedPodNumber = uint64(0)
 	case "junction.cipherpodledger.FhvmsMeta.finalityPodNumber":
 		x.FinalityPodNumber = uint64(0)
-	case "junction.cipherpodledger.FhvmsMeta.status":
-		x.Status = false
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: junction.cipherpodledger.FhvmsMeta"))
@@ -331,9 +343,15 @@ func (x *fastReflection_FhvmsMeta) Get(descriptor protoreflect.FieldDescriptor) 
 	case "junction.cipherpodledger.FhvmsMeta.chainName":
 		value := x.ChainName
 		return protoreflect.ValueOfString(value)
+	case "junction.cipherpodledger.FhvmsMeta.status":
+		value := x.Status
+		return protoreflect.ValueOfBool(value)
 	case "junction.cipherpodledger.FhvmsMeta.proofType":
 		value := x.ProofType
 		return protoreflect.ValueOfString(value)
+	case "junction.cipherpodledger.FhvmsMeta.provingNetworkVerificationKey":
+		value := x.ProvingNetworkVerificationKey
+		return protoreflect.ValueOfBytes(value)
 	case "junction.cipherpodledger.FhvmsMeta.daProvider":
 		value := x.DaProvider
 		return protoreflect.ValueOfString(value)
@@ -370,9 +388,6 @@ func (x *fastReflection_FhvmsMeta) Get(descriptor protoreflect.FieldDescriptor) 
 	case "junction.cipherpodledger.FhvmsMeta.finalityPodNumber":
 		value := x.FinalityPodNumber
 		return protoreflect.ValueOfUint64(value)
-	case "junction.cipherpodledger.FhvmsMeta.status":
-		value := x.Status
-		return protoreflect.ValueOfBool(value)
 	default:
 		if descriptor.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: junction.cipherpodledger.FhvmsMeta"))
@@ -397,8 +412,12 @@ func (x *fastReflection_FhvmsMeta) Set(fd protoreflect.FieldDescriptor, value pr
 		x.ChainId = value.Interface().(string)
 	case "junction.cipherpodledger.FhvmsMeta.chainName":
 		x.ChainName = value.Interface().(string)
+	case "junction.cipherpodledger.FhvmsMeta.status":
+		x.Status = value.Bool()
 	case "junction.cipherpodledger.FhvmsMeta.proofType":
 		x.ProofType = value.Interface().(string)
+	case "junction.cipherpodledger.FhvmsMeta.provingNetworkVerificationKey":
+		x.ProvingNetworkVerificationKey = value.Bytes()
 	case "junction.cipherpodledger.FhvmsMeta.daProvider":
 		x.DaProvider = value.Interface().(string)
 	case "junction.cipherpodledger.FhvmsMeta.daBlobId":
@@ -423,8 +442,6 @@ func (x *fastReflection_FhvmsMeta) Set(fd protoreflect.FieldDescriptor, value pr
 		x.LatestVerifiedPodNumber = value.Uint()
 	case "junction.cipherpodledger.FhvmsMeta.finalityPodNumber":
 		x.FinalityPodNumber = value.Uint()
-	case "junction.cipherpodledger.FhvmsMeta.status":
-		x.Status = value.Bool()
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: junction.cipherpodledger.FhvmsMeta"))
@@ -449,8 +466,12 @@ func (x *fastReflection_FhvmsMeta) Mutable(fd protoreflect.FieldDescriptor) prot
 		panic(fmt.Errorf("field chainId of message junction.cipherpodledger.FhvmsMeta is not mutable"))
 	case "junction.cipherpodledger.FhvmsMeta.chainName":
 		panic(fmt.Errorf("field chainName of message junction.cipherpodledger.FhvmsMeta is not mutable"))
+	case "junction.cipherpodledger.FhvmsMeta.status":
+		panic(fmt.Errorf("field status of message junction.cipherpodledger.FhvmsMeta is not mutable"))
 	case "junction.cipherpodledger.FhvmsMeta.proofType":
 		panic(fmt.Errorf("field proofType of message junction.cipherpodledger.FhvmsMeta is not mutable"))
+	case "junction.cipherpodledger.FhvmsMeta.provingNetworkVerificationKey":
+		panic(fmt.Errorf("field provingNetworkVerificationKey of message junction.cipherpodledger.FhvmsMeta is not mutable"))
 	case "junction.cipherpodledger.FhvmsMeta.daProvider":
 		panic(fmt.Errorf("field daProvider of message junction.cipherpodledger.FhvmsMeta is not mutable"))
 	case "junction.cipherpodledger.FhvmsMeta.daBlobId":
@@ -475,8 +496,6 @@ func (x *fastReflection_FhvmsMeta) Mutable(fd protoreflect.FieldDescriptor) prot
 		panic(fmt.Errorf("field latestVerifiedPodNumber of message junction.cipherpodledger.FhvmsMeta is not mutable"))
 	case "junction.cipherpodledger.FhvmsMeta.finalityPodNumber":
 		panic(fmt.Errorf("field finalityPodNumber of message junction.cipherpodledger.FhvmsMeta is not mutable"))
-	case "junction.cipherpodledger.FhvmsMeta.status":
-		panic(fmt.Errorf("field status of message junction.cipherpodledger.FhvmsMeta is not mutable"))
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: junction.cipherpodledger.FhvmsMeta"))
@@ -494,8 +513,12 @@ func (x *fastReflection_FhvmsMeta) NewField(fd protoreflect.FieldDescriptor) pro
 		return protoreflect.ValueOfString("")
 	case "junction.cipherpodledger.FhvmsMeta.chainName":
 		return protoreflect.ValueOfString("")
+	case "junction.cipherpodledger.FhvmsMeta.status":
+		return protoreflect.ValueOfBool(false)
 	case "junction.cipherpodledger.FhvmsMeta.proofType":
 		return protoreflect.ValueOfString("")
+	case "junction.cipherpodledger.FhvmsMeta.provingNetworkVerificationKey":
+		return protoreflect.ValueOfBytes(nil)
 	case "junction.cipherpodledger.FhvmsMeta.daProvider":
 		return protoreflect.ValueOfString("")
 	case "junction.cipherpodledger.FhvmsMeta.daBlobId":
@@ -520,8 +543,6 @@ func (x *fastReflection_FhvmsMeta) NewField(fd protoreflect.FieldDescriptor) pro
 		return protoreflect.ValueOfUint64(uint64(0))
 	case "junction.cipherpodledger.FhvmsMeta.finalityPodNumber":
 		return protoreflect.ValueOfUint64(uint64(0))
-	case "junction.cipherpodledger.FhvmsMeta.status":
-		return protoreflect.ValueOfBool(false)
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: junction.cipherpodledger.FhvmsMeta"))
@@ -599,7 +620,14 @@ func (x *fastReflection_FhvmsMeta) ProtoMethods() *protoiface.Methods {
 		if l > 0 {
 			n += 1 + l + runtime.Sov(uint64(l))
 		}
+		if x.Status {
+			n += 2
+		}
 		l = len(x.ProofType)
+		if l > 0 {
+			n += 1 + l + runtime.Sov(uint64(l))
+		}
+		l = len(x.ProvingNetworkVerificationKey)
 		if l > 0 {
 			n += 1 + l + runtime.Sov(uint64(l))
 		}
@@ -644,13 +672,10 @@ func (x *fastReflection_FhvmsMeta) ProtoMethods() *protoiface.Methods {
 			n += 1 + l + runtime.Sov(uint64(l))
 		}
 		if x.LatestVerifiedPodNumber != 0 {
-			n += 1 + runtime.Sov(uint64(x.LatestVerifiedPodNumber))
+			n += 2 + runtime.Sov(uint64(x.LatestVerifiedPodNumber))
 		}
 		if x.FinalityPodNumber != 0 {
-			n += 1 + runtime.Sov(uint64(x.FinalityPodNumber))
-		}
-		if x.Status {
-			n += 3
+			n += 2 + runtime.Sov(uint64(x.FinalityPodNumber))
 		}
 		if x.unknownFields != nil {
 			n += len(x.unknownFields)
@@ -681,6 +706,104 @@ func (x *fastReflection_FhvmsMeta) ProtoMethods() *protoiface.Methods {
 			i -= len(x.unknownFields)
 			copy(dAtA[i:], x.unknownFields)
 		}
+		if x.FinalityPodNumber != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.FinalityPodNumber))
+			i--
+			dAtA[i] = 0x1
+			i--
+			dAtA[i] = 0x88
+		}
+		if x.LatestVerifiedPodNumber != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.LatestVerifiedPodNumber))
+			i--
+			dAtA[i] = 0x1
+			i--
+			dAtA[i] = 0x80
+		}
+		if len(x.AscChildContractAddress) > 0 {
+			i -= len(x.AscChildContractAddress)
+			copy(dAtA[i:], x.AscChildContractAddress)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.AscChildContractAddress)))
+			i--
+			dAtA[i] = 0x7a
+		}
+		if len(x.GatewayContractAddress) > 0 {
+			i -= len(x.GatewayContractAddress)
+			copy(dAtA[i:], x.GatewayContractAddress)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.GatewayContractAddress)))
+			i--
+			dAtA[i] = 0x72
+		}
+		if len(x.KmsVerifierContractAddress) > 0 {
+			i -= len(x.KmsVerifierContractAddress)
+			copy(dAtA[i:], x.KmsVerifierContractAddress)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.KmsVerifierContractAddress)))
+			i--
+			dAtA[i] = 0x6a
+		}
+		if len(x.TfheExecutorContractAddress) > 0 {
+			i -= len(x.TfheExecutorContractAddress)
+			copy(dAtA[i:], x.TfheExecutorContractAddress)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.TfheExecutorContractAddress)))
+			i--
+			dAtA[i] = 0x62
+		}
+		if len(x.AclContractAddress) > 0 {
+			i -= len(x.AclContractAddress)
+			copy(dAtA[i:], x.AclContractAddress)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.AclContractAddress)))
+			i--
+			dAtA[i] = 0x5a
+		}
+		if len(x.PicContractAddress) > 0 {
+			i -= len(x.PicContractAddress)
+			copy(dAtA[i:], x.PicContractAddress)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.PicContractAddress)))
+			i--
+			dAtA[i] = 0x52
+		}
+		if len(x.RelayerAscAddress) > 0 {
+			i -= len(x.RelayerAscAddress)
+			copy(dAtA[i:], x.RelayerAscAddress)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.RelayerAscAddress)))
+			i--
+			dAtA[i] = 0x4a
+		}
+		if len(x.RelayerGAddress) > 0 {
+			i -= len(x.RelayerGAddress)
+			copy(dAtA[i:], x.RelayerGAddress)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.RelayerGAddress)))
+			i--
+			dAtA[i] = 0x42
+		}
+		if len(x.DaBlobId) > 0 {
+			i -= len(x.DaBlobId)
+			copy(dAtA[i:], x.DaBlobId)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.DaBlobId)))
+			i--
+			dAtA[i] = 0x3a
+		}
+		if len(x.DaProvider) > 0 {
+			i -= len(x.DaProvider)
+			copy(dAtA[i:], x.DaProvider)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.DaProvider)))
+			i--
+			dAtA[i] = 0x32
+		}
+		if len(x.ProvingNetworkVerificationKey) > 0 {
+			i -= len(x.ProvingNetworkVerificationKey)
+			copy(dAtA[i:], x.ProvingNetworkVerificationKey)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.ProvingNetworkVerificationKey)))
+			i--
+			dAtA[i] = 0x2a
+		}
+		if len(x.ProofType) > 0 {
+			i -= len(x.ProofType)
+			copy(dAtA[i:], x.ProofType)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.ProofType)))
+			i--
+			dAtA[i] = 0x22
+		}
 		if x.Status {
 			i--
 			if x.Status {
@@ -689,96 +812,7 @@ func (x *fastReflection_FhvmsMeta) ProtoMethods() *protoiface.Methods {
 				dAtA[i] = 0
 			}
 			i--
-			dAtA[i] = 0x1
-			i--
-			dAtA[i] = 0x80
-		}
-		if x.FinalityPodNumber != 0 {
-			i = runtime.EncodeVarint(dAtA, i, uint64(x.FinalityPodNumber))
-			i--
-			dAtA[i] = 0x78
-		}
-		if x.LatestVerifiedPodNumber != 0 {
-			i = runtime.EncodeVarint(dAtA, i, uint64(x.LatestVerifiedPodNumber))
-			i--
-			dAtA[i] = 0x70
-		}
-		if len(x.AscChildContractAddress) > 0 {
-			i -= len(x.AscChildContractAddress)
-			copy(dAtA[i:], x.AscChildContractAddress)
-			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.AscChildContractAddress)))
-			i--
-			dAtA[i] = 0x6a
-		}
-		if len(x.GatewayContractAddress) > 0 {
-			i -= len(x.GatewayContractAddress)
-			copy(dAtA[i:], x.GatewayContractAddress)
-			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.GatewayContractAddress)))
-			i--
-			dAtA[i] = 0x62
-		}
-		if len(x.KmsVerifierContractAddress) > 0 {
-			i -= len(x.KmsVerifierContractAddress)
-			copy(dAtA[i:], x.KmsVerifierContractAddress)
-			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.KmsVerifierContractAddress)))
-			i--
-			dAtA[i] = 0x5a
-		}
-		if len(x.TfheExecutorContractAddress) > 0 {
-			i -= len(x.TfheExecutorContractAddress)
-			copy(dAtA[i:], x.TfheExecutorContractAddress)
-			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.TfheExecutorContractAddress)))
-			i--
-			dAtA[i] = 0x52
-		}
-		if len(x.AclContractAddress) > 0 {
-			i -= len(x.AclContractAddress)
-			copy(dAtA[i:], x.AclContractAddress)
-			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.AclContractAddress)))
-			i--
-			dAtA[i] = 0x4a
-		}
-		if len(x.PicContractAddress) > 0 {
-			i -= len(x.PicContractAddress)
-			copy(dAtA[i:], x.PicContractAddress)
-			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.PicContractAddress)))
-			i--
-			dAtA[i] = 0x42
-		}
-		if len(x.RelayerAscAddress) > 0 {
-			i -= len(x.RelayerAscAddress)
-			copy(dAtA[i:], x.RelayerAscAddress)
-			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.RelayerAscAddress)))
-			i--
-			dAtA[i] = 0x3a
-		}
-		if len(x.RelayerGAddress) > 0 {
-			i -= len(x.RelayerGAddress)
-			copy(dAtA[i:], x.RelayerGAddress)
-			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.RelayerGAddress)))
-			i--
-			dAtA[i] = 0x32
-		}
-		if len(x.DaBlobId) > 0 {
-			i -= len(x.DaBlobId)
-			copy(dAtA[i:], x.DaBlobId)
-			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.DaBlobId)))
-			i--
-			dAtA[i] = 0x2a
-		}
-		if len(x.DaProvider) > 0 {
-			i -= len(x.DaProvider)
-			copy(dAtA[i:], x.DaProvider)
-			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.DaProvider)))
-			i--
-			dAtA[i] = 0x22
-		}
-		if len(x.ProofType) > 0 {
-			i -= len(x.ProofType)
-			copy(dAtA[i:], x.ProofType)
-			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.ProofType)))
-			i--
-			dAtA[i] = 0x1a
+			dAtA[i] = 0x18
 		}
 		if len(x.ChainName) > 0 {
 			i -= len(x.ChainName)
@@ -908,6 +942,26 @@ func (x *fastReflection_FhvmsMeta) ProtoMethods() *protoiface.Methods {
 				x.ChainName = string(dAtA[iNdEx:postIndex])
 				iNdEx = postIndex
 			case 3:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Status", wireType)
+				}
+				var v int
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					v |= int(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				x.Status = bool(v != 0)
+			case 4:
 				if wireType != 2 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field ProofType", wireType)
 				}
@@ -939,7 +993,41 @@ func (x *fastReflection_FhvmsMeta) ProtoMethods() *protoiface.Methods {
 				}
 				x.ProofType = string(dAtA[iNdEx:postIndex])
 				iNdEx = postIndex
-			case 4:
+			case 5:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field ProvingNetworkVerificationKey", wireType)
+				}
+				var byteLen int
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					byteLen |= int(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				if byteLen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + byteLen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				x.ProvingNetworkVerificationKey = append(x.ProvingNetworkVerificationKey[:0], dAtA[iNdEx:postIndex]...)
+				if x.ProvingNetworkVerificationKey == nil {
+					x.ProvingNetworkVerificationKey = []byte{}
+				}
+				iNdEx = postIndex
+			case 6:
 				if wireType != 2 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field DaProvider", wireType)
 				}
@@ -971,7 +1059,7 @@ func (x *fastReflection_FhvmsMeta) ProtoMethods() *protoiface.Methods {
 				}
 				x.DaProvider = string(dAtA[iNdEx:postIndex])
 				iNdEx = postIndex
-			case 5:
+			case 7:
 				if wireType != 2 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field DaBlobId", wireType)
 				}
@@ -1003,7 +1091,7 @@ func (x *fastReflection_FhvmsMeta) ProtoMethods() *protoiface.Methods {
 				}
 				x.DaBlobId = string(dAtA[iNdEx:postIndex])
 				iNdEx = postIndex
-			case 6:
+			case 8:
 				if wireType != 2 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field RelayerGAddress", wireType)
 				}
@@ -1035,7 +1123,7 @@ func (x *fastReflection_FhvmsMeta) ProtoMethods() *protoiface.Methods {
 				}
 				x.RelayerGAddress = string(dAtA[iNdEx:postIndex])
 				iNdEx = postIndex
-			case 7:
+			case 9:
 				if wireType != 2 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field RelayerAscAddress", wireType)
 				}
@@ -1067,7 +1155,7 @@ func (x *fastReflection_FhvmsMeta) ProtoMethods() *protoiface.Methods {
 				}
 				x.RelayerAscAddress = string(dAtA[iNdEx:postIndex])
 				iNdEx = postIndex
-			case 8:
+			case 10:
 				if wireType != 2 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field PicContractAddress", wireType)
 				}
@@ -1099,7 +1187,7 @@ func (x *fastReflection_FhvmsMeta) ProtoMethods() *protoiface.Methods {
 				}
 				x.PicContractAddress = string(dAtA[iNdEx:postIndex])
 				iNdEx = postIndex
-			case 9:
+			case 11:
 				if wireType != 2 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field AclContractAddress", wireType)
 				}
@@ -1131,7 +1219,7 @@ func (x *fastReflection_FhvmsMeta) ProtoMethods() *protoiface.Methods {
 				}
 				x.AclContractAddress = string(dAtA[iNdEx:postIndex])
 				iNdEx = postIndex
-			case 10:
+			case 12:
 				if wireType != 2 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field TfheExecutorContractAddress", wireType)
 				}
@@ -1163,7 +1251,7 @@ func (x *fastReflection_FhvmsMeta) ProtoMethods() *protoiface.Methods {
 				}
 				x.TfheExecutorContractAddress = string(dAtA[iNdEx:postIndex])
 				iNdEx = postIndex
-			case 11:
+			case 13:
 				if wireType != 2 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field KmsVerifierContractAddress", wireType)
 				}
@@ -1195,7 +1283,7 @@ func (x *fastReflection_FhvmsMeta) ProtoMethods() *protoiface.Methods {
 				}
 				x.KmsVerifierContractAddress = string(dAtA[iNdEx:postIndex])
 				iNdEx = postIndex
-			case 12:
+			case 14:
 				if wireType != 2 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field GatewayContractAddress", wireType)
 				}
@@ -1227,7 +1315,7 @@ func (x *fastReflection_FhvmsMeta) ProtoMethods() *protoiface.Methods {
 				}
 				x.GatewayContractAddress = string(dAtA[iNdEx:postIndex])
 				iNdEx = postIndex
-			case 13:
+			case 15:
 				if wireType != 2 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field AscChildContractAddress", wireType)
 				}
@@ -1259,7 +1347,7 @@ func (x *fastReflection_FhvmsMeta) ProtoMethods() *protoiface.Methods {
 				}
 				x.AscChildContractAddress = string(dAtA[iNdEx:postIndex])
 				iNdEx = postIndex
-			case 14:
+			case 16:
 				if wireType != 0 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field LatestVerifiedPodNumber", wireType)
 				}
@@ -1278,7 +1366,7 @@ func (x *fastReflection_FhvmsMeta) ProtoMethods() *protoiface.Methods {
 						break
 					}
 				}
-			case 15:
+			case 17:
 				if wireType != 0 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field FinalityPodNumber", wireType)
 				}
@@ -1297,26 +1385,6 @@ func (x *fastReflection_FhvmsMeta) ProtoMethods() *protoiface.Methods {
 						break
 					}
 				}
-			case 16:
-				if wireType != 0 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Status", wireType)
-				}
-				var v int
-				for shift := uint(0); ; shift += 7 {
-					if shift >= 64 {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
-					}
-					if iNdEx >= l {
-						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
-					}
-					b := dAtA[iNdEx]
-					iNdEx++
-					v |= int(b&0x7F) << shift
-					if b < 0x80 {
-						break
-					}
-				}
-				x.Status = bool(v != 0)
 			default:
 				iNdEx = preIndex
 				skippy, err := runtime.Skip(dAtA[iNdEx:])
@@ -1370,22 +1438,28 @@ type FhvmsMeta struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	ChainId                     string `protobuf:"bytes,1,opt,name=chainId,proto3" json:"chainId,omitempty"`
-	ChainName                   string `protobuf:"bytes,2,opt,name=chainName,proto3" json:"chainName,omitempty"`
-	ProofType                   string `protobuf:"bytes,3,opt,name=proofType,proto3" json:"proofType,omitempty"`
-	DaProvider                  string `protobuf:"bytes,4,opt,name=daProvider,proto3" json:"daProvider,omitempty"`
-	DaBlobId                    string `protobuf:"bytes,5,opt,name=daBlobId,proto3" json:"daBlobId,omitempty"`
-	RelayerGAddress             string `protobuf:"bytes,6,opt,name=relayerGAddress,proto3" json:"relayerGAddress,omitempty"`
-	RelayerAscAddress           string `protobuf:"bytes,7,opt,name=relayerAscAddress,proto3" json:"relayerAscAddress,omitempty"`
-	PicContractAddress          string `protobuf:"bytes,8,opt,name=picContractAddress,proto3" json:"picContractAddress,omitempty"`
-	AclContractAddress          string `protobuf:"bytes,9,opt,name=aclContractAddress,proto3" json:"aclContractAddress,omitempty"`
-	TfheExecutorContractAddress string `protobuf:"bytes,10,opt,name=tfheExecutorContractAddress,proto3" json:"tfheExecutorContractAddress,omitempty"`
-	KmsVerifierContractAddress  string `protobuf:"bytes,11,opt,name=kmsVerifierContractAddress,proto3" json:"kmsVerifierContractAddress,omitempty"`
-	GatewayContractAddress      string `protobuf:"bytes,12,opt,name=gatewayContractAddress,proto3" json:"gatewayContractAddress,omitempty"`
-	AscChildContractAddress     string `protobuf:"bytes,13,opt,name=ascChildContractAddress,proto3" json:"ascChildContractAddress,omitempty"`
-	LatestVerifiedPodNumber     uint64 `protobuf:"varint,14,opt,name=latestVerifiedPodNumber,proto3" json:"latestVerifiedPodNumber,omitempty"`
-	FinalityPodNumber           uint64 `protobuf:"varint,15,opt,name=finalityPodNumber,proto3" json:"finalityPodNumber,omitempty"`
-	Status                      bool   `protobuf:"varint,16,opt,name=status,proto3" json:"status,omitempty"`
+	ChainId   string `protobuf:"bytes,1,opt,name=chainId,proto3" json:"chainId,omitempty"`
+	ChainName string `protobuf:"bytes,2,opt,name=chainName,proto3" json:"chainName,omitempty"`
+	Status    bool   `protobuf:"varint,3,opt,name=status,proto3" json:"status,omitempty"`
+	// proof related fields
+	ProofType                     string `protobuf:"bytes,4,opt,name=proofType,proto3" json:"proofType,omitempty"`
+	ProvingNetworkVerificationKey []byte `protobuf:"bytes,5,opt,name=provingNetworkVerificationKey,proto3" json:"provingNetworkVerificationKey,omitempty"`
+	// da related fields
+	DaProvider string `protobuf:"bytes,6,opt,name=daProvider,proto3" json:"daProvider,omitempty"`
+	DaBlobId   string `protobuf:"bytes,7,opt,name=daBlobId,proto3" json:"daBlobId,omitempty"`
+	// relayer related fields
+	RelayerGAddress   string `protobuf:"bytes,8,opt,name=relayerGAddress,proto3" json:"relayerGAddress,omitempty"`
+	RelayerAscAddress string `protobuf:"bytes,9,opt,name=relayerAscAddress,proto3" json:"relayerAscAddress,omitempty"`
+	// contract related fields
+	PicContractAddress          string `protobuf:"bytes,10,opt,name=picContractAddress,proto3" json:"picContractAddress,omitempty"`
+	AclContractAddress          string `protobuf:"bytes,11,opt,name=aclContractAddress,proto3" json:"aclContractAddress,omitempty"`
+	TfheExecutorContractAddress string `protobuf:"bytes,12,opt,name=tfheExecutorContractAddress,proto3" json:"tfheExecutorContractAddress,omitempty"`
+	KmsVerifierContractAddress  string `protobuf:"bytes,13,opt,name=kmsVerifierContractAddress,proto3" json:"kmsVerifierContractAddress,omitempty"`
+	GatewayContractAddress      string `protobuf:"bytes,14,opt,name=gatewayContractAddress,proto3" json:"gatewayContractAddress,omitempty"`
+	AscChildContractAddress     string `protobuf:"bytes,15,opt,name=ascChildContractAddress,proto3" json:"ascChildContractAddress,omitempty"`
+	// pod related fields
+	LatestVerifiedPodNumber uint64 `protobuf:"varint,16,opt,name=latestVerifiedPodNumber,proto3" json:"latestVerifiedPodNumber,omitempty"`
+	FinalityPodNumber       uint64 `protobuf:"varint,17,opt,name=finalityPodNumber,proto3" json:"finalityPodNumber,omitempty"`
 }
 
 func (x *FhvmsMeta) Reset() {
@@ -1422,11 +1496,25 @@ func (x *FhvmsMeta) GetChainName() string {
 	return ""
 }
 
+func (x *FhvmsMeta) GetStatus() bool {
+	if x != nil {
+		return x.Status
+	}
+	return false
+}
+
 func (x *FhvmsMeta) GetProofType() string {
 	if x != nil {
 		return x.ProofType
 	}
 	return ""
+}
+
+func (x *FhvmsMeta) GetProvingNetworkVerificationKey() []byte {
+	if x != nil {
+		return x.ProvingNetworkVerificationKey
+	}
+	return nil
 }
 
 func (x *FhvmsMeta) GetDaProvider() string {
@@ -1513,13 +1601,6 @@ func (x *FhvmsMeta) GetFinalityPodNumber() uint64 {
 	return 0
 }
 
-func (x *FhvmsMeta) GetStatus() bool {
-	if x != nil {
-		return x.Status
-	}
-	return false
-}
-
 var File_junction_cipherpodledger_fhvms_meta_proto protoreflect.FileDescriptor
 
 var file_junction_cipherpodledger_fhvms_meta_proto_rawDesc = []byte{
@@ -1527,66 +1608,70 @@ var file_junction_cipherpodledger_fhvms_meta_proto_rawDesc = []byte{
 	0x72, 0x70, 0x6f, 0x64, 0x6c, 0x65, 0x64, 0x67, 0x65, 0x72, 0x2f, 0x66, 0x68, 0x76, 0x6d, 0x73,
 	0x5f, 0x6d, 0x65, 0x74, 0x61, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x18, 0x6a, 0x75, 0x6e,
 	0x63, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x63, 0x69, 0x70, 0x68, 0x65, 0x72, 0x70, 0x6f, 0x64, 0x6c,
-	0x65, 0x64, 0x67, 0x65, 0x72, 0x22, 0xc9, 0x05, 0x0a, 0x09, 0x46, 0x68, 0x76, 0x6d, 0x73, 0x4d,
+	0x65, 0x64, 0x67, 0x65, 0x72, 0x22, 0x8f, 0x06, 0x0a, 0x09, 0x46, 0x68, 0x76, 0x6d, 0x73, 0x4d,
 	0x65, 0x74, 0x61, 0x12, 0x18, 0x0a, 0x07, 0x63, 0x68, 0x61, 0x69, 0x6e, 0x49, 0x64, 0x18, 0x01,
 	0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x63, 0x68, 0x61, 0x69, 0x6e, 0x49, 0x64, 0x12, 0x1c, 0x0a,
 	0x09, 0x63, 0x68, 0x61, 0x69, 0x6e, 0x4e, 0x61, 0x6d, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09,
-	0x52, 0x09, 0x63, 0x68, 0x61, 0x69, 0x6e, 0x4e, 0x61, 0x6d, 0x65, 0x12, 0x1c, 0x0a, 0x09, 0x70,
-	0x72, 0x6f, 0x6f, 0x66, 0x54, 0x79, 0x70, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09,
-	0x70, 0x72, 0x6f, 0x6f, 0x66, 0x54, 0x79, 0x70, 0x65, 0x12, 0x1e, 0x0a, 0x0a, 0x64, 0x61, 0x50,
-	0x72, 0x6f, 0x76, 0x69, 0x64, 0x65, 0x72, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x64,
-	0x61, 0x50, 0x72, 0x6f, 0x76, 0x69, 0x64, 0x65, 0x72, 0x12, 0x1a, 0x0a, 0x08, 0x64, 0x61, 0x42,
-	0x6c, 0x6f, 0x62, 0x49, 0x64, 0x18, 0x05, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x64, 0x61, 0x42,
-	0x6c, 0x6f, 0x62, 0x49, 0x64, 0x12, 0x28, 0x0a, 0x0f, 0x72, 0x65, 0x6c, 0x61, 0x79, 0x65, 0x72,
-	0x47, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x18, 0x06, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0f,
-	0x72, 0x65, 0x6c, 0x61, 0x79, 0x65, 0x72, 0x47, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x12,
-	0x2c, 0x0a, 0x11, 0x72, 0x65, 0x6c, 0x61, 0x79, 0x65, 0x72, 0x41, 0x73, 0x63, 0x41, 0x64, 0x64,
-	0x72, 0x65, 0x73, 0x73, 0x18, 0x07, 0x20, 0x01, 0x28, 0x09, 0x52, 0x11, 0x72, 0x65, 0x6c, 0x61,
-	0x79, 0x65, 0x72, 0x41, 0x73, 0x63, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x12, 0x2e, 0x0a,
-	0x12, 0x70, 0x69, 0x63, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x41, 0x64, 0x64, 0x72,
-	0x65, 0x73, 0x73, 0x18, 0x08, 0x20, 0x01, 0x28, 0x09, 0x52, 0x12, 0x70, 0x69, 0x63, 0x43, 0x6f,
-	0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x12, 0x2e, 0x0a,
-	0x12, 0x61, 0x63, 0x6c, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x41, 0x64, 0x64, 0x72,
-	0x65, 0x73, 0x73, 0x18, 0x09, 0x20, 0x01, 0x28, 0x09, 0x52, 0x12, 0x61, 0x63, 0x6c, 0x43, 0x6f,
-	0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x12, 0x40, 0x0a,
-	0x1b, 0x74, 0x66, 0x68, 0x65, 0x45, 0x78, 0x65, 0x63, 0x75, 0x74, 0x6f, 0x72, 0x43, 0x6f, 0x6e,
-	0x74, 0x72, 0x61, 0x63, 0x74, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x18, 0x0a, 0x20, 0x01,
-	0x28, 0x09, 0x52, 0x1b, 0x74, 0x66, 0x68, 0x65, 0x45, 0x78, 0x65, 0x63, 0x75, 0x74, 0x6f, 0x72,
-	0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x12,
-	0x3e, 0x0a, 0x1a, 0x6b, 0x6d, 0x73, 0x56, 0x65, 0x72, 0x69, 0x66, 0x69, 0x65, 0x72, 0x43, 0x6f,
-	0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x18, 0x0b, 0x20,
-	0x01, 0x28, 0x09, 0x52, 0x1a, 0x6b, 0x6d, 0x73, 0x56, 0x65, 0x72, 0x69, 0x66, 0x69, 0x65, 0x72,
-	0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x12,
-	0x36, 0x0a, 0x16, 0x67, 0x61, 0x74, 0x65, 0x77, 0x61, 0x79, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61,
-	0x63, 0x74, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x18, 0x0c, 0x20, 0x01, 0x28, 0x09, 0x52,
+	0x52, 0x09, 0x63, 0x68, 0x61, 0x69, 0x6e, 0x4e, 0x61, 0x6d, 0x65, 0x12, 0x16, 0x0a, 0x06, 0x73,
+	0x74, 0x61, 0x74, 0x75, 0x73, 0x18, 0x03, 0x20, 0x01, 0x28, 0x08, 0x52, 0x06, 0x73, 0x74, 0x61,
+	0x74, 0x75, 0x73, 0x12, 0x1c, 0x0a, 0x09, 0x70, 0x72, 0x6f, 0x6f, 0x66, 0x54, 0x79, 0x70, 0x65,
+	0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x70, 0x72, 0x6f, 0x6f, 0x66, 0x54, 0x79, 0x70,
+	0x65, 0x12, 0x44, 0x0a, 0x1d, 0x70, 0x72, 0x6f, 0x76, 0x69, 0x6e, 0x67, 0x4e, 0x65, 0x74, 0x77,
+	0x6f, 0x72, 0x6b, 0x56, 0x65, 0x72, 0x69, 0x66, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x4b,
+	0x65, 0x79, 0x18, 0x05, 0x20, 0x01, 0x28, 0x0c, 0x52, 0x1d, 0x70, 0x72, 0x6f, 0x76, 0x69, 0x6e,
+	0x67, 0x4e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x56, 0x65, 0x72, 0x69, 0x66, 0x69, 0x63, 0x61,
+	0x74, 0x69, 0x6f, 0x6e, 0x4b, 0x65, 0x79, 0x12, 0x1e, 0x0a, 0x0a, 0x64, 0x61, 0x50, 0x72, 0x6f,
+	0x76, 0x69, 0x64, 0x65, 0x72, 0x18, 0x06, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x64, 0x61, 0x50,
+	0x72, 0x6f, 0x76, 0x69, 0x64, 0x65, 0x72, 0x12, 0x1a, 0x0a, 0x08, 0x64, 0x61, 0x42, 0x6c, 0x6f,
+	0x62, 0x49, 0x64, 0x18, 0x07, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x64, 0x61, 0x42, 0x6c, 0x6f,
+	0x62, 0x49, 0x64, 0x12, 0x28, 0x0a, 0x0f, 0x72, 0x65, 0x6c, 0x61, 0x79, 0x65, 0x72, 0x47, 0x41,
+	0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x18, 0x08, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0f, 0x72, 0x65,
+	0x6c, 0x61, 0x79, 0x65, 0x72, 0x47, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x12, 0x2c, 0x0a,
+	0x11, 0x72, 0x65, 0x6c, 0x61, 0x79, 0x65, 0x72, 0x41, 0x73, 0x63, 0x41, 0x64, 0x64, 0x72, 0x65,
+	0x73, 0x73, 0x18, 0x09, 0x20, 0x01, 0x28, 0x09, 0x52, 0x11, 0x72, 0x65, 0x6c, 0x61, 0x79, 0x65,
+	0x72, 0x41, 0x73, 0x63, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x12, 0x2e, 0x0a, 0x12, 0x70,
+	0x69, 0x63, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73,
+	0x73, 0x18, 0x0a, 0x20, 0x01, 0x28, 0x09, 0x52, 0x12, 0x70, 0x69, 0x63, 0x43, 0x6f, 0x6e, 0x74,
+	0x72, 0x61, 0x63, 0x74, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x12, 0x2e, 0x0a, 0x12, 0x61,
+	0x63, 0x6c, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73,
+	0x73, 0x18, 0x0b, 0x20, 0x01, 0x28, 0x09, 0x52, 0x12, 0x61, 0x63, 0x6c, 0x43, 0x6f, 0x6e, 0x74,
+	0x72, 0x61, 0x63, 0x74, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x12, 0x40, 0x0a, 0x1b, 0x74,
+	0x66, 0x68, 0x65, 0x45, 0x78, 0x65, 0x63, 0x75, 0x74, 0x6f, 0x72, 0x43, 0x6f, 0x6e, 0x74, 0x72,
+	0x61, 0x63, 0x74, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x18, 0x0c, 0x20, 0x01, 0x28, 0x09,
+	0x52, 0x1b, 0x74, 0x66, 0x68, 0x65, 0x45, 0x78, 0x65, 0x63, 0x75, 0x74, 0x6f, 0x72, 0x43, 0x6f,
+	0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x12, 0x3e, 0x0a,
+	0x1a, 0x6b, 0x6d, 0x73, 0x56, 0x65, 0x72, 0x69, 0x66, 0x69, 0x65, 0x72, 0x43, 0x6f, 0x6e, 0x74,
+	0x72, 0x61, 0x63, 0x74, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x18, 0x0d, 0x20, 0x01, 0x28,
+	0x09, 0x52, 0x1a, 0x6b, 0x6d, 0x73, 0x56, 0x65, 0x72, 0x69, 0x66, 0x69, 0x65, 0x72, 0x43, 0x6f,
+	0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x12, 0x36, 0x0a,
 	0x16, 0x67, 0x61, 0x74, 0x65, 0x77, 0x61, 0x79, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74,
-	0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x12, 0x38, 0x0a, 0x17, 0x61, 0x73, 0x63, 0x43, 0x68,
-	0x69, 0x6c, 0x64, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x41, 0x64, 0x64, 0x72, 0x65,
-	0x73, 0x73, 0x18, 0x0d, 0x20, 0x01, 0x28, 0x09, 0x52, 0x17, 0x61, 0x73, 0x63, 0x43, 0x68, 0x69,
-	0x6c, 0x64, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73,
-	0x73, 0x12, 0x38, 0x0a, 0x17, 0x6c, 0x61, 0x74, 0x65, 0x73, 0x74, 0x56, 0x65, 0x72, 0x69, 0x66,
-	0x69, 0x65, 0x64, 0x50, 0x6f, 0x64, 0x4e, 0x75, 0x6d, 0x62, 0x65, 0x72, 0x18, 0x0e, 0x20, 0x01,
-	0x28, 0x04, 0x52, 0x17, 0x6c, 0x61, 0x74, 0x65, 0x73, 0x74, 0x56, 0x65, 0x72, 0x69, 0x66, 0x69,
-	0x65, 0x64, 0x50, 0x6f, 0x64, 0x4e, 0x75, 0x6d, 0x62, 0x65, 0x72, 0x12, 0x2c, 0x0a, 0x11, 0x66,
-	0x69, 0x6e, 0x61, 0x6c, 0x69, 0x74, 0x79, 0x50, 0x6f, 0x64, 0x4e, 0x75, 0x6d, 0x62, 0x65, 0x72,
-	0x18, 0x0f, 0x20, 0x01, 0x28, 0x04, 0x52, 0x11, 0x66, 0x69, 0x6e, 0x61, 0x6c, 0x69, 0x74, 0x79,
-	0x50, 0x6f, 0x64, 0x4e, 0x75, 0x6d, 0x62, 0x65, 0x72, 0x12, 0x16, 0x0a, 0x06, 0x73, 0x74, 0x61,
-	0x74, 0x75, 0x73, 0x18, 0x10, 0x20, 0x01, 0x28, 0x08, 0x52, 0x06, 0x73, 0x74, 0x61, 0x74, 0x75,
-	0x73, 0x42, 0xda, 0x01, 0x0a, 0x1c, 0x63, 0x6f, 0x6d, 0x2e, 0x6a, 0x75, 0x6e, 0x63, 0x74, 0x69,
-	0x6f, 0x6e, 0x2e, 0x63, 0x69, 0x70, 0x68, 0x65, 0x72, 0x70, 0x6f, 0x64, 0x6c, 0x65, 0x64, 0x67,
-	0x65, 0x72, 0x42, 0x0e, 0x46, 0x68, 0x76, 0x6d, 0x73, 0x4d, 0x65, 0x74, 0x61, 0x50, 0x72, 0x6f,
-	0x74, 0x6f, 0x50, 0x01, 0x5a, 0x29, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x73, 0x64, 0x6b, 0x2e,
-	0x69, 0x6f, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x6a, 0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x2f,
-	0x63, 0x69, 0x70, 0x68, 0x65, 0x72, 0x70, 0x6f, 0x64, 0x6c, 0x65, 0x64, 0x67, 0x65, 0x72, 0xa2,
-	0x02, 0x03, 0x4a, 0x43, 0x58, 0xaa, 0x02, 0x18, 0x4a, 0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e,
-	0x2e, 0x43, 0x69, 0x70, 0x68, 0x65, 0x72, 0x70, 0x6f, 0x64, 0x6c, 0x65, 0x64, 0x67, 0x65, 0x72,
-	0xca, 0x02, 0x18, 0x4a, 0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x5c, 0x43, 0x69, 0x70, 0x68,
-	0x65, 0x72, 0x70, 0x6f, 0x64, 0x6c, 0x65, 0x64, 0x67, 0x65, 0x72, 0xe2, 0x02, 0x24, 0x4a, 0x75,
-	0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x5c, 0x43, 0x69, 0x70, 0x68, 0x65, 0x72, 0x70, 0x6f, 0x64,
-	0x6c, 0x65, 0x64, 0x67, 0x65, 0x72, 0x5c, 0x47, 0x50, 0x42, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61,
-	0x74, 0x61, 0xea, 0x02, 0x19, 0x4a, 0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x3a, 0x3a, 0x43,
-	0x69, 0x70, 0x68, 0x65, 0x72, 0x70, 0x6f, 0x64, 0x6c, 0x65, 0x64, 0x67, 0x65, 0x72, 0x62, 0x06,
-	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x18, 0x0e, 0x20, 0x01, 0x28, 0x09, 0x52, 0x16, 0x67,
+	0x61, 0x74, 0x65, 0x77, 0x61, 0x79, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x41, 0x64,
+	0x64, 0x72, 0x65, 0x73, 0x73, 0x12, 0x38, 0x0a, 0x17, 0x61, 0x73, 0x63, 0x43, 0x68, 0x69, 0x6c,
+	0x64, 0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73,
+	0x18, 0x0f, 0x20, 0x01, 0x28, 0x09, 0x52, 0x17, 0x61, 0x73, 0x63, 0x43, 0x68, 0x69, 0x6c, 0x64,
+	0x43, 0x6f, 0x6e, 0x74, 0x72, 0x61, 0x63, 0x74, 0x41, 0x64, 0x64, 0x72, 0x65, 0x73, 0x73, 0x12,
+	0x38, 0x0a, 0x17, 0x6c, 0x61, 0x74, 0x65, 0x73, 0x74, 0x56, 0x65, 0x72, 0x69, 0x66, 0x69, 0x65,
+	0x64, 0x50, 0x6f, 0x64, 0x4e, 0x75, 0x6d, 0x62, 0x65, 0x72, 0x18, 0x10, 0x20, 0x01, 0x28, 0x04,
+	0x52, 0x17, 0x6c, 0x61, 0x74, 0x65, 0x73, 0x74, 0x56, 0x65, 0x72, 0x69, 0x66, 0x69, 0x65, 0x64,
+	0x50, 0x6f, 0x64, 0x4e, 0x75, 0x6d, 0x62, 0x65, 0x72, 0x12, 0x2c, 0x0a, 0x11, 0x66, 0x69, 0x6e,
+	0x61, 0x6c, 0x69, 0x74, 0x79, 0x50, 0x6f, 0x64, 0x4e, 0x75, 0x6d, 0x62, 0x65, 0x72, 0x18, 0x11,
+	0x20, 0x01, 0x28, 0x04, 0x52, 0x11, 0x66, 0x69, 0x6e, 0x61, 0x6c, 0x69, 0x74, 0x79, 0x50, 0x6f,
+	0x64, 0x4e, 0x75, 0x6d, 0x62, 0x65, 0x72, 0x42, 0xda, 0x01, 0x0a, 0x1c, 0x63, 0x6f, 0x6d, 0x2e,
+	0x6a, 0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x63, 0x69, 0x70, 0x68, 0x65, 0x72, 0x70,
+	0x6f, 0x64, 0x6c, 0x65, 0x64, 0x67, 0x65, 0x72, 0x42, 0x0e, 0x46, 0x68, 0x76, 0x6d, 0x73, 0x4d,
+	0x65, 0x74, 0x61, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a, 0x29, 0x63, 0x6f, 0x73, 0x6d,
+	0x6f, 0x73, 0x73, 0x64, 0x6b, 0x2e, 0x69, 0x6f, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x6a, 0x75, 0x6e,
+	0x63, 0x74, 0x69, 0x6f, 0x6e, 0x2f, 0x63, 0x69, 0x70, 0x68, 0x65, 0x72, 0x70, 0x6f, 0x64, 0x6c,
+	0x65, 0x64, 0x67, 0x65, 0x72, 0xa2, 0x02, 0x03, 0x4a, 0x43, 0x58, 0xaa, 0x02, 0x18, 0x4a, 0x75,
+	0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x43, 0x69, 0x70, 0x68, 0x65, 0x72, 0x70, 0x6f, 0x64,
+	0x6c, 0x65, 0x64, 0x67, 0x65, 0x72, 0xca, 0x02, 0x18, 0x4a, 0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f,
+	0x6e, 0x5c, 0x43, 0x69, 0x70, 0x68, 0x65, 0x72, 0x70, 0x6f, 0x64, 0x6c, 0x65, 0x64, 0x67, 0x65,
+	0x72, 0xe2, 0x02, 0x24, 0x4a, 0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x5c, 0x43, 0x69, 0x70,
+	0x68, 0x65, 0x72, 0x70, 0x6f, 0x64, 0x6c, 0x65, 0x64, 0x67, 0x65, 0x72, 0x5c, 0x47, 0x50, 0x42,
+	0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0xea, 0x02, 0x19, 0x4a, 0x75, 0x6e, 0x63, 0x74,
+	0x69, 0x6f, 0x6e, 0x3a, 0x3a, 0x43, 0x69, 0x70, 0x68, 0x65, 0x72, 0x70, 0x6f, 0x64, 0x6c, 0x65,
+	0x64, 0x67, 0x65, 0x72, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
