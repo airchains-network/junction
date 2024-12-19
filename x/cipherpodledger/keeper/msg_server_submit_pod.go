@@ -1,7 +1,6 @@
 package keeper
 
 import (
-	"bytes"
 	"context"
 	"crypto/sha256"
 	"encoding/hex"
@@ -10,8 +9,6 @@ import (
 
 	"cosmossdk.io/store/prefix"
 	"github.com/airchains-network/junction/x/cipherpodledger/types"
-	"github.com/consensys/gnark-crypto/ecc"
-	"github.com/consensys/gnark/backend/groth16"
 	"github.com/cosmos/cosmos-sdk/runtime"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"google.golang.org/grpc/codes"
@@ -29,11 +26,10 @@ func (k msgServer) SubmitPod(goCtx context.Context, msg *types.MsgSubmitPod) (*t
 	daBlobId := msg.DaBlobId
 	timestamp := msg.Timestamp
 	provingNetwork := msg.ProvingNetwork
-	decodedZkFheproof := msg.ZkFheproof
 	decodedZkFhepublicWitness := msg.ZkFhepublicWitness
 
 	fhvmMetadataDB := prefix.NewStore(storeAdapter, types.KeyPrefix(types.FhvmKeyStoreKey))
-	fhvmMetadataKey := []byte(msg.StationId)
+	fhvmMetadataKey := []byte(stationId)
 	fhvmMetadataDataBytes := fhvmMetadataDB.Get(fhvmMetadataKey)
 	if fhvmMetadataDataBytes == nil {
 		return nil, status.Error(codes.NotFound, "stationId is not registered")
@@ -53,13 +49,6 @@ func (k msgServer) SubmitPod(goCtx context.Context, msg *types.MsgSubmitPod) (*t
 		return nil, status.Error(codes.FailedPrecondition, "pod number is not correct")
 	}
 
-	// add codes of unmarshallinge the proof and witness
-	proof := groth16.NewProof(ecc.BN254)
-	_, err := proof.ReadFrom(bytes.NewReader(decodedZkFheproof))
-	if err != nil {
-		return nil, status.Error(codes.Internal, "failed to read proof")
-	}
-
 	newPod := types.PodData{
 		AscContractAddress: ascChildContractAddress,
 		PodNumber:          podNumber,
@@ -68,7 +57,7 @@ func (k msgServer) SubmitPod(goCtx context.Context, msg *types.MsgSubmitPod) (*t
 		Status:             "pending",
 		Timestamp:          timestamp,
 		ProvingNetwork:     provingNetwork,
-		ZkFHEProof:         decodedZkFheproof,
+		ZkFHEProof:         nil,
 		ZkFHEPublicWitness: decodedZkFhepublicWitness,
 		IsProofVerified:    false,
 	}

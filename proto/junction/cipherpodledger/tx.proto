@@ -19,6 +19,7 @@ service Msg {
   rpc UpdateParams (MsgUpdateParams) returns (MsgUpdateParamsResponse);
   rpc RegisterFhvm (MsgRegisterFhvm) returns (MsgRegisterFhvmResponse);
   rpc SubmitPod    (MsgSubmitPod   ) returns (MsgSubmitPodResponse   );
+  rpc VerifyPod    (MsgVerifyPod   ) returns (MsgVerifyPodResponse   );
 }
 // MsgUpdateParams is the Msg/UpdateParams request type.
 message MsgUpdateParams {
@@ -63,18 +64,30 @@ message MsgRegisterFhvmResponse {
 
 message MsgSubmitPod {
   option (cosmos.msg.v1.signer) = "submittedBy";
-  string submittedBy        =  1;
-  string ascChildContractAddress =  2;
-  uint64 podNumber          =  3;
-  string stationId          =  4;
-  string daBlobId           =  5;
-  int32  timestamp          =  6;
-  string provingNetwork     =  7;
-  bytes zkFheproof         =  8;
-  bytes zkFhepublicWitness =  9;
+  string submittedBy             = 1;
+  string ascChildContractAddress = 2;
+  uint64 podNumber               = 3;
+  string stationId               = 4;
+  string daBlobId                = 5;
+  int32  timestamp               = 6;
+  string provingNetwork          = 7;
+  bytes  zkFhepublicWitness      = 9;
 }
 
 message MsgSubmitPodResponse {
+  bool status = 1;
+}
+
+message MsgVerifyPod {
+  option (cosmos.msg.v1.signer) = "submittedBy";
+  string submittedBy    = 1;
+  string stationId      = 2;
+  uint64 podNumber      = 3;
+  string provingNetwork = 4;
+  bytes zkFheproof     = 5;
+}
+
+message MsgVerifyPodResponse {
   bool status = 1;
 }
 

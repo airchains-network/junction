@@ -19262,6 +19262,42 @@ paths:
               parameters.
       tags:
         - Msg
+  /airchains-network/junction/cipherpodledger/params:
+    get:
+      summary: Parameters queries the parameters of the module.
+      operationId: JunctionCipherpodledgerQuery_Params
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              params:
+                description: params holds all the parameters of this module.
+                type: object
+            description: >-
+              QueryParamsResponse is response type for the Query/Params RPC
+              method.
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      tags:
+        - Query
   /junction.cipherpodledger.Msg/RegisterFhvm:
     post:
       operationId: JunctionCipherpodledgerMsg_RegisterFhvm
@@ -19339,6 +19375,9 @@ paths:
           description: A successful response.
           schema:
             type: object
+            properties:
+              status:
+                type: boolean
         default:
           description: An unexpected error response.
           schema:
@@ -19366,7 +19405,7 @@ paths:
             properties:
               submittedBy:
                 type: string
-              ascContractAddress:
+              ascChildContractAddress:
                 type: string
               podNumber:
                 type: string
@@ -19380,12 +19419,9 @@ paths:
                 format: int32
               provingNetwork:
                 type: string
-              zkFheproof:
-                type: string
               zkFhepublicWitness:
                 type: string
-              isProofVerified:
-                type: boolean
+                format: byte
       tags:
         - Msg
   /junction.cipherpodledger.Msg/UpdateParams:
@@ -19441,22 +19477,17 @@ paths:
             description: MsgUpdateParams is the Msg/UpdateParams request type.
       tags:
         - Msg
-  /airchains-network/junction/cipherpodledger/params:
-    get:
-      summary: Parameters queries the parameters of the module.
-      operationId: JunctionCipherpodledgerQuery_Params
+  /junction.cipherpodledger.Msg/VerifyPod:
+    post:
+      operationId: JunctionCipherpodledgerMsg_VerifyPod
       responses:
         '200':
           description: A successful response.
           schema:
             type: object
             properties:
-              params:
-                description: params holds all the parameters of this module.
-                type: object
-            description: >-
-              QueryParamsResponse is response type for the Query/Params RPC
-              method.
+              status:
+                type: boolean
         default:
           description: An unexpected error response.
           schema:
@@ -19475,8 +19506,27 @@ paths:
                     '@type':
                       type: string
                   additionalProperties: {}
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              submittedBy:
+                type: string
+              stationId:
+                type: string
+              podNumber:
+                type: string
+                format: uint64
+              provingNetwork:
+                type: string
+              zkFheproof:
+                type: string
+                format: byte
       tags:
-        - Query
+        - Msg
   /junction.trackgate.Msg/AuditSequencer:
     post:
       operationId: JunctionTrackgateMsg_AuditSequencer
@@ -27619,6 +27669,16 @@ definitions:
     description: |-
       Version defines the versioning scheme used to negotiate the IBC verison in
       the connection handshake.
+  junction.cipherpodledger.Params:
+    type: object
+    description: Params defines the parameters for the module.
+  junction.cipherpodledger.QueryParamsResponse:
+    type: object
+    properties:
+      params:
+        description: params holds all the parameters of this module.
+        type: object
+    description: QueryParamsResponse is response type for the Query/Params RPC method.
   junction.cipherpodledger.MsgRegisterFhvm:
     type: object
     properties:
@@ -27663,7 +27723,7 @@ definitions:
     properties:
       submittedBy:
         type: string
-      ascContractAddress:
+      ascChildContractAddress:
         type: string
       podNumber:
         type: string
@@ -27677,14 +27737,14 @@ definitions:
         format: int32
       provingNetwork:
         type: string
-      zkFheproof:
-        type: string
       zkFhepublicWitness:
         type: string
-      isProofVerified:
-        type: boolean
+        format: byte
   junction.cipherpodledger.MsgSubmitPodResponse:
     type: object
+    properties:
+      status:
+        type: boolean
   junction.cipherpodledger.MsgUpdateParams:
     type: object
     properties:
@@ -27702,16 +27762,26 @@ definitions:
     description: |-
       MsgUpdateParamsResponse defines the response structure for executing a
       MsgUpdateParams message.
-  junction.cipherpodledger.Params:
-    type: object
-    description: Params defines the parameters for the module.
-  junction.cipherpodledger.QueryParamsResponse:
+  junction.cipherpodledger.MsgVerifyPod:
     type: object
     properties:
-      params:
-        description: params holds all the parameters of this module.
-        type: object
-    description: QueryParamsResponse is response type for the Query/Params RPC method.
+      submittedBy:
+        type: string
+      stationId:
+        type: string
+      podNumber:
+        type: string
+        format: uint64
+      provingNetwork:
+        type: string
+      zkFheproof:
+        type: string
+        format: byte
+  junction.cipherpodledger.MsgVerifyPodResponse:
+    type: object
+    properties:
+      status:
+        type: boolean
   junction.trackgate.DaBlobData:
     type: object
     properties:

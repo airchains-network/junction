@@ -36,9 +36,15 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 				},
 				{
 					RpcMethod:      "SubmitPod",
-					Use:            "submit-pod [asc-contract-address] [pod-number] [station-id] [da-blob-id] [timestamp] [proving-network] [zk-fhe-proof] [zk-fhe-public-witness]",
+					Use:            "submit-pod [asc-contract-address] [pod-number] [station-id] [da-blob-id] [timestamp] [proving-network] [zk-fhe-public-witness]",
 					Short:          "Send a submit_pod tx",
-					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "ascContractAddress"}, {ProtoField: "podNumber"}, {ProtoField: "stationId"}, {ProtoField: "daBlobId"}, {ProtoField: "timestamp"}, {ProtoField: "provingNetwork"}, {ProtoField: "zkFheproof"}, {ProtoField: "zkFhepublicWitness"}},
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "ascContractAddress"}, {ProtoField: "podNumber"}, {ProtoField: "stationId"}, {ProtoField: "daBlobId"}, {ProtoField: "timestamp"}, {ProtoField: "provingNetwork"}, {ProtoField: "zkFhepublicWitness"}},
+				},
+				{
+					RpcMethod:      "VerifyPod",
+					Use:            "verify-pod [station-id] [pod-number] [proving-network] [zk-fhe-proof]",
+					Short:          "Send a verify_pod tx",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "stationId"}, {ProtoField: "podNumber"}, {ProtoField: "provingNetwork"}, {ProtoField: "zkFheproof"}},
 				},
 				// this line is used by ignite scaffolding # autocli/tx
 			},
