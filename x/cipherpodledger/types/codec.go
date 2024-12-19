@@ -18,6 +18,9 @@ func RegisterInterfaces(registry cdctypes.InterfaceRegistry) {
 	registry.RegisterImplementations((*sdk.Msg)(nil),
 		&MsgVerifyPod{},
 	)
+	registry.RegisterImplementations((*sdk.Msg)(nil),
+		&MsgLogBlobData{},
+	)
 	// this line is used by starport scaffolding # 3
 
 	registry.RegisterImplementations((*sdk.Msg)(nil),

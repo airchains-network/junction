@@ -46,6 +46,12 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					Short:          "Send a verify_pod tx",
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "stationId"}, {ProtoField: "podNumber"}, {ProtoField: "provingNetwork"}, {ProtoField: "zkFheproof"}},
 				},
+				{
+					RpcMethod:      "LogBlobData",
+					Use:            "log-blob-data [station-id] [pod-bundle] [pod-range]",
+					Short:          "Send a log_blob_data tx",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "stationId"}, {ProtoField: "podBundle"}, {ProtoField: "podRange"}},
+				},
 				// this line is used by ignite scaffolding # autocli/tx
 			},
 		},

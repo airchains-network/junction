@@ -8,6 +8,7 @@ package cipherpodledger
 
 import (
 	context "context"
+
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -23,6 +24,7 @@ const (
 	Msg_RegisterFhvm_FullMethodName = "/junction.cipherpodledger.Msg/RegisterFhvm"
 	Msg_SubmitPod_FullMethodName    = "/junction.cipherpodledger.Msg/SubmitPod"
 	Msg_VerifyPod_FullMethodName    = "/junction.cipherpodledger.Msg/VerifyPod"
+	Msg_LogBlobData_FullMethodName  = "/junction.cipherpodledger.Msg/LogBlobData"
 )
 
 // MsgClient is the client API for Msg service.
@@ -37,6 +39,7 @@ type MsgClient interface {
 	RegisterFhvm(ctx context.Context, in *MsgRegisterFhvm, opts ...grpc.CallOption) (*MsgRegisterFhvmResponse, error)
 	SubmitPod(ctx context.Context, in *MsgSubmitPod, opts ...grpc.CallOption) (*MsgSubmitPodResponse, error)
 	VerifyPod(ctx context.Context, in *MsgVerifyPod, opts ...grpc.CallOption) (*MsgVerifyPodResponse, error)
+	LogBlobData(ctx context.Context, in *MsgLogBlobData, opts ...grpc.CallOption) (*MsgLogBlobDataResponse, error)
 }
 
 type msgClient struct {
@@ -87,6 +90,16 @@ func (c *msgClient) VerifyPod(ctx context.Context, in *MsgVerifyPod, opts ...grp
 	return out, nil
 }
 
+func (c *msgClient) LogBlobData(ctx context.Context, in *MsgLogBlobData, opts ...grpc.CallOption) (*MsgLogBlobDataResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(MsgLogBlobDataResponse)
+	err := c.cc.Invoke(ctx, Msg_LogBlobData_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MsgServer is the server API for Msg service.
 // All implementations must embed UnimplementedMsgServer
 // for forward compatibility.
@@ -99,6 +112,7 @@ type MsgServer interface {
 	RegisterFhvm(context.Context, *MsgRegisterFhvm) (*MsgRegisterFhvmResponse, error)
 	SubmitPod(context.Context, *MsgSubmitPod) (*MsgSubmitPodResponse, error)
 	VerifyPod(context.Context, *MsgVerifyPod) (*MsgVerifyPodResponse, error)
+	LogBlobData(context.Context, *MsgLogBlobData) (*MsgLogBlobDataResponse, error)
 	mustEmbedUnimplementedMsgServer()
 }
 
@@ -120,6 +134,9 @@ func (UnimplementedMsgServer) SubmitPod(context.Context, *MsgSubmitPod) (*MsgSub
 }
 func (UnimplementedMsgServer) VerifyPod(context.Context, *MsgVerifyPod) (*MsgVerifyPodResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method VerifyPod not implemented")
+}
+func (UnimplementedMsgServer) LogBlobData(context.Context, *MsgLogBlobData) (*MsgLogBlobDataResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method LogBlobData not implemented")
 }
 func (UnimplementedMsgServer) mustEmbedUnimplementedMsgServer() {}
 func (UnimplementedMsgServer) testEmbeddedByValue()             {}
@@ -214,6 +231,24 @@ func _Msg_VerifyPod_Handler(srv interface{}, ctx context.Context, dec func(inter
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Msg_LogBlobData_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgLogBlobData)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).LogBlobData(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Msg_LogBlobData_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).LogBlobData(ctx, req.(*MsgLogBlobData))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Msg_ServiceDesc is the grpc.ServiceDesc for Msg service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -236,6 +271,10 @@ var Msg_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "VerifyPod",
 			Handler:    _Msg_VerifyPod_Handler,
+		},
+		{
+			MethodName: "LogBlobData",
+			Handler:    _Msg_LogBlobData_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

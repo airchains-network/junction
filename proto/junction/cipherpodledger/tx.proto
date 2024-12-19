@@ -20,6 +20,7 @@ service Msg {
   rpc RegisterFhvm (MsgRegisterFhvm) returns (MsgRegisterFhvmResponse);
   rpc SubmitPod    (MsgSubmitPod   ) returns (MsgSubmitPodResponse   );
   rpc VerifyPod    (MsgVerifyPod   ) returns (MsgVerifyPodResponse   );
+  rpc LogBlobData  (MsgLogBlobData ) returns (MsgLogBlobDataResponse );
 }
 // MsgUpdateParams is the Msg/UpdateParams request type.
 message MsgUpdateParams {
@@ -84,10 +85,20 @@ message MsgVerifyPod {
   string stationId      = 2;
   uint64 podNumber      = 3;
   string provingNetwork = 4;
-  bytes zkFheproof     = 5;
+  bytes  zkFheproof     = 5;
 }
 
 message MsgVerifyPodResponse {
   bool status = 1;
 }
+
+message MsgLogBlobData {
+  option (cosmos.msg.v1.signer) = "creator";
+           string creator   = 1;
+           string stationId = 2;
+           string podBundle = 3;
+  repeated uint64 podRange  = 4;
+}
+
+message MsgLogBlobDataResponse {}
 
