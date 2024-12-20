@@ -135,7 +135,9 @@ func (k msgServer) IntegrityCheck(goCtx context.Context, msg *types.MsgIntegrity
 			return nil, status.Error(codes.InvalidArgument, "invalid blobRef passed")
 		}
 	} else if daProvider == "avail" {
-		// TODO: Implement the logic for Avail
+
+		
+		
 		return &types.MsgIntegrityCheckResponse{
 			Status: true,
 		}, nil

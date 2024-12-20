@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"fmt"
 
 	"cosmossdk.io/store/prefix"
 	"github.com/airchains-network/junction/x/cipherpodledger/types"
@@ -90,6 +91,34 @@ func (k msgServer) LogBlobData(goCtx context.Context, msg *types.MsgLogBlobData)
 		blobStore := prefix.NewStore(storeAdapter, types.KeyPrefix(types.DABlobDataStoreKey))
 		blobStore.Set(stationIdBytes, newCelestiaDABlobSpaceBytes)
 
+		podStorePath := k.GetPodKeyByteForStation(stationId)
+		podStore := prefix.NewStore(storeAdapter, types.KeyPrefix(podStorePath))
+		for pod := lowerBoundPodNumber; pod <= upperBoundPodNumber; pod++ {
+			key := []byte(fmt.Sprintf("%d", pod))
+			podDetailsBytes := podStore.Get(key)
+			if podDetailsBytes == nil {
+				return nil, status.Error(codes.NotFound, "pod not found")
+			}
+			var podData types.PodData
+			k.cdc.MustUnmarshal(podDetailsBytes, &podData)
+
+			updatePodData := types.PodData{
+				AscContractAddress: podData.AscContractAddress,
+				PodNumber:          pod,
+				DaBlobId:           podData.DaBlobId,
+				SubmittedBy:        podData.SubmittedBy,
+				Status:             "da blob logged",
+				Timestamp:          podData.Timestamp,
+				ProvingNetwork:     podData.ProvingNetwork,
+				ZkFHEProof:         podData.ZkFHEProof,
+				ZkFHEPublicWitness: podData.ZkFHEPublicWitness,
+				IsProofVerified:    podData.IsProofVerified,
+			}
+
+			storingData := k.cdc.MustMarshal(&updatePodData)
+			podStore.Set(key, storingData)
+		}
+
 		return &types.MsgLogBlobDataResponse{
 			Status: true,
 		}, nil
@@ -112,6 +141,34 @@ func (k msgServer) LogBlobData(goCtx context.Context, msg *types.MsgLogBlobData)
 		newAvailDABlobSpaceBytes, err := json.Marshal(newAvailDABlobSpace)
 		if err != nil {
 			return nil, status.Error(codes.InvalidArgument, "failed to marshal Avail DABlobSpace")
+		}
+
+		podStorePath := k.GetPodKeyByteForStation(stationId)
+		podStore := prefix.NewStore(storeAdapter, types.KeyPrefix(podStorePath))
+		for pod := lowerBoundPodNumber; pod <= upperBoundPodNumber; pod++ {
+			key := []byte(fmt.Sprintf("%d", pod))
+			podDetailsBytes := podStore.Get(key)
+			if podDetailsBytes == nil {
+				return nil, status.Error(codes.NotFound, "pod not found")
+			}
+			var podData types.PodData
+			k.cdc.MustUnmarshal(podDetailsBytes, &podData)
+
+			updatePodData := types.PodData{
+				AscContractAddress: podData.AscContractAddress,
+				PodNumber:          pod,
+				DaBlobId:           podData.DaBlobId,
+				SubmittedBy:        podData.SubmittedBy,
+				Status:             "da blob logged",
+				Timestamp:          podData.Timestamp,
+				ProvingNetwork:     podData.ProvingNetwork,
+				ZkFHEProof:         podData.ZkFHEProof,
+				ZkFHEPublicWitness: podData.ZkFHEPublicWitness,
+				IsProofVerified:    podData.IsProofVerified,
+			}
+
+			storingData := k.cdc.MustMarshal(&updatePodData)
+			podStore.Set(key, storingData)
 		}
 
 		blobStore := prefix.NewStore(storeAdapter, types.KeyPrefix(types.DABlobDataStoreKey))
@@ -140,6 +197,34 @@ func (k msgServer) LogBlobData(goCtx context.Context, msg *types.MsgLogBlobData)
 		newEigenDABlobSpaceBytes, err := json.Marshal(newEigenDABlobSpace)
 		if err != nil {
 			return nil, status.Error(codes.InvalidArgument, "failed to marshal Eigen DABlobSpace")
+		}
+
+		podStorePath := k.GetPodKeyByteForStation(stationId)
+		podStore := prefix.NewStore(storeAdapter, types.KeyPrefix(podStorePath))
+		for pod := lowerBoundPodNumber; pod <= upperBoundPodNumber; pod++ {
+			key := []byte(fmt.Sprintf("%d", pod))
+			podDetailsBytes := podStore.Get(key)
+			if podDetailsBytes == nil {
+				return nil, status.Error(codes.NotFound, "pod not found")
+			}
+			var podData types.PodData
+			k.cdc.MustUnmarshal(podDetailsBytes, &podData)
+
+			updatePodData := types.PodData{
+				AscContractAddress: podData.AscContractAddress,
+				PodNumber:          pod,
+				DaBlobId:           podData.DaBlobId,
+				SubmittedBy:        podData.SubmittedBy,
+				Status:             "da blob logged",
+				Timestamp:          podData.Timestamp,
+				ProvingNetwork:     podData.ProvingNetwork,
+				ZkFHEProof:         podData.ZkFHEProof,
+				ZkFHEPublicWitness: podData.ZkFHEPublicWitness,
+				IsProofVerified:    podData.IsProofVerified,
+			}
+
+			storingData := k.cdc.MustMarshal(&updatePodData)
+			podStore.Set(key, storingData)
 		}
 
 		blobStore := prefix.NewStore(storeAdapter, types.KeyPrefix(types.DABlobDataStoreKey))
