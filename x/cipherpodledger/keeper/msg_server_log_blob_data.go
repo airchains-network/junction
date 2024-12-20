@@ -23,6 +23,25 @@ func (k msgServer) LogBlobData(goCtx context.Context, msg *types.MsgLogBlobData)
 	podRange := msg.PodRange
 	daProvider := msg.DaProvider
 
+	// getting station metadata
+	fhvmMetadataDB := prefix.NewStore(storeAdapter, types.KeyPrefix(types.FhvmKeyStoreKey))
+	fhvmMetadataKey := []byte(stationId)
+	fhvmMetadataDataBytes := fhvmMetadataDB.Get(fhvmMetadataKey)
+	if fhvmMetadataDataBytes == nil {
+		return nil, status.Error(codes.NotFound, "stationId is not registered")
+	}
+
+	var fhvmMetadata types.FhvmsMeta
+	k.cdc.MustUnmarshal(fhvmMetadataDataBytes, &fhvmMetadata)
+
+	finalityPodNumber := fhvmMetadata.FinalityPodNumber
+	lowerBoundPodNumber := podRange[0]
+
+	// checking if the pod range is valid
+	if lowerBoundPodNumber < finalityPodNumber {
+		return nil, status.Error(codes.InvalidArgument, "pod range is not valid")
+	}
+
 	if daProvider == "celestia" {
 		decodedCelestiaPodBundle, blob, err := k.DecodeCelestiaPodBundle(podBundle)
 		if err != nil {
