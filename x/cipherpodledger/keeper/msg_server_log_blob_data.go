@@ -36,6 +36,15 @@ func (k msgServer) LogBlobData(goCtx context.Context, msg *types.MsgLogBlobData)
 
 	finalityPodNumber := fhvmMetadata.FinalityPodNumber
 	lowerBoundPodNumber := podRange[0]
+	upperBoundPodNumber := podRange[1]
+
+	if lowerBoundPodNumber == 0 {
+		return nil, status.Error(codes.InvalidArgument, "lower bound pod number cannot be 0")
+	}
+
+	if upperBoundPodNumber < lowerBoundPodNumber {
+		return nil, status.Error(codes.InvalidArgument, "pod range is not valid")
+	}
 
 	// checking if the pod range is valid
 	if lowerBoundPodNumber < finalityPodNumber {

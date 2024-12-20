@@ -8,7 +8,7 @@ import (
 
 var _ sdk.Msg = &MsgIntegrityCheck{}
 
-func NewMsgIntegrityCheck(creator string, stationId string, blobRef string, daProvider string) *MsgIntegrityCheck {
+func NewMsgIntegrityCheck(creator string, stationId string, blobRef []byte, daProvider string) *MsgIntegrityCheck {
 	return &MsgIntegrityCheck{
 		Creator:    creator,
 		StationId:  stationId,
