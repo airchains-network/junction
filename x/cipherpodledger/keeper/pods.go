@@ -83,3 +83,47 @@ func (k Keeper) DecodeCelestiaPodBundle(podBundle []byte) (CelestiaPodBundle,*bl
 
 	return decodedCelestiaPodBundle, &decodedBlob, nil
 }
+
+// Avail
+type AvailDABlobSpace struct {
+	BlobData []byte
+	Commitment []byte
+	stationId string
+	podRange []uint64
+}
+
+type AvailPodBundle struct {
+	BlobData []byte
+	Commitment []byte
+}
+
+func (k Keeper) DecodeAvailPodBundle(podBundle []byte) (AvailPodBundle, error) {
+	var decodedAvailPodBundle AvailPodBundle
+	err := json.Unmarshal(podBundle, &decodedAvailPodBundle)
+	if err != nil {
+		return AvailPodBundle{}, err
+	}
+	return decodedAvailPodBundle, nil
+}
+
+// Eigen
+type EigenDABlobSpace struct {
+	BlobData []byte
+	Commitment []byte
+	stationId string
+	podRange []uint64
+}
+
+type EigenPodBundle struct {
+	BlobData []byte
+	Commitment []byte
+}
+
+func (k Keeper) DecodeEigenPodBundle(podBundle []byte) (EigenPodBundle, error) {
+	var decodedEigenPodBundle EigenPodBundle
+	err := json.Unmarshal(podBundle, &decodedEigenPodBundle)
+	if err != nil {
+		return EigenPodBundle{}, err
+	}
+	return decodedEigenPodBundle, nil
+}

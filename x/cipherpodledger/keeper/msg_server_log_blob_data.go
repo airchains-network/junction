@@ -66,15 +66,60 @@ func (k msgServer) LogBlobData(goCtx context.Context, msg *types.MsgLogBlobData)
 			Status: true,
 		}, nil
 	} else if daProvider == "avail" {
-		// TODO: Implement the logic for the avail DA provider
+		decodedAvailPodBundle, err := k.DecodeAvailPodBundle(podBundle)
+		if err != nil {
+			return nil, status.Error(codes.InvalidArgument, "failed to decode Avail pod bundle")
+		}
+
+		blobDataBytes := decodedAvailPodBundle.BlobData
+		commitment := decodedAvailPodBundle.Commitment
+
+		newAvailDABlobSpace := AvailDABlobSpace{
+			BlobData: blobDataBytes,
+			Commitment: commitment,
+			stationId: stationId,
+			podRange: podRange,
+		}
+
+		newAvailDABlobSpaceBytes, err := json.Marshal(newAvailDABlobSpace)
+		if err != nil {
+			return nil, status.Error(codes.InvalidArgument, "failed to marshal Avail DABlobSpace")
+		}
+
+		blobStore := prefix.NewStore(storeAdapter, types.KeyPrefix(types.DABlobDataStoreKey))
+		stationIdBytes := []byte(stationId)
+		blobStore.Set(stationIdBytes, newAvailDABlobSpaceBytes)
 
 		return &types.MsgLogBlobDataResponse{
-			Status: false,
+			Status: true,
 		}, nil
 	} else if daProvider == "eigen" {
-		// TODO: Implement the logic for the eigen DA provider
+		decodedEigenPodBundle, err := k.DecodeEigenPodBundle(podBundle)
+		if err != nil {
+			return nil, status.Error(codes.InvalidArgument, "failed to decode Eigen pod bundle")
+		}
+
+		blobDataBytes := decodedEigenPodBundle.BlobData
+		commitment := decodedEigenPodBundle.Commitment
+
+		newEigenDABlobSpace := EigenDABlobSpace{
+			BlobData: blobDataBytes,
+			Commitment: commitment,
+			stationId: stationId,
+			podRange: podRange,
+		}
+
+		newEigenDABlobSpaceBytes, err := json.Marshal(newEigenDABlobSpace)
+		if err != nil {
+			return nil, status.Error(codes.InvalidArgument, "failed to marshal Eigen DABlobSpace")
+		}
+
+		blobStore := prefix.NewStore(storeAdapter, types.KeyPrefix(types.DABlobDataStoreKey))
+		stationIdBytes := []byte(stationId)
+		blobStore.Set(stationIdBytes, newEigenDABlobSpaceBytes)
+
 		return &types.MsgLogBlobDataResponse{
-			Status: false,
+			Status: true,
 		}, nil
 	} else {
 		return nil, status.Error(codes.InvalidArgument, "invalid DA provider")
