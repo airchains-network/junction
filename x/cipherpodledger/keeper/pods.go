@@ -5,8 +5,8 @@ import (
 	"fmt"
 
 	"github.com/airchains-network/junction/x/cipherpodledger/types"
-	"github.com/consensys/gnark/frontend"
 	"github.com/celestiaorg/celestia-openrpc/types/blob"
+	"github.com/consensys/gnark/frontend"
 )
 
 type Circuit struct {
@@ -53,28 +53,28 @@ func (k Keeper) GetPodKeyByte(stationId string, podNumber uint64) (string, []byt
 // Celestia
 
 type CelestiaDABlobSpace struct {
-	BlobData []byte
-	Commitment []byte
+	BlobData    []byte
+	Commitment  []byte
 	NamespaceID []byte
-	Height uint64
-	stationId string
-	podRange []uint64
+	Height      uint64
+	stationId   string
+	podRange    []uint64
 }
 
 type CelestiaPodBundle struct {
-	BlobData []byte
-	Commitment []byte
+	BlobData    []byte
+	Commitment  []byte
 	NamespaceID []byte
-	Height uint64
+	Height      uint64
 }
 
-func (k Keeper) DecodeCelestiaPodBundle(podBundle []byte) (CelestiaPodBundle,*blob.Blob, error) {
+func (k Keeper) DecodeCelestiaPodBundle(podBundle []byte) (CelestiaPodBundle, *blob.Blob, error) {
 	var decodedCelestiaPodBundle CelestiaPodBundle
 	err := json.Unmarshal(podBundle, &decodedCelestiaPodBundle)
 	if err != nil {
 		return CelestiaPodBundle{}, nil, err
 	}
-	
+
 	var decodedBlob blob.Blob
 	err = json.Unmarshal(decodedCelestiaPodBundle.BlobData, &decodedBlob)
 	if err != nil {
@@ -86,14 +86,14 @@ func (k Keeper) DecodeCelestiaPodBundle(podBundle []byte) (CelestiaPodBundle,*bl
 
 // Avail
 type AvailDABlobSpace struct {
-	BlobData []byte
+	BlobData   []byte
 	Commitment []byte
-	stationId string
-	podRange []uint64
+	stationId  string
+	podRange   []uint64
 }
 
 type AvailPodBundle struct {
-	BlobData []byte
+	BlobData   []byte
 	Commitment []byte
 }
 
@@ -108,14 +108,14 @@ func (k Keeper) DecodeAvailPodBundle(podBundle []byte) (AvailPodBundle, error) {
 
 // Eigen
 type EigenDABlobSpace struct {
-	BlobData []byte
+	BlobData   []byte
 	Commitment []byte
-	stationId string
-	podRange []uint64
+	stationId  string
+	podRange   []uint64
 }
 
 type EigenPodBundle struct {
-	BlobData []byte
+	BlobData   []byte
 	Commitment []byte
 }
 

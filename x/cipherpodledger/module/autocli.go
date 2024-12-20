@@ -52,6 +52,12 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					Short:          "Send a log_blob_data tx",
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "stationId"}, {ProtoField: "podBundle"}, {ProtoField: "podRange"}},
 				},
+				{
+					RpcMethod:      "IntegrityCheck",
+					Use:            "integrity-check [station-id] [blob-ref] [da-provider]",
+					Short:          "Send a integrity_check tx",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "stationId"}, {ProtoField: "blobRef"}, {ProtoField: "daProvider"}},
+				},
 				// this line is used by ignite scaffolding # autocli/tx
 			},
 		},

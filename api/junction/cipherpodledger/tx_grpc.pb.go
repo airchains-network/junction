@@ -19,11 +19,12 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Msg_UpdateParams_FullMethodName = "/junction.cipherpodledger.Msg/UpdateParams"
-	Msg_RegisterFhvm_FullMethodName = "/junction.cipherpodledger.Msg/RegisterFhvm"
-	Msg_SubmitPod_FullMethodName    = "/junction.cipherpodledger.Msg/SubmitPod"
-	Msg_VerifyPod_FullMethodName    = "/junction.cipherpodledger.Msg/VerifyPod"
-	Msg_LogBlobData_FullMethodName  = "/junction.cipherpodledger.Msg/LogBlobData"
+	Msg_UpdateParams_FullMethodName   = "/junction.cipherpodledger.Msg/UpdateParams"
+	Msg_RegisterFhvm_FullMethodName   = "/junction.cipherpodledger.Msg/RegisterFhvm"
+	Msg_SubmitPod_FullMethodName      = "/junction.cipherpodledger.Msg/SubmitPod"
+	Msg_VerifyPod_FullMethodName      = "/junction.cipherpodledger.Msg/VerifyPod"
+	Msg_LogBlobData_FullMethodName    = "/junction.cipherpodledger.Msg/LogBlobData"
+	Msg_IntegrityCheck_FullMethodName = "/junction.cipherpodledger.Msg/IntegrityCheck"
 )
 
 // MsgClient is the client API for Msg service.
@@ -39,6 +40,7 @@ type MsgClient interface {
 	SubmitPod(ctx context.Context, in *MsgSubmitPod, opts ...grpc.CallOption) (*MsgSubmitPodResponse, error)
 	VerifyPod(ctx context.Context, in *MsgVerifyPod, opts ...grpc.CallOption) (*MsgVerifyPodResponse, error)
 	LogBlobData(ctx context.Context, in *MsgLogBlobData, opts ...grpc.CallOption) (*MsgLogBlobDataResponse, error)
+	IntegrityCheck(ctx context.Context, in *MsgIntegrityCheck, opts ...grpc.CallOption) (*MsgIntegrityCheckResponse, error)
 }
 
 type msgClient struct {
@@ -99,6 +101,16 @@ func (c *msgClient) LogBlobData(ctx context.Context, in *MsgLogBlobData, opts ..
 	return out, nil
 }
 
+func (c *msgClient) IntegrityCheck(ctx context.Context, in *MsgIntegrityCheck, opts ...grpc.CallOption) (*MsgIntegrityCheckResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(MsgIntegrityCheckResponse)
+	err := c.cc.Invoke(ctx, Msg_IntegrityCheck_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MsgServer is the server API for Msg service.
 // All implementations must embed UnimplementedMsgServer
 // for forward compatibility.
@@ -112,6 +124,7 @@ type MsgServer interface {
 	SubmitPod(context.Context, *MsgSubmitPod) (*MsgSubmitPodResponse, error)
 	VerifyPod(context.Context, *MsgVerifyPod) (*MsgVerifyPodResponse, error)
 	LogBlobData(context.Context, *MsgLogBlobData) (*MsgLogBlobDataResponse, error)
+	IntegrityCheck(context.Context, *MsgIntegrityCheck) (*MsgIntegrityCheckResponse, error)
 	mustEmbedUnimplementedMsgServer()
 }
 
@@ -136,6 +149,9 @@ func (UnimplementedMsgServer) VerifyPod(context.Context, *MsgVerifyPod) (*MsgVer
 }
 func (UnimplementedMsgServer) LogBlobData(context.Context, *MsgLogBlobData) (*MsgLogBlobDataResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method LogBlobData not implemented")
+}
+func (UnimplementedMsgServer) IntegrityCheck(context.Context, *MsgIntegrityCheck) (*MsgIntegrityCheckResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method IntegrityCheck not implemented")
 }
 func (UnimplementedMsgServer) mustEmbedUnimplementedMsgServer() {}
 func (UnimplementedMsgServer) testEmbeddedByValue()             {}
@@ -248,6 +264,24 @@ func _Msg_LogBlobData_Handler(srv interface{}, ctx context.Context, dec func(int
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Msg_IntegrityCheck_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgIntegrityCheck)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).IntegrityCheck(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Msg_IntegrityCheck_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).IntegrityCheck(ctx, req.(*MsgIntegrityCheck))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Msg_ServiceDesc is the grpc.ServiceDesc for Msg service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -274,6 +308,10 @@ var Msg_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "LogBlobData",
 			Handler:    _Msg_LogBlobData_Handler,
+		},
+		{
+			MethodName: "IntegrityCheck",
+			Handler:    _Msg_IntegrityCheck_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -19262,6 +19262,88 @@ paths:
               parameters.
       tags:
         - Msg
+  /airchains-network/junction/cipherpodledger/params:
+    get:
+      summary: Parameters queries the parameters of the module.
+      operationId: JunctionCipherpodledgerQuery_Params
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              params:
+                description: params holds all the parameters of this module.
+                type: object
+            description: >-
+              QueryParamsResponse is response type for the Query/Params RPC
+              method.
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      tags:
+        - Query
+  /junction.cipherpodledger.Msg/IntegrityCheck:
+    post:
+      operationId: JunctionCipherpodledgerMsg_IntegrityCheck
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              creator:
+                type: string
+              stationId:
+                type: string
+              blobRef:
+                type: string
+              daProvider:
+                type: string
+      tags:
+        - Msg
   /junction.cipherpodledger.Msg/LogBlobData:
     post:
       operationId: JunctionCipherpodledgerMsg_LogBlobData
@@ -19270,6 +19352,9 @@ paths:
           description: A successful response.
           schema:
             type: object
+            properties:
+              status:
+                type: boolean
         default:
           description: An unexpected error response.
           schema:
@@ -19300,6 +19385,9 @@ paths:
               stationId:
                 type: string
               podBundle:
+                type: string
+                format: byte
+              daProvider:
                 type: string
               podRange:
                 type: array
@@ -19537,42 +19625,6 @@ paths:
                 format: byte
       tags:
         - Msg
-  /airchains-network/junction/cipherpodledger/params:
-    get:
-      summary: Parameters queries the parameters of the module.
-      operationId: JunctionCipherpodledgerQuery_Params
-      responses:
-        '200':
-          description: A successful response.
-          schema:
-            type: object
-            properties:
-              params:
-                description: params holds all the parameters of this module.
-                type: object
-            description: >-
-              QueryParamsResponse is response type for the Query/Params RPC
-              method.
-        default:
-          description: An unexpected error response.
-          schema:
-            type: object
-            properties:
-              code:
-                type: integer
-                format: int32
-              message:
-                type: string
-              details:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    '@type':
-                      type: string
-                  additionalProperties: {}
-      tags:
-        - Query
   /junction.trackgate.Msg/AuditSequencer:
     post:
       operationId: JunctionTrackgateMsg_AuditSequencer
@@ -27715,6 +27767,32 @@ definitions:
     description: |-
       Version defines the versioning scheme used to negotiate the IBC verison in
       the connection handshake.
+  junction.cipherpodledger.Params:
+    type: object
+    description: Params defines the parameters for the module.
+  junction.cipherpodledger.QueryParamsResponse:
+    type: object
+    properties:
+      params:
+        description: params holds all the parameters of this module.
+        type: object
+    description: QueryParamsResponse is response type for the Query/Params RPC method.
+  junction.cipherpodledger.MsgIntegrityCheck:
+    type: object
+    properties:
+      creator:
+        type: string
+      stationId:
+        type: string
+      blobRef:
+        type: string
+      daProvider:
+        type: string
+  junction.cipherpodledger.MsgIntegrityCheckResponse:
+    type: object
+    properties:
+      status:
+        type: string
   junction.cipherpodledger.MsgLogBlobData:
     type: object
     properties:
@@ -27724,6 +27802,9 @@ definitions:
         type: string
       podBundle:
         type: string
+        format: byte
+      daProvider:
+        type: string
       podRange:
         type: array
         items:
@@ -27731,6 +27812,9 @@ definitions:
           format: uint64
   junction.cipherpodledger.MsgLogBlobDataResponse:
     type: object
+    properties:
+      status:
+        type: boolean
   junction.cipherpodledger.MsgRegisterFhvm:
     type: object
     properties:
@@ -27834,16 +27918,6 @@ definitions:
     properties:
       status:
         type: boolean
-  junction.cipherpodledger.Params:
-    type: object
-    description: Params defines the parameters for the module.
-  junction.cipherpodledger.QueryParamsResponse:
-    type: object
-    properties:
-      params:
-        description: params holds all the parameters of this module.
-        type: object
-    description: QueryParamsResponse is response type for the Query/Params RPC method.
   junction.trackgate.DaBlobData:
     type: object
     properties:

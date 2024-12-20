@@ -94,10 +94,10 @@ func (k msgServer) LogBlobData(goCtx context.Context, msg *types.MsgLogBlobData)
 		commitment := decodedAvailPodBundle.Commitment
 
 		newAvailDABlobSpace := AvailDABlobSpace{
-			BlobData: blobDataBytes,
+			BlobData:   blobDataBytes,
 			Commitment: commitment,
-			stationId: stationId,
-			podRange: podRange,
+			stationId:  stationId,
+			podRange:   podRange,
 		}
 
 		newAvailDABlobSpaceBytes, err := json.Marshal(newAvailDABlobSpace)
@@ -122,10 +122,10 @@ func (k msgServer) LogBlobData(goCtx context.Context, msg *types.MsgLogBlobData)
 		commitment := decodedEigenPodBundle.Commitment
 
 		newEigenDABlobSpace := EigenDABlobSpace{
-			BlobData: blobDataBytes,
+			BlobData:   blobDataBytes,
 			Commitment: commitment,
-			stationId: stationId,
-			podRange: podRange,
+			stationId:  stationId,
+			podRange:   podRange,
 		}
 
 		newEigenDABlobSpaceBytes, err := json.Marshal(newEigenDABlobSpace)

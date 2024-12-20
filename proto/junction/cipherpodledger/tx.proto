@@ -16,11 +16,12 @@ service Msg {
   
   // UpdateParams defines a (governance) operation for updating the module
   // parameters. The authority defaults to the x/gov module account.
-  rpc UpdateParams (MsgUpdateParams) returns (MsgUpdateParamsResponse);
-  rpc RegisterFhvm (MsgRegisterFhvm) returns (MsgRegisterFhvmResponse);
-  rpc SubmitPod    (MsgSubmitPod   ) returns (MsgSubmitPodResponse   );
-  rpc VerifyPod    (MsgVerifyPod   ) returns (MsgVerifyPodResponse   );
-  rpc LogBlobData  (MsgLogBlobData ) returns (MsgLogBlobDataResponse );
+  rpc UpdateParams   (MsgUpdateParams  ) returns (MsgUpdateParamsResponse  );
+  rpc RegisterFhvm   (MsgRegisterFhvm  ) returns (MsgRegisterFhvmResponse  );
+  rpc SubmitPod      (MsgSubmitPod     ) returns (MsgSubmitPodResponse     );
+  rpc VerifyPod      (MsgVerifyPod     ) returns (MsgVerifyPodResponse     );
+  rpc LogBlobData    (MsgLogBlobData   ) returns (MsgLogBlobDataResponse   );
+  rpc IntegrityCheck (MsgIntegrityCheck) returns (MsgIntegrityCheckResponse);
 }
 // MsgUpdateParams is the Msg/UpdateParams request type.
 message MsgUpdateParams {
@@ -94,14 +95,26 @@ message MsgVerifyPodResponse {
 
 message MsgLogBlobData {
   option (cosmos.msg.v1.signer) = "creator";
-           string creator   = 1;
-           string stationId = 2;
-           bytes podBundle = 3;
+           string creator    = 1;
+           string stationId  = 2;
+           bytes  podBundle  = 3;
            string daProvider = 4;
-           repeated uint64 podRange  = 5;
+  repeated uint64 podRange   = 5;
 }
 
 message MsgLogBlobDataResponse {
+  bool status = 1;
+}
+
+message MsgIntegrityCheck {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator    = 1;
+  string stationId  = 2;
+  bytes blobRef    = 3;
+  string daProvider = 4;
+}
+
+message MsgIntegrityCheckResponse {
   bool status = 1;
 }
 
