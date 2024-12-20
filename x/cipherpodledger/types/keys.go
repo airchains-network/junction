@@ -41,6 +41,13 @@ const (
 
 	// FiguresDBPath is the path for the figures database
 	FiguresDBPath = "Figure/Data/"
+
+	/**
+	 * Store for DA blob data
+	 * Key: stationId
+	 * Value: blobData
+	 */
+	DABlobDataStoreKey = "da-blob-data"
 )
 
 var (

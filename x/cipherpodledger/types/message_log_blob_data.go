@@ -8,7 +8,7 @@ import (
 
 var _ sdk.Msg = &MsgLogBlobData{}
 
-func NewMsgLogBlobData(creator string, stationId string, podBundle string, podRange []uint64) *MsgLogBlobData {
+func NewMsgLogBlobData(creator string, stationId string, podBundle []byte, podRange []uint64) *MsgLogBlobData {
 	return &MsgLogBlobData{
 		Creator:   creator,
 		StationId: stationId,

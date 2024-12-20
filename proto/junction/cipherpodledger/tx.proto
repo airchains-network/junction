@@ -96,9 +96,12 @@ message MsgLogBlobData {
   option (cosmos.msg.v1.signer) = "creator";
            string creator   = 1;
            string stationId = 2;
-           string podBundle = 3;
-  repeated uint64 podRange  = 4;
+           bytes podBundle = 3;
+           string daProvider = 4;
+           repeated uint64 podRange  = 5;
 }
 
-message MsgLogBlobDataResponse {}
+message MsgLogBlobDataResponse {
+  bool status = 1;
+}
 

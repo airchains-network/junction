@@ -1,10 +1,12 @@
 package keeper
 
 import (
+	"encoding/json"
 	"fmt"
 
 	"github.com/airchains-network/junction/x/cipherpodledger/types"
 	"github.com/consensys/gnark/frontend"
+	"github.com/celestiaorg/celestia-openrpc/types/blob"
 )
 
 type Circuit struct {
@@ -44,4 +46,40 @@ func (circuit *Circuit) Define(api frontend.API) error {
 
 func (k Keeper) GetPodKeyByte(stationId string, podNumber uint64) (string, []byte) {
 	return fmt.Sprintf("%s/%s", types.PodDataStoreKey, stationId), []byte(fmt.Sprintf("%d", podNumber))
+}
+
+// DA related pod methods
+
+// Celestia
+
+type CelestiaDABlobSpace struct {
+	BlobData []byte
+	Commitment []byte
+	NamespaceID []byte
+	Height uint64
+	stationId string
+	podRange []uint64
+}
+
+type CelestiaPodBundle struct {
+	BlobData []byte
+	Commitment []byte
+	NamespaceID []byte
+	Height uint64
+}
+
+func (k Keeper) DecodeCelestiaPodBundle(podBundle []byte) (CelestiaPodBundle,*blob.Blob, error) {
+	var decodedCelestiaPodBundle CelestiaPodBundle
+	err := json.Unmarshal(podBundle, &decodedCelestiaPodBundle)
+	if err != nil {
+		return CelestiaPodBundle{}, nil, err
+	}
+	
+	var decodedBlob blob.Blob
+	err = json.Unmarshal(decodedCelestiaPodBundle.BlobData, &decodedBlob)
+	if err != nil {
+		return CelestiaPodBundle{}, nil, err
+	}
+
+	return decodedCelestiaPodBundle, &decodedBlob, nil
 }
