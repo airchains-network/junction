@@ -17,6 +17,13 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					Use:       "params",
 					Short:     "Shows the parameters of the module",
 				},
+				{
+					RpcMethod:      "GetPod",
+					Use:            "get-pod [station-id] [pod-number]",
+					Short:          "Query get_pod",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "stationId"}, {ProtoField: "podNumber"}},
+				},
+
 				// this line is used by ignite scaffolding # autocli/query
 			},
 		},

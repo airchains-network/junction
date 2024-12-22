@@ -48,7 +48,7 @@ func (k Keeper) GetPodKeyByte(stationId string, podNumber uint64) (string, []byt
 	return fmt.Sprintf("%s/%s", types.PodDataStoreKey, stationId), []byte(fmt.Sprintf("%d", podNumber))
 }
 
-func (k Keeper) GetPodKeyByteForStation(stationId string) string{
+func (k Keeper) GetPodKeyByteForStation(stationId string) string {
 	return fmt.Sprintf("%s/%s", types.PodDataStoreKey, stationId)
 }
 
