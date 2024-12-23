@@ -1,9 +1,11 @@
 package app
 
 import (
+	"fmt"
+	"path/filepath"
+
 	"cosmossdk.io/core/appmodule"
 	storetypes "cosmossdk.io/store/types"
-	"fmt"
 	"github.com/airchains-network/junction/x/wasm"
 	wasmkeeper "github.com/airchains-network/junction/x/wasm/keeper"
 	wasmtypes "github.com/airchains-network/junction/x/wasm/types"
@@ -42,7 +44,6 @@ import (
 	solomachine "github.com/cosmos/ibc-go/v8/modules/light-clients/06-solomachine"
 	ibctm "github.com/cosmos/ibc-go/v8/modules/light-clients/07-tendermint"
 	"github.com/spf13/cast"
-	"path/filepath"
 	// this line is used by starport scaffolding # ibc/app/import
 )
 

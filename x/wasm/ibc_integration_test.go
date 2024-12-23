@@ -67,7 +67,7 @@ func TestOnChanOpenInitVersion(t *testing.T) {
 				chainA         = coordinator.GetChain(wasmibctesting.GetChainID(1))
 				chainB         = coordinator.GetChain(wasmibctesting.GetChainID(2))
 				myContractAddr = chainA.SeedNewContractInstance()
-				appA           = chainA.App.(*app.WasmApp)
+				appA           = chainA.App.(*app.App)
 				contractInfo   = appA.WasmKeeper.GetContractInfo(chainA.GetContext(), myContractAddr)
 			)
 			path := wasmibctesting.NewPath(chainA, chainB)

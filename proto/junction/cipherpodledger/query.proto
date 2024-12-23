@@ -1,0 +1,83 @@
+syntax = "proto3";
+
+package junction.cipherpodledger;
+
+import "amino/amino.proto";
+import "gogoproto/gogo.proto";
+import "google/api/annotations.proto";
+import "cosmos/base/query/v1beta1/pagination.proto";
+import "junction/cipherpodledger/params.proto";
+import "junction/cipherpodledger/pod_data.proto";
+import "junction/cipherpodledger/traditional_pagination_response.proto";
+import "junction/cipherpodledger/fhvms_meta.proto";
+option go_package = "github.com/airchains-network/junction/x/cipherpodledger/types";
+
+// Query defines the gRPC querier service.
+service Query {
+  
+  // Parameters queries the parameters of the module.
+  rpc Params (QueryParamsRequest) returns (QueryParamsResponse) {
+    option (google.api.http).get = "/airchains-network/junction/cipherpodledger/params";
+  
+  }
+  
+  // Queries a list of GetPod items.
+  rpc GetPod (QueryGetPodRequest) returns (QueryGetPodResponse) {
+    option (google.api.http).get = "/airchains-network/junction/cipherpodledger/get_pod/{stationId}/{podNumber}";
+  
+  }
+  
+  // Queries a list of GetPods items.
+  rpc GetPods (QueryGetPodsRequest) returns (QueryGetPodsResponse) {
+    option (google.api.http).get = "/airchains-network/junction/cipherpodledger/get_pods/{stationId}";
+  
+  }
+  
+  // Queries a list of GetStationMetrics items.
+  rpc GetStationMetrics (QueryGetStationMetricsRequest) returns (QueryGetStationMetricsResponse) {
+    option (google.api.http).get = "/airchains-network/junction/cipherpodledger/get_station_metrics/{stationId}";
+  
+  }
+}
+// QueryParamsRequest is request type for the Query/Params RPC method.
+message QueryParamsRequest {}
+
+// QueryParamsResponse is response type for the Query/Params RPC method.
+message QueryParamsResponse {
+  
+  // params holds all the parameters of this module.
+  Params params = 1 [(gogoproto.nullable) = false, (amino.dont_omitempty) = true];
+}
+
+message QueryGetPodRequest {
+  string stationId = 1;
+  uint64 podNumber = 2;
+}
+
+message QueryGetPodResponse {
+  PodData pod = 1;
+}
+
+message QueryGetPodsRequest {
+  string stationId = 1;
+  uint64 offset    = 2;
+  uint64 limit     = 3;
+  string order     = 4;
+}
+
+message QueryGetPodsResponse {
+  repeated PodData                       pods       = 1 [(gogoproto.nullable) = false];
+           TraditionalPaginationResponse pagination = 2;
+}
+
+message QueryGetStationMetricsRequest {
+  string stationId = 1;
+}
+
+message QueryGetStationMetricsResponse {
+  uint64 totalFinalizedPodCount = 1;
+  uint64 totalSubmittedPodCount = 2;
+  uint64 totalVerifiedPodCount  = 3;
+  FhvmsMeta stationDetails = 4;
+}
+

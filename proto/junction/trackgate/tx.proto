@@ -8,6 +8,7 @@ import "cosmos_proto/cosmos.proto";
 import "gogoproto/gogo.proto";
 import "junction/trackgate/params.proto";
 import "junction/trackgate/ext_sequencer_check.proto";
+import "junction/trackgate/da_blob_data.proto";
 
 option go_package = "github.com/airchains-network/junction/x/trackgate/types";
 
@@ -23,6 +24,8 @@ service Msg {
   rpc SchemaEngage   (MsgSchemaEngage  ) returns (MsgSchemaEngageResponse  );
   rpc MigrateSchema  (MsgMigrateSchema ) returns (MsgMigrateSchemaResponse );
   rpc AuditSequencer (MsgAuditSequencer) returns (MsgAuditSequencerResponse);
+  rpc LogBlobData    (MsgLogBlobData   ) returns (MsgLogBlobDataResponse   );
+  rpc IntegrityCheck (MsgIntegrityCheck) returns (MsgIntegrityCheckResponse);
 }
 // MsgUpdateParams is the Msg/UpdateParams request type.
 message MsgUpdateParams {
@@ -95,12 +98,33 @@ message MsgMigrateSchemaResponse {
 
 message MsgAuditSequencer {
   option (cosmos.msg.v1.signer) = "verifier";
-  string verifier        = 1;
+           string            verifier        = 1;
   repeated ExtSequencerCheck sequencerChecks = 2 [(gogoproto.nullable) = false];
 }
 
 message MsgAuditSequencerResponse {
   bool   status      = 1;
   string description = 2;
+}
+
+message MsgLogBlobData {
+  option (cosmos.msg.v1.signer) = "creator";
+  string     creator = 1;
+  string extTrackStationId = 2;
+  DaBlobData daData  = 3;
+}
+
+message MsgLogBlobDataResponse {
+  bool status = 1;
+}
+
+message MsgIntegrityCheck {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator      = 1;
+  string daCommitment = 2;
+}
+
+message MsgIntegrityCheckResponse {
+  bool status = 1;
 }
 
