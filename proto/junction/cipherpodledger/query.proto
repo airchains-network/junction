@@ -8,7 +8,7 @@ import "google/api/annotations.proto";
 import "cosmos/base/query/v1beta1/pagination.proto";
 import "junction/cipherpodledger/params.proto";
 import "junction/cipherpodledger/pod_data.proto";
-
+import "junction/cipherpodledger/traditional_pagination_response.proto";
 option go_package = "github.com/airchains-network/junction/x/cipherpodledger/types";
 
 // Query defines the gRPC querier service.
@@ -23,6 +23,12 @@ service Query {
   // Queries a list of GetPod items.
   rpc GetPod (QueryGetPodRequest) returns (QueryGetPodResponse) {
     option (google.api.http).get = "/airchains-network/junction/cipherpodledger/get_pod/{stationId}/{podNumber}";
+  
+  }
+  
+  // Queries a list of GetPods items.
+  rpc GetPods (QueryGetPodsRequest) returns (QueryGetPodsResponse) {
+    option (google.api.http).get = "/airchains-network/junction/cipherpodledger/get_pods/{stationId}";
   
   }
 }
@@ -43,5 +49,17 @@ message QueryGetPodRequest {
 
 message QueryGetPodResponse {
   PodData pod = 1;
+}
+
+message QueryGetPodsRequest {
+  string stationId = 1;
+  uint64 offset    = 2;
+  uint64 limit     = 3;
+  string order     = 4;
+}
+
+message QueryGetPodsResponse {
+  repeated PodData pods = 1 [(gogoproto.nullable) = false];
+  TraditionalPaginationResponse pagination = 2;
 }
 

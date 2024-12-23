@@ -1,0 +1,12 @@
+syntax = "proto3";
+package junction.cipherpodledger;
+
+option go_package = "github.com/airchains-network/junction/x/cipherpodledger/types";
+
+message TraditionalPaginationResponse {
+  
+  uint64 offset = 1; 
+  uint64 limit = 2; 
+  string order = 3; 
+  uint64 total = 4; 
+}
