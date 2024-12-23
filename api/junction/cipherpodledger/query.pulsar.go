@@ -2863,6 +2863,1005 @@ func (x *fastReflection_QueryGetPodsResponse) ProtoMethods() *protoiface.Methods
 	}
 }
 
+var (
+	md_QueryGetStationMetricsRequest           protoreflect.MessageDescriptor
+	fd_QueryGetStationMetricsRequest_stationId protoreflect.FieldDescriptor
+)
+
+func init() {
+	file_junction_cipherpodledger_query_proto_init()
+	md_QueryGetStationMetricsRequest = File_junction_cipherpodledger_query_proto.Messages().ByName("QueryGetStationMetricsRequest")
+	fd_QueryGetStationMetricsRequest_stationId = md_QueryGetStationMetricsRequest.Fields().ByName("stationId")
+}
+
+var _ protoreflect.Message = (*fastReflection_QueryGetStationMetricsRequest)(nil)
+
+type fastReflection_QueryGetStationMetricsRequest QueryGetStationMetricsRequest
+
+func (x *QueryGetStationMetricsRequest) ProtoReflect() protoreflect.Message {
+	return (*fastReflection_QueryGetStationMetricsRequest)(x)
+}
+
+func (x *QueryGetStationMetricsRequest) slowProtoReflect() protoreflect.Message {
+	mi := &file_junction_cipherpodledger_query_proto_msgTypes[6]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+var _fastReflection_QueryGetStationMetricsRequest_messageType fastReflection_QueryGetStationMetricsRequest_messageType
+var _ protoreflect.MessageType = fastReflection_QueryGetStationMetricsRequest_messageType{}
+
+type fastReflection_QueryGetStationMetricsRequest_messageType struct{}
+
+func (x fastReflection_QueryGetStationMetricsRequest_messageType) Zero() protoreflect.Message {
+	return (*fastReflection_QueryGetStationMetricsRequest)(nil)
+}
+func (x fastReflection_QueryGetStationMetricsRequest_messageType) New() protoreflect.Message {
+	return new(fastReflection_QueryGetStationMetricsRequest)
+}
+func (x fastReflection_QueryGetStationMetricsRequest_messageType) Descriptor() protoreflect.MessageDescriptor {
+	return md_QueryGetStationMetricsRequest
+}
+
+// Descriptor returns message descriptor, which contains only the protobuf
+// type information for the message.
+func (x *fastReflection_QueryGetStationMetricsRequest) Descriptor() protoreflect.MessageDescriptor {
+	return md_QueryGetStationMetricsRequest
+}
+
+// Type returns the message type, which encapsulates both Go and protobuf
+// type information. If the Go type information is not needed,
+// it is recommended that the message descriptor be used instead.
+func (x *fastReflection_QueryGetStationMetricsRequest) Type() protoreflect.MessageType {
+	return _fastReflection_QueryGetStationMetricsRequest_messageType
+}
+
+// New returns a newly allocated and mutable empty message.
+func (x *fastReflection_QueryGetStationMetricsRequest) New() protoreflect.Message {
+	return new(fastReflection_QueryGetStationMetricsRequest)
+}
+
+// Interface unwraps the message reflection interface and
+// returns the underlying ProtoMessage interface.
+func (x *fastReflection_QueryGetStationMetricsRequest) Interface() protoreflect.ProtoMessage {
+	return (*QueryGetStationMetricsRequest)(x)
+}
+
+// Range iterates over every populated field in an undefined order,
+// calling f for each field descriptor and value encountered.
+// Range returns immediately if f returns false.
+// While iterating, mutating operations may only be performed
+// on the current field descriptor.
+func (x *fastReflection_QueryGetStationMetricsRequest) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
+	if x.StationId != "" {
+		value := protoreflect.ValueOfString(x.StationId)
+		if !f(fd_QueryGetStationMetricsRequest_stationId, value) {
+			return
+		}
+	}
+}
+
+// Has reports whether a field is populated.
+//
+// Some fields have the property of nullability where it is possible to
+// distinguish between the default value of a field and whether the field
+// was explicitly populated with the default value. Singular message fields,
+// member fields of a oneof, and proto2 scalar fields are nullable. Such
+// fields are populated only if explicitly set.
+//
+// In other cases (aside from the nullable cases above),
+// a proto3 scalar field is populated if it contains a non-zero value, and
+// a repeated field is populated if it is non-empty.
+func (x *fastReflection_QueryGetStationMetricsRequest) Has(fd protoreflect.FieldDescriptor) bool {
+	switch fd.FullName() {
+	case "junction.cipherpodledger.QueryGetStationMetricsRequest.stationId":
+		return x.StationId != ""
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: junction.cipherpodledger.QueryGetStationMetricsRequest"))
+		}
+		panic(fmt.Errorf("message junction.cipherpodledger.QueryGetStationMetricsRequest does not contain field %s", fd.FullName()))
+	}
+}
+
+// Clear clears the field such that a subsequent Has call reports false.
+//
+// Clearing an extension field clears both the extension type and value
+// associated with the given field number.
+//
+// Clear is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QueryGetStationMetricsRequest) Clear(fd protoreflect.FieldDescriptor) {
+	switch fd.FullName() {
+	case "junction.cipherpodledger.QueryGetStationMetricsRequest.stationId":
+		x.StationId = ""
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: junction.cipherpodledger.QueryGetStationMetricsRequest"))
+		}
+		panic(fmt.Errorf("message junction.cipherpodledger.QueryGetStationMetricsRequest does not contain field %s", fd.FullName()))
+	}
+}
+
+// Get retrieves the value for a field.
+//
+// For unpopulated scalars, it returns the default value, where
+// the default value of a bytes scalar is guaranteed to be a copy.
+// For unpopulated composite types, it returns an empty, read-only view
+// of the value; to obtain a mutable reference, use Mutable.
+func (x *fastReflection_QueryGetStationMetricsRequest) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
+	switch descriptor.FullName() {
+	case "junction.cipherpodledger.QueryGetStationMetricsRequest.stationId":
+		value := x.StationId
+		return protoreflect.ValueOfString(value)
+	default:
+		if descriptor.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: junction.cipherpodledger.QueryGetStationMetricsRequest"))
+		}
+		panic(fmt.Errorf("message junction.cipherpodledger.QueryGetStationMetricsRequest does not contain field %s", descriptor.FullName()))
+	}
+}
+
+// Set stores the value for a field.
+//
+// For a field belonging to a oneof, it implicitly clears any other field
+// that may be currently set within the same oneof.
+// For extension fields, it implicitly stores the provided ExtensionType.
+// When setting a composite type, it is unspecified whether the stored value
+// aliases the source's memory in any way. If the composite value is an
+// empty, read-only value, then it panics.
+//
+// Set is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QueryGetStationMetricsRequest) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
+	switch fd.FullName() {
+	case "junction.cipherpodledger.QueryGetStationMetricsRequest.stationId":
+		x.StationId = value.Interface().(string)
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: junction.cipherpodledger.QueryGetStationMetricsRequest"))
+		}
+		panic(fmt.Errorf("message junction.cipherpodledger.QueryGetStationMetricsRequest does not contain field %s", fd.FullName()))
+	}
+}
+
+// Mutable returns a mutable reference to a composite type.
+//
+// If the field is unpopulated, it may allocate a composite value.
+// For a field belonging to a oneof, it implicitly clears any other field
+// that may be currently set within the same oneof.
+// For extension fields, it implicitly stores the provided ExtensionType
+// if not already stored.
+// It panics if the field does not contain a composite type.
+//
+// Mutable is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QueryGetStationMetricsRequest) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
+	switch fd.FullName() {
+	case "junction.cipherpodledger.QueryGetStationMetricsRequest.stationId":
+		panic(fmt.Errorf("field stationId of message junction.cipherpodledger.QueryGetStationMetricsRequest is not mutable"))
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: junction.cipherpodledger.QueryGetStationMetricsRequest"))
+		}
+		panic(fmt.Errorf("message junction.cipherpodledger.QueryGetStationMetricsRequest does not contain field %s", fd.FullName()))
+	}
+}
+
+// NewField returns a new value that is assignable to the field
+// for the given descriptor. For scalars, this returns the default value.
+// For lists, maps, and messages, this returns a new, empty, mutable value.
+func (x *fastReflection_QueryGetStationMetricsRequest) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
+	switch fd.FullName() {
+	case "junction.cipherpodledger.QueryGetStationMetricsRequest.stationId":
+		return protoreflect.ValueOfString("")
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: junction.cipherpodledger.QueryGetStationMetricsRequest"))
+		}
+		panic(fmt.Errorf("message junction.cipherpodledger.QueryGetStationMetricsRequest does not contain field %s", fd.FullName()))
+	}
+}
+
+// WhichOneof reports which field within the oneof is populated,
+// returning nil if none are populated.
+// It panics if the oneof descriptor does not belong to this message.
+func (x *fastReflection_QueryGetStationMetricsRequest) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
+	switch d.FullName() {
+	default:
+		panic(fmt.Errorf("%s is not a oneof field in junction.cipherpodledger.QueryGetStationMetricsRequest", d.FullName()))
+	}
+	panic("unreachable")
+}
+
+// GetUnknown retrieves the entire list of unknown fields.
+// The caller may only mutate the contents of the RawFields
+// if the mutated bytes are stored back into the message with SetUnknown.
+func (x *fastReflection_QueryGetStationMetricsRequest) GetUnknown() protoreflect.RawFields {
+	return x.unknownFields
+}
+
+// SetUnknown stores an entire list of unknown fields.
+// The raw fields must be syntactically valid according to the wire format.
+// An implementation may panic if this is not the case.
+// Once stored, the caller must not mutate the content of the RawFields.
+// An empty RawFields may be passed to clear the fields.
+//
+// SetUnknown is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QueryGetStationMetricsRequest) SetUnknown(fields protoreflect.RawFields) {
+	x.unknownFields = fields
+}
+
+// IsValid reports whether the message is valid.
+//
+// An invalid message is an empty, read-only value.
+//
+// An invalid message often corresponds to a nil pointer of the concrete
+// message type, but the details are implementation dependent.
+// Validity is not part of the protobuf data model, and may not
+// be preserved in marshaling or other operations.
+func (x *fastReflection_QueryGetStationMetricsRequest) IsValid() bool {
+	return x != nil
+}
+
+// ProtoMethods returns optional fastReflectionFeature-path implementations of various operations.
+// This method may return nil.
+//
+// The returned methods type is identical to
+// "google.golang.org/protobuf/runtime/protoiface".Methods.
+// Consult the protoiface package documentation for details.
+func (x *fastReflection_QueryGetStationMetricsRequest) ProtoMethods() *protoiface.Methods {
+	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
+		x := input.Message.Interface().(*QueryGetStationMetricsRequest)
+		if x == nil {
+			return protoiface.SizeOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Size:              0,
+			}
+		}
+		options := runtime.SizeInputToOptions(input)
+		_ = options
+		var n int
+		var l int
+		_ = l
+		l = len(x.StationId)
+		if l > 0 {
+			n += 1 + l + runtime.Sov(uint64(l))
+		}
+		if x.unknownFields != nil {
+			n += len(x.unknownFields)
+		}
+		return protoiface.SizeOutput{
+			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+			Size:              n,
+		}
+	}
+
+	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
+		x := input.Message.Interface().(*QueryGetStationMetricsRequest)
+		if x == nil {
+			return protoiface.MarshalOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Buf:               input.Buf,
+			}, nil
+		}
+		options := runtime.MarshalInputToOptions(input)
+		_ = options
+		size := options.Size(x)
+		dAtA := make([]byte, size)
+		i := len(dAtA)
+		_ = i
+		var l int
+		_ = l
+		if x.unknownFields != nil {
+			i -= len(x.unknownFields)
+			copy(dAtA[i:], x.unknownFields)
+		}
+		if len(x.StationId) > 0 {
+			i -= len(x.StationId)
+			copy(dAtA[i:], x.StationId)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.StationId)))
+			i--
+			dAtA[i] = 0xa
+		}
+		if input.Buf != nil {
+			input.Buf = append(input.Buf, dAtA...)
+		} else {
+			input.Buf = dAtA
+		}
+		return protoiface.MarshalOutput{
+			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+			Buf:               input.Buf,
+		}, nil
+	}
+	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
+		x := input.Message.Interface().(*QueryGetStationMetricsRequest)
+		if x == nil {
+			return protoiface.UnmarshalOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Flags:             input.Flags,
+			}, nil
+		}
+		options := runtime.UnmarshalInputToOptions(input)
+		_ = options
+		dAtA := input.Buf
+		l := len(dAtA)
+		iNdEx := 0
+		for iNdEx < l {
+			preIndex := iNdEx
+			var wire uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+				}
+				if iNdEx >= l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				wire |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			fieldNum := int32(wire >> 3)
+			wireType := int(wire & 0x7)
+			if wireType == 4 {
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryGetStationMetricsRequest: wiretype end group for non-group")
+			}
+			if fieldNum <= 0 {
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryGetStationMetricsRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+			}
+			switch fieldNum {
+			case 1:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field StationId", wireType)
+				}
+				var stringLen uint64
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					stringLen |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				intStringLen := int(stringLen)
+				if intStringLen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + intStringLen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				x.StationId = string(dAtA[iNdEx:postIndex])
+				iNdEx = postIndex
+			default:
+				iNdEx = preIndex
+				skippy, err := runtime.Skip(dAtA[iNdEx:])
+				if err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				if (skippy < 0) || (iNdEx+skippy) < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if (iNdEx + skippy) > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				if !options.DiscardUnknown {
+					x.unknownFields = append(x.unknownFields, dAtA[iNdEx:iNdEx+skippy]...)
+				}
+				iNdEx += skippy
+			}
+		}
+
+		if iNdEx > l {
+			return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+		}
+		return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, nil
+	}
+	return &protoiface.Methods{
+		NoUnkeyedLiterals: struct{}{},
+		Flags:             protoiface.SupportMarshalDeterministic | protoiface.SupportUnmarshalDiscardUnknown,
+		Size:              size,
+		Marshal:           marshal,
+		Unmarshal:         unmarshal,
+		Merge:             nil,
+		CheckInitialized:  nil,
+	}
+}
+
+var (
+	md_QueryGetStationMetricsResponse                        protoreflect.MessageDescriptor
+	fd_QueryGetStationMetricsResponse_totalFinalizedPodCount protoreflect.FieldDescriptor
+	fd_QueryGetStationMetricsResponse_totalSubmittedPodCount protoreflect.FieldDescriptor
+	fd_QueryGetStationMetricsResponse_totalVerifiedPodCount  protoreflect.FieldDescriptor
+	fd_QueryGetStationMetricsResponse_stationDetails         protoreflect.FieldDescriptor
+)
+
+func init() {
+	file_junction_cipherpodledger_query_proto_init()
+	md_QueryGetStationMetricsResponse = File_junction_cipherpodledger_query_proto.Messages().ByName("QueryGetStationMetricsResponse")
+	fd_QueryGetStationMetricsResponse_totalFinalizedPodCount = md_QueryGetStationMetricsResponse.Fields().ByName("totalFinalizedPodCount")
+	fd_QueryGetStationMetricsResponse_totalSubmittedPodCount = md_QueryGetStationMetricsResponse.Fields().ByName("totalSubmittedPodCount")
+	fd_QueryGetStationMetricsResponse_totalVerifiedPodCount = md_QueryGetStationMetricsResponse.Fields().ByName("totalVerifiedPodCount")
+	fd_QueryGetStationMetricsResponse_stationDetails = md_QueryGetStationMetricsResponse.Fields().ByName("stationDetails")
+}
+
+var _ protoreflect.Message = (*fastReflection_QueryGetStationMetricsResponse)(nil)
+
+type fastReflection_QueryGetStationMetricsResponse QueryGetStationMetricsResponse
+
+func (x *QueryGetStationMetricsResponse) ProtoReflect() protoreflect.Message {
+	return (*fastReflection_QueryGetStationMetricsResponse)(x)
+}
+
+func (x *QueryGetStationMetricsResponse) slowProtoReflect() protoreflect.Message {
+	mi := &file_junction_cipherpodledger_query_proto_msgTypes[7]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+var _fastReflection_QueryGetStationMetricsResponse_messageType fastReflection_QueryGetStationMetricsResponse_messageType
+var _ protoreflect.MessageType = fastReflection_QueryGetStationMetricsResponse_messageType{}
+
+type fastReflection_QueryGetStationMetricsResponse_messageType struct{}
+
+func (x fastReflection_QueryGetStationMetricsResponse_messageType) Zero() protoreflect.Message {
+	return (*fastReflection_QueryGetStationMetricsResponse)(nil)
+}
+func (x fastReflection_QueryGetStationMetricsResponse_messageType) New() protoreflect.Message {
+	return new(fastReflection_QueryGetStationMetricsResponse)
+}
+func (x fastReflection_QueryGetStationMetricsResponse_messageType) Descriptor() protoreflect.MessageDescriptor {
+	return md_QueryGetStationMetricsResponse
+}
+
+// Descriptor returns message descriptor, which contains only the protobuf
+// type information for the message.
+func (x *fastReflection_QueryGetStationMetricsResponse) Descriptor() protoreflect.MessageDescriptor {
+	return md_QueryGetStationMetricsResponse
+}
+
+// Type returns the message type, which encapsulates both Go and protobuf
+// type information. If the Go type information is not needed,
+// it is recommended that the message descriptor be used instead.
+func (x *fastReflection_QueryGetStationMetricsResponse) Type() protoreflect.MessageType {
+	return _fastReflection_QueryGetStationMetricsResponse_messageType
+}
+
+// New returns a newly allocated and mutable empty message.
+func (x *fastReflection_QueryGetStationMetricsResponse) New() protoreflect.Message {
+	return new(fastReflection_QueryGetStationMetricsResponse)
+}
+
+// Interface unwraps the message reflection interface and
+// returns the underlying ProtoMessage interface.
+func (x *fastReflection_QueryGetStationMetricsResponse) Interface() protoreflect.ProtoMessage {
+	return (*QueryGetStationMetricsResponse)(x)
+}
+
+// Range iterates over every populated field in an undefined order,
+// calling f for each field descriptor and value encountered.
+// Range returns immediately if f returns false.
+// While iterating, mutating operations may only be performed
+// on the current field descriptor.
+func (x *fastReflection_QueryGetStationMetricsResponse) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
+	if x.TotalFinalizedPodCount != uint64(0) {
+		value := protoreflect.ValueOfUint64(x.TotalFinalizedPodCount)
+		if !f(fd_QueryGetStationMetricsResponse_totalFinalizedPodCount, value) {
+			return
+		}
+	}
+	if x.TotalSubmittedPodCount != uint64(0) {
+		value := protoreflect.ValueOfUint64(x.TotalSubmittedPodCount)
+		if !f(fd_QueryGetStationMetricsResponse_totalSubmittedPodCount, value) {
+			return
+		}
+	}
+	if x.TotalVerifiedPodCount != uint64(0) {
+		value := protoreflect.ValueOfUint64(x.TotalVerifiedPodCount)
+		if !f(fd_QueryGetStationMetricsResponse_totalVerifiedPodCount, value) {
+			return
+		}
+	}
+	if x.StationDetails != nil {
+		value := protoreflect.ValueOfMessage(x.StationDetails.ProtoReflect())
+		if !f(fd_QueryGetStationMetricsResponse_stationDetails, value) {
+			return
+		}
+	}
+}
+
+// Has reports whether a field is populated.
+//
+// Some fields have the property of nullability where it is possible to
+// distinguish between the default value of a field and whether the field
+// was explicitly populated with the default value. Singular message fields,
+// member fields of a oneof, and proto2 scalar fields are nullable. Such
+// fields are populated only if explicitly set.
+//
+// In other cases (aside from the nullable cases above),
+// a proto3 scalar field is populated if it contains a non-zero value, and
+// a repeated field is populated if it is non-empty.
+func (x *fastReflection_QueryGetStationMetricsResponse) Has(fd protoreflect.FieldDescriptor) bool {
+	switch fd.FullName() {
+	case "junction.cipherpodledger.QueryGetStationMetricsResponse.totalFinalizedPodCount":
+		return x.TotalFinalizedPodCount != uint64(0)
+	case "junction.cipherpodledger.QueryGetStationMetricsResponse.totalSubmittedPodCount":
+		return x.TotalSubmittedPodCount != uint64(0)
+	case "junction.cipherpodledger.QueryGetStationMetricsResponse.totalVerifiedPodCount":
+		return x.TotalVerifiedPodCount != uint64(0)
+	case "junction.cipherpodledger.QueryGetStationMetricsResponse.stationDetails":
+		return x.StationDetails != nil
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: junction.cipherpodledger.QueryGetStationMetricsResponse"))
+		}
+		panic(fmt.Errorf("message junction.cipherpodledger.QueryGetStationMetricsResponse does not contain field %s", fd.FullName()))
+	}
+}
+
+// Clear clears the field such that a subsequent Has call reports false.
+//
+// Clearing an extension field clears both the extension type and value
+// associated with the given field number.
+//
+// Clear is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QueryGetStationMetricsResponse) Clear(fd protoreflect.FieldDescriptor) {
+	switch fd.FullName() {
+	case "junction.cipherpodledger.QueryGetStationMetricsResponse.totalFinalizedPodCount":
+		x.TotalFinalizedPodCount = uint64(0)
+	case "junction.cipherpodledger.QueryGetStationMetricsResponse.totalSubmittedPodCount":
+		x.TotalSubmittedPodCount = uint64(0)
+	case "junction.cipherpodledger.QueryGetStationMetricsResponse.totalVerifiedPodCount":
+		x.TotalVerifiedPodCount = uint64(0)
+	case "junction.cipherpodledger.QueryGetStationMetricsResponse.stationDetails":
+		x.StationDetails = nil
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: junction.cipherpodledger.QueryGetStationMetricsResponse"))
+		}
+		panic(fmt.Errorf("message junction.cipherpodledger.QueryGetStationMetricsResponse does not contain field %s", fd.FullName()))
+	}
+}
+
+// Get retrieves the value for a field.
+//
+// For unpopulated scalars, it returns the default value, where
+// the default value of a bytes scalar is guaranteed to be a copy.
+// For unpopulated composite types, it returns an empty, read-only view
+// of the value; to obtain a mutable reference, use Mutable.
+func (x *fastReflection_QueryGetStationMetricsResponse) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
+	switch descriptor.FullName() {
+	case "junction.cipherpodledger.QueryGetStationMetricsResponse.totalFinalizedPodCount":
+		value := x.TotalFinalizedPodCount
+		return protoreflect.ValueOfUint64(value)
+	case "junction.cipherpodledger.QueryGetStationMetricsResponse.totalSubmittedPodCount":
+		value := x.TotalSubmittedPodCount
+		return protoreflect.ValueOfUint64(value)
+	case "junction.cipherpodledger.QueryGetStationMetricsResponse.totalVerifiedPodCount":
+		value := x.TotalVerifiedPodCount
+		return protoreflect.ValueOfUint64(value)
+	case "junction.cipherpodledger.QueryGetStationMetricsResponse.stationDetails":
+		value := x.StationDetails
+		return protoreflect.ValueOfMessage(value.ProtoReflect())
+	default:
+		if descriptor.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: junction.cipherpodledger.QueryGetStationMetricsResponse"))
+		}
+		panic(fmt.Errorf("message junction.cipherpodledger.QueryGetStationMetricsResponse does not contain field %s", descriptor.FullName()))
+	}
+}
+
+// Set stores the value for a field.
+//
+// For a field belonging to a oneof, it implicitly clears any other field
+// that may be currently set within the same oneof.
+// For extension fields, it implicitly stores the provided ExtensionType.
+// When setting a composite type, it is unspecified whether the stored value
+// aliases the source's memory in any way. If the composite value is an
+// empty, read-only value, then it panics.
+//
+// Set is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QueryGetStationMetricsResponse) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
+	switch fd.FullName() {
+	case "junction.cipherpodledger.QueryGetStationMetricsResponse.totalFinalizedPodCount":
+		x.TotalFinalizedPodCount = value.Uint()
+	case "junction.cipherpodledger.QueryGetStationMetricsResponse.totalSubmittedPodCount":
+		x.TotalSubmittedPodCount = value.Uint()
+	case "junction.cipherpodledger.QueryGetStationMetricsResponse.totalVerifiedPodCount":
+		x.TotalVerifiedPodCount = value.Uint()
+	case "junction.cipherpodledger.QueryGetStationMetricsResponse.stationDetails":
+		x.StationDetails = value.Message().Interface().(*FhvmsMeta)
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: junction.cipherpodledger.QueryGetStationMetricsResponse"))
+		}
+		panic(fmt.Errorf("message junction.cipherpodledger.QueryGetStationMetricsResponse does not contain field %s", fd.FullName()))
+	}
+}
+
+// Mutable returns a mutable reference to a composite type.
+//
+// If the field is unpopulated, it may allocate a composite value.
+// For a field belonging to a oneof, it implicitly clears any other field
+// that may be currently set within the same oneof.
+// For extension fields, it implicitly stores the provided ExtensionType
+// if not already stored.
+// It panics if the field does not contain a composite type.
+//
+// Mutable is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QueryGetStationMetricsResponse) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
+	switch fd.FullName() {
+	case "junction.cipherpodledger.QueryGetStationMetricsResponse.stationDetails":
+		if x.StationDetails == nil {
+			x.StationDetails = new(FhvmsMeta)
+		}
+		return protoreflect.ValueOfMessage(x.StationDetails.ProtoReflect())
+	case "junction.cipherpodledger.QueryGetStationMetricsResponse.totalFinalizedPodCount":
+		panic(fmt.Errorf("field totalFinalizedPodCount of message junction.cipherpodledger.QueryGetStationMetricsResponse is not mutable"))
+	case "junction.cipherpodledger.QueryGetStationMetricsResponse.totalSubmittedPodCount":
+		panic(fmt.Errorf("field totalSubmittedPodCount of message junction.cipherpodledger.QueryGetStationMetricsResponse is not mutable"))
+	case "junction.cipherpodledger.QueryGetStationMetricsResponse.totalVerifiedPodCount":
+		panic(fmt.Errorf("field totalVerifiedPodCount of message junction.cipherpodledger.QueryGetStationMetricsResponse is not mutable"))
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: junction.cipherpodledger.QueryGetStationMetricsResponse"))
+		}
+		panic(fmt.Errorf("message junction.cipherpodledger.QueryGetStationMetricsResponse does not contain field %s", fd.FullName()))
+	}
+}
+
+// NewField returns a new value that is assignable to the field
+// for the given descriptor. For scalars, this returns the default value.
+// For lists, maps, and messages, this returns a new, empty, mutable value.
+func (x *fastReflection_QueryGetStationMetricsResponse) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
+	switch fd.FullName() {
+	case "junction.cipherpodledger.QueryGetStationMetricsResponse.totalFinalizedPodCount":
+		return protoreflect.ValueOfUint64(uint64(0))
+	case "junction.cipherpodledger.QueryGetStationMetricsResponse.totalSubmittedPodCount":
+		return protoreflect.ValueOfUint64(uint64(0))
+	case "junction.cipherpodledger.QueryGetStationMetricsResponse.totalVerifiedPodCount":
+		return protoreflect.ValueOfUint64(uint64(0))
+	case "junction.cipherpodledger.QueryGetStationMetricsResponse.stationDetails":
+		m := new(FhvmsMeta)
+		return protoreflect.ValueOfMessage(m.ProtoReflect())
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: junction.cipherpodledger.QueryGetStationMetricsResponse"))
+		}
+		panic(fmt.Errorf("message junction.cipherpodledger.QueryGetStationMetricsResponse does not contain field %s", fd.FullName()))
+	}
+}
+
+// WhichOneof reports which field within the oneof is populated,
+// returning nil if none are populated.
+// It panics if the oneof descriptor does not belong to this message.
+func (x *fastReflection_QueryGetStationMetricsResponse) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
+	switch d.FullName() {
+	default:
+		panic(fmt.Errorf("%s is not a oneof field in junction.cipherpodledger.QueryGetStationMetricsResponse", d.FullName()))
+	}
+	panic("unreachable")
+}
+
+// GetUnknown retrieves the entire list of unknown fields.
+// The caller may only mutate the contents of the RawFields
+// if the mutated bytes are stored back into the message with SetUnknown.
+func (x *fastReflection_QueryGetStationMetricsResponse) GetUnknown() protoreflect.RawFields {
+	return x.unknownFields
+}
+
+// SetUnknown stores an entire list of unknown fields.
+// The raw fields must be syntactically valid according to the wire format.
+// An implementation may panic if this is not the case.
+// Once stored, the caller must not mutate the content of the RawFields.
+// An empty RawFields may be passed to clear the fields.
+//
+// SetUnknown is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_QueryGetStationMetricsResponse) SetUnknown(fields protoreflect.RawFields) {
+	x.unknownFields = fields
+}
+
+// IsValid reports whether the message is valid.
+//
+// An invalid message is an empty, read-only value.
+//
+// An invalid message often corresponds to a nil pointer of the concrete
+// message type, but the details are implementation dependent.
+// Validity is not part of the protobuf data model, and may not
+// be preserved in marshaling or other operations.
+func (x *fastReflection_QueryGetStationMetricsResponse) IsValid() bool {
+	return x != nil
+}
+
+// ProtoMethods returns optional fastReflectionFeature-path implementations of various operations.
+// This method may return nil.
+//
+// The returned methods type is identical to
+// "google.golang.org/protobuf/runtime/protoiface".Methods.
+// Consult the protoiface package documentation for details.
+func (x *fastReflection_QueryGetStationMetricsResponse) ProtoMethods() *protoiface.Methods {
+	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
+		x := input.Message.Interface().(*QueryGetStationMetricsResponse)
+		if x == nil {
+			return protoiface.SizeOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Size:              0,
+			}
+		}
+		options := runtime.SizeInputToOptions(input)
+		_ = options
+		var n int
+		var l int
+		_ = l
+		if x.TotalFinalizedPodCount != 0 {
+			n += 1 + runtime.Sov(uint64(x.TotalFinalizedPodCount))
+		}
+		if x.TotalSubmittedPodCount != 0 {
+			n += 1 + runtime.Sov(uint64(x.TotalSubmittedPodCount))
+		}
+		if x.TotalVerifiedPodCount != 0 {
+			n += 1 + runtime.Sov(uint64(x.TotalVerifiedPodCount))
+		}
+		if x.StationDetails != nil {
+			l = options.Size(x.StationDetails)
+			n += 1 + l + runtime.Sov(uint64(l))
+		}
+		if x.unknownFields != nil {
+			n += len(x.unknownFields)
+		}
+		return protoiface.SizeOutput{
+			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+			Size:              n,
+		}
+	}
+
+	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
+		x := input.Message.Interface().(*QueryGetStationMetricsResponse)
+		if x == nil {
+			return protoiface.MarshalOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Buf:               input.Buf,
+			}, nil
+		}
+		options := runtime.MarshalInputToOptions(input)
+		_ = options
+		size := options.Size(x)
+		dAtA := make([]byte, size)
+		i := len(dAtA)
+		_ = i
+		var l int
+		_ = l
+		if x.unknownFields != nil {
+			i -= len(x.unknownFields)
+			copy(dAtA[i:], x.unknownFields)
+		}
+		if x.StationDetails != nil {
+			encoded, err := options.Marshal(x.StationDetails)
+			if err != nil {
+				return protoiface.MarshalOutput{
+					NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+					Buf:               input.Buf,
+				}, err
+			}
+			i -= len(encoded)
+			copy(dAtA[i:], encoded)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
+			i--
+			dAtA[i] = 0x22
+		}
+		if x.TotalVerifiedPodCount != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.TotalVerifiedPodCount))
+			i--
+			dAtA[i] = 0x18
+		}
+		if x.TotalSubmittedPodCount != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.TotalSubmittedPodCount))
+			i--
+			dAtA[i] = 0x10
+		}
+		if x.TotalFinalizedPodCount != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.TotalFinalizedPodCount))
+			i--
+			dAtA[i] = 0x8
+		}
+		if input.Buf != nil {
+			input.Buf = append(input.Buf, dAtA...)
+		} else {
+			input.Buf = dAtA
+		}
+		return protoiface.MarshalOutput{
+			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+			Buf:               input.Buf,
+		}, nil
+	}
+	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
+		x := input.Message.Interface().(*QueryGetStationMetricsResponse)
+		if x == nil {
+			return protoiface.UnmarshalOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Flags:             input.Flags,
+			}, nil
+		}
+		options := runtime.UnmarshalInputToOptions(input)
+		_ = options
+		dAtA := input.Buf
+		l := len(dAtA)
+		iNdEx := 0
+		for iNdEx < l {
+			preIndex := iNdEx
+			var wire uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+				}
+				if iNdEx >= l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				wire |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			fieldNum := int32(wire >> 3)
+			wireType := int(wire & 0x7)
+			if wireType == 4 {
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryGetStationMetricsResponse: wiretype end group for non-group")
+			}
+			if fieldNum <= 0 {
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: QueryGetStationMetricsResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+			}
+			switch fieldNum {
+			case 1:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field TotalFinalizedPodCount", wireType)
+				}
+				x.TotalFinalizedPodCount = 0
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					x.TotalFinalizedPodCount |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+			case 2:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field TotalSubmittedPodCount", wireType)
+				}
+				x.TotalSubmittedPodCount = 0
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					x.TotalSubmittedPodCount |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+			case 3:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field TotalVerifiedPodCount", wireType)
+				}
+				x.TotalVerifiedPodCount = 0
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					x.TotalVerifiedPodCount |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+			case 4:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field StationDetails", wireType)
+				}
+				var msglen int
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					msglen |= int(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				if msglen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + msglen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				if x.StationDetails == nil {
+					x.StationDetails = &FhvmsMeta{}
+				}
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.StationDetails); err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				iNdEx = postIndex
+			default:
+				iNdEx = preIndex
+				skippy, err := runtime.Skip(dAtA[iNdEx:])
+				if err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				if (skippy < 0) || (iNdEx+skippy) < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if (iNdEx + skippy) > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				if !options.DiscardUnknown {
+					x.unknownFields = append(x.unknownFields, dAtA[iNdEx:iNdEx+skippy]...)
+				}
+				iNdEx += skippy
+			}
+		}
+
+		if iNdEx > l {
+			return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+		}
+		return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, nil
+	}
+	return &protoiface.Methods{
+		NoUnkeyedLiterals: struct{}{},
+		Flags:             protoiface.SupportMarshalDeterministic | protoiface.SupportUnmarshalDiscardUnknown,
+		Size:              size,
+		Marshal:           marshal,
+		Unmarshal:         unmarshal,
+		Merge:             nil,
+		CheckInitialized:  nil,
+	}
+}
+
 // Code generated by protoc-gen-go. DO NOT EDIT.
 // versions:
 // 	protoc-gen-go v1.27.0
@@ -3120,6 +4119,100 @@ func (x *QueryGetPodsResponse) GetPagination() *TraditionalPaginationResponse {
 	return nil
 }
 
+type QueryGetStationMetricsRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	StationId string `protobuf:"bytes,1,opt,name=stationId,proto3" json:"stationId,omitempty"`
+}
+
+func (x *QueryGetStationMetricsRequest) Reset() {
+	*x = QueryGetStationMetricsRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_junction_cipherpodledger_query_proto_msgTypes[6]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *QueryGetStationMetricsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*QueryGetStationMetricsRequest) ProtoMessage() {}
+
+// Deprecated: Use QueryGetStationMetricsRequest.ProtoReflect.Descriptor instead.
+func (*QueryGetStationMetricsRequest) Descriptor() ([]byte, []int) {
+	return file_junction_cipherpodledger_query_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *QueryGetStationMetricsRequest) GetStationId() string {
+	if x != nil {
+		return x.StationId
+	}
+	return ""
+}
+
+type QueryGetStationMetricsResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	TotalFinalizedPodCount uint64     `protobuf:"varint,1,opt,name=totalFinalizedPodCount,proto3" json:"totalFinalizedPodCount,omitempty"`
+	TotalSubmittedPodCount uint64     `protobuf:"varint,2,opt,name=totalSubmittedPodCount,proto3" json:"totalSubmittedPodCount,omitempty"`
+	TotalVerifiedPodCount  uint64     `protobuf:"varint,3,opt,name=totalVerifiedPodCount,proto3" json:"totalVerifiedPodCount,omitempty"`
+	StationDetails         *FhvmsMeta `protobuf:"bytes,4,opt,name=stationDetails,proto3" json:"stationDetails,omitempty"`
+}
+
+func (x *QueryGetStationMetricsResponse) Reset() {
+	*x = QueryGetStationMetricsResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_junction_cipherpodledger_query_proto_msgTypes[7]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *QueryGetStationMetricsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*QueryGetStationMetricsResponse) ProtoMessage() {}
+
+// Deprecated: Use QueryGetStationMetricsResponse.ProtoReflect.Descriptor instead.
+func (*QueryGetStationMetricsResponse) Descriptor() ([]byte, []int) {
+	return file_junction_cipherpodledger_query_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *QueryGetStationMetricsResponse) GetTotalFinalizedPodCount() uint64 {
+	if x != nil {
+		return x.TotalFinalizedPodCount
+	}
+	return 0
+}
+
+func (x *QueryGetStationMetricsResponse) GetTotalSubmittedPodCount() uint64 {
+	if x != nil {
+		return x.TotalSubmittedPodCount
+	}
+	return 0
+}
+
+func (x *QueryGetStationMetricsResponse) GetTotalVerifiedPodCount() uint64 {
+	if x != nil {
+		return x.TotalVerifiedPodCount
+	}
+	return 0
+}
+
+func (x *QueryGetStationMetricsResponse) GetStationDetails() *FhvmsMeta {
+	if x != nil {
+		return x.StationDetails
+	}
+	return nil
+}
+
 var File_junction_cipherpodledger_query_proto protoreflect.FileDescriptor
 
 var file_junction_cipherpodledger_query_proto_rawDesc = []byte{
@@ -3143,42 +4236,66 @@ var file_junction_cipherpodledger_query_proto_rawDesc = []byte{
 	0x70, 0x68, 0x65, 0x72, 0x70, 0x6f, 0x64, 0x6c, 0x65, 0x64, 0x67, 0x65, 0x72, 0x2f, 0x74, 0x72,
 	0x61, 0x64, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x61, 0x6c, 0x5f, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61,
 	0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x72, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x2e, 0x70, 0x72,
-	0x6f, 0x74, 0x6f, 0x22, 0x14, 0x0a, 0x12, 0x51, 0x75, 0x65, 0x72, 0x79, 0x50, 0x61, 0x72, 0x61,
-	0x6d, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x22, 0x5a, 0x0a, 0x13, 0x51, 0x75, 0x65,
-	0x72, 0x79, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
-	0x12, 0x43, 0x0a, 0x06, 0x70, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b,
-	0x32, 0x20, 0x2e, 0x6a, 0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x63, 0x69, 0x70, 0x68,
-	0x65, 0x72, 0x70, 0x6f, 0x64, 0x6c, 0x65, 0x64, 0x67, 0x65, 0x72, 0x2e, 0x50, 0x61, 0x72, 0x61,
-	0x6d, 0x73, 0x42, 0x09, 0xc8, 0xde, 0x1f, 0x00, 0xa8, 0xe7, 0xb0, 0x2a, 0x01, 0x52, 0x06, 0x70,
-	0x61, 0x72, 0x61, 0x6d, 0x73, 0x22, 0x50, 0x0a, 0x12, 0x51, 0x75, 0x65, 0x72, 0x79, 0x47, 0x65,
-	0x74, 0x50, 0x6f, 0x64, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x1c, 0x0a, 0x09, 0x73,
-	0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x49, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09,
-	0x73, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x49, 0x64, 0x12, 0x1c, 0x0a, 0x09, 0x70, 0x6f, 0x64,
-	0x4e, 0x75, 0x6d, 0x62, 0x65, 0x72, 0x18, 0x02, 0x20, 0x01, 0x28, 0x04, 0x52, 0x09, 0x70, 0x6f,
-	0x64, 0x4e, 0x75, 0x6d, 0x62, 0x65, 0x72, 0x22, 0x4a, 0x0a, 0x13, 0x51, 0x75, 0x65, 0x72, 0x79,
-	0x47, 0x65, 0x74, 0x50, 0x6f, 0x64, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x33,
-	0x0a, 0x03, 0x70, 0x6f, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x21, 0x2e, 0x6a, 0x75,
+	0x6f, 0x74, 0x6f, 0x1a, 0x29, 0x6a, 0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x2f, 0x63, 0x69,
+	0x70, 0x68, 0x65, 0x72, 0x70, 0x6f, 0x64, 0x6c, 0x65, 0x64, 0x67, 0x65, 0x72, 0x2f, 0x66, 0x68,
+	0x76, 0x6d, 0x73, 0x5f, 0x6d, 0x65, 0x74, 0x61, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0x14,
+	0x0a, 0x12, 0x51, 0x75, 0x65, 0x72, 0x79, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x52, 0x65, 0x71,
+	0x75, 0x65, 0x73, 0x74, 0x22, 0x5a, 0x0a, 0x13, 0x51, 0x75, 0x65, 0x72, 0x79, 0x50, 0x61, 0x72,
+	0x61, 0x6d, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x43, 0x0a, 0x06, 0x70,
+	0x61, 0x72, 0x61, 0x6d, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x20, 0x2e, 0x6a, 0x75,
 	0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x63, 0x69, 0x70, 0x68, 0x65, 0x72, 0x70, 0x6f, 0x64,
-	0x6c, 0x65, 0x64, 0x67, 0x65, 0x72, 0x2e, 0x50, 0x6f, 0x64, 0x44, 0x61, 0x74, 0x61, 0x52, 0x03,
-	0x70, 0x6f, 0x64, 0x22, 0x77, 0x0a, 0x13, 0x51, 0x75, 0x65, 0x72, 0x79, 0x47, 0x65, 0x74, 0x50,
-	0x6f, 0x64, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x1c, 0x0a, 0x09, 0x73, 0x74,
-	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x49, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x73,
-	0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x49, 0x64, 0x12, 0x16, 0x0a, 0x06, 0x6f, 0x66, 0x66, 0x73,
-	0x65, 0x74, 0x18, 0x02, 0x20, 0x01, 0x28, 0x04, 0x52, 0x06, 0x6f, 0x66, 0x66, 0x73, 0x65, 0x74,
-	0x12, 0x14, 0x0a, 0x05, 0x6c, 0x69, 0x6d, 0x69, 0x74, 0x18, 0x03, 0x20, 0x01, 0x28, 0x04, 0x52,
-	0x05, 0x6c, 0x69, 0x6d, 0x69, 0x74, 0x12, 0x14, 0x0a, 0x05, 0x6f, 0x72, 0x64, 0x65, 0x72, 0x18,
-	0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x6f, 0x72, 0x64, 0x65, 0x72, 0x22, 0xac, 0x01, 0x0a,
-	0x14, 0x51, 0x75, 0x65, 0x72, 0x79, 0x47, 0x65, 0x74, 0x50, 0x6f, 0x64, 0x73, 0x52, 0x65, 0x73,
-	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x3b, 0x0a, 0x04, 0x70, 0x6f, 0x64, 0x73, 0x18, 0x01, 0x20,
-	0x03, 0x28, 0x0b, 0x32, 0x21, 0x2e, 0x6a, 0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x63,
-	0x69, 0x70, 0x68, 0x65, 0x72, 0x70, 0x6f, 0x64, 0x6c, 0x65, 0x64, 0x67, 0x65, 0x72, 0x2e, 0x50,
-	0x6f, 0x64, 0x44, 0x61, 0x74, 0x61, 0x42, 0x04, 0xc8, 0xde, 0x1f, 0x00, 0x52, 0x04, 0x70, 0x6f,
-	0x64, 0x73, 0x12, 0x57, 0x0a, 0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e,
-	0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x37, 0x2e, 0x6a, 0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f,
+	0x6c, 0x65, 0x64, 0x67, 0x65, 0x72, 0x2e, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x42, 0x09, 0xc8,
+	0xde, 0x1f, 0x00, 0xa8, 0xe7, 0xb0, 0x2a, 0x01, 0x52, 0x06, 0x70, 0x61, 0x72, 0x61, 0x6d, 0x73,
+	0x22, 0x50, 0x0a, 0x12, 0x51, 0x75, 0x65, 0x72, 0x79, 0x47, 0x65, 0x74, 0x50, 0x6f, 0x64, 0x52,
+	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x1c, 0x0a, 0x09, 0x73, 0x74, 0x61, 0x74, 0x69, 0x6f,
+	0x6e, 0x49, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x73, 0x74, 0x61, 0x74, 0x69,
+	0x6f, 0x6e, 0x49, 0x64, 0x12, 0x1c, 0x0a, 0x09, 0x70, 0x6f, 0x64, 0x4e, 0x75, 0x6d, 0x62, 0x65,
+	0x72, 0x18, 0x02, 0x20, 0x01, 0x28, 0x04, 0x52, 0x09, 0x70, 0x6f, 0x64, 0x4e, 0x75, 0x6d, 0x62,
+	0x65, 0x72, 0x22, 0x4a, 0x0a, 0x13, 0x51, 0x75, 0x65, 0x72, 0x79, 0x47, 0x65, 0x74, 0x50, 0x6f,
+	0x64, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x33, 0x0a, 0x03, 0x70, 0x6f, 0x64,
+	0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x21, 0x2e, 0x6a, 0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f,
 	0x6e, 0x2e, 0x63, 0x69, 0x70, 0x68, 0x65, 0x72, 0x70, 0x6f, 0x64, 0x6c, 0x65, 0x64, 0x67, 0x65,
-	0x72, 0x2e, 0x54, 0x72, 0x61, 0x64, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x61, 0x6c, 0x50, 0x61, 0x67,
-	0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x52,
-	0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x32, 0x9d, 0x04, 0x0a, 0x05,
+	0x72, 0x2e, 0x50, 0x6f, 0x64, 0x44, 0x61, 0x74, 0x61, 0x52, 0x03, 0x70, 0x6f, 0x64, 0x22, 0x77,
+	0x0a, 0x13, 0x51, 0x75, 0x65, 0x72, 0x79, 0x47, 0x65, 0x74, 0x50, 0x6f, 0x64, 0x73, 0x52, 0x65,
+	0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x1c, 0x0a, 0x09, 0x73, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e,
+	0x49, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x73, 0x74, 0x61, 0x74, 0x69, 0x6f,
+	0x6e, 0x49, 0x64, 0x12, 0x16, 0x0a, 0x06, 0x6f, 0x66, 0x66, 0x73, 0x65, 0x74, 0x18, 0x02, 0x20,
+	0x01, 0x28, 0x04, 0x52, 0x06, 0x6f, 0x66, 0x66, 0x73, 0x65, 0x74, 0x12, 0x14, 0x0a, 0x05, 0x6c,
+	0x69, 0x6d, 0x69, 0x74, 0x18, 0x03, 0x20, 0x01, 0x28, 0x04, 0x52, 0x05, 0x6c, 0x69, 0x6d, 0x69,
+	0x74, 0x12, 0x14, 0x0a, 0x05, 0x6f, 0x72, 0x64, 0x65, 0x72, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09,
+	0x52, 0x05, 0x6f, 0x72, 0x64, 0x65, 0x72, 0x22, 0xac, 0x01, 0x0a, 0x14, 0x51, 0x75, 0x65, 0x72,
+	0x79, 0x47, 0x65, 0x74, 0x50, 0x6f, 0x64, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
+	0x12, 0x3b, 0x0a, 0x04, 0x70, 0x6f, 0x64, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x21,
+	0x2e, 0x6a, 0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x63, 0x69, 0x70, 0x68, 0x65, 0x72,
+	0x70, 0x6f, 0x64, 0x6c, 0x65, 0x64, 0x67, 0x65, 0x72, 0x2e, 0x50, 0x6f, 0x64, 0x44, 0x61, 0x74,
+	0x61, 0x42, 0x04, 0xc8, 0xde, 0x1f, 0x00, 0x52, 0x04, 0x70, 0x6f, 0x64, 0x73, 0x12, 0x57, 0x0a,
+	0x0a, 0x70, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28,
+	0x0b, 0x32, 0x37, 0x2e, 0x6a, 0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x63, 0x69, 0x70,
+	0x68, 0x65, 0x72, 0x70, 0x6f, 0x64, 0x6c, 0x65, 0x64, 0x67, 0x65, 0x72, 0x2e, 0x54, 0x72, 0x61,
+	0x64, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x61, 0x6c, 0x50, 0x61, 0x67, 0x69, 0x6e, 0x61, 0x74, 0x69,
+	0x6f, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x52, 0x0a, 0x70, 0x61, 0x67, 0x69,
+	0x6e, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0x3d, 0x0a, 0x1d, 0x51, 0x75, 0x65, 0x72, 0x79, 0x47,
+	0x65, 0x74, 0x53, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x4d, 0x65, 0x74, 0x72, 0x69, 0x63, 0x73,
+	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x1c, 0x0a, 0x09, 0x73, 0x74, 0x61, 0x74, 0x69,
+	0x6f, 0x6e, 0x49, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09, 0x73, 0x74, 0x61, 0x74,
+	0x69, 0x6f, 0x6e, 0x49, 0x64, 0x22, 0x93, 0x02, 0x0a, 0x1e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x47,
+	0x65, 0x74, 0x53, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x4d, 0x65, 0x74, 0x72, 0x69, 0x63, 0x73,
+	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x36, 0x0a, 0x16, 0x74, 0x6f, 0x74, 0x61,
+	0x6c, 0x46, 0x69, 0x6e, 0x61, 0x6c, 0x69, 0x7a, 0x65, 0x64, 0x50, 0x6f, 0x64, 0x43, 0x6f, 0x75,
+	0x6e, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28, 0x04, 0x52, 0x16, 0x74, 0x6f, 0x74, 0x61, 0x6c, 0x46,
+	0x69, 0x6e, 0x61, 0x6c, 0x69, 0x7a, 0x65, 0x64, 0x50, 0x6f, 0x64, 0x43, 0x6f, 0x75, 0x6e, 0x74,
+	0x12, 0x36, 0x0a, 0x16, 0x74, 0x6f, 0x74, 0x61, 0x6c, 0x53, 0x75, 0x62, 0x6d, 0x69, 0x74, 0x74,
+	0x65, 0x64, 0x50, 0x6f, 0x64, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x18, 0x02, 0x20, 0x01, 0x28, 0x04,
+	0x52, 0x16, 0x74, 0x6f, 0x74, 0x61, 0x6c, 0x53, 0x75, 0x62, 0x6d, 0x69, 0x74, 0x74, 0x65, 0x64,
+	0x50, 0x6f, 0x64, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x12, 0x34, 0x0a, 0x15, 0x74, 0x6f, 0x74, 0x61,
+	0x6c, 0x56, 0x65, 0x72, 0x69, 0x66, 0x69, 0x65, 0x64, 0x50, 0x6f, 0x64, 0x43, 0x6f, 0x75, 0x6e,
+	0x74, 0x18, 0x03, 0x20, 0x01, 0x28, 0x04, 0x52, 0x15, 0x74, 0x6f, 0x74, 0x61, 0x6c, 0x56, 0x65,
+	0x72, 0x69, 0x66, 0x69, 0x65, 0x64, 0x50, 0x6f, 0x64, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x12, 0x4b,
+	0x0a, 0x0e, 0x73, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x44, 0x65, 0x74, 0x61, 0x69, 0x6c, 0x73,
+	0x18, 0x04, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x23, 0x2e, 0x6a, 0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f,
+	0x6e, 0x2e, 0x63, 0x69, 0x70, 0x68, 0x65, 0x72, 0x70, 0x6f, 0x64, 0x6c, 0x65, 0x64, 0x67, 0x65,
+	0x72, 0x2e, 0x46, 0x68, 0x76, 0x6d, 0x73, 0x4d, 0x65, 0x74, 0x61, 0x52, 0x0e, 0x73, 0x74, 0x61,
+	0x74, 0x69, 0x6f, 0x6e, 0x44, 0x65, 0x74, 0x61, 0x69, 0x6c, 0x73, 0x32, 0xfb, 0x05, 0x0a, 0x05,
 	0x51, 0x75, 0x65, 0x72, 0x79, 0x12, 0xa1, 0x01, 0x0a, 0x06, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x73,
 	0x12, 0x2c, 0x2e, 0x6a, 0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x63, 0x69, 0x70, 0x68,
 	0x65, 0x72, 0x70, 0x6f, 0x64, 0x6c, 0x65, 0x64, 0x67, 0x65, 0x72, 0x2e, 0x51, 0x75, 0x65, 0x72,
@@ -3212,21 +4329,35 @@ var file_junction_cipherpodledger_query_proto_rawDesc = []byte{
 	0x68, 0x61, 0x69, 0x6e, 0x73, 0x2d, 0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x2f, 0x6a, 0x75,
 	0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x2f, 0x63, 0x69, 0x70, 0x68, 0x65, 0x72, 0x70, 0x6f, 0x64,
 	0x6c, 0x65, 0x64, 0x67, 0x65, 0x72, 0x2f, 0x67, 0x65, 0x74, 0x5f, 0x70, 0x6f, 0x64, 0x73, 0x2f,
-	0x7b, 0x73, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x49, 0x64, 0x7d, 0x42, 0xd6, 0x01, 0x0a, 0x1c,
-	0x63, 0x6f, 0x6d, 0x2e, 0x6a, 0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x63, 0x69, 0x70,
-	0x68, 0x65, 0x72, 0x70, 0x6f, 0x64, 0x6c, 0x65, 0x64, 0x67, 0x65, 0x72, 0x42, 0x0a, 0x51, 0x75,
-	0x65, 0x72, 0x79, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a, 0x29, 0x63, 0x6f, 0x73, 0x6d,
-	0x6f, 0x73, 0x73, 0x64, 0x6b, 0x2e, 0x69, 0x6f, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x6a, 0x75, 0x6e,
-	0x63, 0x74, 0x69, 0x6f, 0x6e, 0x2f, 0x63, 0x69, 0x70, 0x68, 0x65, 0x72, 0x70, 0x6f, 0x64, 0x6c,
-	0x65, 0x64, 0x67, 0x65, 0x72, 0xa2, 0x02, 0x03, 0x4a, 0x43, 0x58, 0xaa, 0x02, 0x18, 0x4a, 0x75,
-	0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x43, 0x69, 0x70, 0x68, 0x65, 0x72, 0x70, 0x6f, 0x64,
-	0x6c, 0x65, 0x64, 0x67, 0x65, 0x72, 0xca, 0x02, 0x18, 0x4a, 0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f,
-	0x6e, 0x5c, 0x43, 0x69, 0x70, 0x68, 0x65, 0x72, 0x70, 0x6f, 0x64, 0x6c, 0x65, 0x64, 0x67, 0x65,
-	0x72, 0xe2, 0x02, 0x24, 0x4a, 0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x5c, 0x43, 0x69, 0x70,
-	0x68, 0x65, 0x72, 0x70, 0x6f, 0x64, 0x6c, 0x65, 0x64, 0x67, 0x65, 0x72, 0x5c, 0x47, 0x50, 0x42,
-	0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0xea, 0x02, 0x19, 0x4a, 0x75, 0x6e, 0x63, 0x74,
-	0x69, 0x6f, 0x6e, 0x3a, 0x3a, 0x43, 0x69, 0x70, 0x68, 0x65, 0x72, 0x70, 0x6f, 0x64, 0x6c, 0x65,
-	0x64, 0x67, 0x65, 0x72, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x7b, 0x73, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x49, 0x64, 0x7d, 0x12, 0xdb, 0x01, 0x0a, 0x11,
+	0x47, 0x65, 0x74, 0x53, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x4d, 0x65, 0x74, 0x72, 0x69, 0x63,
+	0x73, 0x12, 0x37, 0x2e, 0x6a, 0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x63, 0x69, 0x70,
+	0x68, 0x65, 0x72, 0x70, 0x6f, 0x64, 0x6c, 0x65, 0x64, 0x67, 0x65, 0x72, 0x2e, 0x51, 0x75, 0x65,
+	0x72, 0x79, 0x47, 0x65, 0x74, 0x53, 0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x4d, 0x65, 0x74, 0x72,
+	0x69, 0x63, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x38, 0x2e, 0x6a, 0x75, 0x6e,
+	0x63, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x63, 0x69, 0x70, 0x68, 0x65, 0x72, 0x70, 0x6f, 0x64, 0x6c,
+	0x65, 0x64, 0x67, 0x65, 0x72, 0x2e, 0x51, 0x75, 0x65, 0x72, 0x79, 0x47, 0x65, 0x74, 0x53, 0x74,
+	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x4d, 0x65, 0x74, 0x72, 0x69, 0x63, 0x73, 0x52, 0x65, 0x73, 0x70,
+	0x6f, 0x6e, 0x73, 0x65, 0x22, 0x53, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x4d, 0x12, 0x4b, 0x2f, 0x61,
+	0x69, 0x72, 0x63, 0x68, 0x61, 0x69, 0x6e, 0x73, 0x2d, 0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b,
+	0x2f, 0x6a, 0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x2f, 0x63, 0x69, 0x70, 0x68, 0x65, 0x72,
+	0x70, 0x6f, 0x64, 0x6c, 0x65, 0x64, 0x67, 0x65, 0x72, 0x2f, 0x67, 0x65, 0x74, 0x5f, 0x73, 0x74,
+	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x6d, 0x65, 0x74, 0x72, 0x69, 0x63, 0x73, 0x2f, 0x7b, 0x73,
+	0x74, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x49, 0x64, 0x7d, 0x42, 0xd6, 0x01, 0x0a, 0x1c, 0x63, 0x6f,
+	0x6d, 0x2e, 0x6a, 0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x63, 0x69, 0x70, 0x68, 0x65,
+	0x72, 0x70, 0x6f, 0x64, 0x6c, 0x65, 0x64, 0x67, 0x65, 0x72, 0x42, 0x0a, 0x51, 0x75, 0x65, 0x72,
+	0x79, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a, 0x29, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73,
+	0x73, 0x64, 0x6b, 0x2e, 0x69, 0x6f, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x6a, 0x75, 0x6e, 0x63, 0x74,
+	0x69, 0x6f, 0x6e, 0x2f, 0x63, 0x69, 0x70, 0x68, 0x65, 0x72, 0x70, 0x6f, 0x64, 0x6c, 0x65, 0x64,
+	0x67, 0x65, 0x72, 0xa2, 0x02, 0x03, 0x4a, 0x43, 0x58, 0xaa, 0x02, 0x18, 0x4a, 0x75, 0x6e, 0x63,
+	0x74, 0x69, 0x6f, 0x6e, 0x2e, 0x43, 0x69, 0x70, 0x68, 0x65, 0x72, 0x70, 0x6f, 0x64, 0x6c, 0x65,
+	0x64, 0x67, 0x65, 0x72, 0xca, 0x02, 0x18, 0x4a, 0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x5c,
+	0x43, 0x69, 0x70, 0x68, 0x65, 0x72, 0x70, 0x6f, 0x64, 0x6c, 0x65, 0x64, 0x67, 0x65, 0x72, 0xe2,
+	0x02, 0x24, 0x4a, 0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x5c, 0x43, 0x69, 0x70, 0x68, 0x65,
+	0x72, 0x70, 0x6f, 0x64, 0x6c, 0x65, 0x64, 0x67, 0x65, 0x72, 0x5c, 0x47, 0x50, 0x42, 0x4d, 0x65,
+	0x74, 0x61, 0x64, 0x61, 0x74, 0x61, 0xea, 0x02, 0x19, 0x4a, 0x75, 0x6e, 0x63, 0x74, 0x69, 0x6f,
+	0x6e, 0x3a, 0x3a, 0x43, 0x69, 0x70, 0x68, 0x65, 0x72, 0x70, 0x6f, 0x64, 0x6c, 0x65, 0x64, 0x67,
+	0x65, 0x72, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -3241,34 +4372,40 @@ func file_junction_cipherpodledger_query_proto_rawDescGZIP() []byte {
 	return file_junction_cipherpodledger_query_proto_rawDescData
 }
 
-var file_junction_cipherpodledger_query_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
+var file_junction_cipherpodledger_query_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
 var file_junction_cipherpodledger_query_proto_goTypes = []interface{}{
-	(*QueryParamsRequest)(nil),            // 0: junction.cipherpodledger.QueryParamsRequest
-	(*QueryParamsResponse)(nil),           // 1: junction.cipherpodledger.QueryParamsResponse
-	(*QueryGetPodRequest)(nil),            // 2: junction.cipherpodledger.QueryGetPodRequest
-	(*QueryGetPodResponse)(nil),           // 3: junction.cipherpodledger.QueryGetPodResponse
-	(*QueryGetPodsRequest)(nil),           // 4: junction.cipherpodledger.QueryGetPodsRequest
-	(*QueryGetPodsResponse)(nil),          // 5: junction.cipherpodledger.QueryGetPodsResponse
-	(*Params)(nil),                        // 6: junction.cipherpodledger.Params
-	(*PodData)(nil),                       // 7: junction.cipherpodledger.PodData
-	(*TraditionalPaginationResponse)(nil), // 8: junction.cipherpodledger.TraditionalPaginationResponse
+	(*QueryParamsRequest)(nil),             // 0: junction.cipherpodledger.QueryParamsRequest
+	(*QueryParamsResponse)(nil),            // 1: junction.cipherpodledger.QueryParamsResponse
+	(*QueryGetPodRequest)(nil),             // 2: junction.cipherpodledger.QueryGetPodRequest
+	(*QueryGetPodResponse)(nil),            // 3: junction.cipherpodledger.QueryGetPodResponse
+	(*QueryGetPodsRequest)(nil),            // 4: junction.cipherpodledger.QueryGetPodsRequest
+	(*QueryGetPodsResponse)(nil),           // 5: junction.cipherpodledger.QueryGetPodsResponse
+	(*QueryGetStationMetricsRequest)(nil),  // 6: junction.cipherpodledger.QueryGetStationMetricsRequest
+	(*QueryGetStationMetricsResponse)(nil), // 7: junction.cipherpodledger.QueryGetStationMetricsResponse
+	(*Params)(nil),                         // 8: junction.cipherpodledger.Params
+	(*PodData)(nil),                        // 9: junction.cipherpodledger.PodData
+	(*TraditionalPaginationResponse)(nil),  // 10: junction.cipherpodledger.TraditionalPaginationResponse
+	(*FhvmsMeta)(nil),                      // 11: junction.cipherpodledger.FhvmsMeta
 }
 var file_junction_cipherpodledger_query_proto_depIdxs = []int32{
-	6, // 0: junction.cipherpodledger.QueryParamsResponse.params:type_name -> junction.cipherpodledger.Params
-	7, // 1: junction.cipherpodledger.QueryGetPodResponse.pod:type_name -> junction.cipherpodledger.PodData
-	7, // 2: junction.cipherpodledger.QueryGetPodsResponse.pods:type_name -> junction.cipherpodledger.PodData
-	8, // 3: junction.cipherpodledger.QueryGetPodsResponse.pagination:type_name -> junction.cipherpodledger.TraditionalPaginationResponse
-	0, // 4: junction.cipherpodledger.Query.Params:input_type -> junction.cipherpodledger.QueryParamsRequest
-	2, // 5: junction.cipherpodledger.Query.GetPod:input_type -> junction.cipherpodledger.QueryGetPodRequest
-	4, // 6: junction.cipherpodledger.Query.GetPods:input_type -> junction.cipherpodledger.QueryGetPodsRequest
-	1, // 7: junction.cipherpodledger.Query.Params:output_type -> junction.cipherpodledger.QueryParamsResponse
-	3, // 8: junction.cipherpodledger.Query.GetPod:output_type -> junction.cipherpodledger.QueryGetPodResponse
-	5, // 9: junction.cipherpodledger.Query.GetPods:output_type -> junction.cipherpodledger.QueryGetPodsResponse
-	7, // [7:10] is the sub-list for method output_type
-	4, // [4:7] is the sub-list for method input_type
-	4, // [4:4] is the sub-list for extension type_name
-	4, // [4:4] is the sub-list for extension extendee
-	0, // [0:4] is the sub-list for field type_name
+	8,  // 0: junction.cipherpodledger.QueryParamsResponse.params:type_name -> junction.cipherpodledger.Params
+	9,  // 1: junction.cipherpodledger.QueryGetPodResponse.pod:type_name -> junction.cipherpodledger.PodData
+	9,  // 2: junction.cipherpodledger.QueryGetPodsResponse.pods:type_name -> junction.cipherpodledger.PodData
+	10, // 3: junction.cipherpodledger.QueryGetPodsResponse.pagination:type_name -> junction.cipherpodledger.TraditionalPaginationResponse
+	11, // 4: junction.cipherpodledger.QueryGetStationMetricsResponse.stationDetails:type_name -> junction.cipherpodledger.FhvmsMeta
+	0,  // 5: junction.cipherpodledger.Query.Params:input_type -> junction.cipherpodledger.QueryParamsRequest
+	2,  // 6: junction.cipherpodledger.Query.GetPod:input_type -> junction.cipherpodledger.QueryGetPodRequest
+	4,  // 7: junction.cipherpodledger.Query.GetPods:input_type -> junction.cipherpodledger.QueryGetPodsRequest
+	6,  // 8: junction.cipherpodledger.Query.GetStationMetrics:input_type -> junction.cipherpodledger.QueryGetStationMetricsRequest
+	1,  // 9: junction.cipherpodledger.Query.Params:output_type -> junction.cipherpodledger.QueryParamsResponse
+	3,  // 10: junction.cipherpodledger.Query.GetPod:output_type -> junction.cipherpodledger.QueryGetPodResponse
+	5,  // 11: junction.cipherpodledger.Query.GetPods:output_type -> junction.cipherpodledger.QueryGetPodsResponse
+	7,  // 12: junction.cipherpodledger.Query.GetStationMetrics:output_type -> junction.cipherpodledger.QueryGetStationMetricsResponse
+	9,  // [9:13] is the sub-list for method output_type
+	5,  // [5:9] is the sub-list for method input_type
+	5,  // [5:5] is the sub-list for extension type_name
+	5,  // [5:5] is the sub-list for extension extendee
+	0,  // [0:5] is the sub-list for field type_name
 }
 
 func init() { file_junction_cipherpodledger_query_proto_init() }
@@ -3279,6 +4416,7 @@ func file_junction_cipherpodledger_query_proto_init() {
 	file_junction_cipherpodledger_params_proto_init()
 	file_junction_cipherpodledger_pod_data_proto_init()
 	file_junction_cipherpodledger_traditional_pagination_response_proto_init()
+	file_junction_cipherpodledger_fhvms_meta_proto_init()
 	if !protoimpl.UnsafeEnabled {
 		file_junction_cipherpodledger_query_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*QueryParamsRequest); i {
@@ -3352,6 +4490,30 @@ func file_junction_cipherpodledger_query_proto_init() {
 				return nil
 			}
 		}
+		file_junction_cipherpodledger_query_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*QueryGetStationMetricsRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_junction_cipherpodledger_query_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*QueryGetStationMetricsResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -3359,7 +4521,7 @@ func file_junction_cipherpodledger_query_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_junction_cipherpodledger_query_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   6,
+			NumMessages:   8,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
