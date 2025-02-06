@@ -116,7 +116,7 @@ func MakeEncodingConfig(_ testing.TB) wasmappparams.EncodingConfig {
 
 	moduleBasics.RegisterLegacyAminoCodec(amino)
 	moduleBasics.RegisterInterfaces(interfaceRegistry)
-	// add wasmd types
+	// add junctiond types
 	types.RegisterInterfaces(interfaceRegistry)
 	types.RegisterLegacyAminoCodec(amino)
 
@@ -128,7 +128,7 @@ var TestingStakeParams = stakingtypes.Params{
 	MaxValidators:     10,
 	MaxEntries:        10,
 	HistoricalEntries: 10,
-	BondDenom:         "stake",
+	BondDenom:         "uamf",
 	MinCommissionRate: stakingtypes.DefaultMinCommissionRate,
 }
 
