@@ -1,5 +1,5 @@
-# docker build . -t cosmwasm/junctiond:latest
-# docker run --rm -it cosmwasm/junctiond:latest /bin/sh
+# docker build . -t junction/junctiond:latest
+# docker run --rm -it junction/junctiond:latest /bin/sh
 
 # Using Alpine 3.19+ as the build system is currently broken,
 # see https://github.com/CosmWasm/wasmvm/issues/523

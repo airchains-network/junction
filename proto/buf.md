@@ -10,7 +10,7 @@ The `buf` CLI comes with an export command. Use `buf export -h` for details
 
 Download cosmwasm protos for a commit:
 ```bash
-buf export buf.build/cosmwasm/junctiond:${commit} --output ./tmp
+buf export buf.build/junction/junctiond:${commit} --output ./tmp
 ```
 
 Download all project protos:

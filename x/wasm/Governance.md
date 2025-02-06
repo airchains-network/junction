@@ -47,7 +47,7 @@ See [params.go](https://github.com/CosmWasm/wasmd/blob/master/x/wasm/types/param
 
 The values can be updated via gov proposal `MsgUpdateParams`.
 
-### Update Params Via [MsgUpdateParams](https://github.com/CosmWasm/wasmd/blob/v0.41.0/proto/cosmwasm/wasm/v1/tx.proto#L263)
+### Update Params Via [MsgUpdateParams](https://github.com/CosmWasm/wasmd/blob/v0.41.0/proto/junction/wasm/v1/tx.proto#L263)
 Example to submit a parameter change gov proposal:
 
 - First create a draft proposal using the interactive CLI

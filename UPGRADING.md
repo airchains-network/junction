@@ -75,12 +75,12 @@ docker volume rm -f musselnet_client
 docker run --rm -it \
     -e PASSWORD=1234567890 \
     --mount type=volume,source=musselnet_client,target=/root \
-    cosmwasm/junctiond:v0.14.0 /opt/setup_junctiond.sh
+    junction/junctiond:v0.14.0 /opt/setup_junctiond.sh
 
 # enter "1234567890" when prompted
 docker run --rm -it \
     --mount type=volume,source=musselnet_client,target=/root \
-    cosmwasm/junctiond:v0.14.0 junctiond keys show -a validator
+    junction/junctiond:v0.14.0 junctiond keys show -a validator
 # use the address returned above here
 CLIENT=wasm1anavj4eyxkdljp27sedrdlt9dm26c8a7a8p44l
 ```
@@ -93,17 +93,17 @@ docker volume rm -f musselnet
 # add your testing address here, so you can do something with the client
 docker run --rm -it \
     --mount type=volume,source=musselnet,target=/root \
-    cosmwasm/junctiond:v0.14.0 /opt/setup_junctiond.sh $CLIENT
+    junction/junctiond:v0.14.0 /opt/setup_junctiond.sh $CLIENT
 
 # Update the voting times in the genesis file
 docker run --rm -it \
     --mount type=volume,source=musselnet,target=/root \
-    cosmwasm/junctiond:v0.14.0 sed -ie 's/172800s/300s/' /root/.junctiond/config/genesis.json
+    junction/junctiond:v0.14.0 sed -ie 's/172800s/300s/' /root/.junctiond/config/genesis.json
 
 # start up the blockchain and all embedded servers as one process
 docker run --rm -it -p 26657:26657 -p 26656:26656 -p 1317:1317 \
     --mount type=volume,source=musselnet,target=/root \
-    cosmwasm/junctiond:v0.14.0 /opt/run_junctiond.sh
+    junction/junctiond:v0.14.0 /opt/run_junctiond.sh
 ```
 
 ## Sanity checks
@@ -118,25 +118,25 @@ RCPT=wasm1pypadqklna33nv3gl063rd8z9q8nvauaalz820
 docker run --rm -it \
     --mount type=volume,source=musselnet_client,target=/root \
     --network=host \
-    cosmwasm/junctiond:v0.14.0 junctiond \
+    junction/junctiond:v0.14.0 junctiond \
     query bank balances $CLIENT
 
 docker run --rm -it \
     --mount type=volume,source=musselnet_client,target=/root \
     --network=host \
-    cosmwasm/junctiond:v0.14.0 junctiond \
+    junction/junctiond:v0.14.0 junctiond \
     query bank balances $RCPT
 
 docker run --rm -it \
     --mount type=volume,source=musselnet_client,target=/root \
     --network=host \
-    cosmwasm/junctiond:v0.14.0 junctiond \
+    junction/junctiond:v0.14.0 junctiond \
     tx send validator $RCPT 500000ucosm,600000ustake --chain-id testing
 
 docker run --rm -it \
     --mount type=volume,source=musselnet_client,target=/root \
     --network=host \
-    cosmwasm/junctiond:v0.14.0 junctiond \
+    junction/junctiond:v0.14.0 junctiond \
     query bank balances $RCPT
 ```
 
@@ -151,7 +151,7 @@ we have > 67% of the voting power and will pass with the validator not voting.
 docker run --rm -it \
     --mount type=volume,source=musselnet_client,target=/root \
     --network=host \
-    cosmwasm/junctiond:v0.14.0 junctiond \
+    junction/junctiond:v0.14.0 junctiond \
     query staking validators
 VALIDATOR=......
 
@@ -159,7 +159,7 @@ VALIDATOR=......
 docker run --rm -it \
     --mount type=volume,source=musselnet_client,target=/root \
     --network=host \
-    cosmwasm/junctiond:v0.14.0 junctiond \
+    junction/junctiond:v0.14.0 junctiond \
     tx staking delegate $VALIDATOR 750000000ustake \
     --from validator --chain-id testing
 ```
@@ -179,7 +179,7 @@ you put in your handler):
 docker run --rm -it \
     --mount type=volume,source=musselnet_client,target=/root \
     --network=host \
-    cosmwasm/junctiond:v0.14.0 junctiond \
+    junction/junctiond:v0.14.0 junctiond \
     tx gov submit-proposal software-upgrade musselnet-v2 \
     --upgrade-height=500 --deposit=10000000ustake \
     --title="Upgrade" --description="Upgrade to musselnet-v2" \
@@ -189,14 +189,14 @@ docker run --rm -it \
 docker run --rm -it \
     --mount type=volume,source=musselnet_client,target=/root \
     --network=host \
-    cosmwasm/junctiond:v0.14.0 junctiond \
+    junction/junctiond:v0.14.0 junctiond \
     query gov proposal 1
 
 # vote for it
 docker run --rm -it \
     --mount type=volume,source=musselnet_client,target=/root \
     --network=host \
-    cosmwasm/junctiond:v0.14.0 junctiond \
+    junction/junctiond:v0.14.0 junctiond \
     tx gov vote 1 yes \
     --from validator --chain-id testing
 
@@ -204,7 +204,7 @@ docker run --rm -it \
 docker run --rm -it \
     --mount type=volume,source=musselnet_client,target=/root \
     --network=host \
-    cosmwasm/junctiond:v0.14.0 junctiond \
+    junction/junctiond:v0.14.0 junctiond \
     query gov votes 1
 ```
 
@@ -224,7 +224,7 @@ is now divided into two distinct steps: `proposal creation` and `proposal submis
 docker run --rm -it \
     --mount type=volume,source=musselnet_client,target=/root \
     --network=host \
-    cosmwasm/junctiond:v0.40.0 junctiond \
+    junction/junctiond:v0.40.0 junctiond \
     tx gov draft-proposal \
     --from validator --chain-id testing
 
@@ -255,7 +255,7 @@ docker run --rm -it \
 docker run --rm -it \
     --mount type=volume,source=musselnet_client,target=/root \
     --network=host \
-    cosmwasm/junctiond:v0.40.0 junctiond \
+    junction/junctiond:v0.40.0 junctiond \
     tx gov submit-proposal draft_proposal.json \
     --from validator --chain-id testing
 
@@ -263,14 +263,14 @@ docker run --rm -it \
 docker run --rm -it \
     --mount type=volume,source=musselnet_client,target=/root \
     --network=host \
-    cosmwasm/junctiond:v0.40.0 junctiond \
+    junction/junctiond:v0.40.0 junctiond \
     query gov proposal 1
 
 # vote for it
 docker run --rm -it \
     --mount type=volume,source=musselnet_client,target=/root \
     --network=host \
-    cosmwasm/junctiond:v0.40.0 junctiond \
+    junction/junctiond:v0.40.0 junctiond \
     tx gov vote 1 yes \
     --from validator --chain-id testing
 
@@ -278,7 +278,7 @@ docker run --rm -it \
 docker run --rm -it \
     --mount type=volume,source=musselnet_client,target=/root \
     --network=host \
-    cosmwasm/junctiond:v0.40.0 junctiond \
+    junction/junctiond:v0.40.0 junctiond \
     query gov votes 1
 ```
 
@@ -291,7 +291,7 @@ Now, we just wait about 5 minutes for the vote to pass, and ensure it is passed:
 docker run --rm -it \
     --mount type=volume,source=musselnet_client,target=/root \
     --network=host \
-    cosmwasm/junctiond:v0.14.0 junctiond \
+    junction/junctiond:v0.14.0 junctiond \
     query gov proposal 1
 ```
 
@@ -308,7 +308,7 @@ immediately fail on startup, with the same error message as above.
 ```sh
 docker run --rm -it -p 26657:26657 -p 26656:26656 -p 1317:1317 \
     --mount type=volume,source=musselnet,target=/root \
-    cosmwasm/junctiond:v0.14.0 /opt/run_junctiond.sh
+    junction/junctiond:v0.14.0 /opt/run_junctiond.sh
 ```
 
 Then, we start with the post-upgrade version and see it properly update:

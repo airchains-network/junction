@@ -1,0 +1,12 @@
+version: v1
+plugins:
+  - name: grpc-gateway
+    out: ./docs/client
+    opt:
+      - logtostderr=true
+      - generate_unbound_methods=true
+  - name: openapiv2
+    out: ./docs/client
+    opt:
+      - logtostderr=true
+      - simple_operation_ids=true
