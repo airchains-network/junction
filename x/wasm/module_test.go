@@ -579,7 +579,7 @@ func assertAttribute(t *testing.T, key, value string, attr abci.EventAttribute) 
 
 func assertCodeList(t *testing.T, q *baseapp.GRPCQueryRouter, ctx sdk.Context, expectedNum int, marshaler codec.Codec) {
 	t.Helper()
-	path := "/cosmwasm.wasm.v1.Query/Codes"
+	path := "/junction.wasm.v1.Query/Codes"
 	resp, sdkerr := q.Route(path)(ctx, &abci.RequestQuery{Path: path})
 	require.NoError(t, sdkerr)
 	require.True(t, resp.IsOK())
@@ -600,7 +600,7 @@ func assertCodeBytes(t *testing.T, q *baseapp.GRPCQueryRouter, ctx sdk.Context, 
 	bz, err := marshaler.Marshal(&types.QueryCodeRequest{CodeId: codeID})
 	require.NoError(t, err)
 
-	path := "/cosmwasm.wasm.v1.Query/Code"
+	path := "/junction.wasm.v1.Query/Code"
 	resp, err := q.Route(path)(ctx, &abci.RequestQuery{Path: path, Data: bz})
 	if len(expectedBytes) == 0 {
 		require.Equal(t, types.ErrNoSuchCodeFn(codeID).Wrapf("code id %d", codeID).Error(), err.Error())
@@ -620,7 +620,7 @@ func assertContractList(t *testing.T, q *baseapp.GRPCQueryRouter, ctx sdk.Contex
 	bz, err := marshaler.Marshal(&types.QueryContractsByCodeRequest{CodeId: codeID})
 	require.NoError(t, err)
 
-	path := "/cosmwasm.wasm.v1.Query/ContractsByCode"
+	path := "/junction.wasm.v1.Query/ContractsByCode"
 	resp, sdkerr := q.Route(path)(ctx, &abci.RequestQuery{Path: path, Data: bz})
 	if len(expContractAddrs) == 0 {
 		assert.ErrorIs(t, err, types.ErrNotFound)
@@ -645,7 +645,7 @@ func assertContractState(t *testing.T, q *baseapp.GRPCQueryRouter, ctx sdk.Conte
 	bz, err := marshaler.Marshal(&types.QueryRawContractStateRequest{Address: contractBech32Addr, QueryData: []byte("config")})
 	require.NoError(t, err)
 
-	path := "/cosmwasm.wasm.v1.Query/RawContractState"
+	path := "/junction.wasm.v1.Query/RawContractState"
 	resp, sdkerr := q.Route(path)(ctx, &abci.RequestQuery{Path: path, Data: bz})
 	require.NoError(t, sdkerr)
 	require.True(t, resp.IsOK())
@@ -663,7 +663,7 @@ func assertContractInfo(t *testing.T, q *baseapp.GRPCQueryRouter, ctx sdk.Contex
 	bz, err := marshaler.Marshal(&types.QueryContractInfoRequest{Address: contractBech32Addr})
 	require.NoError(t, err)
 
-	path := "/cosmwasm.wasm.v1.Query/ContractInfo"
+	path := "/junction.wasm.v1.Query/ContractInfo"
 	resp, sdkerr := q.Route(path)(ctx, &abci.RequestQuery{Path: path, Data: bz})
 	require.NoError(t, sdkerr)
 	require.True(t, resp.IsOK())

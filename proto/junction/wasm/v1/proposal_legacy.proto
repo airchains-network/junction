@@ -1,13 +1,13 @@
 syntax = "proto3";
-package cosmwasm.wasm.v1;
+package junction.wasm.v1;
 
 import "gogoproto/gogo.proto";
 import "cosmos_proto/cosmos.proto";
 import "cosmos/base/v1beta1/coin.proto";
-import "cosmwasm/wasm/v1/types.proto";
+import "junction/wasm/v1/types.proto";
 import "amino/amino.proto";
 
-option go_package = "github.com/CosmWasm/junctiond/x/wasm/types";
+option go_package = "github.com/airchains-network/junction/x/wasm/types";
 option (gogoproto.goproto_stringer_all) = false;
 option (gogoproto.goproto_getters_all) = false;
 option (gogoproto.equal_all) = true;

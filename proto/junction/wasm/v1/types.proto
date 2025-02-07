@@ -1,12 +1,12 @@
 syntax = "proto3";
-package cosmwasm.wasm.v1;
+package junction.wasm.v1;
 
 import "cosmos_proto/cosmos.proto";
 import "gogoproto/gogo.proto";
 import "google/protobuf/any.proto";
 import "amino/amino.proto";
 
-option go_package = "github.com/CosmWasm/junctiond/x/wasm/types";
+option go_package = "github.com/airchains-network/junction/x/wasm/types";
 option (gogoproto.goproto_getters_all) = false;
 option (gogoproto.equal_all) = true;
 
@@ -93,7 +93,7 @@ message ContractInfo {
   // persistence model.
   google.protobuf.Any extension = 7
       [ (cosmos_proto.accepts_interface) =
-            "cosmwasm.wasm.v1.ContractInfoExtension" ];
+            "junction.wasm.v1.ContractInfoExtension" ];
 }
 
 // ContractCodeHistoryOperationType actions that caused a code change

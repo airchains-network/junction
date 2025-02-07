@@ -29,9 +29,9 @@ func TestParseVerificationFlags(t *testing.T) {
 			srcPath: "../../keeper/testdata/hackatom.wasm.gzip",
 			args: []string{
 				"--instantiate-everybody=true", "--code-hash=" + testdata.ChecksumHackatom,
-				"--code-source-url=https://example.com", "--builder=cosmwasm/workspace-optimizer:0.12.11",
+				"--code-source-url=https://example.com", "--builder=junction/workspace-optimizer:0.12.11",
 			},
-			expBuilder:  "cosmwasm/workspace-optimizer:0.12.11",
+			expBuilder:  "junction/workspace-optimizer:0.12.11",
 			expSource:   "https://example.com",
 			expCodeHash: testdata.ChecksumHackatom,
 		},
@@ -39,9 +39,9 @@ func TestParseVerificationFlags(t *testing.T) {
 			srcPath: "../../keeper/testdata/hackatom.wasm",
 			args: []string{
 				"--instantiate-everybody=true", "--code-hash=" + testdata.ChecksumHackatom,
-				"--code-source-url=https://example.com", "--builder=cosmwasm/workspace-optimizer:0.12.11",
+				"--code-source-url=https://example.com", "--builder=junction/workspace-optimizer:0.12.11",
 			},
-			expBuilder:  "cosmwasm/workspace-optimizer:0.12.11",
+			expBuilder:  "junction/workspace-optimizer:0.12.11",
 			expSource:   "https://example.com",
 			expCodeHash: testdata.ChecksumHackatom,
 		},
@@ -49,7 +49,7 @@ func TestParseVerificationFlags(t *testing.T) {
 			srcPath: "../../keeper/testdata/hackatom.wasm",
 			args: []string{
 				"--instantiate-everybody=true", "--code-hash=0000de5e9b93b52e514c74ce87ccddb594b9bcd33b7f1af1bb6da63fc883917b",
-				"--code-source-url=https://example.com", "--builder=cosmwasm/workspace-optimizer:0.12.11",
+				"--code-source-url=https://example.com", "--builder=junction/workspace-optimizer:0.12.11",
 			},
 			expErr: true,
 		},

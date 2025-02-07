@@ -789,7 +789,7 @@ func TestProposalStrings(t *testing.T) {
   Run as:      cosmos1qyqszqgpqyqszqgpqyqszqgpqyqszqgpqyqszqgpqyqszqgpqyqs2m6sx4
   WasmCode:    0102030405060708090A
   Source:      https://example.com/
-  Builder:     cosmwasm/workspace-optimizer:v0.12.8
+  Builder:     junction/workspace-optimizer:v0.12.8
   Code Hash:   6E340B9CFFB37A989CA544E6BB780A2C78901D3FB33738768511A30617AFA01D
 `,
 		},
@@ -818,7 +818,7 @@ func TestProposalStrings(t *testing.T) {
   Code id:     1
   Label:       testing
   Msg:         "{\"verifier\":\"cosmos1qyqszqgpqyqszqgpqyqszqgpqyqszqgpqyqszqgpqyqszqgpqyqs2m6sx4\",\"beneficiary\":\"cosmos1qyqszqgpqyqszqgpqyqszqgpqyqszqgpqyqszqgpqyqszqgpqyqs2m6sx4\"}"
-  Funds:       
+  Funds:
 `,
 		},
 		"instantiate contract without admin": {
@@ -827,11 +827,11 @@ func TestProposalStrings(t *testing.T) {
   Title:       Foo
   Description: Bar
   Run as:      cosmos1qyqszqgpqyqszqgpqyqszqgpqyqszqgpqyqszqgpqyqszqgpqyqs2m6sx4
-  Admin:       
+  Admin:
   Code id:     1
   Label:       testing
   Msg:         "{\"verifier\":\"cosmos1qyqszqgpqyqszqgpqyqszqgpqyqszqgpqyqszqgpqyqszqgpqyqs2m6sx4\",\"beneficiary\":\"cosmos1qyqszqgpqyqszqgpqyqszqgpqyqszqgpqyqszqgpqyqszqgpqyqs2m6sx4\"}"
-  Funds:       
+  Funds:
 `,
 		},
 		"migrate contract": {
@@ -908,7 +908,7 @@ run_as: cosmos1qyqszqgpqyqszqgpqyqszqgpqyqszqgpqyqszqgpqyqszqgpqyqs2m6sx4
 wasm_byte_code: AQIDBAUGBwgJCg==
 instantiate_permission: null
 source: https://example.com/
-builder: cosmwasm/workspace-optimizer:v0.12.8
+builder: junction/workspace-optimizer:v0.12.8
 code_hash: 6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d
 `,
 		},
@@ -1076,7 +1076,7 @@ func StoreCodeProposalFixture(mutators ...func(*StoreCodeProposal)) *StoreCodePr
 		RunAs:        anyAddress,
 		WASMByteCode: wasm,
 		Source:       "https://example.com/",
-		Builder:      "cosmwasm/workspace-optimizer:v0.12.8",
+		Builder:      "junction/workspace-optimizer:v0.12.8",
 		CodeHash:     codeHash,
 	}
 	for _, m := range mutators {
@@ -1193,7 +1193,7 @@ func StoreAndInstantiateContractProposalFixture(mutators ...func(p *StoreAndInst
 		RunAs:        anyAddress,
 		WASMByteCode: wasm,
 		Source:       "https://example.com/",
-		Builder:      "cosmwasm/workspace-optimizer:v0.12.9",
+		Builder:      "junction/workspace-optimizer:v0.12.9",
 		CodeHash:     codeHash,
 		Admin:        anyAddress,
 		Label:        "testing",
