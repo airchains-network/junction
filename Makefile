@@ -60,7 +60,8 @@ ldflags = -X github.com/cosmos/cosmos-sdk/version.Name=junction \
 		  -X github.com/cosmos/cosmos-sdk/version.Version=$(VERSION) \
 		  -X github.com/cosmos/cosmos-sdk/version.Commit=$(COMMIT) \
 		  -X github.com/airchains-network/junction/app.Bech32Prefix=air \
-		  -X "github.com/cosmos/cosmos-sdk/version.BuildTags=$(build_tags_comma_sep)"
+		  -X "github.com/cosmos/cosmos-sdk/version.BuildTags=$(build_tags_comma_sep)" \
+		  -extldflags "-static -L/home/computerkeeda/Codes/wasmvm/libwasmvm/target/release -lwasmvm -lm" -linkmode external
 
 ifeq ($(WITH_CLEVELDB),yes)
   ldflags += -X github.com/cosmos/cosmos-sdk/types.DBBackend=cleveldb
