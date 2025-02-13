@@ -131,6 +131,7 @@ import (
 	stakingkeeper "github.com/cosmos/cosmos-sdk/x/staking/keeper"
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
+	"github.com/airchains-network/junction/docs"
 	"github.com/airchains-network/junction/x/wasm"
 	wasmkeeper "github.com/airchains-network/junction/x/wasm/keeper"
 	wasmtypes "github.com/airchains-network/junction/x/wasm/types"
@@ -1129,6 +1130,8 @@ func (app *JunctionApp) RegisterAPIRoutes(apiSvr *api.Server, apiConfig config.A
 	if err := server.RegisterSwaggerAPI(apiSvr.ClientCtx, apiSvr.Router, apiConfig.Swagger); err != nil {
 		panic(err)
 	}
+
+	docs.RegisterOpenAPIService(app.Name(), apiSvr.Router)
 }
 
 // RegisterTxService implements the Application.RegisterTxService method.
