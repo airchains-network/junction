@@ -389,7 +389,7 @@ func NewJunctionApp(
 	scopedICAControllerKeeper := app.CapabilityKeeper.ScopeToModule(icacontrollertypes.SubModuleName)
 	scopedTransferKeeper := app.CapabilityKeeper.ScopeToModule(ibctransfertypes.ModuleName)
 	scopedWasmKeeper := app.CapabilityKeeper.ScopeToModule(wasmtypes.ModuleName)
-	// Also, create a scope for zksequencer
+	// Also, create a scope for zksequencer and vrf
 	scopedZkSequencerKeeper := app.CapabilityKeeper.ScopeToModule(zksqtypes.ModuleName)
 	scopedVrfKeeper := app.CapabilityKeeper.ScopeToModule(vrftypes.ModuleName)
 
@@ -399,6 +399,15 @@ func NewJunctionApp(
 	registry := codectypes.NewInterfaceRegistry()
 	cdc := codec.NewProtoCodec(registry)
 	authority := authtypes.NewModuleAddress(govtypes.ModuleName)
+
+	app.VrfKeeper = vrfkeeper.NewKeeper(
+		cdc,
+		runtime.NewKVStoreService(keys[vrftypes.StoreKey]),
+		logger,
+		authority.String(),
+		app.GetIBCKeeper,
+		func(string) capabilitykeeper.ScopedKeeper { return scopedVrfKeeper },
+	)
 	// Initialize ZkSequencer keeper before adding its route
 	app.ZkSequencerKeeper = zksqkeeper.NewKeeper(
 		cdc,
@@ -408,15 +417,6 @@ func NewJunctionApp(
 		app.GetIBCKeeper,
 		func(string) capabilitykeeper.ScopedKeeper { return scopedZkSequencerKeeper },
 		app.VrfKeeper,
-	)
-
-	app.VrfKeeper = vrfkeeper.NewKeeper(
-		cdc,
-		runtime.NewKVStoreService(keys[vrftypes.StoreKey]),
-		logger,
-		authority.String(),
-		app.GetIBCKeeper,
-		func(string) capabilitykeeper.ScopedKeeper { return scopedVrfKeeper },
 	)
 
 	app.AccountKeeper = authkeeper.NewAccountKeeper(
