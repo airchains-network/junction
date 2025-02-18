@@ -133,6 +133,14 @@ import (
 
 	"github.com/airchains-network/junction/docs"
 	"github.com/airchains-network/junction/x/wasm"
+
+	zksqkeeper "github.com/airchains-network/junction/x/zksequencer/keeper"
+	zksqtypes "github.com/airchains-network/junction/x/zksequencer/types"
+	vrfkeeper "github.com/airchains-network/junction/x/vrf/keeper"
+	vrftypes "github.com/airchains-network/junction/x/vrf/types"
+	zksqmodule "github.com/airchains-network/junction/x/zksequencer/module"
+	vrfmodule "github.com/airchains-network/junction/x/vrf/module"
+
 	wasmkeeper "github.com/airchains-network/junction/x/wasm/keeper"
 	wasmtypes "github.com/airchains-network/junction/x/wasm/types"
 )
@@ -180,6 +188,8 @@ var maccPerms = map[string][]string{
 	ibcfeetypes.ModuleName:      nil,
 	icatypes.ModuleName:         nil,
 	wasmtypes.ModuleName:        {authtypes.Burner},
+	zksqtypes.ModuleName:        {authtypes.Burner},
+	vrftypes.ModuleName:         {authtypes.Burner},
 }
 
 var (
@@ -226,6 +236,9 @@ type JunctionApp struct {
 	ICAHostKeeper       icahostkeeper.Keeper
 	TransferKeeper      ibctransferkeeper.Keeper
 	WasmKeeper          wasmkeeper.Keeper
+
+	ZkSequencerKeeper zksqkeeper.Keeper
+	VrfKeeper         vrfkeeper.Keeper
 
 	ScopedIBCKeeper           capabilitykeeper.ScopedKeeper
 	ScopedICAHostKeeper       capabilitykeeper.ScopedKeeper
@@ -325,6 +338,7 @@ func NewJunctionApp(
 		capabilitytypes.StoreKey, ibcexported.StoreKey, ibctransfertypes.StoreKey, ibcfeetypes.StoreKey,
 		wasmtypes.StoreKey, icahosttypes.StoreKey,
 		icacontrollertypes.StoreKey,
+		zksqtypes.StoreKey, vrftypes.StoreKey,
 	)
 
 	tkeys := storetypes.NewTransientStoreKeys(paramstypes.TStoreKey)
@@ -694,6 +708,12 @@ func NewJunctionApp(
 		AddRoute(wasmtypes.ModuleName, wasmStack).
 		AddRoute(icacontrollertypes.SubModuleName, icaControllerStack).
 		AddRoute(icahosttypes.SubModuleName, icaHostStack)
+
+	zksequencerIBCModule := ibcfee.NewIBCMiddleware(zksqmodule.NewIBCModule(app.ZkSequencerKeeper), app.IBCFeeKeeper)
+	ibcRouter.AddRoute(zksqtypes.ModuleName, zksequencerIBCModule)
+	vrfIBCModule := ibcfee.NewIBCMiddleware(vrfmodule.NewIBCModule(app.VrfKeeper), app.IBCFeeKeeper)
+	ibcRouter.AddRoute(vrftypes.ModuleName, vrfIBCModule)
+		
 	app.IBCKeeper.SetRouter(ibcRouter)
 
 	/****  Module Options ****/
@@ -731,6 +751,8 @@ func NewJunctionApp(
 		// non sdk modules
 		capability.NewAppModule(appCodec, *app.CapabilityKeeper, false),
 		wasm.NewAppModule(appCodec, &app.WasmKeeper, app.StakingKeeper, app.AccountKeeper, app.BankKeeper, app.MsgServiceRouter(), app.GetSubspace(wasmtypes.ModuleName)),
+		zksqmodule.NewAppModule(appCodec, app.ZkSequencerKeeper, app.AccountKeeper, app.BankKeeper),
+		vrfmodule.NewAppModule(appCodec, app.VrfKeeper, app.AccountKeeper, app.BankKeeper),
 		ibc.NewAppModule(app.IBCKeeper),
 		transfer.NewAppModule(app.TransferKeeper),
 		ibcfee.NewAppModule(app.IBCFeeKeeper),
@@ -781,6 +803,8 @@ func NewJunctionApp(
 		icatypes.ModuleName,
 		ibcfeetypes.ModuleName,
 		wasmtypes.ModuleName,
+		zksqtypes.ModuleName,
+		vrftypes.ModuleName,
 	)
 
 	app.ModuleManager.SetOrderEndBlockers(
@@ -797,6 +821,8 @@ func NewJunctionApp(
 		icatypes.ModuleName,
 		ibcfeetypes.ModuleName,
 		wasmtypes.ModuleName,
+		zksqtypes.ModuleName,
+		vrftypes.ModuleName,
 	)
 
 	// NOTE: The genutils module must occur after staking so that pools are
@@ -822,6 +848,8 @@ func NewJunctionApp(
 		ibcfeetypes.ModuleName,
 		// wasm after ibc transfer
 		wasmtypes.ModuleName,
+		zksqtypes.ModuleName,
+		vrftypes.ModuleName,
 	}
 	app.ModuleManager.SetOrderInitGenesis(genesisModuleOrder...)
 	app.ModuleManager.SetOrderExportGenesis(genesisModuleOrder...)
