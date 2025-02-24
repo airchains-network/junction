@@ -18,14 +18,11 @@ func MakeEncodingConfig(t testing.TB) params.EncodingConfig {
 	t.Helper()
 	// we "pre"-instantiate the application for getting the injected/configured encoding configuration
 	// note, this is not necessary when using app wiring, as depinject can be directly used (see root_v2.go)
-	tempApp, err := New(log.NewNopLogger(), dbm.NewMemDB(), nil, true, simtestutil.NewAppOptionsWithFlagHome(t.TempDir()), []wasmkeeper.Option{})
-	if err != nil {
-		panic(err)
-	}
+	tempApp := NewJunctionApp(log.NewNopLogger(), dbm.NewMemDB(), nil, true, simtestutil.NewAppOptionsWithFlagHome(t.TempDir()), []wasmkeeper.Option{})
 	return makeEncodingConfig(tempApp)
 }
 
-func makeEncodingConfig(tempApp *App) params.EncodingConfig {
+func makeEncodingConfig(tempApp *JunctionApp) params.EncodingConfig {
 	encodingConfig := params.EncodingConfig{
 		InterfaceRegistry: tempApp.InterfaceRegistry(),
 		Codec:             tempApp.AppCodec(),

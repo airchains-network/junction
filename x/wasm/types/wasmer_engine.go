@@ -7,8 +7,10 @@ import (
 	storetypes "cosmossdk.io/store/types"
 )
 
-// DefaultMaxQueryStackSize maximum size of the stack of contract instances doing queries
+// DefaultMaxQueryStackSize maximum size of the stack of recursive queries a contract can make
 const DefaultMaxQueryStackSize uint32 = 10
+
+const DefaultMaxCallDepth uint32 = 500
 
 // WasmEngine defines the WASM contract runtime engine.
 type WasmEngine interface {
@@ -27,6 +29,11 @@ type WasmEngine interface {
 	// It does the same as StoreCode but without the static checks.
 	// Use this for adding code that was checked before, particularly in the case of state sync.
 	StoreCodeUnchecked(code wasmvm.WasmCode) (wasmvm.Checksum, error)
+
+	// SimulateStoreCode works like StoreCode, but does not actually store the code.
+	// Instead, it just does all the validation and compilation steps without storing the result on disk.
+	// Returns both the checksum, as well as the gas cost of compilation (in CosmWasm Gas) or an error.
+	SimulateStoreCode(code wasmvm.WasmCode, gasLimit uint64) (wasmvm.Checksum, uint64, error)
 
 	// AnalyzeCode will statically analyze the code.
 	// Currently just reports if it exposes all IBC entry points.
@@ -233,6 +240,36 @@ type WasmEngine interface {
 		deserCost wasmvmtypes.UFraction,
 	) (*wasmvmtypes.IBCBasicResult, uint64, error)
 
+	// IBCSourceCallback is available on IBC-callbacks-enabled contracts and is called when an
+	// IBC-callbacks-enabled IBC message previously sent by this contract is either acknowledged or
+	// times out.
+	IBCSourceCallback(
+		checksum wasmvm.Checksum,
+		env wasmvmtypes.Env,
+		msg wasmvmtypes.IBCSourceCallbackMsg,
+		store wasmvm.KVStore,
+		goapi wasmvm.GoAPI,
+		querier wasmvm.Querier,
+		gasMeter wasmvm.GasMeter,
+		gasLimit uint64,
+		deserCost wasmvmtypes.UFraction,
+	) (*wasmvmtypes.IBCBasicResult, uint64, error)
+
+	// IBCSourceCallback is available on IBC-callbacks-enabled contracts and is called when an
+	// IBC-callbacks-enabled IBC message previously sent by this contract is either acknowledged or
+	// times out.
+	IBCDestinationCallback(
+		checksum wasmvm.Checksum,
+		env wasmvmtypes.Env,
+		msg wasmvmtypes.IBCDestinationCallbackMsg,
+		store wasmvm.KVStore,
+		goapi wasmvm.GoAPI,
+		querier wasmvm.Querier,
+		gasMeter wasmvm.GasMeter,
+		gasLimit uint64,
+		deserCost wasmvmtypes.UFraction,
+	) (*wasmvmtypes.IBCBasicResult, uint64, error)
+
 	// Pin pins a code to an in-memory cache, such that is
 	// always loaded quickly when executed.
 	// Pin is idempotent.
@@ -246,6 +283,9 @@ type WasmEngine interface {
 
 	// GetMetrics some internal metrics for monitoring purposes.
 	GetMetrics() (*wasmvmtypes.Metrics, error)
+
+	// GetPinnedMetrics some internal metrics about pinned contracts for monitoring purposes.
+	GetPinnedMetrics() (*wasmvmtypes.PinnedMetrics, error)
 }
 
 var _ wasmvm.KVStore = &StoreAdapter{}

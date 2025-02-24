@@ -45,7 +45,7 @@ import (
 	wasmkeeper "github.com/airchains-network/junction/x/wasm/keeper"
 )
 
-// SetupOptions defines arguments that are passed into `WasmApp` constructor.
+// SetupOptions defines arguments that are passed into `JunctionApp` constructor.
 type SetupOptions struct {
 	Logger   log.Logger
 	DB       *dbm.MemDB
@@ -53,7 +53,7 @@ type SetupOptions struct {
 	WasmOpts []wasmkeeper.Option
 }
 
-func setup(t testing.TB, chainID string, withGenesis bool, invCheckPeriod uint, opts ...wasmkeeper.Option) (*App, GenesisState) {
+func setup(t testing.TB, chainID string, withGenesis bool, invCheckPeriod uint, opts ...wasmkeeper.Option) (*JunctionApp, GenesisState) {
 	db := dbm.NewMemDB()
 	nodeHome := t.TempDir()
 	snapshotDir := filepath.Join(nodeHome, "data", "snapshots")
@@ -67,16 +67,15 @@ func setup(t testing.TB, chainID string, withGenesis bool, invCheckPeriod uint, 
 	appOptions := make(simtestutil.AppOptionsMap, 0)
 	appOptions[flags.FlagHome] = nodeHome // ensure unique folder
 	appOptions[server.FlagInvCheckPeriod] = invCheckPeriod
-	app, err := New(log.NewNopLogger(), db, nil, true, appOptions, opts, bam.SetChainID(chainID), bam.SetSnapshot(snapshotStore, snapshottypes.SnapshotOptions{KeepRecent: 2}))
-	require.NoError(t, err)
+	app := NewJunctionApp(log.NewNopLogger(), db, nil, true, appOptions, opts, bam.SetChainID(chainID), bam.SetSnapshot(snapshotStore, snapshottypes.SnapshotOptions{KeepRecent: 2}))
 	if withGenesis {
 		return app, app.DefaultGenesis()
 	}
 	return app, GenesisState{}
 }
 
-// NewWasmAppWithCustomOptions initializes a new WasmApp with custom options.
-func NewWasmAppWithCustomOptions(t *testing.T, isCheckTx bool, options SetupOptions) *App {
+// NewJunctionAppWithCustomOptions initializes a new JunctionApp with custom options.
+func NewJunctionAppWithCustomOptions(t *testing.T, isCheckTx bool, options SetupOptions) *JunctionApp {
 	t.Helper()
 
 	privVal := mock.NewPV()
@@ -94,7 +93,7 @@ func NewWasmAppWithCustomOptions(t *testing.T, isCheckTx bool, options SetupOpti
 		Coins:   sdk.NewCoins(sdk.NewCoin(sdk.DefaultBondDenom, sdkmath.NewInt(100000000000000))),
 	}
 
-	app, err := New(options.Logger, options.DB, nil, true, options.AppOpts, options.WasmOpts)
+	app := NewJunctionApp(options.Logger, options.DB, nil, true, options.AppOpts, options.WasmOpts)
 	genesisState := app.DefaultGenesis()
 	genesisState, err = GenesisStateWithValSet(app.AppCodec(), genesisState, valSet, []authtypes.GenesisAccount{acc}, balance)
 	require.NoError(t, err)
@@ -117,8 +116,8 @@ func NewWasmAppWithCustomOptions(t *testing.T, isCheckTx bool, options SetupOpti
 	return app
 }
 
-// Setup initializes a new WasmApp. A Nop logger is set in WasmApp.
-func Setup(t *testing.T, opts ...wasmkeeper.Option) *App {
+// Setup initializes a new JunctionApp. A Nop logger is set in JunctionApp.
+func Setup(t *testing.T, opts ...wasmkeeper.Option) *JunctionApp {
 	t.Helper()
 
 	privVal := mock.NewPV()
@@ -142,10 +141,10 @@ func Setup(t *testing.T, opts ...wasmkeeper.Option) *App {
 	return app
 }
 
-// SetupWithGenesisValSet initializes a new WasmApp with a validator set and genesis accounts
+// SetupWithGenesisValSet initializes a new JunctionApp with a validator set and genesis accounts
 // that also act as delegators. For simplicity, each validator is bonded with a delegation
-// of one consensus engine unit in the default token of the WasmApp from first genesis
-// account. A Nop logger is set in WasmApp.
+// of one consensus engine unit in the default token of the JunctionApp from first genesis
+// account. A Nop logger is set in JunctionApp.
 func SetupWithGenesisValSet(
 	t *testing.T,
 	valSet *cmttypes.ValidatorSet,
@@ -153,7 +152,7 @@ func SetupWithGenesisValSet(
 	chainID string,
 	opts []wasmkeeper.Option,
 	balances ...banktypes.Balance,
-) *App {
+) *JunctionApp {
 	t.Helper()
 
 	app, genesisState := setup(t, chainID, true, 5, opts...)
@@ -186,15 +185,15 @@ func SetupWithGenesisValSet(
 	return app
 }
 
-// SetupWithEmptyStore set up a wasmd app instance with empty DB
-func SetupWithEmptyStore(t testing.TB) *App {
+// SetupWithEmptyStore set up a junctiond app instance with empty DB
+func SetupWithEmptyStore(t testing.TB) *JunctionApp {
 	app, _ := setup(t, "testing", false, 0)
 	return app
 }
 
 // GenesisStateWithSingleValidator initializes GenesisState with a single validator and genesis accounts
 // that also act as delegators.
-func GenesisStateWithSingleValidator(t *testing.T, app *App) GenesisState {
+func GenesisStateWithSingleValidator(t *testing.T, app *JunctionApp) GenesisState {
 	t.Helper()
 
 	privVal := mock.NewPV()
@@ -224,11 +223,11 @@ func GenesisStateWithSingleValidator(t *testing.T, app *App) GenesisState {
 
 // AddTestAddrsIncremental constructs and returns accNum amount of accounts with an
 // initial balance of accAmt in random order
-func AddTestAddrsIncremental(app *App, ctx sdk.Context, accNum int, accAmt sdkmath.Int) []sdk.AccAddress {
+func AddTestAddrsIncremental(app *JunctionApp, ctx sdk.Context, accNum int, accAmt sdkmath.Int) []sdk.AccAddress {
 	return addTestAddrs(app, ctx, accNum, accAmt, simtestutil.CreateIncrementalAccounts)
 }
 
-func addTestAddrs(app *App, ctx sdk.Context, accNum int, accAmt sdkmath.Int, strategy simtestutil.GenerateAccountStrategy) []sdk.AccAddress {
+func addTestAddrs(app *JunctionApp, ctx sdk.Context, accNum int, accAmt sdkmath.Int, strategy simtestutil.GenerateAccountStrategy) []sdk.AccAddress {
 	testAddrs := strategy(accNum)
 	bondDenom, err := app.StakingKeeper.BondDenom(ctx)
 	if err != nil {
@@ -244,7 +243,7 @@ func addTestAddrs(app *App, ctx sdk.Context, accNum int, accAmt sdkmath.Int, str
 	return testAddrs
 }
 
-func initAccountWithCoins(app *App, ctx sdk.Context, addr sdk.AccAddress, coins sdk.Coins) {
+func initAccountWithCoins(app *JunctionApp, ctx sdk.Context, addr sdk.AccAddress, coins sdk.Coins) {
 	err := app.BankKeeper.MintCoins(ctx, minttypes.ModuleName, coins)
 	if err != nil {
 		panic(err)
@@ -258,7 +257,7 @@ func initAccountWithCoins(app *App, ctx sdk.Context, addr sdk.AccAddress, coins 
 
 var emptyWasmOptions []wasmkeeper.Option
 
-// NewTestNetworkFixture returns a new WasmApp AppConstructor for network simulation tests
+// NewTestNetworkFixture returns a new JunctionApp AppConstructor for network simulation tests
 func NewTestNetworkFixture() network.TestFixture {
 	dir, err := os.MkdirTemp("", "simapp")
 	if err != nil {
@@ -266,12 +265,9 @@ func NewTestNetworkFixture() network.TestFixture {
 	}
 	defer os.RemoveAll(dir)
 
-	app, err := New(log.NewNopLogger(), dbm.NewMemDB(), nil, true, simtestutil.NewAppOptionsWithFlagHome(dir), emptyWasmOptions)
-	if err != nil {
-		panic(err)
-	}
+	app := NewJunctionApp(log.NewNopLogger(), dbm.NewMemDB(), nil, true, simtestutil.NewAppOptionsWithFlagHome(dir), emptyWasmOptions)
 	appCtr := func(val network.ValidatorI) servertypes.Application {
-		app, err := New(
+		return NewJunctionApp(
 			val.GetCtx().Logger, dbm.NewMemDB(), nil, true,
 			simtestutil.NewAppOptionsWithFlagHome(val.GetCtx().Config.RootDir),
 			emptyWasmOptions,
@@ -279,11 +275,6 @@ func NewTestNetworkFixture() network.TestFixture {
 			bam.SetMinGasPrices(val.GetAppConfig().MinGasPrices),
 			bam.SetChainID(val.GetCtx().Viper.GetString(flags.FlagChainID)),
 		)
-		if err != nil {
-			panic(err)
-		}
-
-		return app
 	}
 
 	return network.TestFixture{

@@ -80,7 +80,7 @@ type GasRegister interface {
 	// SetupContractCost are charged when interacting with a Wasm contract, i.e. every time
 	// the contract is prepared for execution through any entry point (execute/instantiate/sudo/query/ibc_*/...).
 	SetupContractCost(discount bool, msgLen int) storetypes.Gas
-	// ReplyCosts costs to to handle a message reply
+	// ReplyCosts costs to handle a message reply
 	ReplyCosts(discount bool, reply wasmvmtypes.Reply) storetypes.Gas
 	// EventCosts costs to persist an event
 	EventCosts(attrs []wasmvmtypes.EventAttribute, events wasmvmtypes.Array[wasmvmtypes.Event]) storetypes.Gas
@@ -110,7 +110,7 @@ type WasmGasRegisterConfig struct {
 	CompileCost storetypes.Gas
 	// UncompressCost costs per byte to unpack a contract
 	UncompressCost wasmvmtypes.UFraction
-	// GasMultiplier is how many cosmwasm gas points = 1 sdk gas point
+	// GasMultiplier is how many junction gas points = 1 sdk gas point
 	// SDK reference costs can be found here: https://github.com/cosmos/cosmos-sdk/blob/02c6c9fafd58da88550ab4d7d494724a477c8a68/store/types/gas.go#L153-L164
 	GasMultiplier storetypes.Gas
 	// EventPerAttributeCost is how much SDK gas is charged *per byte* for attribute data in events.
@@ -187,7 +187,7 @@ func (g WasmGasRegister) SetupContractCost(discount bool, msgLen int) storetypes
 	}
 }
 
-// ReplyCosts costs to to handle a message reply.
+// ReplyCosts costs to handle a message reply.
 // Set discount to true in cases where you can reasonably assume the contract
 // is loaded from an in-memory cache (e.g. pinned contracts or replys).
 func (g WasmGasRegister) ReplyCosts(discount bool, reply wasmvmtypes.Reply) storetypes.Gas {

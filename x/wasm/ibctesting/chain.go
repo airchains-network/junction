@@ -15,7 +15,7 @@ import (
 	tmversion "github.com/cometbft/cometbft/version"
 	capabilitykeeper "github.com/cosmos/ibc-go/modules/capability/keeper"
 	capabilitytypes "github.com/cosmos/ibc-go/modules/capability/types"
-	clienttypes "github.com/cosmos/ibc-go/v8/modules/core/02-client/types" //nolint:staticcheck
+	clienttypes "github.com/cosmos/ibc-go/v8/modules/core/02-client/types"
 	channeltypes "github.com/cosmos/ibc-go/v8/modules/core/04-channel/types"
 	commitmenttypes "github.com/cosmos/ibc-go/v8/modules/core/23-commitment/types"
 	host "github.com/cosmos/ibc-go/v8/modules/core/24-host"
@@ -120,7 +120,7 @@ type PacketAck struct {
 // ChainAppFactory abstract factory method that usually implemented by app.SetupWithGenesisValSet
 type ChainAppFactory func(t *testing.T, valSet *cmttypes.ValidatorSet, genAccs []authtypes.GenesisAccount, chainID string, opts []wasmkeeper.Option, balances ...banktypes.Balance) ChainApp
 
-// DefaultWasmAppFactory instantiates and sets up the default wasmd app
+// DefaultWasmAppFactory instantiates and sets up the default junctiond app
 func DefaultWasmAppFactory(t *testing.T, valSet *cmttypes.ValidatorSet, genAccs []authtypes.GenesisAccount, chainID string, opts []wasmkeeper.Option, balances ...banktypes.Balance) ChainApp {
 	return app.SetupWithGenesisValSet(t, valSet, genAccs, chainID, opts, balances...)
 }

@@ -301,7 +301,7 @@ func getExpectedLibwasmVersion() string {
 // two is patched. In such cases it is advised to not execute the check.
 //
 // An alternative method to obtain the libwasmvm version loaded at runtime is executing
-// `wasmd query wasm libwasmvm-version`.
+// `junctiond query wasm libwasmvm-version`.
 func CheckLibwasmVersion(wasmExpectedVersion string) error {
 	if wasmExpectedVersion == "" {
 		return fmt.Errorf("wasmvm module not exist")

@@ -1,58 +1,72 @@
 # Junction
-Welcome to the new version of Junction, a cutting-edge settlement layer that coordinates transaction flow and ensures proper settlement. This update introduces the Track-gate module, which integrates new external sequencers, including the Espresso sequencer for enhanced transaction sequencing. It also retains full compatibility with the latest Ignite CLI, optimizing project structure, execution layers, and validator management.
 
-## Key Features
+Welcome to **Junction**, a cutting-edge settlement layer designed to coordinate transaction flow and ensure efficient settlement across decentralized ecosystems. This latest update introduces powerful new modules: **`wasm`**, **`vrf`** (Verifiable Random Function), and **`cipher-ledger`**, significantly enhancing transaction security, confidentiality, and execution efficiency.
 
-- Custom execution layers, batch processing, and a democratic validator system for enhanced data management.
-- Efficient management of verification keys and dynamic track pilots selection.
-- Enhanced query functionalities and robust batch handling.
-- Integration of the `trackgate` module for seamless integration with external sequencer support.
-- Incorporation of Espresso sequencer for improved transaction ordering and significantly enhancing overall system functionality.
+## 🚀 Key Enhancements in This Update
 
-Download the Correct Binary
----------------------------
+### **New Modules Introduced**
+- **`wasm` Module**: Brings full support for WebAssembly (WASM), enabling efficient smart contract execution.
+- **`vrf` Module**: Introduces Verifiable Random Functions, enhancing randomness-based selection processes.
+- **`cipher-ledger` Module**: Manages Fully Homomorphic Encryption (FHE) functionalities, ensuring private and secure on-chain computations.
 
-Before starting, ensure that you download the appropriate binary for your operating system:
+### **Improved Query & Transaction Processing**
+- Optimized verification key management.
+- Enhanced query functionalities for seamless blockchain interactions.
+- Robust batch handling for large-scale transaction processing.
 
-1.  Visit the [release page](https://github.com/airchains-network/junction/releases/tag/v0.2.0) and download the correct binary for your OS:
+## 📥 Installation & Setup
 
-    -   **Linux**: `junctiond-linux-amd64`
-    -   **macOS**: `junctiond-darwin-amd64`
-    -   **Windows**: `junctiond-windows-amd64`
-2.  After downloading the binary, rename it to `junctiond`:
+### Download the Binary
+Ensure you download the appropriate binary for your operating system:
 
-```shell
-mv <downloaded-binary> junctiond
-```
+- **Visit the [release page](https://github.com/airchains-network/junction/releases/tag/v0.3.0-rc2)** and select the correct binary:
+  - **Linux**: `junctiond-linux-amd64`
+  - **macOS**: `junctiond-darwin-amd64`
+  - **Windows**: `junctiond-windows-amd64`
 
-3. Make it executable:
+- Rename the downloaded file for convenience:
 
-```shell
-chmod +x junctiond
-```
+  ```shell
+  mv <downloaded-binary> junctiond
+  ```
 
-4. Move it to your local binary path:
+- Make it executable:
 
-```shell
-sudo mv junctiond /usr/local/bin
-```
+  ```shell
+  chmod +x junctiond
+  ```
 
-Installation & Initialization
------------------------------
+- Move it to your system’s binary path:
+
+  ```shell
+  sudo mv junctiond /usr/local/bin
+  ```
+
+### Initialize the Network
+
+To set up **Junction**, run the following command:
 
 ```shell
 junctiond init <moniker> --chain-id junction --default-denom amf
 ```
 
-### Start Junction
+This initializes a node with your chosen moniker and configures it for the **Junction** network.
+
+### Start the Junction Node
+
+Launch your node with:
 
 ```shell
 junctiond start
 ```
 
-Additional Information
-----------------------
+Your node is now active and participating in the **Junction** settlement layer!
 
-For detailed instructions, configurations, and updates, refer to the [docs](https://docs.airchains.io). Stay connected with our community for the latest developments and support.
+## 📚 Documentation & Support
 
-Thank you for your continued support of the Airchains ecosystem. We look forward to a successful and smooth upgrade, bringing enhanced scalability and efficiency to our network through the integration of the Trackgate Module and incorporating the Espresso sequencer.
+For comprehensive setup guides, configuration details, and troubleshooting steps, refer to our official **[documentation](https://docs.airchains.io)**.
+
+Stay engaged with our **community** for real-time discussions, updates, and support.
+
+## 🎯 Vision & Future Roadmap
+The integration of `wasm`, `vrf` and `cipher-ledger` modules marks a significant milestone in our journey toward an advanced, privacy-preserving, and high-performance settlement layer. With these upgrades, **Junction** is poised to deliver enhanced security, scalability, and seamless transaction coordination across the Airchains ecosystem.

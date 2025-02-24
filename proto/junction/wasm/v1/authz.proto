@@ -68,14 +68,14 @@ message ContractGrant {
   // Limit defines execution limits that are enforced and updated when the grant
   // is applied. When the limit lapsed the grant is removed.
   google.protobuf.Any limit = 2 [ (cosmos_proto.accepts_interface) =
-                                      "cosmwasm.wasm.v1.ContractAuthzLimitX" ];
+                                      "junction.wasm.v1.ContractAuthzLimitX" ];
 
   // Filter define more fine-grained control on the message payload passed
   // to the contract in the operation. When no filter applies on execution, the
   // operation is prohibited.
   google.protobuf.Any filter = 3
       [ (cosmos_proto.accepts_interface) =
-            "cosmwasm.wasm.v1.ContractAuthzFilterX" ];
+            "junction.wasm.v1.ContractAuthzFilterX" ];
 }
 
 // MaxCallsLimit limited number of calls to the contract. No funds transferable.
@@ -83,7 +83,7 @@ message ContractGrant {
 message MaxCallsLimit {
   option (amino.name) = "wasm/MaxCallsLimit";
   option (cosmos_proto.implements_interface) =
-      "cosmwasm.wasm.v1.ContractAuthzLimitX";
+      "junction.wasm.v1.ContractAuthzLimitX";
 
   // Remaining number that is decremented on each execution
   uint64 remaining = 1;
@@ -94,7 +94,7 @@ message MaxCallsLimit {
 message MaxFundsLimit {
   option (amino.name) = "wasm/MaxFundsLimit";
   option (cosmos_proto.implements_interface) =
-      "cosmwasm.wasm.v1.ContractAuthzLimitX";
+      "junction.wasm.v1.ContractAuthzLimitX";
 
   // Amounts is the maximal amount of tokens transferable to the contract.
   repeated cosmos.base.v1beta1.Coin amounts = 1 [
@@ -111,7 +111,7 @@ message MaxFundsLimit {
 message CombinedLimit {
   option (amino.name) = "wasm/CombinedLimit";
   option (cosmos_proto.implements_interface) =
-      "cosmwasm.wasm.v1.ContractAuthzLimitX";
+      "junction.wasm.v1.ContractAuthzLimitX";
 
   // Remaining number that is decremented on each execution
   uint64 calls_remaining = 1;
@@ -130,7 +130,7 @@ message CombinedLimit {
 message AllowAllMessagesFilter {
   option (amino.name) = "wasm/AllowAllMessagesFilter";
   option (cosmos_proto.implements_interface) =
-      "cosmwasm.wasm.v1.ContractAuthzFilterX";
+      "junction.wasm.v1.ContractAuthzFilterX";
 }
 
 // AcceptedMessageKeysFilter accept only the specific contract message keys in
@@ -139,7 +139,7 @@ message AllowAllMessagesFilter {
 message AcceptedMessageKeysFilter {
   option (amino.name) = "wasm/AcceptedMessageKeysFilter";
   option (cosmos_proto.implements_interface) =
-      "cosmwasm.wasm.v1.ContractAuthzFilterX";
+      "junction.wasm.v1.ContractAuthzFilterX";
 
   // Messages is the list of unique keys
   repeated string keys = 1;
@@ -151,7 +151,7 @@ message AcceptedMessageKeysFilter {
 message AcceptedMessagesFilter {
   option (amino.name) = "wasm/AcceptedMessagesFilter";
   option (cosmos_proto.implements_interface) =
-      "cosmwasm.wasm.v1.ContractAuthzFilterX";
+      "junction.wasm.v1.ContractAuthzFilterX";
 
   // Messages is the list of raw contract messages
   repeated bytes messages = 1 [

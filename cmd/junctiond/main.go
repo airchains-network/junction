@@ -1,19 +1,20 @@
 package main
 
 import (
-	"fmt"
 	"os"
+
+	"cosmossdk.io/log"
 
 	svrcmd "github.com/cosmos/cosmos-sdk/server/cmd"
 
 	"github.com/airchains-network/junction/app"
-	"github.com/airchains-network/junction/cmd/junctiond/cmd"
 )
 
 func main() {
-	rootCmd := cmd.NewRootCmd()
+	rootCmd := NewRootCmd()
+
 	if err := svrcmd.Execute(rootCmd, "", app.DefaultNodeHome); err != nil {
-		fmt.Fprintln(rootCmd.OutOrStderr(), err)
+		log.NewLogger(rootCmd.OutOrStderr()).Error("failure when running app", "err", err)
 		os.Exit(1)
 	}
 }

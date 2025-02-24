@@ -93,7 +93,7 @@ message ContractInfo {
   // persistence model.
   google.protobuf.Any extension = 7
       [ (cosmos_proto.accepts_interface) =
-            "cosmwasm.wasm.v1.ContractInfoExtension" ];
+            "junction.wasm.v1.ContractInfoExtension" ];
 }
 
 // ContractCodeHistoryOperationType actions that caused a code change

@@ -35,7 +35,7 @@
         "annual_provisions": "0.000000000000000000"
       },
       "params": {
-        "mint_denom": "ustake",
+        "mint_denom": "uamf",
         "inflation_rate_change": "0.130000000000000000",
         "inflation_max": "0.200000000000000000",
         "inflation_min": "0.070000000000000000",
@@ -51,7 +51,7 @@
       "deposit_params": {
         "min_deposit": [
           {
-            "denom": "ustake",
+            "denom": "uamf",
             "amount": "1"
           }
         ],
@@ -114,7 +114,7 @@
     },
     "crisis": {
       "constant_fee": {
-        "denom": "ustake",
+        "denom": "uamf",
         "amount": "1000"
       }
     },
@@ -144,7 +144,7 @@
                   "validator_address": "cosmosvaloper1ve557a5g9yw2g2z57js3pdmcvd5my6g88d76lj",
                   "pubkey": "cosmosvalconspub1zcjduepqddfln4tujr2p8actpgqz4h2xnls9y7tu9c9tu5lqkdglmdjalzuqah4neg",
                   "value": {
-                    "denom": "ustake",
+                    "denom": "uamf",
                     "amount": "250000000"
                   }
                 }
@@ -187,7 +187,7 @@
                 "amount": "1000000000"
               },
               {
-                "denom": "ustake",
+                "denom": "uamf",
                 "amount": "1000000000"
               }
             ],
@@ -205,7 +205,7 @@
         "max_validators": 100,
         "max_entries": 7,
         "historical_entries": 0,
-        "bond_denom": "ustake"
+        "bond_denom": "uamf"
       },
       "last_total_power": "0",
       "last_validator_powers": null,

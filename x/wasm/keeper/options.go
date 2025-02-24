@@ -143,7 +143,7 @@ func WithGasRegister(x types.GasRegister) Option {
 	})
 }
 
-// WithAPICosts sets custom api costs. Amounts are in cosmwasm gas Not SDK gas.
+// WithAPICosts sets custom api costs. Amounts are in junction gas Not SDK gas.
 func WithAPICosts(human, canonical uint64) Option {
 	return optsFn(func(_ *Keeper) {
 		costHumanize = human
@@ -155,6 +155,12 @@ func WithAPICosts(human, canonical uint64) Option {
 func WithMaxQueryStackSize(m uint32) Option {
 	return optsFn(func(k *Keeper) {
 		k.maxQueryStackSize = m
+	})
+}
+
+func WithMaxCallDepth(m uint32) Option {
+	return optsFn(func(k *Keeper) {
+		k.maxCallDepth = m
 	})
 }
 

@@ -1,10 +1,22 @@
-# Makefile for building and linting Go project
-DOCKER := $(shell which docker)
-VERSION := $(shell echo $(shell git describe --tags) | sed 's/^v//')
-GO_VERSION=1.23
-COMMIT := $(shell git log -1 --format='%H')
+#!/usr/bin/make -f
 
+PACKAGES_SIMTEST=$(shell go list ./... | grep '/simulation')
+VERSION := $(shell echo $(shell git describe --tags) | sed 's/^v//')
+COMMIT := $(shell git log -1 --format='%H')
 LEDGER_ENABLED ?= true
+SDK_PACK := $(shell go list -m github.com/cosmos/cosmos-sdk | sed  's/ /\@/g')
+BINDIR ?= $(GOPATH)/bin
+SIMAPP = ./app
+
+# for dockerized protobuf tools
+DOCKER := $(shell which docker)
+BUF_IMAGE=bufbuild/buf@sha256:3cb1f8a4b48bd5ad8f09168f10f607ddc318af202f5c057d52a45216793d85e5 #v1.4.0
+DOCKER_BUF := $(DOCKER) run --rm -v $(CURDIR):/workspace --workdir /workspace $(BUF_IMAGE)
+HTTPS_GIT := https://github.com/airchains-network/junction.git
+
+export GO111MODULE = on
+
+# process build tags
 
 build_tags = netgo
 ifeq ($(LEDGER_ENABLED),true)
@@ -36,111 +48,187 @@ endif
 build_tags += $(BUILD_TAGS)
 build_tags := $(strip $(build_tags))
 
+whitespace :=
 empty = $(whitespace) $(whitespace)
 comma := ,
 build_tags_comma_sep := $(subst $(empty),$(comma),$(build_tags))
-# Basic project settings
-BINARY_NAME=junctiond
-BUILD_DIR=./build
-SOURCE_DIR=./cmd/junctiond
-CHECKSUM_FILE=$(BUILD_DIR)/checksums.txt
 
-# Go commands
-GO_BUILD=go build
-GO_INSTALL=go install
-GO_CLEAN=go clean
-GO_TEST=go test
+# process linker flags
 
-# Versioning
-VERSION ?= $(shell git describe --tags `git rev-list --tags --max-count=1`)
-COMMIT := $(shell git log -1 --format='%H')
-TMVERSION := $(shell go list -m github.com/cometbft/cometbft | sed 's:.* ::')
+WASMVM_LIB_PATH := $(CURDIR)/wasmvm/libwasmvm/target/release
 
-# Build tags
-build_tags = netgo
-build_tags += $(BUILD_TAGS)
-build_tags := $(strip $(build_tags))
 
-# Linker flags
+ifeq ($(MAKECMDGOALS),build-static)
 ldflags = -X github.com/cosmos/cosmos-sdk/version.Name=junction \
-          -X github.com/cosmos/cosmos-sdk/version.AppName=$(BINARY_NAME) \
-          -X github.com/cosmos/cosmos-sdk/version.Version=$(VERSION) \
-          -X github.com/cosmos/cosmos-sdk/version.Commit=$(COMMIT) \
-          -X "github.com/cosmos/cosmos-sdk/version.BuildTags=$(build_tags)" \
-          -X github.com/tendermint/tendermint/version.TMCoreSemVer=$(TMVERSION)
-
-# Linter settings
-GOLINT=golangci-lint
-LINT_OPTIONS=--enable-all
-ifeq ($(VERSION),1.0.0)
-  LINT_OPTIONS+=--disable=errcheck
+		  -X github.com/cosmos/cosmos-sdk/version.AppName=junctiond \
+		  -X github.com/cosmos/cosmos-sdk/version.Version=$(VERSION) \
+		  -X github.com/cosmos/cosmos-sdk/version.Commit=$(COMMIT) \
+		  -X github.com/airchains-network/junction/app.Bech32Prefix=air \
+		  -X "github.com/cosmos/cosmos-sdk/version.BuildTags=$(build_tags_comma_sep)" \
+		  -extldflags "-static -L$(WASMVM_LIB_PATH) -lwasmvm -lm" -linkmode external
+else
+ldflags = -X github.com/cosmos/cosmos-sdk/version.Name=junction \
+		  -X github.com/cosmos/cosmos-sdk/version.AppName=junctiond \
+		  -X github.com/cosmos/cosmos-sdk/version.Version=$(VERSION) \
+		  -X github.com/cosmos/cosmos-sdk/version.Commit=$(COMMIT) \
+		  -X github.com/airchains-network/junction/app.Bech32Prefix=air \
+		  -X "github.com/cosmos/cosmos-sdk/version.BuildTags=$(build_tags_comma_sep)"
 endif
 
-# Default target
-default: build
 
-# Build the project for the current architecture
+ifeq ($(WITH_CLEVELDB),yes)
+  ldflags += -X github.com/cosmos/cosmos-sdk/types.DBBackend=cleveldb
+endif
+ifeq ($(LINK_STATICALLY),true)
+	ldflags += -linkmode=external -extldflags "-Wl,-z,muldefs -static"
+endif
+ldflags += $(LDFLAGS)
+ldflags := $(strip $(ldflags))
+
+BUILD_FLAGS := -tags "$(build_tags_comma_sep)" -ldflags '$(ldflags)' -trimpath
+
+# The below include contains the tools and runsim targets.
+include scripts/contrib/devtools/Makefile
+
+all: install lint test
+
+# To build the static binary of junction, we need to clone the wasmvm repository and build it.
+clone-wasmvm:
+	if [ ! -d "wasmvm" ]; then \
+		git clone https://github.com/CosmWasm/wasmvm.git && \
+		cd wasmvm && \
+		git checkout v2.1.4 && \
+		sed -i 's/crate-type = \["cdylib", "rlib"\]/crate-type = \["cdylib", "rlib", "staticlib"\]/' libwasmvm/Cargo.toml && \
+		make build-rust && \
+		cd libwasmvm/target/release/ && \
+		cp libwasmvm.a libwasmvm.x86_64.a; \
+	fi
+
 build: go.sum
-	@echo "Building $(BINARY_NAME) binary..."
-	$(GO_BUILD) -tags "$(build_tags)" -ldflags '$(ldflags)' -o $(BUILD_DIR)/$(BINARY_NAME) $(SOURCE_DIR)
-	@shasum -a 256 $(BUILD_DIR)/$(BINARY_NAME) >> $(CHECKSUM_FILE)
+ifeq ($(OS),Windows_NT)
+	$(error junctiond server not supported. Use "make build-windows-client" for client)
+	exit 1
+else
+	go build -mod=readonly $(BUILD_FLAGS) -o build/junctiond ./cmd/junctiond
+endif
 
-# Install the binary
-install:
-	@echo "Installing $(BINARY_NAME) binary..."
-	$(GO_INSTALL) -tags "$(build_tags)" -ldflags '$(ldflags)' $(SOURCE_DIR)
+build-static: clone-wasmvm go.sum
+ifeq ($(OS),Windows_NT)
+	$(error junctiond server not supported. Use "make build-windows-client" for client)
+	exit 1
+else
+	go build -mod=readonly $(BUILD_FLAGS) -o build/junctiond ./cmd/junctiond
+	rm -rf wasmvm
+endif
 
-# Run tests
-test:
-	@echo "Running tests..."
-	$(GO_TEST) ./...
+build-windows-client: go.sum
+	GOOS=windows GOARCH=amd64 go build -mod=readonly $(BUILD_FLAGS) -o build/junctiond.exe ./cmd/junctiond
 
-# Clean build artifacts
+install: go.sum
+	go install -mod=readonly $(BUILD_FLAGS) ./cmd/junctiond
+
+########################################
+### Tools & dependencies
+
+go-mod-cache: go.sum
+	@echo "--> Download go modules to local cache"
+	@go mod download
+
+go.sum: go.mod
+	@echo "--> Ensure dependencies have not been modified"
+	@go mod verify
+
+draw-deps:
+	@# requires brew install graphviz or apt-get install graphviz
+	go install github.com/RobotsAndPencils/goviz@latest
+	@goviz -i ./cmd/junctiond -d 2 | dot -Tpng -o dependency-graph.png
+
 clean:
-	@echo "Cleaning up old versions..."
-	$(GO_CLEAN)
-	rm -f $(BUILD_DIR)/$(BINARY_NAME) $(CHECKSUM_FILE)
+	rm -rf snapcraft-local.yaml build/
 
-# Lint the project
-lint:
-	@echo "Running linter..."
-	$(GOLINT) run $(LINT_OPTIONS)
+distclean: clean
+	rm -rf vendor/
 
-# Print system information
-print-system:
-	@echo "System architecture: $(shell uname -s)/$(shell uname -m)"
+########################################
+### Testing
 
-# Build the project for different architectures and generate checksums
-build-all: go.sum
-	@echo "Building $(BINARY_NAME) for different architectures..."
-	rm -f $(CHECKSUM_FILE)
-	GOOS=linux GOARCH=amd64 $(GO_BUILD) -tags "$(build_tags)" -ldflags '$(ldflags)' -o $(BUILD_DIR)/$(BINARY_NAME)-linux-amd64 $(SOURCE_DIR)
-	@shasum -a 256 $(BUILD_DIR)/$(BINARY_NAME)-linux-amd64 >> $(CHECKSUM_FILE)
-	GOOS=linux GOARCH=arm64 $(GO_BUILD) -tags "$(build_tags)" -ldflags '$(ldflags)' -o $(BUILD_DIR)/$(BINARY_NAME)-linux-arm64 $(SOURCE_DIR)
-	@shasum -a 256 $(BUILD_DIR)/$(BINARY_NAME)-linux-arm64 >> $(CHECKSUM_FILE)
-	GOOS=darwin GOARCH=amd64 $(GO_BUILD) -tags "$(build_tags)" -ldflags '$(ldflags)' -o $(BUILD_DIR)/$(BINARY_NAME)-darwin-amd64 $(SOURCE_DIR)
-	@shasum -a 256 $(BUILD_DIR)/$(BINARY_NAME)-darwin-amd64 >> $(CHECKSUM_FILE)
-	GOOS=darwin GOARCH=arm64 $(GO_BUILD) -tags "$(build_tags)" -ldflags '$(ldflags)' -o $(BUILD_DIR)/$(BINARY_NAME)-darwin-arm64 $(SOURCE_DIR)
-	@shasum -a 256 $(BUILD_DIR)/$(BINARY_NAME)-darwin-arm64 >> $(CHECKSUM_FILE)
-	GOOS=windows GOARCH=amd64 $(GO_BUILD) -tags "$(build_tags)" -ldflags '$(ldflags)' -o $(BUILD_DIR)/$(BINARY_NAME)-windows-amd64.exe $(SOURCE_DIR)
-	@shasum -a 256 $(BUILD_DIR)/$(BINARY_NAME)-windows-amd64.exe >> $(CHECKSUM_FILE)
+test: test-unit
+test-all: test-race test-cover test-system
 
-build-static-linux-amd64: go.sum $(BUILD_DIR)/
-	mkdir -p $(BUILD_DIR)
-	$(DOCKER) buildx create --name junctionbuilder || true
-	$(DOCKER) buildx use junctionbuilder
-	$(DOCKER) buildx build \
-		--build-arg GO_VERSION=$(GO_VERSION) \
-		--build-arg GIT_VERSION=$(VERSION) \
-		--build-arg GIT_COMMIT=$(COMMIT) \
-		--build-arg BUILD_TAGS=$(build_tags_comma_sep),muslc \
-		--platform linux/amd64 \
-		-t junction-amd64 \
-		--load \
-		-f Dockerfile.builder .
-	$(DOCKER) rm -f junctionbinary || true
-	$(DOCKER) create -ti --name junctionbinary junction-amd64
-	$(DOCKER) cp junctionbinary:/bin/junctiond $(BUILD_DIR)/junctiond-linux-amd64
-	$(DOCKER) rm -f junctionbinary
+test-unit:
+	@VERSION=$(VERSION) go test -mod=readonly -tags='ledger test_ledger_mock' ./...
 
-.PHONY: default build install test clean lint print-system build-all build-static-linux-amd64
+test-race:
+	@VERSION=$(VERSION) go test -mod=readonly -race -tags='ledger test_ledger_mock' ./...
+
+test-cover:
+	@go test -mod=readonly -timeout 30m -race -coverprofile=coverage.txt -covermode=atomic -tags='ledger test_ledger_mock' ./...
+
+benchmark:
+	@go test -mod=readonly -bench=. ./...
+
+test-sim-import-export: runsim
+	@echo "Running application import/export simulation. This may take several minutes..."
+	@$(BINDIR)/runsim -Jobs=4 -SimAppPkg=$(SIMAPP) -ExitOnFail 50 5 TestAppImportExport
+
+test-sim-multi-seed-short: runsim
+	@echo "Running short multi-seed application simulation. This may take awhile!"
+	@$(BINDIR)/runsim -Jobs=4 -SimAppPkg=$(SIMAPP) -ExitOnFail 50 5 TestFullAppSimulation
+
+test-sim-deterministic: runsim
+	@echo "Running application deterministic simulation. This may take awhile!"
+	@$(BINDIR)/runsim -Jobs=4 -SimAppPkg=$(SIMAPP) -ExitOnFail 1 1 TestAppStateDeterminism
+
+test-system: install
+	$(MAKE) -C tests/system/ test
+
+###############################################################################
+###                                Linting                                  ###
+###############################################################################
+
+format-tools:
+	go install mvdan.cc/gofumpt@v0.4.0
+	go install github.com/client9/misspell/cmd/misspell@v0.3.4
+	go install github.com/daixiang0/gci@v0.11.2
+
+lint: format-tools
+	golangci-lint run --tests=false
+	find . -name '*.go' -type f -not -path "./vendor*" -not -path "./tests/system/vendor*" -not -path "*.git*" -not -path "*_test.go" | xargs gofumpt -d
+
+format: format-tools
+	find . -name '*.go' -type f -not -path "./vendor*" -not -path "./tests/system/vendor*" -not -path "*.git*" -not -path "./client/lcd/statik/statik.go" | xargs gofumpt -w
+	find . -name '*.go' -type f -not -path "./vendor*" -not -path "./tests/system/vendor*" -not -path "*.git*" -not -path "./client/lcd/statik/statik.go" | xargs misspell -w
+	find . -name '*.go' -type f -not -path "./vendor*" -not -path "./tests/system/vendor*" -not -path "*.git*" -not -path "./client/lcd/statik/statik.go" | xargs gci write --skip-generated -s standard -s default -s "prefix(cosmossdk.io)" -s "prefix(github.com/cosmos/cosmos-sdk)" -s "prefix(github.com/airchains-network/junction)" --custom-order
+
+
+###############################################################################
+###                                Protobuf                                 ###
+###############################################################################
+protoVer=0.14.0
+protoImageName=ghcr.io/cosmos/proto-builder:$(protoVer)
+protoImage=$(DOCKER) run --rm -v $(CURDIR):/workspace --workdir /workspace $(protoImageName)
+
+proto-all: proto-format proto-lint proto-gen format
+
+proto-gen:
+	@echo "Generating Protobuf files"
+	@$(protoImage) sh ./scripts/protocgen.sh
+
+proto-format:
+	@echo "Formatting Protobuf files"
+	@$(protoImage) find ./ -name "*.proto" -exec clang-format -i {} \;
+
+proto-swagger-gen:
+	@./scripts/cosmos-proto-gen.sh
+
+proto-lint:
+	@$(DOCKER_BUF) lint --error-format=json
+
+proto-check-breaking:
+	@$(DOCKER_BUF) breaking --against $(HTTPS_GIT)#branch=main
+
+.PHONY: all install install-debug \
+	go-mod-cache draw-deps clean build format \
+	test test-all test-build test-cover test-unit test-race \
+	test-sim-import-export build-windows-client \
+	test-system

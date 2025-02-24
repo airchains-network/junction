@@ -3,11 +3,11 @@
 This document gives an overview of how the various governance
 proposals interact with the CosmWasm contract lifecycle. It is
 a high-level, technical introduction meant to provide context before
-looking into the code, or constructing proposals. 
+looking into the code, or constructing proposals.
 
 ## Proposal Types
 We have added 15 new wasm specific proposal messages that cover the contract's live cycle and authorization:
- 
+
 * `MsgStoreCode` - upload a wasm binary
 * `MsgInstantiateContract` - instantiate a wasm contract
 * `MsgInstantiateContract2` - instantiate a wasm contract with a predictable address
@@ -26,13 +26,13 @@ We have added 15 new wasm specific proposal messages that cover the contract's l
 
 ## Wasmd Authorization Settings
 
-Settings via sdk `params` module: 
+Settings via sdk `params` module:
 - `code_upload_access` - who can upload a wasm binary: `Nobody`, `Everybody`, `AnyOfAddresses`
-- `instantiate_default_permission` - platform default, who can instantiate a wasm binary when the code owner has not set it 
+- `instantiate_default_permission` - platform default, who can instantiate a wasm binary when the code owner has not set it
 
 See [params.go](https://github.com/CosmWasm/wasmd/blob/master/x/wasm/types/params.go)
 
-### Init Params Via Genesis 
+### Init Params Via Genesis
 
 ```json
     "wasm": {
@@ -42,22 +42,22 @@ See [params.go](https://github.com/CosmWasm/wasmd/blob/master/x/wasm/types/param
         },
         "instantiate_default_permission": "Everybody"
       }
-    },  
+    },
 ```
 
 The values can be updated via gov proposal `MsgUpdateParams`.
 
-### Update Params Via [MsgUpdateParams](https://github.com/CosmWasm/wasmd/blob/v0.41.0/proto/junction/wasm/v1/tx.proto#L263)
+### Update Params Via [MsgUpdateParams](https://github.com/CosmWasm/wasmd/blob/v0.41.0/proto/cosmwasm/wasm/v1/tx.proto#L263)
 Example to submit a parameter change gov proposal:
 
 - First create a draft proposal using the interactive CLI
 ```sh
-wasmd tx gov draft-proposal
+junctiond tx gov draft-proposal
 ```
 
 - Submit the proposal
 ```sh
-wasmd tx gov submit-proposal <proposal-json-file> --from validator --chain-id=testing -b block
+junctiond tx gov submit-proposal <proposal-json-file> --from validator --chain-id=testing -b block
 ```
 #### Content examples
 * Disable wasm code uploads
@@ -172,7 +172,7 @@ wasmd tx gov submit-proposal <proposal-json-file> --from validator --chain-id=te
 ## CLI
 
 ```shell script
-  wasmd tx wasm submit-proposal [command]
+  junctiond tx wasm submit-proposal [command]
 
 Available Commands:
   add-code-upload-params-addresses    Submit an add code upload params addresses proposal to add addresses to code upload config params

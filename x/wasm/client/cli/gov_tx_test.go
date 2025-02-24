@@ -101,7 +101,7 @@ func TestParseAccessConfigUpdates(t *testing.T) {
 
 func TestParseCodeInfoFlags(t *testing.T) {
 	correctSource := "https://github.com/CosmWasm/wasmd/blob/main/x/wasm/keeper/testdata/hackatom.wasm"
-	correctBuilderRef := "cosmwasm/workspace-optimizer:0.12.9"
+	correctBuilderRef := "junction/workspace-optimizer:0.12.9"
 
 	wasmBin, err := os.ReadFile("../../keeper/testdata/hackatom.wasm.gzip")
 	require.NoError(t, err)
