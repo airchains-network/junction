@@ -55,12 +55,26 @@ build_tags_comma_sep := $(subst $(empty),$(comma),$(build_tags))
 
 # process linker flags
 
+WASMVM_LIB_PATH := $(CURDIR)/wasmvm/libwasmvm/target/release
+
+
+ifeq ($(MAKECMDGOALS),build-static)
+ldflags = -X github.com/cosmos/cosmos-sdk/version.Name=junction \
+		  -X github.com/cosmos/cosmos-sdk/version.AppName=junctiond \
+		  -X github.com/cosmos/cosmos-sdk/version.Version=$(VERSION) \
+		  -X github.com/cosmos/cosmos-sdk/version.Commit=$(COMMIT) \
+		  -X github.com/airchains-network/junction/app.Bech32Prefix=air \
+		  -X "github.com/cosmos/cosmos-sdk/version.BuildTags=$(build_tags_comma_sep)" \
+		  -extldflags "-static -L$(WASMVM_LIB_PATH) -lwasmvm -lm" -linkmode external
+else
 ldflags = -X github.com/cosmos/cosmos-sdk/version.Name=junction \
 		  -X github.com/cosmos/cosmos-sdk/version.AppName=junctiond \
 		  -X github.com/cosmos/cosmos-sdk/version.Version=$(VERSION) \
 		  -X github.com/cosmos/cosmos-sdk/version.Commit=$(COMMIT) \
 		  -X github.com/airchains-network/junction/app.Bech32Prefix=air \
 		  -X "github.com/cosmos/cosmos-sdk/version.BuildTags=$(build_tags_comma_sep)"
+endif
+
 
 ifeq ($(WITH_CLEVELDB),yes)
   ldflags += -X github.com/cosmos/cosmos-sdk/types.DBBackend=cleveldb
@@ -78,12 +92,33 @@ include scripts/contrib/devtools/Makefile
 
 all: install lint test
 
+# To build the static binary of junction, we need to clone the wasmvm repository and build it.
+clone-wasmvm:
+	if [ ! -d "wasmvm" ]; then \
+		git clone https://github.com/CosmWasm/wasmvm.git && \
+		cd wasmvm && \
+		git checkout v2.1.4 && \
+		sed -i 's/crate-type = \["cdylib", "rlib"\]/crate-type = \["cdylib", "rlib", "staticlib"\]/' libwasmvm/Cargo.toml && \
+		make build-rust && \
+		cd libwasmvm/target/release/ && \
+		cp libwasmvm.a libwasmvm.x86_64.a; \
+	fi
+
 build: go.sum
 ifeq ($(OS),Windows_NT)
 	$(error junctiond server not supported. Use "make build-windows-client" for client)
 	exit 1
 else
 	go build -mod=readonly $(BUILD_FLAGS) -o build/junctiond ./cmd/junctiond
+endif
+
+build-static: clone-wasmvm go.sum
+ifeq ($(OS),Windows_NT)
+	$(error junctiond server not supported. Use "make build-windows-client" for client)
+	exit 1
+else
+	go build -mod=readonly $(BUILD_FLAGS) -o build/junctiond ./cmd/junctiond
+	rm -rf wasmvm
 endif
 
 build-windows-client: go.sum
@@ -184,7 +219,7 @@ proto-format:
 	@$(protoImage) find ./ -name "*.proto" -exec clang-format -i {} \;
 
 proto-swagger-gen:
-	@./scripts/protoc-swagger-gen.sh
+	@./scripts/cosmos-proto-gen.sh
 
 proto-lint:
 	@$(DOCKER_BUF) lint --error-format=json

@@ -108,7 +108,7 @@ func (chain *TestChain) RawQuery(contractAddr string, queryData []byte) ([]byte,
 	}
 
 	res, err := chain.App.Query(context.TODO(), &abci.RequestQuery{
-		Path: "/cosmwasm.wasm.v1.Query/RawContractState",
+		Path: "/junction.wasm.v1.Query/RawContractState",
 		Data: reqBin,
 	})
 	require.NoError(chain.t, err)
@@ -146,7 +146,7 @@ func (chain *TestChain) SmartQuery(contractAddr string, queryMsg, response inter
 	}
 
 	res, err := chain.App.Query(context.TODO(), &abci.RequestQuery{
-		Path: "/cosmwasm.wasm.v1.Query/SmartContractState",
+		Path: "/junction.wasm.v1.Query/SmartContractState",
 		Data: reqBin,
 	})
 	require.NoError(chain.t, err)

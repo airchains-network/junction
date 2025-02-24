@@ -1,9 +1,9 @@
 syntax = "proto3";
-package cosmwasm.wasm.v1;
+package junction.wasm.v1;
 
 import "gogoproto/gogo.proto";
 
-option go_package = "github.com/CosmWasm/junctiond/x/wasm/types";
+option go_package = "github.com/airchains-network/junction/x/wasm/types";
 option (gogoproto.goproto_getters_all) = false;
 
 // MsgIBCSend

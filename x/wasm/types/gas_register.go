@@ -110,7 +110,7 @@ type WasmGasRegisterConfig struct {
 	CompileCost storetypes.Gas
 	// UncompressCost costs per byte to unpack a contract
 	UncompressCost wasmvmtypes.UFraction
-	// GasMultiplier is how many cosmwasm gas points = 1 sdk gas point
+	// GasMultiplier is how many junction gas points = 1 sdk gas point
 	// SDK reference costs can be found here: https://github.com/cosmos/cosmos-sdk/blob/02c6c9fafd58da88550ab4d7d494724a477c8a68/store/types/gas.go#L153-L164
 	GasMultiplier storetypes.Gas
 	// EventPerAttributeCost is how much SDK gas is charged *per byte* for attribute data in events.

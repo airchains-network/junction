@@ -84,9 +84,9 @@ func RegisterInterfaces(registry types.InterfaceRegistry) {
 		&MsgStoreAndMigrateContract{},
 		&MsgUpdateContractLabel{},
 	)
-	registry.RegisterInterface("cosmwasm.wasm.v1.ContractInfoExtension", (*ContractInfoExtension)(nil))
+	registry.RegisterInterface("junction.wasm.v1.ContractInfoExtension", (*ContractInfoExtension)(nil))
 
-	registry.RegisterInterface("cosmwasm.wasm.v1.ContractAuthzFilterX", (*ContractAuthzFilterX)(nil))
+	registry.RegisterInterface("junction.wasm.v1.ContractAuthzFilterX", (*ContractAuthzFilterX)(nil))
 	registry.RegisterImplementations(
 		(*ContractAuthzFilterX)(nil),
 		&AllowAllMessagesFilter{},
@@ -94,7 +94,7 @@ func RegisterInterfaces(registry types.InterfaceRegistry) {
 		&AcceptedMessagesFilter{},
 	)
 
-	registry.RegisterInterface("cosmwasm.wasm.v1.ContractAuthzLimitX", (*ContractAuthzLimitX)(nil))
+	registry.RegisterInterface("junction.wasm.v1.ContractAuthzLimitX", (*ContractAuthzLimitX)(nil))
 	registry.RegisterImplementations(
 		(*ContractAuthzLimitX)(nil),
 		&MaxCallsLimit{},

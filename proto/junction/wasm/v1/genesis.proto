@@ -1,12 +1,12 @@
 syntax = "proto3";
-package cosmwasm.wasm.v1;
+package junction.wasm.v1;
 
 import "gogoproto/gogo.proto";
-import "cosmwasm/wasm/v1/types.proto";
+import "junction/wasm/v1/types.proto";
 import "amino/amino.proto";
 import "cosmos_proto/cosmos.proto";
 
-option go_package = "github.com/CosmWasm/junctiond/x/wasm/types";
+option go_package = "github.com/airchains-network/junction/x/wasm/types";
 
 // GenesisState - genesis state of x/wasm
 message GenesisState {
