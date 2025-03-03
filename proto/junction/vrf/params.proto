@@ -1,0 +1,15 @@
+syntax = "proto3";
+package junction.vrf;
+
+import "amino/amino.proto";
+import "gogoproto/gogo.proto";
+
+option go_package = "github.com/airchains-network/junction/x/vrf/types";
+
+// Params defines the parameters for the module.
+message Params {
+  option (amino.name) = "junction/x/vrf/Params";
+  option (gogoproto.equal) = true;
+
+  
+}

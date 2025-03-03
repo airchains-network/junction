@@ -3,6 +3,7 @@ package app
 import (
 	"encoding/json"
 	"fmt"
+	txmodule "github.com/cosmos/cosmos-sdk/x/auth/tx/config"
 	"io"
 	"os"
 	"path/filepath"
@@ -132,9 +133,14 @@ import (
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
 	"github.com/airchains-network/junction/docs"
+	vrfkeeper "github.com/airchains-network/junction/x/vrf/keeper"
+	vrfmodule "github.com/airchains-network/junction/x/vrf/module"
+	vrftypes "github.com/airchains-network/junction/x/vrf/types"
 	"github.com/airchains-network/junction/x/wasm"
 	wasmkeeper "github.com/airchains-network/junction/x/wasm/keeper"
 	wasmtypes "github.com/airchains-network/junction/x/wasm/types"
+	sigtypes "github.com/cosmos/cosmos-sdk/types/tx/signing" // For sigtypes.SignMode_SIGN_MODE_TEXTUAL
+	"github.com/cosmos/cosmos-sdk/x/auth/tx"
 )
 
 const appName = "JunctionApp"
@@ -226,6 +232,7 @@ type JunctionApp struct {
 	ICAHostKeeper       icahostkeeper.Keeper
 	TransferKeeper      ibctransferkeeper.Keeper
 	WasmKeeper          wasmkeeper.Keeper
+	VrfKeeper           vrfkeeper.Keeper
 
 	ScopedIBCKeeper           capabilitykeeper.ScopedKeeper
 	ScopedICAHostKeeper       capabilitykeeper.ScopedKeeper
@@ -233,6 +240,7 @@ type JunctionApp struct {
 	ScopedTransferKeeper      capabilitykeeper.ScopedKeeper
 	ScopedIBCFeeKeeper        capabilitykeeper.ScopedKeeper
 	ScopedWasmKeeper          capabilitykeeper.ScopedKeeper
+	ScopedVrfKeeper           capabilitykeeper.ScopedKeeper
 
 	// the module manager
 	ModuleManager      *module.Manager
@@ -324,6 +332,7 @@ func NewJunctionApp(
 		// non sdk store keys
 		capabilitytypes.StoreKey, ibcexported.StoreKey, ibctransfertypes.StoreKey, ibcfeetypes.StoreKey,
 		wasmtypes.StoreKey, icahosttypes.StoreKey,
+		vrftypes.StoreKey,
 		icacontrollertypes.StoreKey,
 	)
 
@@ -374,6 +383,7 @@ func NewJunctionApp(
 	scopedICAControllerKeeper := app.CapabilityKeeper.ScopeToModule(icacontrollertypes.SubModuleName)
 	scopedTransferKeeper := app.CapabilityKeeper.ScopeToModule(ibctransfertypes.ModuleName)
 	scopedWasmKeeper := app.CapabilityKeeper.ScopeToModule(wasmtypes.ModuleName)
+	scopedVrfKeeper := app.CapabilityKeeper.ScopeToModule(vrftypes.ModuleName)
 	app.CapabilityKeeper.Seal()
 
 	// add keepers
@@ -397,19 +407,28 @@ func NewJunctionApp(
 	)
 
 	// optional: enable sign mode textual by overwriting the default tx config (after setting the bank keeper)
-	// enabledSignModes := append(tx.DefaultSignModes, sigtypes.SignMode_SIGN_MODE_TEXTUAL)
-	// txConfigOpts := tx.ConfigOptions{
-	//	 EnabledSignModes:           enabledSignModes,
-	//	 TextualCoinMetadataQueryFn: txmodule.NewBankKeeperCoinMetadataQueryFn(app.BankKeeper),
-	// }
-	// txConfig, err := tx.NewTxConfigWithOptions(
-	// 	 appCodec,
-	// 	 txConfigOpts,
-	// )
-	// if err != nil {
-	//	 panic(err)
-	// }
-	// app.txConfig = txConfig
+	enabledSignModes := append(tx.DefaultSignModes, sigtypes.SignMode_SIGN_MODE_TEXTUAL)
+	txConfigOpts := tx.ConfigOptions{
+		EnabledSignModes:           enabledSignModes,
+		TextualCoinMetadataQueryFn: txmodule.NewBankKeeperCoinMetadataQueryFn(app.BankKeeper),
+	}
+	txConfig, err = tx.NewTxConfigWithOptions(
+		appCodec,
+		txConfigOpts,
+	)
+	if err != nil {
+		panic(err)
+	}
+	app.txConfig = txConfig
+	authority := authtypes.NewModuleAddress(govtypes.ModuleName)
+	app.VrfKeeper = vrfkeeper.NewKeeper(
+		appCodec,
+		runtime.NewKVStoreService(keys[vrftypes.StoreKey]),
+		logger,
+		authority.String(),
+		app.GetIBCKeeper,
+		func(string) capabilitykeeper.ScopedKeeper { return scopedVrfKeeper },
+	)
 
 	app.StakingKeeper = stakingkeeper.NewKeeper(
 		appCodec,
@@ -678,6 +697,7 @@ func NewJunctionApp(
 	var icaHostStack porttypes.IBCModule
 	icaHostStack = icahost.NewIBCModule(app.ICAHostKeeper)
 	icaHostStack = ibcfee.NewIBCMiddleware(icaHostStack, app.IBCFeeKeeper)
+	vrfStake := ibcfee.NewIBCMiddleware(vrfmodule.NewIBCModule(app.VrfKeeper), app.IBCFeeKeeper)
 
 	// Create Transfer Stack
 	var transferStack porttypes.IBCModule
@@ -693,7 +713,8 @@ func NewJunctionApp(
 		AddRoute(ibctransfertypes.ModuleName, transferStack).
 		AddRoute(wasmtypes.ModuleName, wasmStack).
 		AddRoute(icacontrollertypes.SubModuleName, icaControllerStack).
-		AddRoute(icahosttypes.SubModuleName, icaHostStack)
+		AddRoute(icahosttypes.SubModuleName, icaHostStack).
+		AddRoute(vrftypes.ModuleName, vrfStake)
 	app.IBCKeeper.SetRouter(ibcRouter)
 
 	/****  Module Options ****/
@@ -730,6 +751,7 @@ func NewJunctionApp(
 		circuit.NewAppModule(appCodec, app.CircuitKeeper),
 		// non sdk modules
 		capability.NewAppModule(appCodec, *app.CapabilityKeeper, false),
+		vrfmodule.NewAppModule(appCodec, app.VrfKeeper, app.AccountKeeper, app.BankKeeper),
 		wasm.NewAppModule(appCodec, &app.WasmKeeper, app.StakingKeeper, app.AccountKeeper, app.BankKeeper, app.MsgServiceRouter(), app.GetSubspace(wasmtypes.ModuleName)),
 		ibc.NewAppModule(app.IBCKeeper),
 		transfer.NewAppModule(app.TransferKeeper),
@@ -780,6 +802,7 @@ func NewJunctionApp(
 		ibcexported.ModuleName,
 		icatypes.ModuleName,
 		ibcfeetypes.ModuleName,
+		vrftypes.ModuleName,
 		wasmtypes.ModuleName,
 	)
 
@@ -796,6 +819,7 @@ func NewJunctionApp(
 		ibcexported.ModuleName,
 		icatypes.ModuleName,
 		ibcfeetypes.ModuleName,
+		vrftypes.ModuleName,
 		wasmtypes.ModuleName,
 	)
 
@@ -821,6 +845,7 @@ func NewJunctionApp(
 		icatypes.ModuleName,
 		ibcfeetypes.ModuleName,
 		// wasm after ibc transfer
+		vrftypes.ModuleName,
 		wasmtypes.ModuleName,
 	}
 	app.ModuleManager.SetOrderInitGenesis(genesisModuleOrder...)
@@ -891,6 +916,7 @@ func NewJunctionApp(
 	app.ScopedWasmKeeper = scopedWasmKeeper
 	app.ScopedICAHostKeeper = scopedICAHostKeeper
 	app.ScopedICAControllerKeeper = scopedICAControllerKeeper
+	app.ScopedVrfKeeper = scopedVrfKeeper
 
 	// In v0.46, the SDK introduces _postHandlers_. PostHandlers are like
 	// antehandlers, but are run _after_ the `runMsgs` execution. They are also

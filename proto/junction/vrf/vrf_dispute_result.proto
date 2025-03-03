@@ -1,0 +1,15 @@
+syntax = "proto3";
+package junction.vrf;
+
+option go_package = "github.com/airchains-network/junction/x/vrf/types";
+
+message VrfDisputeResult {
+  
+  repeated bool votes = 1;
+  repeated string members = 2; 
+  uint32 consentVote = 3;
+  uint32 dissentVote = 4;
+  float agreementPercentage = 5;
+  bool result = 6;
+  string message = 7;
+}

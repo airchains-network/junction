@@ -1,0 +1,20 @@
+syntax = "proto3";
+package junction.vrf;
+
+option go_package = "github.com/airchains-network/junction/x/vrf/types";
+
+message VrfRecord {
+  
+  string recordSubmitter = 1; 
+  string recordVerifier = 2; 
+  uint32 keyIndex = 3;
+  string collectionId = 4; 
+  uint64 upperBound = 5;
+  bytes vrfPubkey = 6;
+  bytes proof = 7;
+  bytes originDigest = 8;
+  bool verificationStatus = 9; 
+  bytes vrn = 10;
+  uint64 wrappedIndex = 11;
+  bytes serializedRc = 12;
+}

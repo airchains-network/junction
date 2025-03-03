@@ -1,0 +1,13 @@
+syntax = "proto3";
+package junction.vrf;
+
+option go_package = "github.com/airchains-network/junction/x/vrf/types";
+
+message VrfPacketData {
+    oneof packet {
+        NoData noData = 1;
+    }
+}
+
+message NoData {
+}

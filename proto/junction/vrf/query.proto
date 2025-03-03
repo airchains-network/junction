@@ -1,0 +1,91 @@
+syntax = "proto3";
+
+package junction.vrf;
+
+import "amino/amino.proto";
+import "gogoproto/gogo.proto";
+import "google/api/annotations.proto";
+import "cosmos/base/query/v1beta1/pagination.proto";
+import "junction/vrf/params.proto";
+import "junction/vrf/vrf_record.proto";
+import "junction/vrf/collection.proto";
+
+option go_package = "github.com/airchains-network/junction/x/vrf/types";
+
+// Query defines the gRPC querier service.
+service Query {
+  
+  // Parameters queries the parameters of the module.
+  rpc Params (QueryParamsRequest) returns (QueryParamsResponse) {
+    option (google.api.http).get = "/airchains-network/junction/vrf/params";
+  
+  }
+  
+  // Queries a list of FetchVrn items.
+  rpc FetchVrn (QueryFetchVrnRequest) returns (QueryFetchVrnResponse) {
+    option (google.api.http).get = "/airchains-network/junction/vrf/fetch_vrn/{keyIndex}/{collectionId}";
+  
+  }
+  
+  // Queries a list of FetchCollection items.
+  rpc FetchCollection (QueryFetchCollectionRequest) returns (QueryFetchCollectionResponse) {
+    option (google.api.http).get = "/airchains-network/junction/vrf/fetch_collection/{collectionId}";
+  
+  }
+  
+  // Queries a list of GetCollections items.
+  rpc GetCollections (QueryGetCollectionsRequest) returns (QueryGetCollectionsResponse) {
+    option (google.api.http).get = "/airchains-network/junction/vrf/get_collections";
+  
+  }
+  
+  // Queries a list of FetchCollectionDetails items.
+  rpc FetchCollectionDetails (QueryFetchCollectionDetailsRequest) returns (QueryFetchCollectionDetailsResponse) {
+    option (google.api.http).get = "/airchains-network/junction/vrf/fetch_collection_details/{collectionId}";
+  
+  }
+}
+// QueryParamsRequest is request type for the Query/Params RPC method.
+message QueryParamsRequest {}
+
+// QueryParamsResponse is response type for the Query/Params RPC method.
+message QueryParamsResponse {
+  
+  // params holds all the parameters of this module.
+  Params params = 1 [(gogoproto.nullable) = false, (amino.dont_omitempty) = true];
+}
+
+message QueryFetchVrnRequest {
+  uint32 keyIndex     = 1;
+  string collectionId = 2;
+}
+
+message QueryFetchVrnResponse {
+  VrfRecord details = 1;
+}
+
+message QueryFetchCollectionRequest {
+  string collectionId = 1;
+}
+
+message QueryFetchCollectionResponse {
+  Collection details = 1;
+}
+
+message QueryGetCollectionsRequest {}
+
+message QueryGetCollectionsResponse {
+  repeated Collection                             collections = 1 [(gogoproto.nullable) = false];
+           cosmos.base.query.v1beta1.PageResponse pagination  = 2;
+}
+
+message QueryFetchCollectionDetailsRequest {
+  string collectionId = 1;
+}
+
+message QueryFetchCollectionDetailsResponse {
+  Collection details = 1;
+  repeated VrfRecord vrfRecords = 2 [(gogoproto.nullable) = false];
+  cosmos.base.query.v1beta1.PageResponse pagination  = 3;
+}
+

@@ -1,0 +1,17 @@
+syntax = "proto3";
+package junction.vrf;
+
+option go_package = "github.com/airchains-network/junction/x/vrf/types";
+
+message Collection {
+  
+  string collectionOwner = 1;
+  string collectionName = 2;
+  string collectionId = 3;
+  repeated string members = 4;
+  uint32 offset = 5;
+  uint32 index = 6;
+  bool greyListed = 7 ;
+  string disputeVoteYesHash = 8;
+  string disputeVoteNoHash = 9;
+}
