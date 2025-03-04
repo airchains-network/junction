@@ -2,6 +2,7 @@ package app
 
 import (
 	"fmt"
+	"github.com/airchains-network/junction/app/upgrades/jip3"
 
 	upgradetypes "cosmossdk.io/x/upgrade/types"
 
@@ -26,7 +27,7 @@ import (
 )
 
 // Upgrades list of chain upgrades
-var Upgrades = []upgrades.Upgrade{v050.Upgrade}
+var Upgrades = []upgrades.Upgrade{v050.Upgrade, jip3.Upgrade}
 
 // RegisterUpgradeHandlers registers the chain upgrade handlers
 func (app *JunctionApp) RegisterUpgradeHandlers() {
