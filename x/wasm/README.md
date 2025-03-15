@@ -45,7 +45,7 @@ was sent:
         },
         {
             "key": "signer",
-            "value": "cosmos1vx8knpllrj7n963p9ttd80w47kpacrhuts497x"
+            "value": "air1vx8knpllrj7n963p9ttd80w47kpacrhuts497x"
         },
         {
             "key": "code_id",
@@ -53,7 +53,7 @@ was sent:
         },
         {
             "key": "_contract_address",
-            "value": "cosmos14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9s4hmalr"
+            "value": "air14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9s4hmalr"
         }
     ]
 }
@@ -70,11 +70,11 @@ provide a initial balance in the same `MsgInstantiateContract`. We see the follo
         "Attr": [
             {
                 "key": "recipient",
-                "value": "cosmos14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9s4hmalr"
+                "value": "air14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9s4hmalr"
             },
             {
                 "key": "sender",
-                "value": "cosmos1ffnqn02ft2psvyv4dyr56nnv6plllf9pm2kpmv"
+                "value": "air1ffnqn02ft2psvyv4dyr56nnv6plllf9pm2kpmv"
             },
             {
                 "key": "amount",
@@ -97,7 +97,7 @@ Here is an example from the escrow contract successfully releasing funds to the 
     "Attr": [
         {
             "key": "_contract_address",
-            "value": "cosmos14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9s4hmalr"
+            "value": "air14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9s4hmalr"
         },
         {
             "key": "action",
@@ -105,7 +105,7 @@ Here is an example from the escrow contract successfully releasing funds to the 
         },
         {
             "key": "destination",
-            "value": "cosmos14k7v7ms4jxkk2etmg9gljxjm4ru3qjdugfsflq"
+            "value": "air14k7v7ms4jxkk2etmg9gljxjm4ru3qjdugfsflq"
         }
     ]
 }
@@ -131,11 +131,11 @@ was executed (which always appears, while 2 is optional and has information as r
         "Attr": [
             {
                 "key": "recipient",
-                "value": "cosmos14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9s4hmalr"
+                "value": "air14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9s4hmalr"
             },
             {
                 "key": "sender",
-                "value": "cosmos1zm074khx32hqy20hlshlsd423n07pwlu9cpt37"
+                "value": "air1zm074khx32hqy20hlshlsd423n07pwlu9cpt37"
             },
             {
                 "key": "amount",
@@ -148,7 +148,7 @@ was executed (which always appears, while 2 is optional and has information as r
         "Attr": [
             {
                 "key": "_contract_address",
-                "value": "cosmos14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9s4hmalr"
+                "value": "air14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9s4hmalr"
             },
             {
                 "key": "action",
@@ -156,7 +156,7 @@ was executed (which always appears, while 2 is optional and has information as r
             },
             {
                 "key": "destination",
-                "value": "cosmos14k7v7ms4jxkk2etmg9gljxjm4ru3qjdugfsflq"
+                "value": "air14k7v7ms4jxkk2etmg9gljxjm4ru3qjdugfsflq"
             }
         ]
     },
@@ -165,11 +165,11 @@ was executed (which always appears, while 2 is optional and has information as r
         "Attr": [
             {
                 "key": "recipient",
-                "value": "cosmos14k7v7ms4jxkk2etmg9gljxjm4ru3qjdugfsflq"
+                "value": "air14k7v7ms4jxkk2etmg9gljxjm4ru3qjdugfsflq"
             },
             {
                 "key": "sender",
-                "value": "cosmos14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9s4hmalr"
+                "value": "air14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9s4hmalr"
             },
             {
                 "key": "amount",
@@ -190,11 +190,11 @@ was executed (which always appears, while 2 is optional and has information as r
             },
             {
                 "key": "signer",
-                "value": "cosmos1zm074khx32hqy20hlshlsd423n07pwlu9cpt37"
+                "value": "air1zm074khx32hqy20hlshlsd423n07pwlu9cpt37"
             },
             {
                 "key": "_contract_address",
-                "value": "cosmos14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9s4hmalr"
+                "value": "air14hj2tavq8fpesdwxxcu44rty3hh90vhujrvcmstl4zr3txmfvw9s4hmalr"
             }
         ]
     }
