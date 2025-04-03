@@ -135,6 +135,10 @@ import (
 	"github.com/airchains-network/junction/x/wasm"
 	wasmkeeper "github.com/airchains-network/junction/x/wasm/keeper"
 	wasmtypes "github.com/airchains-network/junction/x/wasm/types"
+
+	rollupkeeper "github.com/airchains-network/junction/x/rollup/keeper"
+	rolluptypes "github.com/airchains-network/junction/x/rollup/types"
+	rollupmodule "github.com/airchains-network/junction/x/rollup/module"
 )
 
 const appName = "JunctionApp"
@@ -180,6 +184,7 @@ var maccPerms = map[string][]string{
 	ibcfeetypes.ModuleName:      nil,
 	icatypes.ModuleName:         nil,
 	wasmtypes.ModuleName:        {authtypes.Burner},
+	rolluptypes.ModuleName:      {authtypes.Minter, authtypes.Burner},
 }
 
 var (
@@ -226,6 +231,7 @@ type JunctionApp struct {
 	ICAHostKeeper       icahostkeeper.Keeper
 	TransferKeeper      ibctransferkeeper.Keeper
 	WasmKeeper          wasmkeeper.Keeper
+	RollupKeeper        rollupkeeper.Keeper
 
 	ScopedIBCKeeper           capabilitykeeper.ScopedKeeper
 	ScopedICAHostKeeper       capabilitykeeper.ScopedKeeper
@@ -233,6 +239,7 @@ type JunctionApp struct {
 	ScopedTransferKeeper      capabilitykeeper.ScopedKeeper
 	ScopedIBCFeeKeeper        capabilitykeeper.ScopedKeeper
 	ScopedWasmKeeper          capabilitykeeper.ScopedKeeper
+	ScopedRollupKeeper        capabilitykeeper.ScopedKeeper
 
 	// the module manager
 	ModuleManager      *module.Manager
@@ -325,6 +332,7 @@ func NewJunctionApp(
 		capabilitytypes.StoreKey, ibcexported.StoreKey, ibctransfertypes.StoreKey, ibcfeetypes.StoreKey,
 		wasmtypes.StoreKey, icahosttypes.StoreKey,
 		icacontrollertypes.StoreKey,
+		rolluptypes.StoreKey,
 	)
 
 	tkeys := storetypes.NewTransientStoreKeys(paramstypes.TStoreKey)
@@ -374,6 +382,7 @@ func NewJunctionApp(
 	scopedICAControllerKeeper := app.CapabilityKeeper.ScopeToModule(icacontrollertypes.SubModuleName)
 	scopedTransferKeeper := app.CapabilityKeeper.ScopeToModule(ibctransfertypes.ModuleName)
 	scopedWasmKeeper := app.CapabilityKeeper.ScopeToModule(wasmtypes.ModuleName)
+	scopedRollupKeeper := app.CapabilityKeeper.ScopeToModule(rolluptypes.ModuleName)
 	app.CapabilityKeeper.Seal()
 
 	// add keepers
@@ -410,6 +419,18 @@ func NewJunctionApp(
 	//	 panic(err)
 	// }
 	// app.txConfig = txConfig
+
+	authority := authtypes.NewModuleAddress(govtypes.ModuleName)
+
+
+	app.RollupKeeper = rollupkeeper.NewKeeper(
+		appCodec,
+		runtime.NewKVStoreService(keys[rolluptypes.StoreKey]),
+		logger,
+		authority.String(),
+		app.GetIBCKeeper,
+		func(string) capabilitykeeper.ScopedKeeper { return scopedRollupKeeper },
+	)
 
 	app.StakingKeeper = stakingkeeper.NewKeeper(
 		appCodec,
@@ -679,6 +700,10 @@ func NewJunctionApp(
 	icaHostStack = icahost.NewIBCModule(app.ICAHostKeeper)
 	icaHostStack = ibcfee.NewIBCMiddleware(icaHostStack, app.IBCFeeKeeper)
 
+	var rollupStack porttypes.IBCModule
+	rollupStack = rollupmodule.NewIBCModule(app.RollupKeeper)
+	rollupStack = ibcfee.NewIBCMiddleware(rollupStack, app.IBCFeeKeeper)
+
 	// Create Transfer Stack
 	var transferStack porttypes.IBCModule
 	transferStack = transfer.NewIBCModule(app.TransferKeeper)
@@ -693,7 +718,8 @@ func NewJunctionApp(
 		AddRoute(ibctransfertypes.ModuleName, transferStack).
 		AddRoute(wasmtypes.ModuleName, wasmStack).
 		AddRoute(icacontrollertypes.SubModuleName, icaControllerStack).
-		AddRoute(icahosttypes.SubModuleName, icaHostStack)
+		AddRoute(icahosttypes.SubModuleName, icaHostStack).
+		AddRoute(rolluptypes.ModuleName, rollupStack)
 	app.IBCKeeper.SetRouter(ibcRouter)
 
 	/****  Module Options ****/
@@ -730,6 +756,7 @@ func NewJunctionApp(
 		circuit.NewAppModule(appCodec, app.CircuitKeeper),
 		// non sdk modules
 		capability.NewAppModule(appCodec, *app.CapabilityKeeper, false),
+		rollupmodule.NewAppModule(appCodec, app.RollupKeeper, app.AccountKeeper, app.BankKeeper),
 		wasm.NewAppModule(appCodec, &app.WasmKeeper, app.StakingKeeper, app.AccountKeeper, app.BankKeeper, app.MsgServiceRouter(), app.GetSubspace(wasmtypes.ModuleName)),
 		ibc.NewAppModule(app.IBCKeeper),
 		transfer.NewAppModule(app.TransferKeeper),
@@ -780,6 +807,7 @@ func NewJunctionApp(
 		ibcexported.ModuleName,
 		icatypes.ModuleName,
 		ibcfeetypes.ModuleName,
+		rolluptypes.ModuleName,
 		wasmtypes.ModuleName,
 	)
 
@@ -796,6 +824,7 @@ func NewJunctionApp(
 		ibcexported.ModuleName,
 		icatypes.ModuleName,
 		ibcfeetypes.ModuleName,
+		rolluptypes.ModuleName,
 		wasmtypes.ModuleName,
 	)
 
@@ -822,6 +851,7 @@ func NewJunctionApp(
 		ibcfeetypes.ModuleName,
 		// wasm after ibc transfer
 		wasmtypes.ModuleName,
+		rolluptypes.ModuleName,
 	}
 	app.ModuleManager.SetOrderInitGenesis(genesisModuleOrder...)
 	app.ModuleManager.SetOrderExportGenesis(genesisModuleOrder...)
@@ -891,7 +921,7 @@ func NewJunctionApp(
 	app.ScopedWasmKeeper = scopedWasmKeeper
 	app.ScopedICAHostKeeper = scopedICAHostKeeper
 	app.ScopedICAControllerKeeper = scopedICAControllerKeeper
-
+	app.ScopedRollupKeeper = scopedRollupKeeper
 	// In v0.46, the SDK introduces _postHandlers_. PostHandlers are like
 	// antehandlers, but are run _after_ the `runMsgs` execution. They are also
 	// defined as a chain, and have the same signature as antehandlers.
