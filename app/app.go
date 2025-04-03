@@ -87,6 +87,7 @@ import (
 	authkeeper "github.com/cosmos/cosmos-sdk/x/auth/keeper"
 	"github.com/cosmos/cosmos-sdk/x/auth/posthandler"
 	authsims "github.com/cosmos/cosmos-sdk/x/auth/simulation"
+	"github.com/cosmos/cosmos-sdk/x/auth/tx"
 	authtx "github.com/cosmos/cosmos-sdk/x/auth/tx"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
 	"github.com/cosmos/cosmos-sdk/x/auth/vesting"
@@ -137,8 +138,10 @@ import (
 	wasmtypes "github.com/airchains-network/junction/x/wasm/types"
 
 	rollupkeeper "github.com/airchains-network/junction/x/rollup/keeper"
-	rolluptypes "github.com/airchains-network/junction/x/rollup/types"
 	rollupmodule "github.com/airchains-network/junction/x/rollup/module"
+	rolluptypes "github.com/airchains-network/junction/x/rollup/types"
+	sigtypes "github.com/cosmos/cosmos-sdk/types/tx/signing" // For sigtypes.SignMode_SIGN_MODE_TEXTUAL
+	txmodule "github.com/cosmos/cosmos-sdk/x/auth/tx/config"
 )
 
 const appName = "JunctionApp"
@@ -406,22 +409,21 @@ func NewJunctionApp(
 	)
 
 	// optional: enable sign mode textual by overwriting the default tx config (after setting the bank keeper)
-	// enabledSignModes := append(tx.DefaultSignModes, sigtypes.SignMode_SIGN_MODE_TEXTUAL)
-	// txConfigOpts := tx.ConfigOptions{
-	//	 EnabledSignModes:           enabledSignModes,
-	//	 TextualCoinMetadataQueryFn: txmodule.NewBankKeeperCoinMetadataQueryFn(app.BankKeeper),
-	// }
-	// txConfig, err := tx.NewTxConfigWithOptions(
-	// 	 appCodec,
-	// 	 txConfigOpts,
-	// )
-	// if err != nil {
-	//	 panic(err)
-	// }
-	// app.txConfig = txConfig
+	enabledSignModes := append(tx.DefaultSignModes, sigtypes.SignMode_SIGN_MODE_TEXTUAL)
+	txConfigOpts := tx.ConfigOptions{
+		EnabledSignModes:           enabledSignModes,
+		TextualCoinMetadataQueryFn: txmodule.NewBankKeeperCoinMetadataQueryFn(app.BankKeeper),
+	}
+	txConfig, err = tx.NewTxConfigWithOptions(
+		appCodec,
+		txConfigOpts,
+	)
+	if err != nil {
+		panic(err)
+	}
+	app.txConfig = txConfig
 
 	authority := authtypes.NewModuleAddress(govtypes.ModuleName)
-
 
 	app.RollupKeeper = rollupkeeper.NewKeeper(
 		appCodec,
