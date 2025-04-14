@@ -59,6 +59,27 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "rollupId"}},
 				},
 
+				{
+					RpcMethod:      "GetTotalStakedAmount",
+					Use:            "get-total-staked-amount",
+					Short:          "Query get_total_staked_amount",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{},
+				},
+
+				{
+					RpcMethod:      "GetStakeDetailsByUser",
+					Use:            "get-stake-details-by-user [address]",
+					Short:          "Query get_stake_details_by_user",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "address"}},
+				},
+
+				{
+					RpcMethod:      "GetRollupStakedAmount",
+					Use:            "get-rollup-staked-amount [rollup-id]",
+					Short:          "Query get_rollup_staked_amount",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "rollupId"}},
+				},
+
 				// this line is used by ignite scaffolding # autocli/query
 			},
 		},

@@ -217,6 +217,7 @@ func ProvideModule(in ModuleInputs) ModuleOutputs {
 		in.StoreService,
 		in.Logger,
 		authority.String(),
+		in.BankKeeper,
 		in.IBCKeeperFn,
 		in.CapabilityScopedFn,
 	)

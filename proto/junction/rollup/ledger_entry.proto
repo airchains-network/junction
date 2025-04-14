@@ -1,0 +1,14 @@
+syntax = "proto3";
+package junction.rollup;
+
+option go_package = "github.com/airchains-network/junction/x/rollup/types";
+
+message LedgerEntry {
+  
+  string creatorAddress = 1; 
+  uint64 amountStaked = 2; 
+  string denom = 3; 
+  string rollupId = 4; 
+  string timestamp = 5; 
+  uint64 blockHeight = 6; 
+}

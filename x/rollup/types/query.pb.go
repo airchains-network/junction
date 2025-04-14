@@ -778,6 +778,398 @@ func (m *QueryGetAllBatchesResponse) GetOrder() string {
 	return ""
 }
 
+type QueryGetTotalStakedAmountRequest struct {
+}
+
+func (m *QueryGetTotalStakedAmountRequest) Reset()         { *m = QueryGetTotalStakedAmountRequest{} }
+func (m *QueryGetTotalStakedAmountRequest) String() string { return proto.CompactTextString(m) }
+func (*QueryGetTotalStakedAmountRequest) ProtoMessage()    {}
+func (*QueryGetTotalStakedAmountRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_a12f95b833c221ad, []int{14}
+}
+func (m *QueryGetTotalStakedAmountRequest) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *QueryGetTotalStakedAmountRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_QueryGetTotalStakedAmountRequest.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *QueryGetTotalStakedAmountRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryGetTotalStakedAmountRequest.Merge(m, src)
+}
+func (m *QueryGetTotalStakedAmountRequest) XXX_Size() int {
+	return m.Size()
+}
+func (m *QueryGetTotalStakedAmountRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryGetTotalStakedAmountRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_QueryGetTotalStakedAmountRequest proto.InternalMessageInfo
+
+type QueryGetTotalStakedAmountResponse struct {
+	Creators          []*Creator `protobuf:"bytes,1,rep,name=creators,proto3" json:"creators,omitempty"`
+	TotalStakedAmount int64      `protobuf:"varint,2,opt,name=total_staked_amount,json=totalStakedAmount,proto3" json:"total_staked_amount,omitempty"`
+}
+
+func (m *QueryGetTotalStakedAmountResponse) Reset()         { *m = QueryGetTotalStakedAmountResponse{} }
+func (m *QueryGetTotalStakedAmountResponse) String() string { return proto.CompactTextString(m) }
+func (*QueryGetTotalStakedAmountResponse) ProtoMessage()    {}
+func (*QueryGetTotalStakedAmountResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_a12f95b833c221ad, []int{15}
+}
+func (m *QueryGetTotalStakedAmountResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *QueryGetTotalStakedAmountResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_QueryGetTotalStakedAmountResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *QueryGetTotalStakedAmountResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryGetTotalStakedAmountResponse.Merge(m, src)
+}
+func (m *QueryGetTotalStakedAmountResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *QueryGetTotalStakedAmountResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryGetTotalStakedAmountResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_QueryGetTotalStakedAmountResponse proto.InternalMessageInfo
+
+func (m *QueryGetTotalStakedAmountResponse) GetCreators() []*Creator {
+	if m != nil {
+		return m.Creators
+	}
+	return nil
+}
+
+func (m *QueryGetTotalStakedAmountResponse) GetTotalStakedAmount() int64 {
+	if m != nil {
+		return m.TotalStakedAmount
+	}
+	return 0
+}
+
+type Creator struct {
+	CreatorAddress string         `protobuf:"bytes,1,opt,name=creator_address,json=creatorAddress,proto3" json:"creator_address,omitempty"`
+	Rollups        []*RollupStake `protobuf:"bytes,2,rep,name=rollups,proto3" json:"rollups,omitempty"`
+}
+
+func (m *Creator) Reset()         { *m = Creator{} }
+func (m *Creator) String() string { return proto.CompactTextString(m) }
+func (*Creator) ProtoMessage()    {}
+func (*Creator) Descriptor() ([]byte, []int) {
+	return fileDescriptor_a12f95b833c221ad, []int{16}
+}
+func (m *Creator) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *Creator) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_Creator.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *Creator) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Creator.Merge(m, src)
+}
+func (m *Creator) XXX_Size() int {
+	return m.Size()
+}
+func (m *Creator) XXX_DiscardUnknown() {
+	xxx_messageInfo_Creator.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_Creator proto.InternalMessageInfo
+
+func (m *Creator) GetCreatorAddress() string {
+	if m != nil {
+		return m.CreatorAddress
+	}
+	return ""
+}
+
+func (m *Creator) GetRollups() []*RollupStake {
+	if m != nil {
+		return m.Rollups
+	}
+	return nil
+}
+
+type RollupStake struct {
+	RollupId     string `protobuf:"bytes,1,opt,name=rollup_id,json=rollupId,proto3" json:"rollup_id,omitempty"`
+	AmountStaked int64  `protobuf:"varint,2,opt,name=amount_staked,json=amountStaked,proto3" json:"amount_staked,omitempty"`
+	Denom        string `protobuf:"bytes,3,opt,name=denom,proto3" json:"denom,omitempty"`
+}
+
+func (m *RollupStake) Reset()         { *m = RollupStake{} }
+func (m *RollupStake) String() string { return proto.CompactTextString(m) }
+func (*RollupStake) ProtoMessage()    {}
+func (*RollupStake) Descriptor() ([]byte, []int) {
+	return fileDescriptor_a12f95b833c221ad, []int{17}
+}
+func (m *RollupStake) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *RollupStake) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_RollupStake.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *RollupStake) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_RollupStake.Merge(m, src)
+}
+func (m *RollupStake) XXX_Size() int {
+	return m.Size()
+}
+func (m *RollupStake) XXX_DiscardUnknown() {
+	xxx_messageInfo_RollupStake.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_RollupStake proto.InternalMessageInfo
+
+func (m *RollupStake) GetRollupId() string {
+	if m != nil {
+		return m.RollupId
+	}
+	return ""
+}
+
+func (m *RollupStake) GetAmountStaked() int64 {
+	if m != nil {
+		return m.AmountStaked
+	}
+	return 0
+}
+
+func (m *RollupStake) GetDenom() string {
+	if m != nil {
+		return m.Denom
+	}
+	return ""
+}
+
+type QueryGetStakeDetailsByUserRequest struct {
+	Address string `protobuf:"bytes,1,opt,name=address,proto3" json:"address,omitempty"`
+}
+
+func (m *QueryGetStakeDetailsByUserRequest) Reset()         { *m = QueryGetStakeDetailsByUserRequest{} }
+func (m *QueryGetStakeDetailsByUserRequest) String() string { return proto.CompactTextString(m) }
+func (*QueryGetStakeDetailsByUserRequest) ProtoMessage()    {}
+func (*QueryGetStakeDetailsByUserRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_a12f95b833c221ad, []int{18}
+}
+func (m *QueryGetStakeDetailsByUserRequest) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *QueryGetStakeDetailsByUserRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_QueryGetStakeDetailsByUserRequest.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *QueryGetStakeDetailsByUserRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryGetStakeDetailsByUserRequest.Merge(m, src)
+}
+func (m *QueryGetStakeDetailsByUserRequest) XXX_Size() int {
+	return m.Size()
+}
+func (m *QueryGetStakeDetailsByUserRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryGetStakeDetailsByUserRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_QueryGetStakeDetailsByUserRequest proto.InternalMessageInfo
+
+func (m *QueryGetStakeDetailsByUserRequest) GetAddress() string {
+	if m != nil {
+		return m.Address
+	}
+	return ""
+}
+
+type QueryGetStakeDetailsByUserResponse struct {
+	TotalStakedAmount int64          `protobuf:"varint,1,opt,name=total_staked_amount,json=totalStakedAmount,proto3" json:"total_staked_amount,omitempty"`
+	Rollups           []*RollupStake `protobuf:"bytes,2,rep,name=rollups,proto3" json:"rollups,omitempty"`
+}
+
+func (m *QueryGetStakeDetailsByUserResponse) Reset()         { *m = QueryGetStakeDetailsByUserResponse{} }
+func (m *QueryGetStakeDetailsByUserResponse) String() string { return proto.CompactTextString(m) }
+func (*QueryGetStakeDetailsByUserResponse) ProtoMessage()    {}
+func (*QueryGetStakeDetailsByUserResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_a12f95b833c221ad, []int{19}
+}
+func (m *QueryGetStakeDetailsByUserResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *QueryGetStakeDetailsByUserResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_QueryGetStakeDetailsByUserResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *QueryGetStakeDetailsByUserResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryGetStakeDetailsByUserResponse.Merge(m, src)
+}
+func (m *QueryGetStakeDetailsByUserResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *QueryGetStakeDetailsByUserResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryGetStakeDetailsByUserResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_QueryGetStakeDetailsByUserResponse proto.InternalMessageInfo
+
+func (m *QueryGetStakeDetailsByUserResponse) GetTotalStakedAmount() int64 {
+	if m != nil {
+		return m.TotalStakedAmount
+	}
+	return 0
+}
+
+func (m *QueryGetStakeDetailsByUserResponse) GetRollups() []*RollupStake {
+	if m != nil {
+		return m.Rollups
+	}
+	return nil
+}
+
+type QueryGetRollupStakedAmountRequest struct {
+	RollupId string `protobuf:"bytes,1,opt,name=rollupId,proto3" json:"rollupId,omitempty"`
+}
+
+func (m *QueryGetRollupStakedAmountRequest) Reset()         { *m = QueryGetRollupStakedAmountRequest{} }
+func (m *QueryGetRollupStakedAmountRequest) String() string { return proto.CompactTextString(m) }
+func (*QueryGetRollupStakedAmountRequest) ProtoMessage()    {}
+func (*QueryGetRollupStakedAmountRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_a12f95b833c221ad, []int{20}
+}
+func (m *QueryGetRollupStakedAmountRequest) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *QueryGetRollupStakedAmountRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_QueryGetRollupStakedAmountRequest.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *QueryGetRollupStakedAmountRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryGetRollupStakedAmountRequest.Merge(m, src)
+}
+func (m *QueryGetRollupStakedAmountRequest) XXX_Size() int {
+	return m.Size()
+}
+func (m *QueryGetRollupStakedAmountRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryGetRollupStakedAmountRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_QueryGetRollupStakedAmountRequest proto.InternalMessageInfo
+
+func (m *QueryGetRollupStakedAmountRequest) GetRollupId() string {
+	if m != nil {
+		return m.RollupId
+	}
+	return ""
+}
+
+type QueryGetRollupStakedAmountResponse struct {
+	AmountStaked uint64 `protobuf:"varint,1,opt,name=amountStaked,proto3" json:"amountStaked,omitempty"`
+	Denom        string `protobuf:"bytes,2,opt,name=denom,proto3" json:"denom,omitempty"`
+}
+
+func (m *QueryGetRollupStakedAmountResponse) Reset()         { *m = QueryGetRollupStakedAmountResponse{} }
+func (m *QueryGetRollupStakedAmountResponse) String() string { return proto.CompactTextString(m) }
+func (*QueryGetRollupStakedAmountResponse) ProtoMessage()    {}
+func (*QueryGetRollupStakedAmountResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_a12f95b833c221ad, []int{21}
+}
+func (m *QueryGetRollupStakedAmountResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *QueryGetRollupStakedAmountResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_QueryGetRollupStakedAmountResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *QueryGetRollupStakedAmountResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryGetRollupStakedAmountResponse.Merge(m, src)
+}
+func (m *QueryGetRollupStakedAmountResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *QueryGetRollupStakedAmountResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryGetRollupStakedAmountResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_QueryGetRollupStakedAmountResponse proto.InternalMessageInfo
+
+func (m *QueryGetRollupStakedAmountResponse) GetAmountStaked() uint64 {
+	if m != nil {
+		return m.AmountStaked
+	}
+	return 0
+}
+
+func (m *QueryGetRollupStakedAmountResponse) GetDenom() string {
+	if m != nil {
+		return m.Denom
+	}
+	return ""
+}
+
 func init() {
 	proto.RegisterType((*QueryParamsRequest)(nil), "junction.rollup.QueryParamsRequest")
 	proto.RegisterType((*QueryParamsResponse)(nil), "junction.rollup.QueryParamsResponse")
@@ -793,72 +1185,99 @@ func init() {
 	proto.RegisterType((*QueryGetBatchInfoResponse)(nil), "junction.rollup.QueryGetBatchInfoResponse")
 	proto.RegisterType((*QueryGetAllBatchesRequest)(nil), "junction.rollup.QueryGetAllBatchesRequest")
 	proto.RegisterType((*QueryGetAllBatchesResponse)(nil), "junction.rollup.QueryGetAllBatchesResponse")
+	proto.RegisterType((*QueryGetTotalStakedAmountRequest)(nil), "junction.rollup.QueryGetTotalStakedAmountRequest")
+	proto.RegisterType((*QueryGetTotalStakedAmountResponse)(nil), "junction.rollup.QueryGetTotalStakedAmountResponse")
+	proto.RegisterType((*Creator)(nil), "junction.rollup.Creator")
+	proto.RegisterType((*RollupStake)(nil), "junction.rollup.RollupStake")
+	proto.RegisterType((*QueryGetStakeDetailsByUserRequest)(nil), "junction.rollup.QueryGetStakeDetailsByUserRequest")
+	proto.RegisterType((*QueryGetStakeDetailsByUserResponse)(nil), "junction.rollup.QueryGetStakeDetailsByUserResponse")
+	proto.RegisterType((*QueryGetRollupStakedAmountRequest)(nil), "junction.rollup.QueryGetRollupStakedAmountRequest")
+	proto.RegisterType((*QueryGetRollupStakedAmountResponse)(nil), "junction.rollup.QueryGetRollupStakedAmountResponse")
 }
 
 func init() { proto.RegisterFile("junction/rollup/query.proto", fileDescriptor_a12f95b833c221ad) }
 
 var fileDescriptor_a12f95b833c221ad = []byte{
-	// 954 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xac, 0x96, 0x4d, 0x6f, 0x1b, 0x45,
-	0x18, 0xc7, 0x3d, 0x69, 0xec, 0xc4, 0x4f, 0x8b, 0x10, 0x83, 0x95, 0x9a, 0x05, 0x39, 0xb0, 0xb4,
-	0xb4, 0x4d, 0xc5, 0x6e, 0x13, 0x4a, 0x91, 0x2a, 0xa1, 0x92, 0x05, 0x9a, 0xa4, 0x52, 0x43, 0xb2,
-	0x47, 0x24, 0x64, 0x66, 0x9d, 0xc9, 0x66, 0xc8, 0x7a, 0xc7, 0xdd, 0x1d, 0x17, 0xac, 0xa8, 0x17,
-	0x0e, 0x9c, 0x91, 0x38, 0x70, 0x45, 0xe2, 0x82, 0xb8, 0xc0, 0x85, 0x4f, 0xc0, 0xa5, 0xc7, 0x4a,
-	0x5c, 0x10, 0x07, 0x84, 0x12, 0x24, 0xc4, 0xb7, 0x40, 0x3b, 0x2f, 0x7e, 0x5b, 0xc7, 0x5e, 0x4b,
-	0x5c, 0xda, 0x9d, 0x79, 0xde, 0x7e, 0xcf, 0xcc, 0x7f, 0x1e, 0x07, 0x5e, 0xfe, 0xac, 0x1b, 0xb7,
-	0x04, 0xe3, 0xb1, 0x9b, 0xf0, 0x28, 0xea, 0x76, 0xdc, 0x47, 0x5d, 0x9a, 0xf4, 0x9c, 0x4e, 0xc2,
-	0x05, 0xc7, 0xcf, 0x1b, 0xa3, 0xa3, 0x8c, 0xd6, 0x0b, 0xa4, 0xcd, 0x62, 0xee, 0xca, 0x7f, 0x95,
-	0x8f, 0x55, 0x0b, 0x79, 0xc8, 0xe5, 0xa7, 0x9b, 0x7d, 0xe9, 0xdd, 0x57, 0x42, 0xce, 0xc3, 0x88,
-	0xba, 0xa4, 0xc3, 0x5c, 0x12, 0xc7, 0x5c, 0x90, 0x2c, 0x4d, 0xaa, 0xad, 0x6b, 0x2d, 0x9e, 0xb6,
-	0x79, 0xea, 0x06, 0x24, 0xa5, 0xaa, 0xa0, 0xfb, 0x78, 0x3d, 0xa0, 0x82, 0xac, 0xbb, 0x1d, 0x12,
-	0xb2, 0x58, 0x3a, 0x9b, 0x4c, 0xe3, 0x80, 0x1d, 0x92, 0x90, 0xb6, 0xc9, 0x74, 0x75, 0xdc, 0xaa,
-	0xfe, 0x6b, 0xb6, 0xa9, 0x20, 0x07, 0x44, 0x10, 0xed, 0x96, 0xeb, 0x32, 0x20, 0xa2, 0x75, 0xa4,
-	0x8c, 0x76, 0x0d, 0xf0, 0x7e, 0xc6, 0xb0, 0x27, 0x13, 0xfb, 0xf4, 0x51, 0x97, 0xa6, 0xc2, 0xde,
-	0x87, 0x17, 0x47, 0x76, 0xd3, 0x0e, 0x8f, 0x53, 0x8a, 0xef, 0x42, 0x45, 0x01, 0xd4, 0xd1, 0xab,
-	0xe8, 0xfa, 0xc5, 0x8d, 0xcb, 0xce, 0xd8, 0x19, 0x39, 0x2a, 0xc0, 0xab, 0x3e, 0xfd, 0x73, 0xb5,
-	0xf4, 0xc3, 0x3f, 0x3f, 0xaf, 0x21, 0x5f, 0x47, 0xd8, 0xef, 0xc1, 0x15, 0x99, 0xf2, 0xfd, 0x23,
-	0xda, 0x3a, 0x7e, 0xc8, 0x63, 0x76, 0x4c, 0x93, 0xcd, 0xc7, 0x84, 0x45, 0x24, 0x60, 0x11, 0x13,
-	0x3d, 0x5d, 0x1a, 0xd7, 0x61, 0xa9, 0xad, 0xac, 0xb2, 0x48, 0xd5, 0x37, 0x4b, 0xfb, 0x01, 0x5c,
-	0x9d, 0x91, 0x41, 0x63, 0xbe, 0x06, 0x97, 0x58, 0xda, 0x24, 0xca, 0x14, 0x51, 0x99, 0x67, 0xd9,
-	0xbf, 0xc8, 0xd2, 0x4d, 0xb3, 0x65, 0xbf, 0x03, 0x2f, 0xc9, 0x5c, 0x5b, 0x54, 0xf8, 0x92, 0x7c,
-	0x27, 0x3e, 0xe4, 0x06, 0xc1, 0x82, 0x65, 0xd5, 0xce, 0xce, 0x81, 0x66, 0xe8, 0xaf, 0xed, 0x4f,
-	0xc0, 0x9a, 0x14, 0xa8, 0x2b, 0xdf, 0x03, 0x48, 0xfa, 0xbb, 0xfa, 0x90, 0x56, 0x73, 0x87, 0xa4,
-	0x02, 0x1f, 0xea, 0x5b, 0xf2, 0x87, 0x42, 0xec, 0x4f, 0x61, 0x65, 0x34, 0xbd, 0xb9, 0x12, 0x7c,
-	0x1f, 0x60, 0x20, 0x0f, 0x9d, 0xfa, 0x0d, 0x47, 0x69, 0xc9, 0xc9, 0xb4, 0xe4, 0x28, 0xf1, 0x6a,
-	0x2d, 0x39, 0x7b, 0x24, 0xa4, 0x3a, 0xd6, 0x1f, 0x8a, 0xb4, 0xbf, 0x47, 0x70, 0x39, 0x57, 0xa2,
-	0x8f, 0xbf, 0xa4, 0x58, 0xb2, 0x0b, 0xbe, 0x50, 0x80, 0xdd, 0x5b, 0xcc, 0x2e, 0xda, 0x37, 0x51,
-	0x78, 0x6b, 0x04, 0x72, 0x41, 0x42, 0x5e, 0x9b, 0x09, 0xa9, 0xaa, 0x8f, 0x50, 0xde, 0x85, 0xc6,
-	0x28, 0xa4, 0xd7, 0xd3, 0x37, 0x3e, 0x5b, 0x27, 0x01, 0xac, 0x9e, 0x1b, 0xfb, 0x7f, 0xdd, 0xd3,
-	0x1e, 0xd4, 0x4d, 0x0d, 0x2f, 0x7b, 0x4d, 0x05, 0xe5, 0x93, 0x51, 0xcb, 0xd7, 0xb7, 0xcb, 0xe5,
-	0xe9, 0x2c, 0xfa, 0x66, 0x69, 0xef, 0x0f, 0x14, 0x39, 0x94, 0x51, 0xf3, 0xde, 0x86, 0x6a, 0x60,
-	0x36, 0x35, 0xee, 0x4a, 0x0e, 0x57, 0x86, 0xf9, 0x03, 0x47, 0xfb, 0x3b, 0x34, 0xc8, 0xb9, 0x19,
-	0x45, 0xd2, 0x4e, 0xd3, 0x62, 0x98, 0x15, 0x7e, 0x78, 0x98, 0x52, 0xa1, 0x28, 0xb7, 0x4b, 0xbe,
-	0x5e, 0xe3, 0x15, 0x28, 0x47, 0xac, 0xcd, 0x44, 0xfd, 0x82, 0x34, 0x20, 0x5f, 0x2d, 0xb3, 0x7d,
-	0x9e, 0x1c, 0xd0, 0xa4, 0xbe, 0x98, 0xa5, 0xda, 0x5e, 0xf0, 0xd5, 0xd2, 0xab, 0xc2, 0x52, 0x53,
-	0x85, 0x7a, 0xcb, 0x50, 0x69, 0x4a, 0x67, 0xf9, 0x25, 0xcd, 0xf6, 0x8f, 0x68, 0xf0, 0x9e, 0x86,
-	0x11, 0x75, 0xdf, 0x1b, 0x50, 0x96, 0xed, 0x68, 0x39, 0x9e, 0xd3, 0xb3, 0x56, 0xa1, 0x72, 0xc5,
-	0x35, 0x28, 0x0b, 0x2e, 0x48, 0xa4, 0x0f, 0x58, 0x2d, 0xf0, 0x4a, 0xbf, 0x23, 0x09, 0xde, 0xef,
-	0xa7, 0x66, 0xfa, 0x59, 0x54, 0xde, 0xaa, 0x9b, 0x9a, 0xe9, 0xa6, 0x2c, 0x0f, 0x46, 0x2d, 0x36,
-	0xfe, 0xad, 0x42, 0x59, 0xc2, 0xe2, 0xaf, 0x10, 0x54, 0xd4, 0xa8, 0xc3, 0xaf, 0xe7, 0x98, 0xf2,
-	0xf3, 0xd4, 0xba, 0x32, 0xdd, 0x49, 0x75, 0x6b, 0xaf, 0x7f, 0xf9, 0xdb, 0xdf, 0xdf, 0x2c, 0xdc,
-	0xc4, 0x37, 0x5c, 0xc2, 0x92, 0xd6, 0x11, 0x61, 0x71, 0xfa, 0x66, 0x4c, 0xc5, 0xe7, 0x3c, 0x39,
-	0x76, 0x27, 0xff, 0x10, 0xe0, 0x3f, 0x10, 0xd4, 0xcf, 0x9b, 0x87, 0xf8, 0xed, 0xc9, 0x55, 0x67,
-	0x4c, 0x60, 0xeb, 0xce, 0xbc, 0x61, 0x1a, 0xff, 0x23, 0x89, 0xbf, 0x83, 0xb7, 0x0a, 0xe0, 0xb7,
-	0xb2, 0x64, 0x4d, 0xfd, 0x62, 0xcd, 0xa8, 0x96, 0xe9, 0xdc, 0x13, 0xbd, 0xfb, 0x04, 0xff, 0x84,
-	0xe0, 0xb9, 0x91, 0x39, 0x8b, 0xd7, 0x26, 0xa3, 0x4d, 0x9a, 0xe2, 0xd6, 0xcd, 0x42, 0xbe, 0x9a,
-	0xfd, 0x43, 0xc9, 0x7e, 0x0f, 0xbf, 0x5b, 0x80, 0x3d, 0xa4, 0xa2, 0xa9, 0x7f, 0x69, 0x59, 0x7c,
-	0xc8, 0xdd, 0x13, 0xf3, 0x6c, 0x9e, 0xe0, 0x6f, 0x11, 0xc0, 0x60, 0xae, 0xe2, 0x6b, 0x33, 0x10,
-	0xfa, 0xfa, 0xb8, 0x3e, 0xdb, 0x51, 0x83, 0xde, 0x91, 0xa0, 0xb7, 0xb0, 0x33, 0x17, 0x68, 0x8a,
-	0x7f, 0x45, 0x80, 0xf3, 0x03, 0x11, 0xbb, 0x33, 0x0a, 0x8f, 0x8f, 0x5d, 0xeb, 0x56, 0xf1, 0x00,
-	0x4d, 0xfc, 0x40, 0x12, 0x7f, 0x80, 0xbd, 0xf9, 0x8e, 0x36, 0xe8, 0x19, 0x79, 0x0c, 0x29, 0xe2,
-	0x17, 0x04, 0x97, 0x86, 0x07, 0x24, 0xbe, 0x71, 0x2e, 0xce, 0xf8, 0x58, 0xb6, 0xd6, 0x8a, 0xb8,
-	0x6a, 0xe6, 0x5d, 0xc9, 0xbc, 0x8d, 0xef, 0x17, 0x64, 0x96, 0x93, 0x67, 0x5c, 0x0d, 0xee, 0x89,
-	0x9e, 0xed, 0x7d, 0x25, 0x0f, 0x26, 0xdc, 0x14, 0x25, 0xe7, 0x26, 0xf5, 0x14, 0x25, 0xe7, 0x47,
-	0xe6, 0xdc, 0x4a, 0x26, 0x51, 0xa4, 0xf0, 0x69, 0x3a, 0xc4, 0xee, 0xed, 0x3e, 0x3d, 0x6d, 0xa0,
-	0x67, 0xa7, 0x0d, 0xf4, 0xd7, 0x69, 0x03, 0x7d, 0x7d, 0xd6, 0x28, 0x3d, 0x3b, 0x6b, 0x94, 0x7e,
-	0x3f, 0x6b, 0x94, 0x3e, 0xbe, 0x1d, 0x32, 0x71, 0xd4, 0x0d, 0x9c, 0x16, 0x6f, 0x4f, 0x2b, 0xf1,
-	0x85, 0x29, 0x22, 0x7a, 0x1d, 0x9a, 0x06, 0x15, 0xf9, 0xe7, 0xe6, 0x5b, 0xff, 0x05, 0x00, 0x00,
-	0xff, 0xff, 0x32, 0x76, 0x75, 0x04, 0x73, 0x0b, 0x00, 0x00,
+	// 1260 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xac, 0x57, 0xcd, 0x6f, 0x1b, 0xc5,
+	0x1b, 0xce, 0xe6, 0xdb, 0x6f, 0xd2, 0x56, 0x9d, 0xfa, 0x97, 0xfa, 0xe7, 0x56, 0x4e, 0xbb, 0x6d,
+	0x49, 0x9b, 0x8a, 0xdd, 0x26, 0x2d, 0x41, 0x8a, 0xa8, 0x42, 0xdc, 0xd2, 0x24, 0x95, 0x1a, 0x92,
+	0x05, 0x2e, 0x48, 0x60, 0xc6, 0xf6, 0xc4, 0xd9, 0x66, 0xbd, 0xe3, 0xee, 0x8e, 0x0b, 0x56, 0x94,
+	0x0b, 0x07, 0x24, 0x24, 0x0e, 0x48, 0x1c, 0xb8, 0x22, 0x71, 0x41, 0x5c, 0xe0, 0xc2, 0x1f, 0x80,
+	0xb8, 0xf4, 0x18, 0xa9, 0x17, 0xc4, 0x01, 0xa1, 0x04, 0x89, 0x7f, 0x03, 0xed, 0x7c, 0x78, 0x77,
+	0xbd, 0x5e, 0x7f, 0x54, 0x5c, 0x5a, 0xcf, 0xcc, 0xfb, 0xf1, 0x3c, 0xef, 0x3c, 0xb3, 0xef, 0x1b,
+	0xb8, 0xf4, 0xb4, 0xe9, 0x56, 0x98, 0x4d, 0x5d, 0xd3, 0xa3, 0x8e, 0xd3, 0x6c, 0x98, 0xcf, 0x9a,
+	0xc4, 0x6b, 0x19, 0x0d, 0x8f, 0x32, 0x8a, 0xce, 0xa9, 0x43, 0x43, 0x1c, 0xe6, 0xcf, 0xe3, 0xba,
+	0xed, 0x52, 0x93, 0xff, 0x2b, 0x6c, 0xf2, 0xd9, 0x1a, 0xad, 0x51, 0xfe, 0xd3, 0x0c, 0x7e, 0xc9,
+	0xdd, 0xcb, 0x35, 0x4a, 0x6b, 0x0e, 0x31, 0x71, 0xc3, 0x36, 0xb1, 0xeb, 0x52, 0x86, 0x83, 0x30,
+	0xbe, 0x3c, 0x5d, 0xac, 0x50, 0xbf, 0x4e, 0x7d, 0xb3, 0x8c, 0x7d, 0x22, 0x12, 0x9a, 0xcf, 0x97,
+	0xca, 0x84, 0xe1, 0x25, 0xb3, 0x81, 0x6b, 0xb6, 0xcb, 0x8d, 0x55, 0xa4, 0x4e, 0x80, 0x0d, 0xec,
+	0xe1, 0xba, 0x8a, 0x74, 0xa3, 0xf3, 0x54, 0xfc, 0x57, 0xaa, 0x13, 0x86, 0xab, 0x98, 0x61, 0x69,
+	0x96, 0x60, 0x59, 0xc6, 0xac, 0xb2, 0x2f, 0x0e, 0xf5, 0x2c, 0xa0, 0xdd, 0x00, 0xc3, 0x0e, 0x0f,
+	0x6c, 0x91, 0x67, 0x4d, 0xe2, 0x33, 0x7d, 0x17, 0x2e, 0xc4, 0x76, 0xfd, 0x06, 0x75, 0x7d, 0x82,
+	0x56, 0x61, 0x52, 0x00, 0xc8, 0x69, 0x57, 0xb4, 0x9b, 0x33, 0xcb, 0x17, 0x8d, 0x8e, 0x1a, 0x19,
+	0xc2, 0xa1, 0x98, 0x79, 0xf1, 0xe7, 0xfc, 0xc8, 0x0f, 0xff, 0xfc, 0xbc, 0xa8, 0x59, 0xd2, 0x43,
+	0x7f, 0x1b, 0xae, 0xf3, 0x90, 0x0f, 0xf6, 0x49, 0xe5, 0xe0, 0x09, 0x75, 0xed, 0x03, 0xe2, 0xad,
+	0x3f, 0xc7, 0xb6, 0x83, 0xcb, 0xb6, 0x63, 0xb3, 0x96, 0x4c, 0x8d, 0x72, 0x30, 0x55, 0x17, 0xa7,
+	0x3c, 0x49, 0xc6, 0x52, 0x4b, 0xfd, 0x31, 0xdc, 0xe8, 0x13, 0x41, 0xc2, 0xbc, 0x0a, 0xb3, 0xb6,
+	0x5f, 0xc2, 0xe2, 0xc8, 0x21, 0x3c, 0xce, 0xb4, 0x35, 0x63, 0xfb, 0xeb, 0x6a, 0x4b, 0x7f, 0x13,
+	0xfe, 0xcf, 0x63, 0x6d, 0x10, 0x66, 0x71, 0xe4, 0x5b, 0xee, 0x1e, 0x55, 0x10, 0xf2, 0x30, 0x2d,
+	0xe8, 0x6c, 0x55, 0x25, 0x86, 0xf6, 0x5a, 0xff, 0x08, 0xf2, 0xdd, 0x1c, 0x65, 0xe6, 0x35, 0x00,
+	0xaf, 0xbd, 0x2b, 0x8b, 0x34, 0x9f, 0x28, 0x92, 0x70, 0x7c, 0x22, 0x6f, 0xc9, 0x8a, 0xb8, 0xe8,
+	0x9f, 0xc0, 0x5c, 0x3c, 0xbc, 0xba, 0x12, 0xf4, 0x08, 0x20, 0x94, 0x87, 0x0c, 0xfd, 0x9a, 0x21,
+	0xb4, 0x64, 0x04, 0x5a, 0x32, 0x84, 0x78, 0xa5, 0x96, 0x8c, 0x1d, 0x5c, 0x23, 0xd2, 0xd7, 0x8a,
+	0x78, 0xea, 0xdf, 0x6b, 0x70, 0x31, 0x91, 0xa2, 0x0d, 0x7f, 0x4a, 0x60, 0x09, 0x2e, 0x78, 0x6c,
+	0x00, 0xec, 0xc5, 0xf1, 0xe0, 0xa2, 0x2d, 0xe5, 0x85, 0x36, 0x62, 0x20, 0x47, 0x39, 0xc8, 0x85,
+	0xbe, 0x20, 0x45, 0xf6, 0x18, 0xca, 0x55, 0x28, 0xc4, 0x41, 0x16, 0x5b, 0xf2, 0xc6, 0xfb, 0xeb,
+	0xa4, 0x0c, 0xf3, 0xa9, 0xbe, 0xff, 0xd5, 0x3d, 0xed, 0x40, 0x4e, 0xe5, 0x28, 0x06, 0xaf, 0x69,
+	0x40, 0xf9, 0x04, 0xa8, 0xf9, 0xeb, 0xdb, 0xa6, 0xbc, 0x3a, 0xe3, 0x96, 0x5a, 0xea, 0xbb, 0xa1,
+	0x22, 0x23, 0x11, 0x25, 0xde, 0x7b, 0x90, 0x29, 0xab, 0x4d, 0x09, 0x77, 0x2e, 0x01, 0x97, 0xbb,
+	0x59, 0xa1, 0xa1, 0xfe, 0x9d, 0x16, 0xc6, 0x5c, 0x77, 0x1c, 0x7e, 0x4e, 0xfc, 0xc1, 0x60, 0x4e,
+	0xd2, 0xbd, 0x3d, 0x9f, 0x30, 0x81, 0x72, 0x73, 0xc4, 0x92, 0x6b, 0x34, 0x07, 0x13, 0x8e, 0x5d,
+	0xb7, 0x59, 0x6e, 0x8c, 0x1f, 0x68, 0x96, 0x58, 0x06, 0xfb, 0xd4, 0xab, 0x12, 0x2f, 0x37, 0x1e,
+	0x84, 0xda, 0x1c, 0xb5, 0xc4, 0xb2, 0x98, 0x81, 0xa9, 0x92, 0x70, 0x2d, 0x4e, 0xc3, 0x64, 0x89,
+	0x1b, 0xf3, 0x5f, 0xfc, 0x58, 0xff, 0x51, 0x0b, 0xdf, 0x53, 0x14, 0xa2, 0xe4, 0xbd, 0x0c, 0x13,
+	0x9c, 0x8e, 0x94, 0x63, 0x0a, 0x67, 0xa9, 0x42, 0x61, 0x8a, 0xb2, 0x30, 0xc1, 0x28, 0xc3, 0x8e,
+	0x2c, 0xb0, 0x58, 0xa0, 0xb9, 0x36, 0x23, 0x0e, 0xbc, 0xcd, 0x27, 0xab, 0xf8, 0x8c, 0x0b, 0x6b,
+	0xc1, 0x26, 0xab, 0xd8, 0x4c, 0xf0, 0xc2, 0x88, 0x85, 0xae, 0xc3, 0x15, 0x85, 0xf5, 0xfd, 0x20,
+	0xe8, 0x7b, 0x0c, 0x1f, 0x90, 0xea, 0x7a, 0x9d, 0x36, 0x5d, 0xa6, 0xbe, 0x9c, 0x5f, 0x6a, 0x70,
+	0xb5, 0x87, 0x51, 0xfb, 0x3e, 0xa7, 0x2b, 0x1e, 0xc1, 0x8c, 0x7a, 0xea, 0xa5, 0xe5, 0x12, 0xd4,
+	0x1e, 0x08, 0x03, 0xab, 0x6d, 0x89, 0x0c, 0xb8, 0xc0, 0xc9, 0x94, 0x7c, 0x1e, 0xb3, 0x84, 0x79,
+	0x50, 0xce, 0x73, 0xcc, 0x3a, 0xcf, 0x3a, 0xb3, 0xe9, 0x4f, 0x61, 0x4a, 0x06, 0x41, 0x0b, 0x70,
+	0x4e, 0x86, 0x29, 0xe1, 0x6a, 0xd5, 0x23, 0xbe, 0x2f, 0xef, 0xfc, 0xac, 0xdc, 0x5e, 0x17, 0xbb,
+	0x68, 0x25, 0xfc, 0x04, 0x8c, 0x72, 0x60, 0x97, 0x53, 0x9e, 0x05, 0xcf, 0xd4, 0x7e, 0xf9, 0x3a,
+	0x81, 0x99, 0xc8, 0x3e, 0xba, 0x04, 0x19, 0xd9, 0x8c, 0xec, 0xa4, 0xba, 0xae, 0xc1, 0x19, 0x01,
+	0x5d, 0x12, 0x91, 0x0c, 0x66, 0xc5, 0xa6, 0xa0, 0x10, 0x5c, 0x41, 0x95, 0xb8, 0xb4, 0xce, 0xef,
+	0x2b, 0x63, 0x89, 0x85, 0x7e, 0x3f, 0xac, 0x2e, 0xb7, 0x7b, 0x48, 0x18, 0xb6, 0x1d, 0xbf, 0xd8,
+	0xfa, 0xc0, 0x8f, 0x7d, 0x1a, 0xe2, 0x24, 0xd5, 0x52, 0xff, 0x4a, 0x03, 0xbd, 0x97, 0xbf, 0xbc,
+	0x9e, 0x94, 0x42, 0x6b, 0x29, 0x85, 0x7e, 0xe5, 0xa2, 0xad, 0x85, 0x6c, 0x22, 0xe7, 0x71, 0x45,
+	0xf5, 0xec, 0x46, 0x1f, 0x87, 0x74, 0xba, 0x05, 0x90, 0x74, 0x74, 0x88, 0x95, 0x96, 0x47, 0x19,
+	0x4f, 0x2b, 0xf7, 0x68, 0xa4, 0xdc, 0xcb, 0x2f, 0xcf, 0xc2, 0x04, 0x4f, 0x80, 0xbe, 0xd0, 0x60,
+	0x52, 0x34, 0x77, 0x74, 0x2d, 0x41, 0x2e, 0x39, 0x41, 0xe4, 0xaf, 0xf7, 0x36, 0x12, 0xc8, 0xf4,
+	0xa5, 0xcf, 0x5f, 0xfe, 0xfd, 0xcd, 0xe8, 0x6d, 0x74, 0xcb, 0xc4, 0xb6, 0x57, 0xd9, 0xc7, 0xb6,
+	0xeb, 0xbf, 0xee, 0x12, 0xf6, 0x29, 0xf5, 0x0e, 0xcc, 0xee, 0xa3, 0x0f, 0xfa, 0x43, 0x83, 0x5c,
+	0xda, 0x04, 0x80, 0xde, 0xe8, 0x9e, 0xb5, 0xcf, 0xcc, 0x91, 0x5f, 0x19, 0xd6, 0x4d, 0xc2, 0x7f,
+	0x97, 0xc3, 0xdf, 0x42, 0x1b, 0x03, 0xc0, 0xaf, 0x04, 0xc1, 0x4a, 0xb2, 0x47, 0xa9, 0xe1, 0x84,
+	0x87, 0x33, 0x0f, 0xe5, 0xee, 0x11, 0xfa, 0x49, 0x83, 0x33, 0xb1, 0xc9, 0x02, 0x2d, 0x76, 0x87,
+	0xd6, 0x6d, 0x6e, 0xc9, 0xdf, 0x1e, 0xc8, 0x56, 0x62, 0x7f, 0x87, 0x63, 0x5f, 0x43, 0xf7, 0x07,
+	0xc0, 0x5e, 0x23, 0xac, 0xa4, 0x9e, 0xb3, 0xbb, 0x47, 0xcd, 0x43, 0x25, 0xc0, 0x23, 0xf4, 0xad,
+	0x06, 0x10, 0x4e, 0x12, 0x68, 0xa1, 0x0f, 0x84, 0xb6, 0x3e, 0x6e, 0xf6, 0x37, 0x94, 0x40, 0x57,
+	0x38, 0xd0, 0x3b, 0xc8, 0x18, 0x0a, 0xa8, 0x8f, 0x7e, 0xd3, 0x00, 0x25, 0x47, 0x00, 0x64, 0xf6,
+	0x49, 0xdc, 0x39, 0x68, 0xe4, 0xef, 0x0c, 0xee, 0x20, 0x11, 0x3f, 0xe6, 0x88, 0x1f, 0xa2, 0xe2,
+	0x70, 0xa5, 0x2d, 0xb7, 0x94, 0x3c, 0x22, 0x8a, 0xf8, 0x45, 0x83, 0xd9, 0xe8, 0x48, 0x80, 0x6e,
+	0xa5, 0xc2, 0xe9, 0x1c, 0x44, 0xf2, 0x8b, 0x83, 0x98, 0x4a, 0xcc, 0xdb, 0x1c, 0xf3, 0x26, 0x7a,
+	0x34, 0x20, 0x66, 0xde, 0x6b, 0x3b, 0xd5, 0x60, 0x1e, 0xca, 0x69, 0xa6, 0xad, 0xe4, 0xb0, 0xa7,
+	0xf7, 0x50, 0x72, 0x62, 0x36, 0xe9, 0xa1, 0xe4, 0xe4, 0x90, 0x30, 0xb4, 0x92, 0xb1, 0xe3, 0x08,
+	0xf8, 0xc4, 0x8f, 0x2a, 0xf9, 0x57, 0x0d, 0xb2, 0xdd, 0x9a, 0x36, 0x5a, 0x4a, 0x05, 0x93, 0x36,
+	0x05, 0xe4, 0x97, 0x87, 0x71, 0x91, 0x34, 0x8a, 0x9c, 0xc6, 0x5b, 0x68, 0x75, 0x40, 0x1a, 0x5d,
+	0x3a, 0x14, 0x3a, 0xd6, 0xe0, 0x7f, 0x5d, 0x5b, 0x1b, 0x4a, 0x47, 0x94, 0xda, 0x47, 0xf3, 0x77,
+	0x87, 0xf2, 0x79, 0x45, 0x21, 0x71, 0x02, 0xa5, 0xaa, 0x88, 0x15, 0xbc, 0x81, 0xa6, 0x1f, 0x3c,
+	0x00, 0xd9, 0xb1, 0x8f, 0x14, 0xa5, 0x64, 0x7b, 0xeb, 0x41, 0x29, 0xb5, 0x99, 0xf6, 0xa0, 0x94,
+	0xde, 0x3f, 0x87, 0xa6, 0x24, 0xdf, 0x73, 0xec, 0x6a, 0x22, 0x4a, 0x2b, 0x6e, 0xbf, 0x38, 0x29,
+	0x68, 0xc7, 0x27, 0x05, 0xed, 0xaf, 0x93, 0x82, 0xf6, 0xf5, 0x69, 0x61, 0xe4, 0xf8, 0xb4, 0x30,
+	0xf2, 0xfb, 0x69, 0x61, 0xe4, 0xc3, 0x7b, 0x35, 0x9b, 0xed, 0x37, 0xcb, 0x46, 0x85, 0xd6, 0x7b,
+	0xe5, 0xfa, 0x4c, 0x65, 0x63, 0xad, 0x06, 0xf1, 0xcb, 0x93, 0xfc, 0x4f, 0xf9, 0xbb, 0xff, 0x06,
+	0x00, 0x00, 0xff, 0xff, 0x58, 0x01, 0x02, 0x34, 0xcf, 0x10, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -887,6 +1306,12 @@ type QueryClient interface {
 	GetBatchInfo(ctx context.Context, in *QueryGetBatchInfoRequest, opts ...grpc.CallOption) (*QueryGetBatchInfoResponse, error)
 	// Queries a list of GetAllBatches items.
 	GetAllBatches(ctx context.Context, in *QueryGetAllBatchesRequest, opts ...grpc.CallOption) (*QueryGetAllBatchesResponse, error)
+	// Queries a list of GetTotalStakedAmount items.
+	GetTotalStakedAmount(ctx context.Context, in *QueryGetTotalStakedAmountRequest, opts ...grpc.CallOption) (*QueryGetTotalStakedAmountResponse, error)
+	// Queries a list of GetStakeDetailsByUser items.
+	GetStakeDetailsByUser(ctx context.Context, in *QueryGetStakeDetailsByUserRequest, opts ...grpc.CallOption) (*QueryGetStakeDetailsByUserResponse, error)
+	// Queries a list of GetRollupStakedAmount items.
+	GetRollupStakedAmount(ctx context.Context, in *QueryGetRollupStakedAmountRequest, opts ...grpc.CallOption) (*QueryGetRollupStakedAmountResponse, error)
 }
 
 type queryClient struct {
@@ -960,6 +1385,33 @@ func (c *queryClient) GetAllBatches(ctx context.Context, in *QueryGetAllBatchesR
 	return out, nil
 }
 
+func (c *queryClient) GetTotalStakedAmount(ctx context.Context, in *QueryGetTotalStakedAmountRequest, opts ...grpc.CallOption) (*QueryGetTotalStakedAmountResponse, error) {
+	out := new(QueryGetTotalStakedAmountResponse)
+	err := c.cc.Invoke(ctx, "/junction.rollup.Query/GetTotalStakedAmount", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *queryClient) GetStakeDetailsByUser(ctx context.Context, in *QueryGetStakeDetailsByUserRequest, opts ...grpc.CallOption) (*QueryGetStakeDetailsByUserResponse, error) {
+	out := new(QueryGetStakeDetailsByUserResponse)
+	err := c.cc.Invoke(ctx, "/junction.rollup.Query/GetStakeDetailsByUser", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *queryClient) GetRollupStakedAmount(ctx context.Context, in *QueryGetRollupStakedAmountRequest, opts ...grpc.CallOption) (*QueryGetRollupStakedAmountResponse, error) {
+	out := new(QueryGetRollupStakedAmountResponse)
+	err := c.cc.Invoke(ctx, "/junction.rollup.Query/GetRollupStakedAmount", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // QueryServer is the server API for Query service.
 type QueryServer interface {
 	// Parameters queries the parameters of the module.
@@ -976,6 +1428,12 @@ type QueryServer interface {
 	GetBatchInfo(context.Context, *QueryGetBatchInfoRequest) (*QueryGetBatchInfoResponse, error)
 	// Queries a list of GetAllBatches items.
 	GetAllBatches(context.Context, *QueryGetAllBatchesRequest) (*QueryGetAllBatchesResponse, error)
+	// Queries a list of GetTotalStakedAmount items.
+	GetTotalStakedAmount(context.Context, *QueryGetTotalStakedAmountRequest) (*QueryGetTotalStakedAmountResponse, error)
+	// Queries a list of GetStakeDetailsByUser items.
+	GetStakeDetailsByUser(context.Context, *QueryGetStakeDetailsByUserRequest) (*QueryGetStakeDetailsByUserResponse, error)
+	// Queries a list of GetRollupStakedAmount items.
+	GetRollupStakedAmount(context.Context, *QueryGetRollupStakedAmountRequest) (*QueryGetRollupStakedAmountResponse, error)
 }
 
 // UnimplementedQueryServer can be embedded to have forward compatible implementations.
@@ -1002,6 +1460,15 @@ func (*UnimplementedQueryServer) GetBatchInfo(ctx context.Context, req *QueryGet
 }
 func (*UnimplementedQueryServer) GetAllBatches(ctx context.Context, req *QueryGetAllBatchesRequest) (*QueryGetAllBatchesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAllBatches not implemented")
+}
+func (*UnimplementedQueryServer) GetTotalStakedAmount(ctx context.Context, req *QueryGetTotalStakedAmountRequest) (*QueryGetTotalStakedAmountResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTotalStakedAmount not implemented")
+}
+func (*UnimplementedQueryServer) GetStakeDetailsByUser(ctx context.Context, req *QueryGetStakeDetailsByUserRequest) (*QueryGetStakeDetailsByUserResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetStakeDetailsByUser not implemented")
+}
+func (*UnimplementedQueryServer) GetRollupStakedAmount(ctx context.Context, req *QueryGetRollupStakedAmountRequest) (*QueryGetRollupStakedAmountResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetRollupStakedAmount not implemented")
 }
 
 func RegisterQueryServer(s grpc1.Server, srv QueryServer) {
@@ -1134,6 +1601,60 @@ func _Query_GetAllBatches_Handler(srv interface{}, ctx context.Context, dec func
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Query_GetTotalStakedAmount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryGetTotalStakedAmountRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).GetTotalStakedAmount(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/junction.rollup.Query/GetTotalStakedAmount",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).GetTotalStakedAmount(ctx, req.(*QueryGetTotalStakedAmountRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Query_GetStakeDetailsByUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryGetStakeDetailsByUserRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).GetStakeDetailsByUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/junction.rollup.Query/GetStakeDetailsByUser",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).GetStakeDetailsByUser(ctx, req.(*QueryGetStakeDetailsByUserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Query_GetRollupStakedAmount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryGetRollupStakedAmountRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).GetRollupStakedAmount(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/junction.rollup.Query/GetRollupStakedAmount",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).GetRollupStakedAmount(ctx, req.(*QueryGetRollupStakedAmountRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var Query_serviceDesc = _Query_serviceDesc
 var _Query_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "junction.rollup.Query",
@@ -1166,6 +1687,18 @@ var _Query_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetAllBatches",
 			Handler:    _Query_GetAllBatches_Handler,
+		},
+		{
+			MethodName: "GetTotalStakedAmount",
+			Handler:    _Query_GetTotalStakedAmount_Handler,
+		},
+		{
+			MethodName: "GetStakeDetailsByUser",
+			Handler:    _Query_GetStakeDetailsByUser_Handler,
+		},
+		{
+			MethodName: "GetRollupStakedAmount",
+			Handler:    _Query_GetRollupStakedAmount_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
@@ -1729,6 +2262,294 @@ func (m *QueryGetAllBatchesResponse) MarshalToSizedBuffer(dAtA []byte) (int, err
 	return len(dAtA) - i, nil
 }
 
+func (m *QueryGetTotalStakedAmountRequest) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *QueryGetTotalStakedAmountRequest) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *QueryGetTotalStakedAmountRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	return len(dAtA) - i, nil
+}
+
+func (m *QueryGetTotalStakedAmountResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *QueryGetTotalStakedAmountResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *QueryGetTotalStakedAmountResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if m.TotalStakedAmount != 0 {
+		i = encodeVarintQuery(dAtA, i, uint64(m.TotalStakedAmount))
+		i--
+		dAtA[i] = 0x10
+	}
+	if len(m.Creators) > 0 {
+		for iNdEx := len(m.Creators) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.Creators[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintQuery(dAtA, i, uint64(size))
+			}
+			i--
+			dAtA[i] = 0xa
+		}
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *Creator) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *Creator) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *Creator) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.Rollups) > 0 {
+		for iNdEx := len(m.Rollups) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.Rollups[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintQuery(dAtA, i, uint64(size))
+			}
+			i--
+			dAtA[i] = 0x12
+		}
+	}
+	if len(m.CreatorAddress) > 0 {
+		i -= len(m.CreatorAddress)
+		copy(dAtA[i:], m.CreatorAddress)
+		i = encodeVarintQuery(dAtA, i, uint64(len(m.CreatorAddress)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *RollupStake) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *RollupStake) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *RollupStake) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.Denom) > 0 {
+		i -= len(m.Denom)
+		copy(dAtA[i:], m.Denom)
+		i = encodeVarintQuery(dAtA, i, uint64(len(m.Denom)))
+		i--
+		dAtA[i] = 0x1a
+	}
+	if m.AmountStaked != 0 {
+		i = encodeVarintQuery(dAtA, i, uint64(m.AmountStaked))
+		i--
+		dAtA[i] = 0x10
+	}
+	if len(m.RollupId) > 0 {
+		i -= len(m.RollupId)
+		copy(dAtA[i:], m.RollupId)
+		i = encodeVarintQuery(dAtA, i, uint64(len(m.RollupId)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *QueryGetStakeDetailsByUserRequest) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *QueryGetStakeDetailsByUserRequest) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *QueryGetStakeDetailsByUserRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.Address) > 0 {
+		i -= len(m.Address)
+		copy(dAtA[i:], m.Address)
+		i = encodeVarintQuery(dAtA, i, uint64(len(m.Address)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *QueryGetStakeDetailsByUserResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *QueryGetStakeDetailsByUserResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *QueryGetStakeDetailsByUserResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.Rollups) > 0 {
+		for iNdEx := len(m.Rollups) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.Rollups[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintQuery(dAtA, i, uint64(size))
+			}
+			i--
+			dAtA[i] = 0x12
+		}
+	}
+	if m.TotalStakedAmount != 0 {
+		i = encodeVarintQuery(dAtA, i, uint64(m.TotalStakedAmount))
+		i--
+		dAtA[i] = 0x8
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *QueryGetRollupStakedAmountRequest) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *QueryGetRollupStakedAmountRequest) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *QueryGetRollupStakedAmountRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.RollupId) > 0 {
+		i -= len(m.RollupId)
+		copy(dAtA[i:], m.RollupId)
+		i = encodeVarintQuery(dAtA, i, uint64(len(m.RollupId)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *QueryGetRollupStakedAmountResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *QueryGetRollupStakedAmountResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *QueryGetRollupStakedAmountResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.Denom) > 0 {
+		i -= len(m.Denom)
+		copy(dAtA[i:], m.Denom)
+		i = encodeVarintQuery(dAtA, i, uint64(len(m.Denom)))
+		i--
+		dAtA[i] = 0x12
+	}
+	if m.AmountStaked != 0 {
+		i = encodeVarintQuery(dAtA, i, uint64(m.AmountStaked))
+		i--
+		dAtA[i] = 0x8
+	}
+	return len(dAtA) - i, nil
+}
+
 func encodeVarintQuery(dAtA []byte, offset int, v uint64) int {
 	offset -= sovQuery(v)
 	base := offset
@@ -1970,6 +2791,132 @@ func (m *QueryGetAllBatchesResponse) Size() (n int) {
 		n += 1 + sovQuery(uint64(m.Limit))
 	}
 	l = len(m.Order)
+	if l > 0 {
+		n += 1 + l + sovQuery(uint64(l))
+	}
+	return n
+}
+
+func (m *QueryGetTotalStakedAmountRequest) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	return n
+}
+
+func (m *QueryGetTotalStakedAmountResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if len(m.Creators) > 0 {
+		for _, e := range m.Creators {
+			l = e.Size()
+			n += 1 + l + sovQuery(uint64(l))
+		}
+	}
+	if m.TotalStakedAmount != 0 {
+		n += 1 + sovQuery(uint64(m.TotalStakedAmount))
+	}
+	return n
+}
+
+func (m *Creator) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.CreatorAddress)
+	if l > 0 {
+		n += 1 + l + sovQuery(uint64(l))
+	}
+	if len(m.Rollups) > 0 {
+		for _, e := range m.Rollups {
+			l = e.Size()
+			n += 1 + l + sovQuery(uint64(l))
+		}
+	}
+	return n
+}
+
+func (m *RollupStake) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.RollupId)
+	if l > 0 {
+		n += 1 + l + sovQuery(uint64(l))
+	}
+	if m.AmountStaked != 0 {
+		n += 1 + sovQuery(uint64(m.AmountStaked))
+	}
+	l = len(m.Denom)
+	if l > 0 {
+		n += 1 + l + sovQuery(uint64(l))
+	}
+	return n
+}
+
+func (m *QueryGetStakeDetailsByUserRequest) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.Address)
+	if l > 0 {
+		n += 1 + l + sovQuery(uint64(l))
+	}
+	return n
+}
+
+func (m *QueryGetStakeDetailsByUserResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.TotalStakedAmount != 0 {
+		n += 1 + sovQuery(uint64(m.TotalStakedAmount))
+	}
+	if len(m.Rollups) > 0 {
+		for _, e := range m.Rollups {
+			l = e.Size()
+			n += 1 + l + sovQuery(uint64(l))
+		}
+	}
+	return n
+}
+
+func (m *QueryGetRollupStakedAmountRequest) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.RollupId)
+	if l > 0 {
+		n += 1 + l + sovQuery(uint64(l))
+	}
+	return n
+}
+
+func (m *QueryGetRollupStakedAmountResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if m.AmountStaked != 0 {
+		n += 1 + sovQuery(uint64(m.AmountStaked))
+	}
+	l = len(m.Denom)
 	if l > 0 {
 		n += 1 + l + sovQuery(uint64(l))
 	}
@@ -3301,6 +4248,776 @@ func (m *QueryGetAllBatchesResponse) Unmarshal(dAtA []byte) error {
 				return io.ErrUnexpectedEOF
 			}
 			m.Order = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *QueryGetTotalStakedAmountRequest) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: QueryGetTotalStakedAmountRequest: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: QueryGetTotalStakedAmountRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *QueryGetTotalStakedAmountResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: QueryGetTotalStakedAmountResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: QueryGetTotalStakedAmountResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Creators", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthQuery
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Creators = append(m.Creators, &Creator{})
+			if err := m.Creators[len(m.Creators)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 2:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field TotalStakedAmount", wireType)
+			}
+			m.TotalStakedAmount = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.TotalStakedAmount |= int64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *Creator) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: Creator: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: Creator: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field CreatorAddress", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthQuery
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.CreatorAddress = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Rollups", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthQuery
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Rollups = append(m.Rollups, &RollupStake{})
+			if err := m.Rollups[len(m.Rollups)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *RollupStake) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: RollupStake: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: RollupStake: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field RollupId", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthQuery
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.RollupId = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field AmountStaked", wireType)
+			}
+			m.AmountStaked = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.AmountStaked |= int64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Denom", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthQuery
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Denom = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *QueryGetStakeDetailsByUserRequest) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: QueryGetStakeDetailsByUserRequest: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: QueryGetStakeDetailsByUserRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Address", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthQuery
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Address = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *QueryGetStakeDetailsByUserResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: QueryGetStakeDetailsByUserResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: QueryGetStakeDetailsByUserResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field TotalStakedAmount", wireType)
+			}
+			m.TotalStakedAmount = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.TotalStakedAmount |= int64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Rollups", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthQuery
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Rollups = append(m.Rollups, &RollupStake{})
+			if err := m.Rollups[len(m.Rollups)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *QueryGetRollupStakedAmountRequest) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: QueryGetRollupStakedAmountRequest: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: QueryGetRollupStakedAmountRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field RollupId", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthQuery
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.RollupId = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *QueryGetRollupStakedAmountResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: QueryGetRollupStakedAmountResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: QueryGetRollupStakedAmountResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field AmountStaked", wireType)
+			}
+			m.AmountStaked = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.AmountStaked |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Denom", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthQuery
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Denom = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		default:
 			iNdEx = preIndex

@@ -2,6 +2,7 @@ package keeper
 
 import (
 	"encoding/json"
+	"fmt"
 	"strconv"
 	"strings"
 
@@ -125,4 +126,167 @@ func IsValidCosmosWalletAndContractAddress(address string) bool {
 		return false
 	}
 	return hrp == "air"
+}
+
+// ************** Ledger Entry Helper Functions **************
+
+type TotalStakeAmountResponse struct {
+	Creators []struct {
+		CreatorAddress string `json:"creator_address"`
+		Rollups        []struct {
+			RollupID     string `json:"rollup_id"`
+			AmountStaked int    `json:"amount_staked"`
+			Denom        string `json:"denom"`
+		} `json:"rollups"`
+	} `json:"creators"`
+	TotalStakedAmount int `json:"total_staked_amount"`
+}
+
+func (k Keeper) Inner_GetTotalStakedAmount(ctx sdk.Context) (TotalStakeAmountResponse, error) {
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	ledgerEntryStore := prefix.NewStore(storeAdapter, types.KeyPrefix(types.LedgerEntryRollupCreatorKey))
+	rollupStakingInfoStore := prefix.NewStore(storeAdapter, types.KeyPrefix(types.RollupStakingInfoKey)) // for later use
+	iterator := ledgerEntryStore.Iterator(nil, nil)
+	defer iterator.Close()
+
+	var totalStakedAmount int
+	var creators []struct {
+		CreatorAddress string `json:"creator_address"`
+		Rollups        []struct {
+			RollupID     string `json:"rollup_id"`
+			AmountStaked int    `json:"amount_staked"`
+			Denom        string `json:"denom"`
+		} `json:"rollups"`
+	}
+
+	for ; iterator.Valid(); iterator.Next() {
+		creatorAddress := string(iterator.Key())
+		rollupIdsBytes := iterator.Value()
+		var rollupIds []string
+		json.Unmarshal(rollupIdsBytes, &rollupIds)
+
+		// Create a new creator entry
+		creator := struct {
+			CreatorAddress string `json:"creator_address"`
+			Rollups        []struct {
+				RollupID     string `json:"rollup_id"`
+				AmountStaked int    `json:"amount_staked"`
+				Denom        string `json:"denom"`
+			} `json:"rollups"`
+		}{
+			CreatorAddress: creatorAddress,
+			Rollups: []struct {
+				RollupID     string `json:"rollup_id"`
+				AmountStaked int    `json:"amount_staked"`
+				Denom        string `json:"denom"`
+			}{},
+		}
+
+		// Process each rollup for this creator
+		for _, rollupId := range rollupIds {
+			rollupStakingInfoKey := []byte(rollupId)
+			rollupStakingInfoBytes := rollupStakingInfoStore.Get(rollupStakingInfoKey)
+			if rollupStakingInfoBytes == nil {
+				continue
+			}
+
+			var rollupStakingInfo types.LedgerEntry
+			k.cdc.MustUnmarshal(rollupStakingInfoBytes, &rollupStakingInfo)
+
+			// Add to total staked amount
+			totalStakedAmount += int(rollupStakingInfo.AmountStaked)
+
+			// Add rollup info to creator's rollups
+			rollupInfo := struct {
+				RollupID     string `json:"rollup_id"`
+				AmountStaked int    `json:"amount_staked"`
+				Denom        string `json:"denom"`
+			}{
+				RollupID:     rollupId,
+				AmountStaked: int(rollupStakingInfo.AmountStaked),
+				Denom:        rollupStakingInfo.Denom,
+			}
+
+			creator.Rollups = append(creator.Rollups, rollupInfo)
+		}
+
+		// Add creator to the list if they have rollups
+		if len(creator.Rollups) > 0 {
+			creators = append(creators, creator)
+		}
+	}
+
+	// Create and return the response
+	response := TotalStakeAmountResponse{
+		Creators:          creators,
+		TotalStakedAmount: totalStakedAmount,
+	}
+
+	return response, nil
+}
+
+func (k Keeper) Inner_GetStakeDetailsByUser(ctx sdk.Context, address string) (types.QueryGetStakeDetailsByUserResponse, error) {
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	ledgerEntryStore := prefix.NewStore(storeAdapter, types.KeyPrefix(types.LedgerEntryRollupCreatorKey))
+	rollupStakingInfoStore := prefix.NewStore(storeAdapter, types.KeyPrefix(types.RollupStakingInfoKey)) // for later use
+
+	addressBytes := []byte(address)
+	rollupIdsBytes := ledgerEntryStore.Get(addressBytes)
+	if rollupIdsBytes == nil {
+		return types.QueryGetStakeDetailsByUserResponse{}, status.Error(codes.NotFound, "no rollups found for address")
+	}
+
+	var rollupIds []string
+	json.Unmarshal(rollupIdsBytes, &rollupIds)
+
+	var totalStakedAmount int64
+	var rollups []types.RollupStake
+	for _, rollupId := range rollupIds {
+		rollupStakingInfoKey := []byte(rollupId)
+		rollupStakingInfoBytes := rollupStakingInfoStore.Get(rollupStakingInfoKey)
+		if rollupStakingInfoBytes == nil {
+			return types.QueryGetStakeDetailsByUserResponse{}, status.Error(codes.NotFound, fmt.Sprintf("rollup staking info not found for rollup id: %s", rollupId))
+		}
+
+		var rollupStakingInfo types.LedgerEntry
+		k.cdc.MustUnmarshal(rollupStakingInfoBytes, &rollupStakingInfo)
+		totalStakedAmount += int64(rollupStakingInfo.AmountStaked)
+
+		rollups = append(rollups, types.RollupStake{
+			RollupId:     rollupId,
+			AmountStaked: int64(rollupStakingInfo.AmountStaked),
+			Denom:        rollupStakingInfo.Denom,
+		})
+	}
+
+	rollupsPtrs := make([]*types.RollupStake, len(rollups))
+	for i := range rollups {
+		rollupsPtrs[i] = &rollups[i]
+	}
+
+	return types.QueryGetStakeDetailsByUserResponse{
+		TotalStakedAmount: totalStakedAmount,
+		Rollups:           rollupsPtrs,
+	}, nil
+}
+
+func (k Keeper) Inner_GetRollupStakedAmount(ctx sdk.Context, rollupId string) (types.QueryGetRollupStakedAmountResponse, error) {
+	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
+	rollupStakingInfoStore := prefix.NewStore(storeAdapter, types.KeyPrefix(types.RollupStakingInfoKey))
+
+	rollupStakingInfoKey := []byte(rollupId)
+	rollupStakingInfoBytes := rollupStakingInfoStore.Get(rollupStakingInfoKey)
+
+	if rollupStakingInfoBytes == nil {
+		return types.QueryGetRollupStakedAmountResponse{}, status.Error(codes.NotFound, fmt.Sprintf("rollup staking info not found for rollup id: %s", rollupId))
+	}
+
+	var rollupStakingInfo types.LedgerEntry
+	k.cdc.MustUnmarshal(rollupStakingInfoBytes, &rollupStakingInfo)
+
+	return types.QueryGetRollupStakedAmountResponse{
+		AmountStaked: uint64(rollupStakingInfo.AmountStaked),
+		Denom:        rollupStakingInfo.Denom,
+	}, nil
+	
 }

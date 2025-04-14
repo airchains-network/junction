@@ -3,6 +3,7 @@ package rollup
 
 import (
 	_ "cosmossdk.io/api/amino"
+	_ "cosmossdk.io/api/cosmos/base/v1beta1"
 	_ "cosmossdk.io/api/cosmos/msg/v1"
 	fmt "fmt"
 	_ "github.com/cosmos/cosmos-proto"
@@ -6417,20 +6418,21 @@ type MsgInitRollup struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Creator                string   `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
-	Moniker                string   `protobuf:"bytes,2,opt,name=moniker,proto3" json:"moniker,omitempty"`
-	ChainId                string   `protobuf:"bytes,3,opt,name=chainId,proto3" json:"chainId,omitempty"`
-	DenomName              string   `protobuf:"bytes,4,opt,name=denomName,proto3" json:"denomName,omitempty"`
-	DaType                 string   `protobuf:"bytes,5,opt,name=daType,proto3" json:"daType,omitempty"`
-	Keys                   []string `protobuf:"bytes,6,rep,name=keys,proto3" json:"keys,omitempty"`
-	Supply                 []uint64 `protobuf:"varint,7,rep,packed,name=supply,proto3" json:"supply,omitempty"`
-	AclContractAddress     string   `protobuf:"bytes,8,opt,name=aclContractAddress,proto3" json:"aclContractAddress,omitempty"`
-	KmsVerifierAddress     string   `protobuf:"bytes,9,opt,name=kmsVerifierAddress,proto3" json:"kmsVerifierAddress,omitempty"`
-	TfheExecutorAddress    string   `protobuf:"bytes,10,opt,name=tfheExecutorAddress,proto3" json:"tfheExecutorAddress,omitempty"`
-	GatewayContractAddress string   `protobuf:"bytes,11,opt,name=gatewayContractAddress,proto3" json:"gatewayContractAddress,omitempty"`
-	AscContractAddress     string   `protobuf:"bytes,12,opt,name=ascContractAddress,proto3" json:"ascContractAddress,omitempty"`
-	RelayerGAddress        string   `protobuf:"bytes,13,opt,name=relayerGAddress,proto3" json:"relayerGAddress,omitempty"`
-	RelayerASCAddress      string   `protobuf:"bytes,14,opt,name=relayerASCAddress,proto3" json:"relayerASCAddress,omitempty"`
+	Creator   string   `protobuf:"bytes,1,opt,name=creator,proto3" json:"creator,omitempty"`
+	Moniker   string   `protobuf:"bytes,2,opt,name=moniker,proto3" json:"moniker,omitempty"`
+	ChainId   string   `protobuf:"bytes,3,opt,name=chainId,proto3" json:"chainId,omitempty"`
+	DenomName string   `protobuf:"bytes,4,opt,name=denomName,proto3" json:"denomName,omitempty"`
+	DaType    string   `protobuf:"bytes,5,opt,name=daType,proto3" json:"daType,omitempty"`
+	Keys      []string `protobuf:"bytes,6,rep,name=keys,proto3" json:"keys,omitempty"`
+	Supply    []uint64 `protobuf:"varint,7,rep,packed,name=supply,proto3" json:"supply,omitempty"`
+	// cosmos.base.v1beta1.Coin genesisSupply  = 8 [(gogoproto.nullable) = false];
+	AclContractAddress     string `protobuf:"bytes,8,opt,name=aclContractAddress,proto3" json:"aclContractAddress,omitempty"`
+	KmsVerifierAddress     string `protobuf:"bytes,9,opt,name=kmsVerifierAddress,proto3" json:"kmsVerifierAddress,omitempty"`
+	TfheExecutorAddress    string `protobuf:"bytes,10,opt,name=tfheExecutorAddress,proto3" json:"tfheExecutorAddress,omitempty"`
+	GatewayContractAddress string `protobuf:"bytes,11,opt,name=gatewayContractAddress,proto3" json:"gatewayContractAddress,omitempty"`
+	AscContractAddress     string `protobuf:"bytes,12,opt,name=ascContractAddress,proto3" json:"ascContractAddress,omitempty"`
+	RelayerGAddress        string `protobuf:"bytes,13,opt,name=relayerGAddress,proto3" json:"relayerGAddress,omitempty"`
+	RelayerASCAddress      string `protobuf:"bytes,14,opt,name=relayerASCAddress,proto3" json:"relayerASCAddress,omitempty"`
 }
 
 func (x *MsgInitRollup) Reset() {
@@ -6953,6 +6955,8 @@ var file_junction_rollup_tx_proto_rawDesc = []byte{
 	0x74, 0x6f, 0x1a, 0x14, 0x67, 0x6f, 0x67, 0x6f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2f, 0x67, 0x6f,
 	0x67, 0x6f, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x1c, 0x6a, 0x75, 0x6e, 0x63, 0x74, 0x69,
 	0x6f, 0x6e, 0x2f, 0x72, 0x6f, 0x6c, 0x6c, 0x75, 0x70, 0x2f, 0x70, 0x61, 0x72, 0x61, 0x6d, 0x73,
+	0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x1e, 0x63, 0x6f, 0x73, 0x6d, 0x6f, 0x73, 0x2f, 0x62,
+	0x61, 0x73, 0x65, 0x2f, 0x76, 0x31, 0x62, 0x65, 0x74, 0x61, 0x31, 0x2f, 0x63, 0x6f, 0x69, 0x6e,
 	0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0xbb, 0x01, 0x0a, 0x0f, 0x4d, 0x73, 0x67, 0x55, 0x70,
 	0x64, 0x61, 0x74, 0x65, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x12, 0x36, 0x0a, 0x09, 0x61, 0x75,
 	0x74, 0x68, 0x6f, 0x72, 0x69, 0x74, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x42, 0x18, 0xd2,

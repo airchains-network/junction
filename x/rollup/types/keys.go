@@ -22,6 +22,12 @@ const (
 	// RollupMonikerKey is the key to store mapping from moniker to rollup-id
 	RollupMonikerKey = "rollup-moniker-to-rollupid"
 
+	// RollupCreatorKey is the key to store mapping from creator address to rollup-ids
+	LedgerEntryRollupCreatorKey = "ledger-entry-rollup-creator"
+
+	// RollupStakingInfoKey is the key to store mapping from rollup-id to staking info
+	RollupStakingInfoKey = "rollup-staking-info"
+
 	// Figures DB
 	FiguresDBPath = "Figure/Data/"
 )

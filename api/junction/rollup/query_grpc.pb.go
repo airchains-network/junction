@@ -26,6 +26,9 @@ const (
 	Query_GetRollupByMoniker_FullMethodName       = "/junction.rollup.Query/GetRollupByMoniker"
 	Query_GetBatchInfo_FullMethodName             = "/junction.rollup.Query/GetBatchInfo"
 	Query_GetAllBatches_FullMethodName            = "/junction.rollup.Query/GetAllBatches"
+	Query_GetTotalStakedAmount_FullMethodName     = "/junction.rollup.Query/GetTotalStakedAmount"
+	Query_GetStakeDetailsByUser_FullMethodName    = "/junction.rollup.Query/GetStakeDetailsByUser"
+	Query_GetRollupStakedAmount_FullMethodName    = "/junction.rollup.Query/GetRollupStakedAmount"
 )
 
 // QueryClient is the client API for Query service.
@@ -46,6 +49,12 @@ type QueryClient interface {
 	GetBatchInfo(ctx context.Context, in *QueryGetBatchInfoRequest, opts ...grpc.CallOption) (*QueryGetBatchInfoResponse, error)
 	// Queries a list of GetAllBatches items.
 	GetAllBatches(ctx context.Context, in *QueryGetAllBatchesRequest, opts ...grpc.CallOption) (*QueryGetAllBatchesResponse, error)
+	// Queries a list of GetTotalStakedAmount items.
+	GetTotalStakedAmount(ctx context.Context, in *QueryGetTotalStakedAmountRequest, opts ...grpc.CallOption) (*QueryGetTotalStakedAmountResponse, error)
+	// Queries a list of GetStakeDetailsByUser items.
+	GetStakeDetailsByUser(ctx context.Context, in *QueryGetStakeDetailsByUserRequest, opts ...grpc.CallOption) (*QueryGetStakeDetailsByUserResponse, error)
+	// Queries a list of GetRollupStakedAmount items.
+	GetRollupStakedAmount(ctx context.Context, in *QueryGetRollupStakedAmountRequest, opts ...grpc.CallOption) (*QueryGetRollupStakedAmountResponse, error)
 }
 
 type queryClient struct {
@@ -119,6 +128,33 @@ func (c *queryClient) GetAllBatches(ctx context.Context, in *QueryGetAllBatchesR
 	return out, nil
 }
 
+func (c *queryClient) GetTotalStakedAmount(ctx context.Context, in *QueryGetTotalStakedAmountRequest, opts ...grpc.CallOption) (*QueryGetTotalStakedAmountResponse, error) {
+	out := new(QueryGetTotalStakedAmountResponse)
+	err := c.cc.Invoke(ctx, Query_GetTotalStakedAmount_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *queryClient) GetStakeDetailsByUser(ctx context.Context, in *QueryGetStakeDetailsByUserRequest, opts ...grpc.CallOption) (*QueryGetStakeDetailsByUserResponse, error) {
+	out := new(QueryGetStakeDetailsByUserResponse)
+	err := c.cc.Invoke(ctx, Query_GetStakeDetailsByUser_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *queryClient) GetRollupStakedAmount(ctx context.Context, in *QueryGetRollupStakedAmountRequest, opts ...grpc.CallOption) (*QueryGetRollupStakedAmountResponse, error) {
+	out := new(QueryGetRollupStakedAmountResponse)
+	err := c.cc.Invoke(ctx, Query_GetRollupStakedAmount_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // QueryServer is the server API for Query service.
 // All implementations must embed UnimplementedQueryServer
 // for forward compatibility
@@ -137,6 +173,12 @@ type QueryServer interface {
 	GetBatchInfo(context.Context, *QueryGetBatchInfoRequest) (*QueryGetBatchInfoResponse, error)
 	// Queries a list of GetAllBatches items.
 	GetAllBatches(context.Context, *QueryGetAllBatchesRequest) (*QueryGetAllBatchesResponse, error)
+	// Queries a list of GetTotalStakedAmount items.
+	GetTotalStakedAmount(context.Context, *QueryGetTotalStakedAmountRequest) (*QueryGetTotalStakedAmountResponse, error)
+	// Queries a list of GetStakeDetailsByUser items.
+	GetStakeDetailsByUser(context.Context, *QueryGetStakeDetailsByUserRequest) (*QueryGetStakeDetailsByUserResponse, error)
+	// Queries a list of GetRollupStakedAmount items.
+	GetRollupStakedAmount(context.Context, *QueryGetRollupStakedAmountRequest) (*QueryGetRollupStakedAmountResponse, error)
 	mustEmbedUnimplementedQueryServer()
 }
 
@@ -164,6 +206,15 @@ func (UnimplementedQueryServer) GetBatchInfo(context.Context, *QueryGetBatchInfo
 }
 func (UnimplementedQueryServer) GetAllBatches(context.Context, *QueryGetAllBatchesRequest) (*QueryGetAllBatchesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAllBatches not implemented")
+}
+func (UnimplementedQueryServer) GetTotalStakedAmount(context.Context, *QueryGetTotalStakedAmountRequest) (*QueryGetTotalStakedAmountResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTotalStakedAmount not implemented")
+}
+func (UnimplementedQueryServer) GetStakeDetailsByUser(context.Context, *QueryGetStakeDetailsByUserRequest) (*QueryGetStakeDetailsByUserResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetStakeDetailsByUser not implemented")
+}
+func (UnimplementedQueryServer) GetRollupStakedAmount(context.Context, *QueryGetRollupStakedAmountRequest) (*QueryGetRollupStakedAmountResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetRollupStakedAmount not implemented")
 }
 func (UnimplementedQueryServer) mustEmbedUnimplementedQueryServer() {}
 
@@ -304,6 +355,60 @@ func _Query_GetAllBatches_Handler(srv interface{}, ctx context.Context, dec func
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Query_GetTotalStakedAmount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryGetTotalStakedAmountRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).GetTotalStakedAmount(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Query_GetTotalStakedAmount_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).GetTotalStakedAmount(ctx, req.(*QueryGetTotalStakedAmountRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Query_GetStakeDetailsByUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryGetStakeDetailsByUserRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).GetStakeDetailsByUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Query_GetStakeDetailsByUser_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).GetStakeDetailsByUser(ctx, req.(*QueryGetStakeDetailsByUserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Query_GetRollupStakedAmount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryGetRollupStakedAmountRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).GetRollupStakedAmount(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Query_GetRollupStakedAmount_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).GetRollupStakedAmount(ctx, req.(*QueryGetRollupStakedAmountRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Query_ServiceDesc is the grpc.ServiceDesc for Query service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -338,6 +443,18 @@ var Query_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetAllBatches",
 			Handler:    _Query_GetAllBatches_Handler,
+		},
+		{
+			MethodName: "GetTotalStakedAmount",
+			Handler:    _Query_GetTotalStakedAmount_Handler,
+		},
+		{
+			MethodName: "GetStakeDetailsByUser",
+			Handler:    _Query_GetStakeDetailsByUser_Handler,
+		},
+		{
+			MethodName: "GetRollupStakedAmount",
+			Handler:    _Query_GetRollupStakedAmount_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

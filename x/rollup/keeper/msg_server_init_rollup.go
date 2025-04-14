@@ -4,9 +4,11 @@ import (
 	"context"
 	"crypto/sha256"
 	"encoding/hex"
+	"encoding/json"
 	"strconv"
 	"strings"
 
+	"cosmossdk.io/math"
 	"cosmossdk.io/store/prefix"
 	"github.com/airchains-network/junction/x/rollup/types"
 	"github.com/cosmos/cosmos-sdk/runtime"
@@ -76,7 +78,33 @@ func (k msgServer) InitRollup(goCtx context.Context, msg *types.MsgInitRollup) (
 	if !IsValidCosmosWalletAndContractAddress(ascContractAddress) {
 		return nil, status.Error(codes.InvalidArgument, "invalid asc contract address")
 	}
-	// write
+
+	// find the total supply of the denom
+	var totalSupply uint64
+	for _, supply := range supply {
+		totalSupply += supply
+	}
+
+	// Check if the creator address has more than totalSupply balance
+	creatorAddr, err := sdk.AccAddressFromBech32(creator)
+	if err != nil {
+		return nil, status.Error(codes.InvalidArgument, "invalid creator address")
+	}
+
+	totalSupplyCoins := sdk.NewCoins(sdk.NewCoin("uamf", math.NewIntFromUint64(totalSupply)))
+
+	balance := k.bankKeeper.GetBalance(ctx, creatorAddr, "uamf")
+	if balance.Amount.Uint64() < totalSupply {
+		return nil, status.Error(codes.FailedPrecondition, "creator address does not have sufficient balance")
+	}
+
+	// if msg.GenesisSupply.Denom != "uamf" {
+	// 	return nil, status.Error(codes.FailedPrecondition, fmt.Sprintf("invalid genesis supply denom, expected: uamf, got: %s", msg.GenesisSupply.Denom))
+	// }
+
+	// if msg.GenesisSupply.Amount.Uint64() != totalSupply {
+	// 	return nil, status.Error(codes.FailedPrecondition, fmt.Sprintf("invalid genesis supply amount, expected: %d, got: %d", totalSupply, msg.GenesisSupply.Amount.Uint64()))
+	// }
 
 	var rollup = types.RollupMetadata{
 		CreatedBy:                    creator,
@@ -106,10 +134,74 @@ func (k msgServer) InitRollup(goCtx context.Context, msg *types.MsgInitRollup) (
 		return nil, status.Error(codes.AlreadyExists, "rollup already exists with this moniker")
 	}
 
+	// send the total supply of the denom from the creator address to the module account
+	err = k.bankKeeper.SendCoinsFromAccountToModule(ctx, creatorAddr, types.ModuleName, totalSupplyCoins)
+	if err != nil {
+		return nil, status.Error(codes.FailedPrecondition, "failed to send coins from creator address to module account")
+	}
+
+	/*
+		This section checks if a ledger entry for the creator address already exists.
+		If it does, it retrieves the existing rollup IDs, appends the new rollup ID, and updates the store.
+		If it doesn't exist, it creates a new entry with the rollup ID.
+	*/
+
+	ledgerEntryStore := prefix.NewStore(storeAdapter, types.KeyPrefix(types.LedgerEntryRollupCreatorKey))
+	if ledgerEntryStore.Has([]byte(creatorAddr.String())) {
+		rollupsIdBytes := ledgerEntryStore.Get([]byte(creatorAddr.String()))
+		var rollupsIds []string
+		err = json.Unmarshal(rollupsIdBytes, &rollupsIds)
+		if err != nil {
+			return nil, status.Error(codes.FailedPrecondition, "failed to unmarshal rollups ids")
+		}
+
+		rollupsIds = append(rollupsIds, rollupId)
+		newRollupsIdBytes, err := json.Marshal(rollupsIds)
+		if err != nil {
+			return nil, status.Error(codes.FailedPrecondition, "failed to marshal rollups ids")
+		}
+		ledgerEntryStore.Set([]byte(creatorAddr.String()), newRollupsIdBytes)
+	} else {
+		rollupsIds := []string{rollupId}
+		newRollupsIdBytes, err := json.Marshal(rollupsIds)
+		if err != nil {
+			return nil, status.Error(codes.FailedPrecondition, "failed to marshal rollups ids")
+		}
+		ledgerEntryStore.Set([]byte(creatorAddr.String()), newRollupsIdBytes)
+	}
+
+	// update the ledger entry for the creator address
+	ledgerEntry := types.LedgerEntry{
+		CreatorAddress: creatorAddr.String(),
+		AmountStaked:   totalSupply,
+		Denom:          denomName,
+		RollupId:       rollupId,
+		Timestamp:      ctx.BlockTime().String(),
+		BlockHeight:    uint64(ctx.BlockHeight()),
+	}
+	ledgerEntryBytes := k.cdc.MustMarshal(&ledgerEntry)
+
+	rollupStakingInfoStore := prefix.NewStore(storeAdapter, types.KeyPrefix(types.RollupStakingInfoKey))
+	rollupStakingInfoKey := []byte(rollupId)
+	rollupStakingInfoBytes := rollupStakingInfoStore.Get(rollupStakingInfoKey)
+	if rollupStakingInfoBytes == nil {
+		rollupStakingInfoStore.Set(rollupStakingInfoKey, ledgerEntryBytes)
+	} else {
+		return nil, status.Error(codes.FailedPrecondition, "rollup staking info already exists")
+	}
+
 	// Store rollup metadata
 	rollupBytes := k.cdc.MustMarshal(&rollup)
 	rollupDataStore.Set([]byte(rollup.RollupId), rollupBytes)
 	rollupMonikerStore.Set([]byte(rollup.Moniker), []byte(rollup.RollupId))
+
+	ctx.EventManager().EmitEvent(sdk.NewEvent(
+		"token-locked",
+		sdk.NewAttribute("creator", rollup.CreatedBy),
+		sdk.NewAttribute("rollup-id", rollupId),
+		sdk.NewAttribute("amount", strconv.FormatUint(totalSupply, 10)),
+		sdk.NewAttribute("denom", rollup.DenomName),
+	))
 
 	ctx.EventManager().EmitEvent(sdk.NewEvent(
 		"rollup-initialized",
@@ -121,6 +213,7 @@ func (k msgServer) InitRollup(goCtx context.Context, msg *types.MsgInitRollup) (
 		sdk.NewAttribute("da-type", rollup.DaType),
 		sdk.NewAttribute("keys", strings.Join(rollup.Keys, ",")),
 		sdk.NewAttribute("supply", strings.Join(uint64SliceToStringSlice(rollup.Supply), ",")),
+		sdk.NewAttribute("total-supply", strconv.FormatUint(totalSupply, 10)),
 		sdk.NewAttribute("acl-contract-address", rollup.AclContractAddress),
 		sdk.NewAttribute("kms-verifier-address", rollup.KmsVerifierAddress),
 		sdk.NewAttribute("tfhe-executor-address", rollup.TfheExecutorAddress),

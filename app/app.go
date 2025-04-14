@@ -430,6 +430,7 @@ func NewJunctionApp(
 		runtime.NewKVStoreService(keys[rolluptypes.StoreKey]),
 		logger,
 		authority.String(),
+		app.BankKeeper,
 		app.GetIBCKeeper,
 		func(string) capabilitykeeper.ScopedKeeper { return scopedRollupKeeper },
 	)

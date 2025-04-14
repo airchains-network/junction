@@ -1,0 +1,34 @@
+syntax = "proto3";
+package junction.rollup;
+
+option go_package = "github.com/airchains-network/junction/x/rollup/types";
+
+message RollupMetadata {
+  string createdBy = 1;
+  string rollupId = 2;
+  uint64 rollupLatestBatchNo = 3;
+  uint64 rollupLatestFinalizedBatchNo = 4;
+  // rollup genesis data
+  string moniker = 5;
+  string chainId = 6;
+  string denomName = 7;
+  repeated string keys = 8;
+  repeated uint64 supply = 9;
+  // da data for a rollup
+  string daType = 10;
+  string daLatestHash = 11;
+  // prover data for a rollup
+  string proverType = 12;
+  bytes proverVerificationKey = 13;
+  string proverEndpoint = 14;
+  // FHE data for a rollup
+  string aclContractAddress = 15;
+  string kmsVerifierAddress = 16;
+  string tfheExecutorAddress = 17;
+  string gatewayContractAddress = 18;
+  // junction wasm contract address
+  string ascContractAddress = 19;
+  // relayer data
+  string relayerGAddress = 20;
+  string relayerASCAddress = 21;
+}

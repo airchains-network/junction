@@ -29,6 +29,9 @@ func (k Keeper) GetRollups(goCtx context.Context, req *types.QueryGetRollupsRequ
 			return err
 		}
 
+		// Clear proverVerificationKey before adding to the response
+		rollupInfo.ProverVerificationKey = nil
+
 		rollups = append(rollups, rollupInfo)
 		return nil
 	})
