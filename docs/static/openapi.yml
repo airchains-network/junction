@@ -1,12 +1,260 @@
 swagger: "2.0"
 info:
     title: Junction OpenAPI
-    version: v0.3.1-3-g43e8ba2
+    version: v0.3.1-4-g631bb87
 consumes:
     - application/json
 produces:
     - application/json
 paths:
+    /airchains-network/junction/rollup/check_moniker_availability/{moniker}:
+        get:
+            operationId: Query_CheckMonikerAvailability
+            parameters:
+                - in: path
+                  name: moniker
+                  required: true
+                  type: string
+            responses:
+                "200":
+                    description: A successful response.
+                    schema:
+                        $ref: '#/definitions/junction.rollup.QueryCheckMonikerAvailabilityResponse'
+                default:
+                    description: An unexpected error response.
+                    schema:
+                        $ref: '#/definitions/google.rpc.Status'
+            summary: Queries a list of CheckMonikerAvailability items.
+            tags:
+                - Query
+    /airchains-network/junction/rollup/get_all_batches/{rollupId}:
+        get:
+            operationId: Query_GetAllBatches
+            parameters:
+                - in: path
+                  name: rollupId
+                  required: true
+                  type: string
+                - format: uint64
+                  in: query
+                  name: offset
+                  required: false
+                  type: string
+                - format: uint64
+                  in: query
+                  name: limit
+                  required: false
+                  type: string
+                - in: query
+                  name: order
+                  required: false
+                  type: string
+            responses:
+                "200":
+                    description: A successful response.
+                    schema:
+                        $ref: '#/definitions/junction.rollup.QueryGetAllBatchesResponse'
+                default:
+                    description: An unexpected error response.
+                    schema:
+                        $ref: '#/definitions/google.rpc.Status'
+            summary: Queries a list of GetAllBatches items.
+            tags:
+                - Query
+    /airchains-network/junction/rollup/get_batch_info/{rollupId}/{batchNo}:
+        get:
+            operationId: Query_GetBatchInfo
+            parameters:
+                - in: path
+                  name: rollupId
+                  required: true
+                  type: string
+                - format: uint64
+                  in: path
+                  name: batchNo
+                  required: true
+                  type: string
+            responses:
+                "200":
+                    description: A successful response.
+                    schema:
+                        $ref: '#/definitions/junction.rollup.QueryGetBatchInfoResponse'
+                default:
+                    description: An unexpected error response.
+                    schema:
+                        $ref: '#/definitions/google.rpc.Status'
+            summary: Queries a list of GetBatchInfo items.
+            tags:
+                - Query
+    /airchains-network/junction/rollup/get_rollup_by_moniker/{moniker}:
+        get:
+            operationId: Query_GetRollupByMoniker
+            parameters:
+                - in: path
+                  name: moniker
+                  required: true
+                  type: string
+            responses:
+                "200":
+                    description: A successful response.
+                    schema:
+                        $ref: '#/definitions/junction.rollup.QueryGetRollupByMonikerResponse'
+                default:
+                    description: An unexpected error response.
+                    schema:
+                        $ref: '#/definitions/google.rpc.Status'
+            summary: Queries a list of GetRollupByMoniker items.
+            tags:
+                - Query
+    /airchains-network/junction/rollup/get_rollup_info/{rollupId}:
+        get:
+            operationId: Query_GetRollupInfo
+            parameters:
+                - in: path
+                  name: rollupId
+                  required: true
+                  type: string
+            responses:
+                "200":
+                    description: A successful response.
+                    schema:
+                        $ref: '#/definitions/junction.rollup.QueryGetRollupInfoResponse'
+                default:
+                    description: An unexpected error response.
+                    schema:
+                        $ref: '#/definitions/google.rpc.Status'
+            summary: Queries a list of GetRollupInfo items.
+            tags:
+                - Query
+    /airchains-network/junction/rollup/get_rollup_staked_amount/{rollupId}:
+        get:
+            operationId: Query_GetRollupStakedAmount
+            parameters:
+                - in: path
+                  name: rollupId
+                  required: true
+                  type: string
+            responses:
+                "200":
+                    description: A successful response.
+                    schema:
+                        $ref: '#/definitions/junction.rollup.QueryGetRollupStakedAmountResponse'
+                default:
+                    description: An unexpected error response.
+                    schema:
+                        $ref: '#/definitions/google.rpc.Status'
+            summary: Queries a list of GetRollupStakedAmount items.
+            tags:
+                - Query
+    /airchains-network/junction/rollup/get_rollups:
+        get:
+            operationId: Query_GetRollups
+            parameters:
+                - description: |-
+                    key is a value returned in PageResponse.next_key to begin
+                    querying the next page most efficiently. Only one of offset or key
+                    should be set.
+                  format: byte
+                  in: query
+                  name: pagination.key
+                  required: false
+                  type: string
+                - description: |-
+                    offset is a numeric offset that can be used when key is unavailable.
+                    It is less efficient than using key. Only one of offset or key should
+                    be set.
+                  format: uint64
+                  in: query
+                  name: pagination.offset
+                  required: false
+                  type: string
+                - description: |-
+                    limit is the total number of results to be returned in the result page.
+                    If left empty it will default to a value to be set by each app.
+                  format: uint64
+                  in: query
+                  name: pagination.limit
+                  required: false
+                  type: string
+                - description: |-
+                    count_total is set to true  to indicate that the result set should include
+                    a count of the total number of items available for pagination in UIs.
+                    count_total is only respected when offset is used. It is ignored when key
+                    is set.
+                  in: query
+                  name: pagination.count_total
+                  required: false
+                  type: boolean
+                - description: |-
+                    reverse is set to true if results are to be returned in the descending order.
+
+                    Since: cosmos-sdk 0.43
+                  in: query
+                  name: pagination.reverse
+                  required: false
+                  type: boolean
+            responses:
+                "200":
+                    description: A successful response.
+                    schema:
+                        $ref: '#/definitions/junction.rollup.QueryGetRollupsResponse'
+                default:
+                    description: An unexpected error response.
+                    schema:
+                        $ref: '#/definitions/google.rpc.Status'
+            summary: Queries a list of GetRollups items.
+            tags:
+                - Query
+    /airchains-network/junction/rollup/get_stake_details_by_user/{address}:
+        get:
+            operationId: Query_GetStakeDetailsByUser
+            parameters:
+                - in: path
+                  name: address
+                  required: true
+                  type: string
+            responses:
+                "200":
+                    description: A successful response.
+                    schema:
+                        $ref: '#/definitions/junction.rollup.QueryGetStakeDetailsByUserResponse'
+                default:
+                    description: An unexpected error response.
+                    schema:
+                        $ref: '#/definitions/google.rpc.Status'
+            summary: Queries a list of GetStakeDetailsByUser items.
+            tags:
+                - Query
+    /airchains-network/junction/rollup/get_total_staked_amount:
+        get:
+            operationId: Query_GetTotalStakedAmount
+            responses:
+                "200":
+                    description: A successful response.
+                    schema:
+                        $ref: '#/definitions/junction.rollup.QueryGetTotalStakedAmountResponse'
+                default:
+                    description: An unexpected error response.
+                    schema:
+                        $ref: '#/definitions/google.rpc.Status'
+            summary: Queries a list of GetTotalStakedAmount items.
+            tags:
+                - Query
+    /airchains-network/junction/rollup/params:
+        get:
+            operationId: Query_Params
+            responses:
+                "200":
+                    description: A successful response.
+                    schema:
+                        $ref: '#/definitions/junction.rollup.QueryParamsResponse'
+                default:
+                    description: An unexpected error response.
+                    schema:
+                        $ref: '#/definitions/google.rpc.Status'
+            summary: Parameters queries the parameters of the module.
+            tags:
+                - Query
     /cosmos.auth.v1beta1.Msg/UpdateParams:
         post:
             description: 'Since: cosmos-sdk 0.47'
@@ -9500,6 +9748,1059 @@ paths:
             summary: Get Wasm code for given checksum
             tags:
                 - Query
+    /junction.rollup.Msg/InitProver:
+        post:
+            operationId: Msg_InitProver
+            parameters:
+                - in: body
+                  name: body
+                  required: true
+                  schema:
+                    $ref: '#/definitions/junction.rollup.MsgInitProver'
+            responses:
+                "200":
+                    description: A successful response.
+                    schema:
+                        $ref: '#/definitions/junction.rollup.MsgInitProverResponse'
+                default:
+                    description: An unexpected error response.
+                    schema:
+                        $ref: '#/definitions/google.rpc.Status'
+            tags:
+                - Msg
+    /junction.rollup.Msg/InitRollup:
+        post:
+            operationId: Msg_InitRollup
+            parameters:
+                - in: body
+                  name: body
+                  required: true
+                  schema:
+                    $ref: '#/definitions/junction.rollup.MsgInitRollup'
+            responses:
+                "200":
+                    description: A successful response.
+                    schema:
+                        $ref: '#/definitions/junction.rollup.MsgInitRollupResponse'
+                default:
+                    description: An unexpected error response.
+                    schema:
+                        $ref: '#/definitions/google.rpc.Status'
+            tags:
+                - Msg
+    /junction.rollup.Msg/SubmitBatch:
+        post:
+            operationId: Msg_SubmitBatch
+            parameters:
+                - in: body
+                  name: body
+                  required: true
+                  schema:
+                    $ref: '#/definitions/junction.rollup.MsgSubmitBatch'
+            responses:
+                "200":
+                    description: A successful response.
+                    schema:
+                        $ref: '#/definitions/junction.rollup.MsgSubmitBatchResponse'
+                default:
+                    description: An unexpected error response.
+                    schema:
+                        $ref: '#/definitions/google.rpc.Status'
+            tags:
+                - Msg
+    /junction.rollup.Msg/SubmitBatchMetadata:
+        post:
+            operationId: Msg_SubmitBatchMetadata
+            parameters:
+                - in: body
+                  name: body
+                  required: true
+                  schema:
+                    $ref: '#/definitions/junction.rollup.MsgSubmitBatchMetadata'
+            responses:
+                "200":
+                    description: A successful response.
+                    schema:
+                        $ref: '#/definitions/junction.rollup.MsgSubmitBatchMetadataResponse'
+                default:
+                    description: An unexpected error response.
+                    schema:
+                        $ref: '#/definitions/google.rpc.Status'
+            tags:
+                - Msg
+    /junction.rollup.Msg/UpdateParams:
+        post:
+            operationId: Msg_UpdateParams
+            parameters:
+                - description: MsgUpdateParams is the Msg/UpdateParams request type.
+                  in: body
+                  name: body
+                  required: true
+                  schema:
+                    $ref: '#/definitions/junction.rollup.MsgUpdateParams'
+            responses:
+                "200":
+                    description: A successful response.
+                    schema:
+                        $ref: '#/definitions/junction.rollup.MsgUpdateParamsResponse'
+                default:
+                    description: An unexpected error response.
+                    schema:
+                        $ref: '#/definitions/google.rpc.Status'
+            summary: |-
+                UpdateParams defines a (governance) operation for updating the module
+                parameters. The authority defaults to the x/gov module account.
+            tags:
+                - Msg
+    /junction.wasm.v1.Msg/AddCodeUploadParamsAddresses:
+        post:
+            operationId: Msg_AddCodeUploadParamsAddresses
+            parameters:
+                - description: |-
+                    MsgAddCodeUploadParamsAddresses is the
+                    MsgAddCodeUploadParamsAddresses request type.
+                  in: body
+                  name: body
+                  required: true
+                  schema:
+                    $ref: '#/definitions/junction.wasm.v1.MsgAddCodeUploadParamsAddresses'
+            responses:
+                "200":
+                    description: A successful response.
+                    schema:
+                        $ref: '#/definitions/junction.wasm.v1.MsgAddCodeUploadParamsAddressesResponse'
+                default:
+                    description: An unexpected error response.
+                    schema:
+                        $ref: '#/definitions/google.rpc.Status'
+            summary: |-
+                AddCodeUploadParamsAddresses defines a governance operation for
+                adding addresses to code upload params.
+                The authority is defined in the keeper.
+            tags:
+                - Msg
+    /junction.wasm.v1.Msg/ClearAdmin:
+        post:
+            operationId: Msg_ClearAdmin
+            parameters:
+                - in: body
+                  name: body
+                  required: true
+                  schema:
+                    $ref: '#/definitions/junction.wasm.v1.MsgClearAdmin'
+            responses:
+                "200":
+                    description: A successful response.
+                    schema:
+                        $ref: '#/definitions/junction.wasm.v1.MsgClearAdminResponse'
+                default:
+                    description: An unexpected error response.
+                    schema:
+                        $ref: '#/definitions/google.rpc.Status'
+            summary: ClearAdmin removes any admin stored for a smart contract
+            tags:
+                - Msg
+    /junction.wasm.v1.Msg/ExecuteContract:
+        post:
+            operationId: Msg_ExecuteContract
+            parameters:
+                - in: body
+                  name: body
+                  required: true
+                  schema:
+                    $ref: '#/definitions/junction.wasm.v1.MsgExecuteContract'
+            responses:
+                "200":
+                    description: A successful response.
+                    schema:
+                        $ref: '#/definitions/junction.wasm.v1.MsgExecuteContractResponse'
+                default:
+                    description: An unexpected error response.
+                    schema:
+                        $ref: '#/definitions/google.rpc.Status'
+            summary: Execute submits the given message data to a smart contract
+            tags:
+                - Msg
+    /junction.wasm.v1.Msg/InstantiateContract:
+        post:
+            operationId: Msg_InstantiateContract
+            parameters:
+                - description: |-
+                    MsgInstantiateContract create a new smart contract instance for the given
+                    code id.
+                  in: body
+                  name: body
+                  required: true
+                  schema:
+                    $ref: '#/definitions/junction.wasm.v1.MsgInstantiateContract'
+            responses:
+                "200":
+                    description: A successful response.
+                    schema:
+                        $ref: '#/definitions/junction.wasm.v1.MsgInstantiateContractResponse'
+                default:
+                    description: An unexpected error response.
+                    schema:
+                        $ref: '#/definitions/google.rpc.Status'
+            summary: |-
+                InstantiateContract creates a new smart contract instance for the given
+                 code id.
+            tags:
+                - Msg
+    /junction.wasm.v1.Msg/InstantiateContract2:
+        post:
+            operationId: Msg_InstantiateContract2
+            parameters:
+                - description: |-
+                    MsgInstantiateContract2 create a new smart contract instance for the given
+                    code id with a predictable address.
+                  in: body
+                  name: body
+                  required: true
+                  schema:
+                    $ref: '#/definitions/junction.wasm.v1.MsgInstantiateContract2'
+            responses:
+                "200":
+                    description: A successful response.
+                    schema:
+                        $ref: '#/definitions/junction.wasm.v1.MsgInstantiateContract2Response'
+                default:
+                    description: An unexpected error response.
+                    schema:
+                        $ref: '#/definitions/google.rpc.Status'
+            summary: |-
+                InstantiateContract2 creates a new smart contract instance for the given
+                 code id with a predictable address
+            tags:
+                - Msg
+    /junction.wasm.v1.Msg/MigrateContract:
+        post:
+            operationId: Msg_MigrateContract
+            parameters:
+                - in: body
+                  name: body
+                  required: true
+                  schema:
+                    $ref: '#/definitions/junction.wasm.v1.MsgMigrateContract'
+            responses:
+                "200":
+                    description: A successful response.
+                    schema:
+                        $ref: '#/definitions/junction.wasm.v1.MsgMigrateContractResponse'
+                default:
+                    description: An unexpected error response.
+                    schema:
+                        $ref: '#/definitions/google.rpc.Status'
+            summary: Migrate runs a code upgrade/ downgrade for a smart contract
+            tags:
+                - Msg
+    /junction.wasm.v1.Msg/PinCodes:
+        post:
+            description: 'Since: 0.40'
+            operationId: Msg_PinCodes
+            parameters:
+                - description: |-
+                    MsgPinCodes is the MsgPinCodes request type.
+
+                    Since: 0.40
+                  in: body
+                  name: body
+                  required: true
+                  schema:
+                    $ref: '#/definitions/junction.wasm.v1.MsgPinCodes'
+            responses:
+                "200":
+                    description: A successful response.
+                    schema:
+                        $ref: '#/definitions/junction.wasm.v1.MsgPinCodesResponse'
+                default:
+                    description: An unexpected error response.
+                    schema:
+                        $ref: '#/definitions/google.rpc.Status'
+            summary: |-
+                PinCodes defines a governance operation for pinning a set of
+                code ids in the wasmvm cache. The authority is defined in the keeper.
+            tags:
+                - Msg
+    /junction.wasm.v1.Msg/RemoveCodeUploadParamsAddresses:
+        post:
+            operationId: Msg_RemoveCodeUploadParamsAddresses
+            parameters:
+                - description: |-
+                    MsgRemoveCodeUploadParamsAddresses is the
+                    MsgRemoveCodeUploadParamsAddresses request type.
+                  in: body
+                  name: body
+                  required: true
+                  schema:
+                    $ref: '#/definitions/junction.wasm.v1.MsgRemoveCodeUploadParamsAddresses'
+            responses:
+                "200":
+                    description: A successful response.
+                    schema:
+                        $ref: '#/definitions/junction.wasm.v1.MsgRemoveCodeUploadParamsAddressesResponse'
+                default:
+                    description: An unexpected error response.
+                    schema:
+                        $ref: '#/definitions/google.rpc.Status'
+            summary: |-
+                RemoveCodeUploadParamsAddresses defines a governance operation for
+                removing addresses from code upload params.
+                The authority is defined in the keeper.
+            tags:
+                - Msg
+    /junction.wasm.v1.Msg/StoreAndInstantiateContract:
+        post:
+            description: 'Since: 0.40'
+            operationId: Msg_StoreAndInstantiateContract
+            parameters:
+                - description: |-
+                    MsgStoreAndInstantiateContract is the MsgStoreAndInstantiateContract
+                    request type.
+
+                    Since: 0.40
+                  in: body
+                  name: body
+                  required: true
+                  schema:
+                    $ref: '#/definitions/junction.wasm.v1.MsgStoreAndInstantiateContract'
+            responses:
+                "200":
+                    description: A successful response.
+                    schema:
+                        $ref: '#/definitions/junction.wasm.v1.MsgStoreAndInstantiateContractResponse'
+                default:
+                    description: An unexpected error response.
+                    schema:
+                        $ref: '#/definitions/google.rpc.Status'
+            summary: |-
+                StoreAndInstantiateContract defines a governance operation for storing
+                and instantiating the contract. The authority is defined in the keeper.
+            tags:
+                - Msg
+    /junction.wasm.v1.Msg/StoreAndMigrateContract:
+        post:
+            description: 'Since: 0.42'
+            operationId: Msg_StoreAndMigrateContract
+            parameters:
+                - description: |-
+                    MsgStoreAndMigrateContract is the MsgStoreAndMigrateContract
+                    request type.
+
+                    Since: 0.42
+                  in: body
+                  name: body
+                  required: true
+                  schema:
+                    $ref: '#/definitions/junction.wasm.v1.MsgStoreAndMigrateContract'
+            responses:
+                "200":
+                    description: A successful response.
+                    schema:
+                        $ref: '#/definitions/junction.wasm.v1.MsgStoreAndMigrateContractResponse'
+                default:
+                    description: An unexpected error response.
+                    schema:
+                        $ref: '#/definitions/google.rpc.Status'
+            summary: |-
+                StoreAndMigrateContract defines a governance operation for storing
+                and migrating the contract. The authority is defined in the keeper.
+            tags:
+                - Msg
+    /junction.wasm.v1.Msg/StoreCode:
+        post:
+            operationId: Msg_StoreCode
+            parameters:
+                - in: body
+                  name: body
+                  required: true
+                  schema:
+                    $ref: '#/definitions/junction.wasm.v1.MsgStoreCode'
+            responses:
+                "200":
+                    description: A successful response.
+                    schema:
+                        $ref: '#/definitions/junction.wasm.v1.MsgStoreCodeResponse'
+                default:
+                    description: An unexpected error response.
+                    schema:
+                        $ref: '#/definitions/google.rpc.Status'
+            summary: StoreCode to submit Wasm code to the system
+            tags:
+                - Msg
+    /junction.wasm.v1.Msg/SudoContract:
+        post:
+            description: 'Since: 0.40'
+            operationId: Msg_SudoContract
+            parameters:
+                - description: |-
+                    MsgSudoContract is the MsgSudoContract request type.
+
+                    Since: 0.40
+                  in: body
+                  name: body
+                  required: true
+                  schema:
+                    $ref: '#/definitions/junction.wasm.v1.MsgSudoContract'
+            responses:
+                "200":
+                    description: A successful response.
+                    schema:
+                        $ref: '#/definitions/junction.wasm.v1.MsgSudoContractResponse'
+                default:
+                    description: An unexpected error response.
+                    schema:
+                        $ref: '#/definitions/google.rpc.Status'
+            summary: |-
+                SudoContract defines a governance operation for calling sudo
+                on a contract. The authority is defined in the keeper.
+            tags:
+                - Msg
+    /junction.wasm.v1.Msg/UnpinCodes:
+        post:
+            description: 'Since: 0.40'
+            operationId: Msg_UnpinCodes
+            parameters:
+                - description: |-
+                    MsgUnpinCodes is the MsgUnpinCodes request type.
+
+                    Since: 0.40
+                  in: body
+                  name: body
+                  required: true
+                  schema:
+                    $ref: '#/definitions/junction.wasm.v1.MsgUnpinCodes'
+            responses:
+                "200":
+                    description: A successful response.
+                    schema:
+                        $ref: '#/definitions/junction.wasm.v1.MsgUnpinCodesResponse'
+                default:
+                    description: An unexpected error response.
+                    schema:
+                        $ref: '#/definitions/google.rpc.Status'
+            summary: |-
+                UnpinCodes defines a governance operation for unpinning a set of
+                code ids in the wasmvm cache. The authority is defined in the keeper.
+            tags:
+                - Msg
+    /junction.wasm.v1.Msg/UpdateAdmin:
+        post:
+            operationId: Msg_UpdateAdmin
+            parameters:
+                - in: body
+                  name: body
+                  required: true
+                  schema:
+                    $ref: '#/definitions/junction.wasm.v1.MsgUpdateAdmin'
+            responses:
+                "200":
+                    description: A successful response.
+                    schema:
+                        $ref: '#/definitions/junction.wasm.v1.MsgUpdateAdminResponse'
+                default:
+                    description: An unexpected error response.
+                    schema:
+                        $ref: '#/definitions/google.rpc.Status'
+            summary: UpdateAdmin sets a new admin for a smart contract
+            tags:
+                - Msg
+    /junction.wasm.v1.Msg/UpdateContractLabel:
+        post:
+            description: 'Since: 0.43'
+            operationId: Msg_UpdateContractLabel
+            parameters:
+                - in: body
+                  name: body
+                  required: true
+                  schema:
+                    $ref: '#/definitions/junction.wasm.v1.MsgUpdateContractLabel'
+            responses:
+                "200":
+                    description: A successful response.
+                    schema:
+                        $ref: '#/definitions/junction.wasm.v1.MsgUpdateContractLabelResponse'
+                default:
+                    description: An unexpected error response.
+                    schema:
+                        $ref: '#/definitions/google.rpc.Status'
+            summary: UpdateContractLabel sets a new label for a smart contract
+            tags:
+                - Msg
+    /junction.wasm.v1.Msg/UpdateInstantiateConfig:
+        post:
+            operationId: Msg_UpdateInstantiateConfig
+            parameters:
+                - in: body
+                  name: body
+                  required: true
+                  schema:
+                    $ref: '#/definitions/junction.wasm.v1.MsgUpdateInstantiateConfig'
+            responses:
+                "200":
+                    description: A successful response.
+                    schema:
+                        $ref: '#/definitions/junction.wasm.v1.MsgUpdateInstantiateConfigResponse'
+                default:
+                    description: An unexpected error response.
+                    schema:
+                        $ref: '#/definitions/google.rpc.Status'
+            summary: UpdateInstantiateConfig updates instantiate config for a smart contract
+            tags:
+                - Msg
+    /junction.wasm.v1.Msg/UpdateParams:
+        post:
+            description: 'Since: 0.40'
+            operationId: Msg_UpdateParams
+            parameters:
+                - description: |-
+                    MsgUpdateParams is the MsgUpdateParams request type.
+
+                    Since: 0.40
+                  in: body
+                  name: body
+                  required: true
+                  schema:
+                    $ref: '#/definitions/junction.wasm.v1.MsgUpdateParams'
+            responses:
+                "200":
+                    description: A successful response.
+                    schema:
+                        $ref: '#/definitions/junction.wasm.v1.MsgUpdateParamsResponse'
+                default:
+                    description: An unexpected error response.
+                    schema:
+                        $ref: '#/definitions/google.rpc.Status'
+            summary: |-
+                UpdateParams defines a governance operation for updating the x/wasm
+                module parameters. The authority is defined in the keeper.
+            tags:
+                - Msg
+    /junction/wasm/v1/code:
+        get:
+            operationId: Query_Codes
+            parameters:
+                - description: |-
+                    key is a value returned in PageResponse.next_key to begin
+                    querying the next page most efficiently. Only one of offset or key
+                    should be set.
+                  format: byte
+                  in: query
+                  name: pagination.key
+                  required: false
+                  type: string
+                - description: |-
+                    offset is a numeric offset that can be used when key is unavailable.
+                    It is less efficient than using key. Only one of offset or key should
+                    be set.
+                  format: uint64
+                  in: query
+                  name: pagination.offset
+                  required: false
+                  type: string
+                - description: |-
+                    limit is the total number of results to be returned in the result page.
+                    If left empty it will default to a value to be set by each app.
+                  format: uint64
+                  in: query
+                  name: pagination.limit
+                  required: false
+                  type: string
+                - description: |-
+                    count_total is set to true  to indicate that the result set should include
+                    a count of the total number of items available for pagination in UIs.
+                    count_total is only respected when offset is used. It is ignored when key
+                    is set.
+                  in: query
+                  name: pagination.count_total
+                  required: false
+                  type: boolean
+                - description: |-
+                    reverse is set to true if results are to be returned in the descending order.
+
+                    Since: cosmos-sdk 0.43
+                  in: query
+                  name: pagination.reverse
+                  required: false
+                  type: boolean
+            responses:
+                "200":
+                    description: A successful response.
+                    schema:
+                        $ref: '#/definitions/junction.wasm.v1.QueryCodesResponse'
+                default:
+                    description: An unexpected error response.
+                    schema:
+                        $ref: '#/definitions/google.rpc.Status'
+            summary: Codes gets the metadata for all stored wasm codes
+            tags:
+                - Query
+    /junction/wasm/v1/code/{code_id}:
+        get:
+            operationId: Query_Code
+            parameters:
+                - description: grpc-gateway_out does not support Go style CodID
+                  format: uint64
+                  in: path
+                  name: code_id
+                  required: true
+                  type: string
+            responses:
+                "200":
+                    description: A successful response.
+                    schema:
+                        $ref: '#/definitions/junction.wasm.v1.QueryCodeResponse'
+                default:
+                    description: An unexpected error response.
+                    schema:
+                        $ref: '#/definitions/google.rpc.Status'
+            summary: Code gets the binary code and metadata for a singe wasm code
+            tags:
+                - Query
+    /junction/wasm/v1/code/{code_id}/contracts:
+        get:
+            operationId: Query_ContractsByCode
+            parameters:
+                - description: grpc-gateway_out does not support Go style CodID
+                  format: uint64
+                  in: path
+                  name: code_id
+                  required: true
+                  type: string
+                - description: |-
+                    key is a value returned in PageResponse.next_key to begin
+                    querying the next page most efficiently. Only one of offset or key
+                    should be set.
+                  format: byte
+                  in: query
+                  name: pagination.key
+                  required: false
+                  type: string
+                - description: |-
+                    offset is a numeric offset that can be used when key is unavailable.
+                    It is less efficient than using key. Only one of offset or key should
+                    be set.
+                  format: uint64
+                  in: query
+                  name: pagination.offset
+                  required: false
+                  type: string
+                - description: |-
+                    limit is the total number of results to be returned in the result page.
+                    If left empty it will default to a value to be set by each app.
+                  format: uint64
+                  in: query
+                  name: pagination.limit
+                  required: false
+                  type: string
+                - description: |-
+                    count_total is set to true  to indicate that the result set should include
+                    a count of the total number of items available for pagination in UIs.
+                    count_total is only respected when offset is used. It is ignored when key
+                    is set.
+                  in: query
+                  name: pagination.count_total
+                  required: false
+                  type: boolean
+                - description: |-
+                    reverse is set to true if results are to be returned in the descending order.
+
+                    Since: cosmos-sdk 0.43
+                  in: query
+                  name: pagination.reverse
+                  required: false
+                  type: boolean
+            responses:
+                "200":
+                    description: A successful response.
+                    schema:
+                        $ref: '#/definitions/junction.wasm.v1.QueryContractsByCodeResponse'
+                default:
+                    description: An unexpected error response.
+                    schema:
+                        $ref: '#/definitions/google.rpc.Status'
+            summary: ContractsByCode lists all smart contracts for a code id
+            tags:
+                - Query
+    /junction/wasm/v1/codes/params:
+        get:
+            operationId: Query_Params
+            responses:
+                "200":
+                    description: A successful response.
+                    schema:
+                        $ref: '#/definitions/junction.wasm.v1.QueryParamsResponse'
+                default:
+                    description: An unexpected error response.
+                    schema:
+                        $ref: '#/definitions/google.rpc.Status'
+            summary: Params gets the module params
+            tags:
+                - Query
+    /junction/wasm/v1/codes/pinned:
+        get:
+            operationId: Query_PinnedCodes
+            parameters:
+                - description: |-
+                    key is a value returned in PageResponse.next_key to begin
+                    querying the next page most efficiently. Only one of offset or key
+                    should be set.
+                  format: byte
+                  in: query
+                  name: pagination.key
+                  required: false
+                  type: string
+                - description: |-
+                    offset is a numeric offset that can be used when key is unavailable.
+                    It is less efficient than using key. Only one of offset or key should
+                    be set.
+                  format: uint64
+                  in: query
+                  name: pagination.offset
+                  required: false
+                  type: string
+                - description: |-
+                    limit is the total number of results to be returned in the result page.
+                    If left empty it will default to a value to be set by each app.
+                  format: uint64
+                  in: query
+                  name: pagination.limit
+                  required: false
+                  type: string
+                - description: |-
+                    count_total is set to true  to indicate that the result set should include
+                    a count of the total number of items available for pagination in UIs.
+                    count_total is only respected when offset is used. It is ignored when key
+                    is set.
+                  in: query
+                  name: pagination.count_total
+                  required: false
+                  type: boolean
+                - description: |-
+                    reverse is set to true if results are to be returned in the descending order.
+
+                    Since: cosmos-sdk 0.43
+                  in: query
+                  name: pagination.reverse
+                  required: false
+                  type: boolean
+            responses:
+                "200":
+                    description: A successful response.
+                    schema:
+                        $ref: '#/definitions/junction.wasm.v1.QueryPinnedCodesResponse'
+                default:
+                    description: An unexpected error response.
+                    schema:
+                        $ref: '#/definitions/google.rpc.Status'
+            summary: PinnedCodes gets the pinned code ids
+            tags:
+                - Query
+    /junction/wasm/v1/contract/{address}:
+        get:
+            operationId: Query_ContractInfo
+            parameters:
+                - description: address is the address of the contract to query
+                  in: path
+                  name: address
+                  required: true
+                  type: string
+            responses:
+                "200":
+                    description: A successful response.
+                    schema:
+                        $ref: '#/definitions/junction.wasm.v1.QueryContractInfoResponse'
+                default:
+                    description: An unexpected error response.
+                    schema:
+                        $ref: '#/definitions/google.rpc.Status'
+            summary: ContractInfo gets the contract meta data
+            tags:
+                - Query
+    /junction/wasm/v1/contract/{address}/history:
+        get:
+            operationId: Query_ContractHistory
+            parameters:
+                - description: address is the address of the contract to query
+                  in: path
+                  name: address
+                  required: true
+                  type: string
+                - description: |-
+                    key is a value returned in PageResponse.next_key to begin
+                    querying the next page most efficiently. Only one of offset or key
+                    should be set.
+                  format: byte
+                  in: query
+                  name: pagination.key
+                  required: false
+                  type: string
+                - description: |-
+                    offset is a numeric offset that can be used when key is unavailable.
+                    It is less efficient than using key. Only one of offset or key should
+                    be set.
+                  format: uint64
+                  in: query
+                  name: pagination.offset
+                  required: false
+                  type: string
+                - description: |-
+                    limit is the total number of results to be returned in the result page.
+                    If left empty it will default to a value to be set by each app.
+                  format: uint64
+                  in: query
+                  name: pagination.limit
+                  required: false
+                  type: string
+                - description: |-
+                    count_total is set to true  to indicate that the result set should include
+                    a count of the total number of items available for pagination in UIs.
+                    count_total is only respected when offset is used. It is ignored when key
+                    is set.
+                  in: query
+                  name: pagination.count_total
+                  required: false
+                  type: boolean
+                - description: |-
+                    reverse is set to true if results are to be returned in the descending order.
+
+                    Since: cosmos-sdk 0.43
+                  in: query
+                  name: pagination.reverse
+                  required: false
+                  type: boolean
+            responses:
+                "200":
+                    description: A successful response.
+                    schema:
+                        $ref: '#/definitions/junction.wasm.v1.QueryContractHistoryResponse'
+                default:
+                    description: An unexpected error response.
+                    schema:
+                        $ref: '#/definitions/google.rpc.Status'
+            summary: ContractHistory gets the contract code history
+            tags:
+                - Query
+    /junction/wasm/v1/contract/{address}/raw/{query_data}:
+        get:
+            operationId: Query_RawContractState
+            parameters:
+                - description: address is the address of the contract
+                  in: path
+                  name: address
+                  required: true
+                  type: string
+                - format: byte
+                  in: path
+                  name: query_data
+                  required: true
+                  type: string
+            responses:
+                "200":
+                    description: A successful response.
+                    schema:
+                        $ref: '#/definitions/junction.wasm.v1.QueryRawContractStateResponse'
+                default:
+                    description: An unexpected error response.
+                    schema:
+                        $ref: '#/definitions/google.rpc.Status'
+            summary: RawContractState gets single key from the raw store data of a contract
+            tags:
+                - Query
+    /junction/wasm/v1/contract/{address}/smart/{query_data}:
+        get:
+            operationId: Query_SmartContractState
+            parameters:
+                - description: address is the address of the contract
+                  in: path
+                  name: address
+                  required: true
+                  type: string
+                - description: QueryData contains the query data passed to the contract
+                  format: byte
+                  in: path
+                  name: query_data
+                  required: true
+                  type: string
+            responses:
+                "200":
+                    description: A successful response.
+                    schema:
+                        $ref: '#/definitions/junction.wasm.v1.QuerySmartContractStateResponse'
+                default:
+                    description: An unexpected error response.
+                    schema:
+                        $ref: '#/definitions/google.rpc.Status'
+            summary: SmartContractState get smart query result from the contract
+            tags:
+                - Query
+    /junction/wasm/v1/contract/{address}/state:
+        get:
+            operationId: Query_AllContractState
+            parameters:
+                - description: address is the address of the contract
+                  in: path
+                  name: address
+                  required: true
+                  type: string
+                - description: |-
+                    key is a value returned in PageResponse.next_key to begin
+                    querying the next page most efficiently. Only one of offset or key
+                    should be set.
+                  format: byte
+                  in: query
+                  name: pagination.key
+                  required: false
+                  type: string
+                - description: |-
+                    offset is a numeric offset that can be used when key is unavailable.
+                    It is less efficient than using key. Only one of offset or key should
+                    be set.
+                  format: uint64
+                  in: query
+                  name: pagination.offset
+                  required: false
+                  type: string
+                - description: |-
+                    limit is the total number of results to be returned in the result page.
+                    If left empty it will default to a value to be set by each app.
+                  format: uint64
+                  in: query
+                  name: pagination.limit
+                  required: false
+                  type: string
+                - description: |-
+                    count_total is set to true  to indicate that the result set should include
+                    a count of the total number of items available for pagination in UIs.
+                    count_total is only respected when offset is used. It is ignored when key
+                    is set.
+                  in: query
+                  name: pagination.count_total
+                  required: false
+                  type: boolean
+                - description: |-
+                    reverse is set to true if results are to be returned in the descending order.
+
+                    Since: cosmos-sdk 0.43
+                  in: query
+                  name: pagination.reverse
+                  required: false
+                  type: boolean
+            responses:
+                "200":
+                    description: A successful response.
+                    schema:
+                        $ref: '#/definitions/junction.wasm.v1.QueryAllContractStateResponse'
+                default:
+                    description: An unexpected error response.
+                    schema:
+                        $ref: '#/definitions/google.rpc.Status'
+            summary: AllContractState gets all raw store data for a single contract
+            tags:
+                - Query
+    /junction/wasm/v1/contract/build_address:
+        get:
+            operationId: Query_BuildAddress
+            parameters:
+                - description: CodeHash is the hash of the code
+                  in: query
+                  name: code_hash
+                  required: false
+                  type: string
+                - description: CreatorAddress is the address of the contract instantiator
+                  in: query
+                  name: creator_address
+                  required: false
+                  type: string
+                - description: Salt is a hex encoded salt
+                  in: query
+                  name: salt
+                  required: false
+                  type: string
+                - description: |-
+                    InitArgs are optional json encoded init args to be used in contract address
+                    building if provided
+                  format: byte
+                  in: query
+                  name: init_args
+                  required: false
+                  type: string
+            responses:
+                "200":
+                    description: A successful response.
+                    schema:
+                        $ref: '#/definitions/junction.wasm.v1.QueryBuildAddressResponse'
+                default:
+                    description: An unexpected error response.
+                    schema:
+                        $ref: '#/definitions/google.rpc.Status'
+            summary: BuildAddress builds a contract address
+            tags:
+                - Query
+    /junction/wasm/v1/contracts/creator/{creator_address}:
+        get:
+            operationId: Query_ContractsByCreator
+            parameters:
+                - description: CreatorAddress is the address of contract creator
+                  in: path
+                  name: creator_address
+                  required: true
+                  type: string
+                - description: |-
+                    key is a value returned in PageResponse.next_key to begin
+                    querying the next page most efficiently. Only one of offset or key
+                    should be set.
+                  format: byte
+                  in: query
+                  name: pagination.key
+                  required: false
+                  type: string
+                - description: |-
+                    offset is a numeric offset that can be used when key is unavailable.
+                    It is less efficient than using key. Only one of offset or key should
+                    be set.
+                  format: uint64
+                  in: query
+                  name: pagination.offset
+                  required: false
+                  type: string
+                - description: |-
+                    limit is the total number of results to be returned in the result page.
+                    If left empty it will default to a value to be set by each app.
+                  format: uint64
+                  in: query
+                  name: pagination.limit
+                  required: false
+                  type: string
+                - description: |-
+                    count_total is set to true  to indicate that the result set should include
+                    a count of the total number of items available for pagination in UIs.
+                    count_total is only respected when offset is used. It is ignored when key
+                    is set.
+                  in: query
+                  name: pagination.count_total
+                  required: false
+                  type: boolean
+                - description: |-
+                    reverse is set to true if results are to be returned in the descending order.
+
+                    Since: cosmos-sdk 0.43
+                  in: query
+                  name: pagination.reverse
+                  required: false
+                  type: boolean
+            responses:
+                "200":
+                    description: A successful response.
+                    schema:
+                        $ref: '#/definitions/junction.wasm.v1.QueryContractsByCreatorResponse'
+                default:
+                    description: An unexpected error response.
+                    schema:
+                        $ref: '#/definitions/google.rpc.Status'
+            summary: ContractsByCreator gets the contracts by creator
+            tags:
+                - Query
     /tendermint.abci.ABCI/ApplySnapshotChunk:
         post:
             operationId: ABCI_ApplySnapshotChunk
@@ -17957,6 +19258,1092 @@ definitions:
             data:
                 format: byte
                 type: string
+        type: object
+    junction.rollup.Batch:
+        properties:
+            batchNo:
+                format: uint64
+                type: string
+            daCommitment:
+                type: string
+            daHash:
+                type: string
+            daName:
+                type: string
+            daNamespace:
+                type: string
+            daPointer:
+                type: string
+            isFinalized:
+                type: boolean
+            merkleRootHash:
+                type: string
+            previousMerkleRootHash:
+                type: string
+            publicWitness:
+                format: byte
+                type: string
+            rollupId:
+                type: string
+            submitter:
+                type: string
+            timestamp:
+                title: da data for a batch
+                type: string
+            zkProof:
+                format: byte
+                title: prover data for a batch
+                type: string
+        type: object
+    junction.rollup.Creator:
+        properties:
+            creator_address:
+                type: string
+            rollups:
+                items:
+                    $ref: '#/definitions/junction.rollup.RollupStake'
+                    type: object
+                type: array
+        type: object
+    junction.rollup.MsgInitProver:
+        properties:
+            creator:
+                type: string
+            proverEndpoint:
+                type: string
+            proverType:
+                type: string
+            proverVerificationKey:
+                format: byte
+                type: string
+            rollupId:
+                type: string
+        type: object
+    junction.rollup.MsgInitProverResponse:
+        properties:
+            status:
+                type: boolean
+        type: object
+    junction.rollup.MsgInitRollup:
+        properties:
+            aclContractAddress:
+                title: cosmos.base.v1beta1.Coin genesisSupply  = 8 [(gogoproto.nullable) = false];
+                type: string
+            ascContractAddress:
+                type: string
+            chainId:
+                type: string
+            creator:
+                type: string
+            daType:
+                type: string
+            denomName:
+                type: string
+            gatewayContractAddress:
+                type: string
+            keys:
+                items:
+                    type: string
+                type: array
+            kmsVerifierAddress:
+                type: string
+            moniker:
+                type: string
+            relayerASCAddress:
+                type: string
+            relayerGAddress:
+                type: string
+            supply:
+                items:
+                    format: uint64
+                    type: string
+                type: array
+            tfheExecutorAddress:
+                type: string
+        type: object
+    junction.rollup.MsgInitRollupResponse:
+        properties:
+            rollupId:
+                type: string
+            status:
+                type: boolean
+        type: object
+    junction.rollup.MsgSubmitBatch:
+        properties:
+            batchNo:
+                format: uint64
+                type: string
+            creator:
+                type: string
+            merkleRootHash:
+                type: string
+            previousMerkleRootHash:
+                type: string
+            publicWitness:
+                format: byte
+                type: string
+            rollupId:
+                type: string
+            zkProof:
+                format: byte
+                type: string
+        type: object
+    junction.rollup.MsgSubmitBatchMetadata:
+        properties:
+            batchNo:
+                format: uint64
+                type: string
+            creator:
+                type: string
+            daCommitment:
+                type: string
+            daHash:
+                type: string
+            daName:
+                type: string
+            daNamespace:
+                type: string
+            daPointer:
+                type: string
+            rollupId:
+                type: string
+        type: object
+    junction.rollup.MsgSubmitBatchMetadataResponse:
+        properties:
+            status:
+                type: boolean
+        type: object
+    junction.rollup.MsgSubmitBatchResponse:
+        properties:
+            status:
+                type: boolean
+        type: object
+    junction.rollup.MsgUpdateParams:
+        description: MsgUpdateParams is the Msg/UpdateParams request type.
+        properties:
+            authority:
+                description: authority is the address that controls the module (defaults to x/gov unless overwritten).
+                type: string
+            params:
+                $ref: '#/definitions/junction.rollup.Params'
+                description: 'NOTE: All parameters must be supplied.'
+        type: object
+    junction.rollup.MsgUpdateParamsResponse:
+        description: |-
+            MsgUpdateParamsResponse defines the response structure for executing a
+            MsgUpdateParams message.
+        type: object
+    junction.rollup.Params:
+        description: Params defines the parameters for the module.
+        type: object
+    junction.rollup.QueryCheckMonikerAvailabilityResponse:
+        properties:
+            is_available:
+                type: boolean
+        type: object
+    junction.rollup.QueryGetAllBatchesResponse:
+        properties:
+            batch:
+                items:
+                    $ref: '#/definitions/junction.rollup.Batch'
+                    type: object
+                type: array
+            limit:
+                format: uint64
+                type: string
+            offset:
+                format: uint64
+                type: string
+            order:
+                type: string
+            total:
+                format: uint64
+                type: string
+        type: object
+    junction.rollup.QueryGetBatchInfoResponse:
+        properties:
+            batchInfo:
+                $ref: '#/definitions/junction.rollup.Batch'
+        type: object
+    junction.rollup.QueryGetRollupByMonikerResponse:
+        properties:
+            rollupInfo:
+                $ref: '#/definitions/junction.rollup.RollupMetadata'
+        type: object
+    junction.rollup.QueryGetRollupInfoResponse:
+        properties:
+            rollupInfo:
+                $ref: '#/definitions/junction.rollup.RollupMetadata'
+        type: object
+    junction.rollup.QueryGetRollupStakedAmountResponse:
+        properties:
+            amountStaked:
+                format: uint64
+                type: string
+            denom:
+                type: string
+        type: object
+    junction.rollup.QueryGetRollupsResponse:
+        properties:
+            pagination:
+                $ref: '#/definitions/cosmos.base.query.v1beta1.PageResponse'
+            rollups:
+                items:
+                    $ref: '#/definitions/junction.rollup.RollupMetadata'
+                    type: object
+                type: array
+        type: object
+    junction.rollup.QueryGetStakeDetailsByUserResponse:
+        properties:
+            rollups:
+                items:
+                    $ref: '#/definitions/junction.rollup.RollupStake'
+                    type: object
+                type: array
+            total_staked_amount:
+                format: int64
+                type: string
+        type: object
+    junction.rollup.QueryGetTotalStakedAmountResponse:
+        properties:
+            creators:
+                items:
+                    $ref: '#/definitions/junction.rollup.Creator'
+                    type: object
+                type: array
+            total_staked_amount:
+                format: int64
+                type: string
+        type: object
+    junction.rollup.QueryParamsResponse:
+        description: QueryParamsResponse is response type for the Query/Params RPC method.
+        properties:
+            params:
+                $ref: '#/definitions/junction.rollup.Params'
+                description: params holds all the parameters of this module.
+        type: object
+    junction.rollup.RollupMetadata:
+        properties:
+            aclContractAddress:
+                title: FHE data for a rollup
+                type: string
+            ascContractAddress:
+                title: junction wasm contract address
+                type: string
+            chainId:
+                type: string
+            createdBy:
+                type: string
+            daLatestHash:
+                type: string
+            daType:
+                title: da data for a rollup
+                type: string
+            denomName:
+                type: string
+            gatewayContractAddress:
+                type: string
+            keys:
+                items:
+                    type: string
+                type: array
+            kmsVerifierAddress:
+                type: string
+            moniker:
+                title: rollup genesis data
+                type: string
+            proverEndpoint:
+                type: string
+            proverType:
+                title: prover data for a rollup
+                type: string
+            proverVerificationKey:
+                format: byte
+                type: string
+            relayerASCAddress:
+                type: string
+            relayerGAddress:
+                title: relayer data
+                type: string
+            rollupId:
+                type: string
+            rollupLatestBatchNo:
+                format: uint64
+                type: string
+            rollupLatestFinalizedBatchNo:
+                format: uint64
+                type: string
+            supply:
+                items:
+                    format: uint64
+                    type: string
+                type: array
+            tfheExecutorAddress:
+                type: string
+        type: object
+    junction.rollup.RollupStake:
+        properties:
+            amount_staked:
+                format: int64
+                type: string
+            denom:
+                type: string
+            rollup_id:
+                type: string
+        type: object
+    junction.wasm.v1.AbsoluteTxPosition:
+        description: |-
+            AbsoluteTxPosition is a unique transaction position that allows for global
+            ordering of transactions.
+        properties:
+            block_height:
+                format: uint64
+                title: BlockHeight is the block the contract was created at
+                type: string
+            tx_index:
+                format: uint64
+                title: |-
+                    TxIndex is a monotonic counter within the block (actual transaction index,
+                    or gas consumed)
+                type: string
+        type: object
+    junction.wasm.v1.AccessConfig:
+        description: AccessConfig access control type.
+        properties:
+            addresses:
+                items:
+                    type: string
+                type: array
+            permission:
+                $ref: '#/definitions/junction.wasm.v1.AccessType'
+        type: object
+    junction.wasm.v1.AccessType:
+        default: ACCESS_TYPE_UNSPECIFIED
+        description: |-
+            - ACCESS_TYPE_UNSPECIFIED: AccessTypeUnspecified placeholder for empty value
+             - ACCESS_TYPE_NOBODY: AccessTypeNobody forbidden
+             - ACCESS_TYPE_EVERYBODY: AccessTypeEverybody unrestricted
+             - ACCESS_TYPE_ANY_OF_ADDRESSES: AccessTypeAnyOfAddresses allow any of the addresses
+        enum:
+            - ACCESS_TYPE_UNSPECIFIED
+            - ACCESS_TYPE_NOBODY
+            - ACCESS_TYPE_EVERYBODY
+            - ACCESS_TYPE_ANY_OF_ADDRESSES
+        title: AccessType permission types
+        type: string
+    junction.wasm.v1.CodeInfoResponse:
+        properties:
+            code_id:
+                format: uint64
+                title: id for legacy support
+                type: string
+            creator:
+                type: string
+            data_hash:
+                format: byte
+                type: string
+            instantiate_permission:
+                $ref: '#/definitions/junction.wasm.v1.AccessConfig'
+        title: CodeInfoResponse contains code meta data from CodeInfo
+        type: object
+    junction.wasm.v1.ContractCodeHistoryEntry:
+        description: ContractCodeHistoryEntry metadata to a contract.
+        properties:
+            code_id:
+                format: uint64
+                title: CodeID is the reference to the stored WASM code
+                type: string
+            msg:
+                format: byte
+                type: string
+            operation:
+                $ref: '#/definitions/junction.wasm.v1.ContractCodeHistoryOperationType'
+            updated:
+                $ref: '#/definitions/junction.wasm.v1.AbsoluteTxPosition'
+                description: Updated Tx position when the operation was executed.
+        type: object
+    junction.wasm.v1.ContractCodeHistoryOperationType:
+        default: CONTRACT_CODE_HISTORY_OPERATION_TYPE_UNSPECIFIED
+        description: |-
+            - CONTRACT_CODE_HISTORY_OPERATION_TYPE_UNSPECIFIED: ContractCodeHistoryOperationTypeUnspecified placeholder for empty value
+             - CONTRACT_CODE_HISTORY_OPERATION_TYPE_INIT: ContractCodeHistoryOperationTypeInit on chain contract instantiation
+             - CONTRACT_CODE_HISTORY_OPERATION_TYPE_MIGRATE: ContractCodeHistoryOperationTypeMigrate code migration
+             - CONTRACT_CODE_HISTORY_OPERATION_TYPE_GENESIS: ContractCodeHistoryOperationTypeGenesis based on genesis data
+        enum:
+            - CONTRACT_CODE_HISTORY_OPERATION_TYPE_UNSPECIFIED
+            - CONTRACT_CODE_HISTORY_OPERATION_TYPE_INIT
+            - CONTRACT_CODE_HISTORY_OPERATION_TYPE_MIGRATE
+            - CONTRACT_CODE_HISTORY_OPERATION_TYPE_GENESIS
+        title: ContractCodeHistoryOperationType actions that caused a code change
+        type: string
+    junction.wasm.v1.ContractInfo:
+        properties:
+            admin:
+                title: Admin is an optional address that can execute migrations
+                type: string
+            code_id:
+                format: uint64
+                title: CodeID is the reference to the stored Wasm code
+                type: string
+            created:
+                $ref: '#/definitions/junction.wasm.v1.AbsoluteTxPosition'
+                description: Created Tx position when the contract was instantiated.
+            creator:
+                title: Creator address who initially instantiated the contract
+                type: string
+            extension:
+                $ref: '#/definitions/google.protobuf.Any'
+                description: |-
+                    Extension is an extension point to store custom metadata within the
+                    persistence model.
+            ibc_port_id:
+                type: string
+            label:
+                description: Label is optional metadata to be stored with a contract instance.
+                type: string
+        title: ContractInfo stores a WASM contract instance
+        type: object
+    junction.wasm.v1.Model:
+        properties:
+            key:
+                format: byte
+                title: hex-encode key to read it better (this is often ascii)
+                type: string
+            value:
+                format: byte
+                title: base64-encode raw value
+                type: string
+        title: Model is a struct that holds a KV pair
+        type: object
+    junction.wasm.v1.MsgAddCodeUploadParamsAddresses:
+        description: |-
+            MsgAddCodeUploadParamsAddresses is the
+            MsgAddCodeUploadParamsAddresses request type.
+        properties:
+            addresses:
+                items:
+                    type: string
+                type: array
+            authority:
+                description: Authority is the address of the governance account.
+                type: string
+        type: object
+    junction.wasm.v1.MsgAddCodeUploadParamsAddressesResponse:
+        description: |-
+            MsgAddCodeUploadParamsAddressesResponse defines the response
+            structure for executing a MsgAddCodeUploadParamsAddresses message.
+        type: object
+    junction.wasm.v1.MsgClearAdmin:
+        properties:
+            contract:
+                title: Contract is the address of the smart contract
+                type: string
+            sender:
+                title: Sender is the actor that signed the messages
+                type: string
+        title: MsgClearAdmin removes any admin stored for a smart contract
+        type: object
+    junction.wasm.v1.MsgClearAdminResponse:
+        title: MsgClearAdminResponse returns empty data
+        type: object
+    junction.wasm.v1.MsgExecuteContract:
+        properties:
+            contract:
+                title: Contract is the address of the smart contract
+                type: string
+            funds:
+                items:
+                    $ref: '#/definitions/cosmos.base.v1beta1.Coin'
+                    type: object
+                title: Funds coins that are transferred to the contract on execution
+                type: array
+            msg:
+                format: byte
+                title: Msg json encoded message to be passed to the contract
+                type: string
+            sender:
+                title: Sender is the that actor that signed the messages
+                type: string
+        title: MsgExecuteContract submits the given message data to a smart contract
+        type: object
+    junction.wasm.v1.MsgExecuteContractResponse:
+        description: MsgExecuteContractResponse returns execution result data.
+        properties:
+            data:
+                format: byte
+                title: Data contains bytes to returned from the contract
+                type: string
+        type: object
+    junction.wasm.v1.MsgInstantiateContract:
+        description: |-
+            MsgInstantiateContract create a new smart contract instance for the given
+            code id.
+        properties:
+            admin:
+                title: Admin is an optional address that can execute migrations
+                type: string
+            code_id:
+                format: uint64
+                title: CodeID is the reference to the stored WASM code
+                type: string
+            funds:
+                items:
+                    $ref: '#/definitions/cosmos.base.v1beta1.Coin'
+                    type: object
+                title: Funds coins that are transferred to the contract on instantiation
+                type: array
+            label:
+                description: Label is optional metadata to be stored with a contract instance.
+                type: string
+            msg:
+                format: byte
+                title: Msg json encoded message to be passed to the contract on instantiation
+                type: string
+            sender:
+                title: Sender is the that actor that signed the messages
+                type: string
+        type: object
+    junction.wasm.v1.MsgInstantiateContract2:
+        description: |-
+            MsgInstantiateContract2 create a new smart contract instance for the given
+            code id with a predictable address.
+        properties:
+            admin:
+                title: Admin is an optional address that can execute migrations
+                type: string
+            code_id:
+                format: uint64
+                title: CodeID is the reference to the stored WASM code
+                type: string
+            fix_msg:
+                title: |-
+                    FixMsg include the msg value into the hash for the predictable address.
+                    Default is false
+                type: boolean
+            funds:
+                items:
+                    $ref: '#/definitions/cosmos.base.v1beta1.Coin'
+                    type: object
+                title: Funds coins that are transferred to the contract on instantiation
+                type: array
+            label:
+                description: Label is optional metadata to be stored with a contract instance.
+                type: string
+            msg:
+                format: byte
+                title: Msg json encoded message to be passed to the contract on instantiation
+                type: string
+            salt:
+                description: Salt is an arbitrary value provided by the sender. Size can be 1 to 64.
+                format: byte
+                type: string
+            sender:
+                title: Sender is the that actor that signed the messages
+                type: string
+        type: object
+    junction.wasm.v1.MsgInstantiateContract2Response:
+        properties:
+            address:
+                description: Address is the bech32 address of the new contract instance.
+                type: string
+            data:
+                format: byte
+                title: Data contains bytes to returned from the contract
+                type: string
+        title: MsgInstantiateContract2Response return instantiation result data
+        type: object
+    junction.wasm.v1.MsgInstantiateContractResponse:
+        properties:
+            address:
+                description: Address is the bech32 address of the new contract instance.
+                type: string
+            data:
+                format: byte
+                title: Data contains bytes to returned from the contract
+                type: string
+        title: MsgInstantiateContractResponse return instantiation result data
+        type: object
+    junction.wasm.v1.MsgMigrateContract:
+        properties:
+            code_id:
+                format: uint64
+                title: CodeID references the new WASM code
+                type: string
+            contract:
+                title: Contract is the address of the smart contract
+                type: string
+            msg:
+                format: byte
+                title: Msg json encoded message to be passed to the contract on migration
+                type: string
+            sender:
+                title: Sender is the that actor that signed the messages
+                type: string
+        title: MsgMigrateContract runs a code upgrade/ downgrade for a smart contract
+        type: object
+    junction.wasm.v1.MsgMigrateContractResponse:
+        description: MsgMigrateContractResponse returns contract migration result data.
+        properties:
+            data:
+                format: byte
+                title: |-
+                    Data contains same raw bytes returned as data from the wasm contract.
+                    (May be empty)
+                type: string
+        type: object
+    junction.wasm.v1.MsgPinCodes:
+        description: |-
+            MsgPinCodes is the MsgPinCodes request type.
+
+            Since: 0.40
+        properties:
+            authority:
+                description: Authority is the address of the governance account.
+                type: string
+            code_ids:
+                items:
+                    format: uint64
+                    type: string
+                title: CodeIDs references the new WASM codes
+                type: array
+        type: object
+    junction.wasm.v1.MsgPinCodesResponse:
+        description: |-
+            MsgPinCodesResponse defines the response structure for executing a
+            MsgPinCodes message.
+
+            Since: 0.40
+        type: object
+    junction.wasm.v1.MsgRemoveCodeUploadParamsAddresses:
+        description: |-
+            MsgRemoveCodeUploadParamsAddresses is the
+            MsgRemoveCodeUploadParamsAddresses request type.
+        properties:
+            addresses:
+                items:
+                    type: string
+                type: array
+            authority:
+                description: Authority is the address of the governance account.
+                type: string
+        type: object
+    junction.wasm.v1.MsgRemoveCodeUploadParamsAddressesResponse:
+        description: |-
+            MsgRemoveCodeUploadParamsAddressesResponse defines the response
+            structure for executing a MsgRemoveCodeUploadParamsAddresses message.
+        type: object
+    junction.wasm.v1.MsgStoreAndInstantiateContract:
+        description: |-
+            MsgStoreAndInstantiateContract is the MsgStoreAndInstantiateContract
+            request type.
+
+            Since: 0.40
+        properties:
+            admin:
+                title: Admin is an optional address that can execute migrations
+                type: string
+            authority:
+                description: Authority is the address of the governance account.
+                type: string
+            builder:
+                title: |-
+                    Builder is the docker image used to build the code deterministically, used
+                    for smart contract verification
+                type: string
+            code_hash:
+                format: byte
+                title: |-
+                    CodeHash is the SHA256 sum of the code outputted by builder, used for smart
+                    contract verification
+                type: string
+            funds:
+                items:
+                    $ref: '#/definitions/cosmos.base.v1beta1.Coin'
+                    type: object
+                title: |-
+                    Funds coins that are transferred from the authority account to the contract
+                    on instantiation
+                type: array
+            instantiate_permission:
+                $ref: '#/definitions/junction.wasm.v1.AccessConfig'
+                title: InstantiatePermission to apply on contract creation, optional
+            label:
+                description: Label is optional metadata to be stored with a constract instance.
+                type: string
+            msg:
+                format: byte
+                title: Msg json encoded message to be passed to the contract on instantiation
+                type: string
+            source:
+                title: Source is the URL where the code is hosted
+                type: string
+            unpin_code:
+                description: |-
+                    UnpinCode code on upload, optional. As default the uploaded contract is
+                    pinned to cache.
+                type: boolean
+            wasm_byte_code:
+                format: byte
+                title: WASMByteCode can be raw or gzip compressed
+                type: string
+        type: object
+    junction.wasm.v1.MsgStoreAndInstantiateContractResponse:
+        description: |-
+            MsgStoreAndInstantiateContractResponse defines the response structure
+            for executing a MsgStoreAndInstantiateContract message.
+
+            Since: 0.40
+        properties:
+            address:
+                description: Address is the bech32 address of the new contract instance.
+                type: string
+            data:
+                format: byte
+                title: Data contains bytes to returned from the contract
+                type: string
+        type: object
+    junction.wasm.v1.MsgStoreAndMigrateContract:
+        description: |-
+            MsgStoreAndMigrateContract is the MsgStoreAndMigrateContract
+            request type.
+
+            Since: 0.42
+        properties:
+            authority:
+                description: Authority is the address of the governance account.
+                type: string
+            contract:
+                title: Contract is the address of the smart contract
+                type: string
+            instantiate_permission:
+                $ref: '#/definitions/junction.wasm.v1.AccessConfig'
+                title: InstantiatePermission to apply on contract creation, optional
+            msg:
+                format: byte
+                title: Msg json encoded message to be passed to the contract on migration
+                type: string
+            wasm_byte_code:
+                format: byte
+                title: WASMByteCode can be raw or gzip compressed
+                type: string
+        type: object
+    junction.wasm.v1.MsgStoreAndMigrateContractResponse:
+        description: |-
+            MsgStoreAndMigrateContractResponse defines the response structure
+            for executing a MsgStoreAndMigrateContract message.
+
+            Since: 0.42
+        properties:
+            checksum:
+                format: byte
+                title: Checksum is the sha256 hash of the stored code
+                type: string
+            code_id:
+                format: uint64
+                title: CodeID is the reference to the stored WASM code
+                type: string
+            data:
+                format: byte
+                title: Data contains bytes to returned from the contract
+                type: string
+        type: object
+    junction.wasm.v1.MsgStoreCode:
+        properties:
+            instantiate_permission:
+                $ref: '#/definitions/junction.wasm.v1.AccessConfig'
+                title: |-
+                    InstantiatePermission access control to apply on contract creation,
+                    optional
+            sender:
+                title: Sender is the actor that signed the messages
+                type: string
+            wasm_byte_code:
+                format: byte
+                title: WASMByteCode can be raw or gzip compressed
+                type: string
+        title: MsgStoreCode submit Wasm code to the system
+        type: object
+    junction.wasm.v1.MsgStoreCodeResponse:
+        description: MsgStoreCodeResponse returns store result data.
+        properties:
+            checksum:
+                format: byte
+                title: Checksum is the sha256 hash of the stored code
+                type: string
+            code_id:
+                format: uint64
+                title: CodeID is the reference to the stored WASM code
+                type: string
+        type: object
+    junction.wasm.v1.MsgSudoContract:
+        description: |-
+            MsgSudoContract is the MsgSudoContract request type.
+
+            Since: 0.40
+        properties:
+            authority:
+                description: Authority is the address of the governance account.
+                type: string
+            contract:
+                title: Contract is the address of the smart contract
+                type: string
+            msg:
+                format: byte
+                title: Msg json encoded message to be passed to the contract as sudo
+                type: string
+        type: object
+    junction.wasm.v1.MsgSudoContractResponse:
+        description: |-
+            MsgSudoContractResponse defines the response structure for executing a
+            MsgSudoContract message.
+
+            Since: 0.40
+        properties:
+            data:
+                format: byte
+                title: Data contains bytes to returned from the contract
+                type: string
+        type: object
+    junction.wasm.v1.MsgUnpinCodes:
+        description: |-
+            MsgUnpinCodes is the MsgUnpinCodes request type.
+
+            Since: 0.40
+        properties:
+            authority:
+                description: Authority is the address of the governance account.
+                type: string
+            code_ids:
+                items:
+                    format: uint64
+                    type: string
+                title: CodeIDs references the WASM codes
+                type: array
+        type: object
+    junction.wasm.v1.MsgUnpinCodesResponse:
+        description: |-
+            MsgUnpinCodesResponse defines the response structure for executing a
+            MsgUnpinCodes message.
+
+            Since: 0.40
+        type: object
+    junction.wasm.v1.MsgUpdateAdmin:
+        properties:
+            contract:
+                title: Contract is the address of the smart contract
+                type: string
+            new_admin:
+                title: NewAdmin address to be set
+                type: string
+            sender:
+                title: Sender is the that actor that signed the messages
+                type: string
+        title: MsgUpdateAdmin sets a new admin for a smart contract
+        type: object
+    junction.wasm.v1.MsgUpdateAdminResponse:
+        title: MsgUpdateAdminResponse returns empty data
+        type: object
+    junction.wasm.v1.MsgUpdateContractLabel:
+        properties:
+            contract:
+                title: Contract is the address of the smart contract
+                type: string
+            new_label:
+                title: NewLabel string to be set
+                type: string
+            sender:
+                title: Sender is the that actor that signed the messages
+                type: string
+        title: MsgUpdateContractLabel sets a new label for a smart contract
+        type: object
+    junction.wasm.v1.MsgUpdateContractLabelResponse:
+        title: MsgUpdateContractLabelResponse returns empty data
+        type: object
+    junction.wasm.v1.MsgUpdateInstantiateConfig:
+        properties:
+            code_id:
+                format: uint64
+                title: CodeID references the stored WASM code
+                type: string
+            new_instantiate_permission:
+                $ref: '#/definitions/junction.wasm.v1.AccessConfig'
+                title: NewInstantiatePermission is the new access control
+            sender:
+                title: Sender is the that actor that signed the messages
+                type: string
+        title: MsgUpdateInstantiateConfig updates instantiate config for a smart contract
+        type: object
+    junction.wasm.v1.MsgUpdateInstantiateConfigResponse:
+        title: MsgUpdateInstantiateConfigResponse returns empty data
+        type: object
+    junction.wasm.v1.MsgUpdateParams:
+        description: |-
+            MsgUpdateParams is the MsgUpdateParams request type.
+
+            Since: 0.40
+        properties:
+            authority:
+                description: Authority is the address of the governance account.
+                type: string
+            params:
+                $ref: '#/definitions/junction.wasm.v1.Params'
+                description: |-
+                    params defines the x/wasm parameters to update.
+
+                    NOTE: All parameters must be supplied.
+        type: object
+    junction.wasm.v1.MsgUpdateParamsResponse:
+        description: |-
+            MsgUpdateParamsResponse defines the response structure for executing a
+            MsgUpdateParams message.
+
+            Since: 0.40
+        type: object
+    junction.wasm.v1.Params:
+        description: Params defines the set of wasm parameters.
+        properties:
+            code_upload_access:
+                $ref: '#/definitions/junction.wasm.v1.AccessConfig'
+            instantiate_default_permission:
+                $ref: '#/definitions/junction.wasm.v1.AccessType'
+        type: object
+    junction.wasm.v1.QueryAllContractStateResponse:
+        properties:
+            models:
+                items:
+                    $ref: '#/definitions/junction.wasm.v1.Model'
+                    type: object
+                type: array
+            pagination:
+                $ref: '#/definitions/cosmos.base.query.v1beta1.PageResponse'
+                description: pagination defines the pagination in the response.
+        title: |-
+            QueryAllContractStateResponse is the response type for the
+            Query/AllContractState RPC method
+        type: object
+    junction.wasm.v1.QueryBuildAddressResponse:
+        description: |-
+            QueryBuildAddressResponse is the response type for the Query/BuildAddress RPC
+            method.
+        properties:
+            address:
+                title: Address is the contract address
+                type: string
+        type: object
+    junction.wasm.v1.QueryCodeResponse:
+        properties:
+            code_info:
+                $ref: '#/definitions/junction.wasm.v1.CodeInfoResponse'
+            data:
+                format: byte
+                type: string
+        title: QueryCodeResponse is the response type for the Query/Code RPC method
+        type: object
+    junction.wasm.v1.QueryCodesResponse:
+        properties:
+            code_infos:
+                items:
+                    $ref: '#/definitions/junction.wasm.v1.CodeInfoResponse'
+                    type: object
+                type: array
+            pagination:
+                $ref: '#/definitions/cosmos.base.query.v1beta1.PageResponse'
+                description: pagination defines the pagination in the response.
+        title: QueryCodesResponse is the response type for the Query/Codes RPC method
+        type: object
+    junction.wasm.v1.QueryContractHistoryResponse:
+        properties:
+            entries:
+                items:
+                    $ref: '#/definitions/junction.wasm.v1.ContractCodeHistoryEntry'
+                    type: object
+                type: array
+            pagination:
+                $ref: '#/definitions/cosmos.base.query.v1beta1.PageResponse'
+                description: pagination defines the pagination in the response.
+        title: |-
+            QueryContractHistoryResponse is the response type for the
+            Query/ContractHistory RPC method
+        type: object
+    junction.wasm.v1.QueryContractInfoResponse:
+        properties:
+            address:
+                title: address is the address of the contract
+                type: string
+            contract_info:
+                $ref: '#/definitions/junction.wasm.v1.ContractInfo'
+        title: |-
+            QueryContractInfoResponse is the response type for the Query/ContractInfo RPC
+            method
+        type: object
+    junction.wasm.v1.QueryContractsByCodeResponse:
+        properties:
+            contracts:
+                items:
+                    type: string
+                title: contracts are a set of contract addresses
+                type: array
+            pagination:
+                $ref: '#/definitions/cosmos.base.query.v1beta1.PageResponse'
+                description: pagination defines the pagination in the response.
+        title: |-
+            QueryContractsByCodeResponse is the response type for the
+            Query/ContractsByCode RPC method
+        type: object
+    junction.wasm.v1.QueryContractsByCreatorResponse:
+        description: |-
+            QueryContractsByCreatorResponse is the response type for the
+            Query/ContractsByCreator RPC method.
+        properties:
+            contract_addresses:
+                items:
+                    type: string
+                title: ContractAddresses result set
+                type: array
+            pagination:
+                $ref: '#/definitions/cosmos.base.query.v1beta1.PageResponse'
+                description: Pagination defines the pagination in the response.
+        type: object
+    junction.wasm.v1.QueryParamsResponse:
+        description: QueryParamsResponse is the response type for the Query/Params RPC method.
+        properties:
+            params:
+                $ref: '#/definitions/junction.wasm.v1.Params'
+                description: params defines the parameters of the module.
+        type: object
+    junction.wasm.v1.QueryPinnedCodesResponse:
+        properties:
+            code_ids:
+                items:
+                    format: uint64
+                    type: string
+                type: array
+            pagination:
+                $ref: '#/definitions/cosmos.base.query.v1beta1.PageResponse'
+                description: pagination defines the pagination in the response.
+        title: |-
+            QueryPinnedCodesResponse is the response type for the
+            Query/PinnedCodes RPC method
+        type: object
+    junction.wasm.v1.QueryRawContractStateResponse:
+        properties:
+            data:
+                format: byte
+                title: Data contains the raw store data
+                type: string
+        title: |-
+            QueryRawContractStateResponse is the response type for the
+            Query/RawContractState RPC method
+        type: object
+    junction.wasm.v1.QuerySmartContractStateResponse:
+        properties:
+            data:
+                format: byte
+                title: Data contains the json data returned from the smart contract
+                type: string
+        title: |-
+            QuerySmartContractStateResponse is the response type for the
+            Query/SmartContractState RPC method
         type: object
     tendermint.abci.CheckTxType:
         default: NEW
