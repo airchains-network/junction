@@ -1,0 +1,187 @@
+syntax = "proto3";
+
+package junction.rollup;
+
+import "amino/amino.proto";
+import "gogoproto/gogo.proto";
+import "google/api/annotations.proto";
+import "cosmos/base/query/v1beta1/pagination.proto";
+import "junction/rollup/params.proto";
+import "junction/rollup/rollup_metadata.proto";
+import "junction/rollup/batch.proto";
+
+option go_package = "github.com/airchains-network/junction/x/rollup/types";
+
+// Query defines the gRPC querier service.
+service Query {
+  
+  // Parameters queries the parameters of the module.
+  rpc Params (QueryParamsRequest) returns (QueryParamsResponse) {
+    option (google.api.http).get = "/airchains-network/junction/rollup/params";
+  
+  }
+  
+  // Queries a list of CheckMonikerAvailability items.
+  rpc CheckMonikerAvailability (QueryCheckMonikerAvailabilityRequest) returns (QueryCheckMonikerAvailabilityResponse) {
+    option (google.api.http).get = "/airchains-network/junction/rollup/check_moniker_availability/{moniker}";
+  
+  }
+  
+  // Queries a list of GetRollupInfo items.
+  rpc GetRollupInfo (QueryGetRollupInfoRequest) returns (QueryGetRollupInfoResponse) {
+    option (google.api.http).get = "/airchains-network/junction/rollup/get_rollup_info/{rollupId}";
+  
+  }
+  
+  // Queries a list of GetRollups items.
+  rpc GetRollups (QueryGetRollupsRequest) returns (QueryGetRollupsResponse) {
+    option (google.api.http).get = "/airchains-network/junction/rollup/get_rollups";
+  
+  }
+  
+  // Queries a list of GetRollupByMoniker items.
+  rpc GetRollupByMoniker (QueryGetRollupByMonikerRequest) returns (QueryGetRollupByMonikerResponse) {
+    option (google.api.http).get = "/airchains-network/junction/rollup/get_rollup_by_moniker/{moniker}";
+  
+  }
+  
+  // Queries a list of GetBatchInfo items.
+  rpc GetBatchInfo (QueryGetBatchInfoRequest) returns (QueryGetBatchInfoResponse) {
+    option (google.api.http).get = "/airchains-network/junction/rollup/get_batch_info/{rollupId}/{batchNo}";
+  
+  }
+  
+  // Queries a list of GetAllBatches items.
+  rpc GetAllBatches (QueryGetAllBatchesRequest) returns (QueryGetAllBatchesResponse) {
+    option (google.api.http).get = "/airchains-network/junction/rollup/get_all_batches/{rollupId}";
+  
+  }
+  
+  // Queries a list of GetTotalStakedAmount items.
+  rpc GetTotalStakedAmount (QueryGetTotalStakedAmountRequest) returns (QueryGetTotalStakedAmountResponse) {
+    option (google.api.http).get = "/airchains-network/junction/rollup/get_total_staked_amount";
+  
+  }
+  
+  // Queries a list of GetStakeDetailsByUser items.
+  rpc GetStakeDetailsByUser (QueryGetStakeDetailsByUserRequest) returns (QueryGetStakeDetailsByUserResponse) {
+    option (google.api.http).get = "/airchains-network/junction/rollup/get_stake_details_by_user/{address}";
+  
+  }
+  
+  // Queries a list of GetRollupStakedAmount items.
+  rpc GetRollupStakedAmount (QueryGetRollupStakedAmountRequest) returns (QueryGetRollupStakedAmountResponse) {
+    option (google.api.http).get = "/airchains-network/junction/rollup/get_rollup_staked_amount/{rollupId}";
+  
+  }
+}
+// QueryParamsRequest is request type for the Query/Params RPC method.
+message QueryParamsRequest {}
+
+// QueryParamsResponse is response type for the Query/Params RPC method.
+message QueryParamsResponse {
+  
+  // params holds all the parameters of this module.
+  Params params = 1 [(gogoproto.nullable) = false, (amino.dont_omitempty) = true];
+}
+
+message QueryCheckMonikerAvailabilityRequest {
+  string moniker = 1;
+}
+
+message QueryCheckMonikerAvailabilityResponse {
+  bool is_available = 1;
+}
+
+message QueryGetRollupInfoRequest {
+  string rollupId = 1;
+}
+
+message QueryGetRollupInfoResponse {
+  RollupMetadata rollupInfo = 1;
+}
+
+message QueryGetRollupsRequest {
+  cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryGetRollupsResponse {
+  repeated RollupMetadata                         rollups    = 1 [(gogoproto.nullable) = false];
+           cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+message QueryGetRollupByMonikerRequest {
+  string moniker = 1;
+}
+
+message QueryGetRollupByMonikerResponse {
+  RollupMetadata rollupInfo = 1;
+}
+
+message QueryGetBatchInfoRequest {
+  string rollupId = 1;
+  uint64 batchNo  = 2;
+}
+
+message QueryGetBatchInfoResponse {
+  Batch batchInfo = 1;
+}
+
+message QueryGetAllBatchesRequest {
+  string rollupId = 1;
+
+  oneof _offset {
+    uint64 offset = 2;
+  }
+  oneof _limit {
+    uint64 limit = 3;
+  }
+  oneof _order {
+    string order = 4;
+  }
+}
+
+message QueryGetAllBatchesResponse {
+  repeated Batch  batch  = 1 [(gogoproto.nullable) = false];
+           uint64 total  = 2;
+           uint64 offset = 3;
+           uint64 limit  = 4;
+           string order  = 5;
+}
+
+message QueryGetTotalStakedAmountRequest {}
+
+message QueryGetTotalStakedAmountResponse {
+  repeated Creator creators            = 1;
+           int64   total_staked_amount = 2;
+}
+
+message Creator {
+           string      creator_address = 1;
+  repeated RollupStake rollups         = 2;
+}
+
+message RollupStake {
+  string rollup_id     = 1;
+  int64  amount_staked = 2;
+  string denom         = 3;
+}
+
+message QueryGetStakeDetailsByUserRequest {
+  string address = 1;
+}
+
+message QueryGetStakeDetailsByUserResponse {
+           int64       total_staked_amount = 1;
+  repeated RollupStake rollups             = 2;
+}
+
+message QueryGetRollupStakedAmountRequest {
+  string rollupId = 1;
+}
+
+message QueryGetRollupStakedAmountResponse {
+  uint64 amountStaked = 1;
+  string denom        = 2;
+}
+

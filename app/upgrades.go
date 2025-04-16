@@ -19,6 +19,7 @@ import (
 	stakingtypes "github.com/cosmos/cosmos-sdk/x/staking/types"
 
 	"github.com/airchains-network/junction/app/upgrades"
+	"github.com/airchains-network/junction/app/upgrades/jip2"
 	"github.com/airchains-network/junction/app/upgrades/noop"
 	v050 "github.com/airchains-network/junction/app/upgrades/v050"
 	v2 "github.com/airchains-network/junction/x/wasm/migrations/v2"
@@ -26,7 +27,7 @@ import (
 )
 
 // Upgrades list of chain upgrades
-var Upgrades = []upgrades.Upgrade{v050.Upgrade}
+var Upgrades = []upgrades.Upgrade{v050.Upgrade, jip2.Upgrade}
 
 // RegisterUpgradeHandlers registers the chain upgrade handlers
 func (app *JunctionApp) RegisterUpgradeHandlers() {

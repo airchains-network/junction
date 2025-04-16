@@ -1,0 +1,110 @@
+syntax = "proto3";
+
+package junction.rollup;
+
+import "amino/amino.proto";
+import "cosmos/msg/v1/msg.proto";
+import "cosmos_proto/cosmos.proto";
+import "gogoproto/gogo.proto";
+import "junction/rollup/params.proto";
+import "cosmos/base/v1beta1/coin.proto";
+
+option go_package = "github.com/airchains-network/junction/x/rollup/types";
+
+// Msg defines the Msg service.
+service Msg {
+  option (cosmos.msg.v1.service) = true;
+
+  // UpdateParams defines a (governance) operation for updating the module
+  // parameters. The authority defaults to the x/gov module account.
+  rpc UpdateParams        (MsgUpdateParams       ) returns (MsgUpdateParamsResponse       );
+  rpc InitRollup          (MsgInitRollup         ) returns (MsgInitRollupResponse         );
+  rpc InitProver          (MsgInitProver         ) returns (MsgInitProverResponse         );
+  rpc SubmitBatchMetadata (MsgSubmitBatchMetadata) returns (MsgSubmitBatchMetadataResponse);
+  rpc SubmitBatch         (MsgSubmitBatch        ) returns (MsgSubmitBatchResponse        );
+}
+// MsgUpdateParams is the Msg/UpdateParams request type.
+message MsgUpdateParams {
+  option (cosmos.msg.v1.signer) =                         "authority";
+  option           (amino.name) = "junction/x/rollup/MsgUpdateParams";
+
+  // authority is the address that controls the module (defaults to x/gov unless overwritten).
+  string authority = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+
+  // params defines the module parameters to update.
+
+  // NOTE: All parameters must be supplied.
+  Params params = 2 [(gogoproto.nullable) = false, (amino.dont_omitempty) = true];
+}
+
+// MsgUpdateParamsResponse defines the response structure for executing a
+// MsgUpdateParams message.
+message MsgUpdateParamsResponse {}
+
+message MsgInitRollup {
+  option (cosmos.msg.v1.signer) = "creator";
+           string creator                =  1;
+           string moniker                =  2;
+           string chainId                =  3;
+           string denomName              =  4;
+           string daType                 =  5;
+  repeated string keys                   =  6;
+  repeated uint64 supply                 =  7;
+  // cosmos.base.v1beta1.Coin genesisSupply  = 8 [(gogoproto.nullable) = false];
+           string aclContractAddress     =  8;
+           string kmsVerifierAddress     =  9;
+           string tfheExecutorAddress    = 10;
+           string gatewayContractAddress = 11;
+           string ascContractAddress     = 12;
+           string relayerGAddress        = 13;
+           string relayerASCAddress      = 14;
+}
+
+message MsgInitRollupResponse {
+  string rollupId = 1;
+  bool   status   = 2;
+}
+
+message MsgInitProver {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator               = 1;
+  string rollupId              = 2;
+  bytes  proverVerificationKey = 3;
+  string proverType            = 4;
+  string proverEndpoint        = 5;
+}
+
+message MsgInitProverResponse {
+  bool status = 1;
+}
+
+message MsgSubmitBatchMetadata {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator      = 1;
+  uint64 batchNo      = 2;
+  string rollupId     = 3;
+  string daName       = 4;
+  string daCommitment = 5;
+  string daHash       = 6;
+  string daPointer    = 7;
+  string daNamespace  = 8;
+}
+
+message MsgSubmitBatchMetadataResponse {
+  bool status = 1;
+}
+
+message MsgSubmitBatch {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator                = 1;
+  string rollupId               = 2;
+  uint64 batchNo                = 3;
+  string merkleRootHash         = 4;
+  string previousMerkleRootHash = 5;
+  bytes zkProof                = 6;
+  bytes publicWitness          = 7;
+}
+
+message MsgSubmitBatchResponse {
+  bool status = 1;
+}
