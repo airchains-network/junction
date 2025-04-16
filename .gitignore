@@ -19,6 +19,7 @@ docs/tutorial
 dist
 tools-stamp
 docs/node_modules
+wasmvm
 
 # Data - ideally these don't exist
 baseapp/data/*

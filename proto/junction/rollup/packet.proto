@@ -1,0 +1,13 @@
+syntax = "proto3";
+package junction.rollup;
+
+option go_package = "github.com/airchains-network/junction/x/rollup/types";
+
+message RollupPacketData {
+    oneof packet {
+        NoData noData = 1;
+    }
+}
+
+message NoData {
+}

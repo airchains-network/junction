@@ -7,6 +7,10 @@ LEDGER_ENABLED ?= true
 SDK_PACK := $(shell go list -m github.com/cosmos/cosmos-sdk | sed  's/ /\@/g')
 BINDIR ?= $(GOPATH)/bin
 SIMAPP = ./app
+WASMVM_VERSION := $(shell go list -m github.com/CosmWasm/wasmvm/v2 | awk '{print $$2}')
+UNAME_OS := $(shell uname -s)
+UNAME_ARCH := $(shell uname -m)
+
 
 # for dockerized protobuf tools
 DOCKER := $(shell which docker)
@@ -55,7 +59,7 @@ build_tags_comma_sep := $(subst $(empty),$(comma),$(build_tags))
 
 # process linker flags
 
-WASMVM_LIB_PATH := $(CURDIR)/wasmvm/libwasmvm/target/release
+WASMVM_LIB_PATH := $(CURDIR)/wasmvm
 
 
 ifeq ($(MAKECMDGOALS),build-static)
@@ -104,6 +108,13 @@ clone-wasmvm:
 		cp libwasmvm.a libwasmvm.x86_64.a; \
 	fi
 
+wasmvm:
+	mkdir wasmvm && \
+	cd wasmvm && \
+	wget https://github.com/CosmWasm/wasmvm/releases/download/$(WASMVM_VERSION)/libwasmvm_muslc.x86_64.a -O libwasmvm.x86_64.a && \
+	cp libwasmvm.x86_64.a libwasmvm.a
+
+
 build: go.sum
 ifeq ($(OS),Windows_NT)
 	$(error junctiond server not supported. Use "make build-windows-client" for client)
@@ -112,7 +123,7 @@ else
 	go build -mod=readonly $(BUILD_FLAGS) -o build/junctiond ./cmd/junctiond
 endif
 
-build-static: clone-wasmvm go.sum
+build-static: wasmvm go.sum
 ifeq ($(OS),Windows_NT)
 	$(error junctiond server not supported. Use "make build-windows-client" for client)
 	exit 1

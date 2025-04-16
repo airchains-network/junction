@@ -1,0 +1,24 @@
+syntax = "proto3";
+package junction.rollup;
+
+option go_package = "github.com/airchains-network/junction/x/rollup/types";
+
+message Batch {
+  string submitter = 1;
+  string rollupId = 2;
+  uint64 batchNo = 3;
+  string merkleRootHash = 4;
+  string previousMerkleRootHash = 5;
+  // prover data for a batch
+  bytes zkProof = 6;
+  bytes publicWitness = 7;
+  // da data for a batch
+  string timestamp = 8;
+  string daName = 9;
+  string daCommitment = 10;
+  string daHash = 11;
+  string daPointer = 12;
+  string daNamespace = 13;
+
+  bool isFinalized = 14;
+}

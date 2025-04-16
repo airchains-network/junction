@@ -1,0 +1,15 @@
+syntax = "proto3";
+package junction.rollup;
+
+import "amino/amino.proto";
+import "gogoproto/gogo.proto";
+
+option go_package = "github.com/airchains-network/junction/x/rollup/types";
+
+// Params defines the parameters for the module.
+message Params {
+  option (amino.name) = "junction/x/rollup/Params";
+  option (gogoproto.equal) = true;
+
+  
+}
