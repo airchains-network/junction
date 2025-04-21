@@ -5,14 +5,14 @@ import (
 	"strconv"
 
 	"cosmossdk.io/store/prefix"
-	"github.com/airchains-network/junction/x/rollup/types"
+	rolluptypes "github.com/airchains-network/junction/x/rollup/types"
 	"github.com/cosmos/cosmos-sdk/runtime"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
 
-func (k msgServer) SubmitBatchMetadata(goCtx context.Context, msg *types.MsgSubmitBatchMetadata) (*types.MsgSubmitBatchMetadataResponse, error) {
+func (k msgServer) SubmitBatchMetadata(goCtx context.Context, msg *rolluptypes.MsgSubmitBatchMetadata) (*rolluptypes.MsgSubmitBatchMetadataResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
 	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
@@ -26,7 +26,7 @@ func (k msgServer) SubmitBatchMetadata(goCtx context.Context, msg *types.MsgSubm
 	daNamespace := msg.DaNamespace
 
 	batchStorePath, batchKeyByte := k.GetRollupBatchDbStoreKeys(rollupId, batchNo)
-	batchDataStore := prefix.NewStore(storeAdapter, types.KeyPrefix(batchStorePath))
+	batchDataStore := prefix.NewStore(storeAdapter, rolluptypes.KeyPrefix(batchStorePath))
 
 	// Check if the batch metadata already exists
 	if batchDataStore.Has(batchKeyByte) {
@@ -42,7 +42,7 @@ func (k msgServer) SubmitBatchMetadata(goCtx context.Context, msg *types.MsgSubm
 	if batchNo < 2 {
 		previousMerkleRootHash = "initial_batch_no_previous_hash" // This indicates that there is no previous Merkle root hash for the initial batch
 	} else {
-		var previousBatch types.Batch
+		var previousBatch rolluptypes.Batch
 
 		_, previousBatchNo := k.GetRollupBatchDbStoreKeys(rollupId, batchNo-1)
 		previousBatchBytes := batchDataStore.Get(previousBatchNo)
@@ -51,7 +51,7 @@ func (k msgServer) SubmitBatchMetadata(goCtx context.Context, msg *types.MsgSubm
 	}
 
 	// Create a new batch metadata entry
-	var batchMetadata = types.Batch{
+	var batchMetadata = rolluptypes.Batch{
 		Submitter:              msg.Creator,
 		RollupId:               rollupId,
 		BatchNo:                batchNo,
@@ -73,9 +73,9 @@ func (k msgServer) SubmitBatchMetadata(goCtx context.Context, msg *types.MsgSubm
 	batchDataStore.Set(batchKeyByte, batchDataBytes)
 
 	// updating rollup metadata
-	rollupDataStore := prefix.NewStore(storeAdapter, types.KeyPrefix(types.RollupDataKey))
+	rollupDataStore := prefix.NewStore(storeAdapter, rolluptypes.KeyPrefix(rolluptypes.RollupDataKey))
 	rollupBytes := rollupDataStore.Get([]byte(rollupId))
-	var rollup types.RollupMetadata
+	var rollup rolluptypes.RollupMetadata
 	k.cdc.MustUnmarshal(rollupBytes, &rollup)
 
 	rollup.RollupLatestBatchNo = batchNo
@@ -86,21 +86,21 @@ func (k msgServer) SubmitBatchMetadata(goCtx context.Context, msg *types.MsgSubm
 
 	// Emit an event for the new batch metadata
 	ctx.EventManager().EmitEvent(sdk.NewEvent(
-		"batch-metadata-submitted",
-		sdk.NewAttribute("submitter", batchMetadata.Submitter),
-		sdk.NewAttribute("batch-no", strconv.FormatUint(batchMetadata.BatchNo, 10)),
-		sdk.NewAttribute("timestamp", batchMetadata.Timestamp),
-		sdk.NewAttribute("rollup-id", batchMetadata.RollupId),
-		sdk.NewAttribute("da-name", batchMetadata.DaName),
-		sdk.NewAttribute("da-commitment", batchMetadata.DaCommitment),
-		sdk.NewAttribute("da-hash", batchMetadata.DaHash),
-		sdk.NewAttribute("da-pointer", batchMetadata.DaPointer),
-		sdk.NewAttribute("da-namespace", batchMetadata.DaNamespace),
-		sdk.NewAttribute("previous-merkle-root-hash", batchMetadata.PreviousMerkleRootHash),
-		sdk.NewAttribute("is-finalized", strconv.FormatBool(batchMetadata.IsFinalized)),
+		rolluptypes.EventTypeBatchMetadataSubmitted,
+		sdk.NewAttribute(rolluptypes.AttributeKeySubmitter, batchMetadata.Submitter),
+		sdk.NewAttribute(rolluptypes.AttributeKeyBatchNo, strconv.FormatUint(batchMetadata.BatchNo, 10)),
+		sdk.NewAttribute(rolluptypes.AttributeKeyTimestamp, batchMetadata.Timestamp),
+		sdk.NewAttribute(rolluptypes.AttributeKeyRollupId, batchMetadata.RollupId),
+		sdk.NewAttribute(rolluptypes.AttributeKeyDaName, batchMetadata.DaName),
+		sdk.NewAttribute(rolluptypes.AttributeKeyDaCommitment, batchMetadata.DaCommitment),
+		sdk.NewAttribute(rolluptypes.AttributeKeyDaHash, batchMetadata.DaHash),
+		sdk.NewAttribute(rolluptypes.AttributeKeyDaPointer, batchMetadata.DaPointer),
+		sdk.NewAttribute(rolluptypes.AttributeKeyDaNamespace, batchMetadata.DaNamespace),
+		sdk.NewAttribute(rolluptypes.AttributeKeyPreviousMerkleRootHash, batchMetadata.PreviousMerkleRootHash),
+		sdk.NewAttribute(rolluptypes.AttributeKeyIsFinalized, strconv.FormatBool(batchMetadata.IsFinalized)),
 	))
 
-	return &types.MsgSubmitBatchMetadataResponse{
+	return &rolluptypes.MsgSubmitBatchMetadataResponse{
 		Status: true,
 	}, nil
 }

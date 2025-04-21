@@ -191,6 +191,8 @@ func (im IBCModule) OnAcknowledgementPacket(
 		return errorsmod.Wrap(sdkerrors.ErrUnknownRequest, errMsg)
 	}
 
+	// TODO: resolve the following code is unreachable
+
 	ctx.EventManager().EmitEvent(
 		sdk.NewEvent(
 			eventType,

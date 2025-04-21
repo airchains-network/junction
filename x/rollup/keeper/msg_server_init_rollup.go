@@ -10,7 +10,7 @@ import (
 
 	"cosmossdk.io/math"
 	"cosmossdk.io/store/prefix"
-	"github.com/airchains-network/junction/x/rollup/types"
+	rolluptypes "github.com/airchains-network/junction/x/rollup/types"
 	"github.com/cosmos/cosmos-sdk/runtime"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"google.golang.org/grpc/codes"
@@ -36,12 +36,12 @@ import (
 // - A pointer to MsgInitRollupResponse containing the RollupId and a status indicating success or failure.
 // - An error if the rollup with the given moniker already exists or if any other issue occurs during initialization.
 
-func (k msgServer) InitRollup(goCtx context.Context, msg *types.MsgInitRollup) (*types.MsgInitRollupResponse, error) {
+func (k msgServer) InitRollup(goCtx context.Context, msg *rolluptypes.MsgInitRollup) (*rolluptypes.MsgInitRollupResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
 	// rollupStore := prefix.NewStore(storeAdapter, types.KeyPrefix(types.RollupKey))
-	rollupDataStore := prefix.NewStore(storeAdapter, types.KeyPrefix(types.RollupDataKey))
-	rollupMonikerStore := prefix.NewStore(storeAdapter, types.KeyPrefix(types.RollupMonikerKey))
+	rollupDataStore := prefix.NewStore(storeAdapter, rolluptypes.KeyPrefix(rolluptypes.RollupDataKey))
+	rollupMonikerStore := prefix.NewStore(storeAdapter, rolluptypes.KeyPrefix(rolluptypes.RollupMonikerKey))
 
 	var creator = msg.Creator
 	var moniker = msg.Moniker
@@ -106,7 +106,7 @@ func (k msgServer) InitRollup(goCtx context.Context, msg *types.MsgInitRollup) (
 	// 	return nil, status.Error(codes.FailedPrecondition, fmt.Sprintf("invalid genesis supply amount, expected: %d, got: %d", totalSupply, msg.GenesisSupply.Amount.Uint64()))
 	// }
 
-	var rollup = types.RollupMetadata{
+	var rollup = rolluptypes.RollupMetadata{
 		CreatedBy:                    creator,
 		RollupId:                     rollupId,
 		RollupLatestBatchNo:          0,
@@ -135,7 +135,7 @@ func (k msgServer) InitRollup(goCtx context.Context, msg *types.MsgInitRollup) (
 	}
 
 	// send the total supply of the denom from the creator address to the module account
-	err = k.bankKeeper.SendCoinsFromAccountToModule(ctx, creatorAddr, types.ModuleName, totalSupplyCoins)
+	err = k.bankKeeper.SendCoinsFromAccountToModule(ctx, creatorAddr, rolluptypes.ModuleName, totalSupplyCoins)
 	if err != nil {
 		return nil, status.Error(codes.FailedPrecondition, "failed to send coins from creator address to module account")
 	}
@@ -146,7 +146,7 @@ func (k msgServer) InitRollup(goCtx context.Context, msg *types.MsgInitRollup) (
 		If it doesn't exist, it creates a new entry with the rollup ID.
 	*/
 
-	ledgerEntryStore := prefix.NewStore(storeAdapter, types.KeyPrefix(types.LedgerEntryRollupCreatorKey))
+	ledgerEntryStore := prefix.NewStore(storeAdapter, rolluptypes.KeyPrefix(rolluptypes.LedgerEntryRollupCreatorKey))
 	if ledgerEntryStore.Has([]byte(creatorAddr.String())) {
 		rollupsIdBytes := ledgerEntryStore.Get([]byte(creatorAddr.String()))
 		var rollupsIds []string
@@ -171,7 +171,7 @@ func (k msgServer) InitRollup(goCtx context.Context, msg *types.MsgInitRollup) (
 	}
 
 	// update the ledger entry for the creator address
-	ledgerEntry := types.LedgerEntry{
+	ledgerEntry := rolluptypes.LedgerEntry{
 		CreatorAddress: creatorAddr.String(),
 		AmountStaked:   totalSupply,
 		Denom:          denomName,
@@ -181,7 +181,7 @@ func (k msgServer) InitRollup(goCtx context.Context, msg *types.MsgInitRollup) (
 	}
 	ledgerEntryBytes := k.cdc.MustMarshal(&ledgerEntry)
 
-	rollupStakingInfoStore := prefix.NewStore(storeAdapter, types.KeyPrefix(types.RollupStakingInfoKey))
+	rollupStakingInfoStore := prefix.NewStore(storeAdapter, rolluptypes.KeyPrefix(rolluptypes.RollupStakingInfoKey))
 	rollupStakingInfoKey := []byte(rollupId)
 	rollupStakingInfoBytes := rollupStakingInfoStore.Get(rollupStakingInfoKey)
 	if rollupStakingInfoBytes == nil {
@@ -196,33 +196,33 @@ func (k msgServer) InitRollup(goCtx context.Context, msg *types.MsgInitRollup) (
 	rollupMonikerStore.Set([]byte(rollup.Moniker), []byte(rollup.RollupId))
 
 	ctx.EventManager().EmitEvent(sdk.NewEvent(
-		"token-locked",
-		sdk.NewAttribute("creator", rollup.CreatedBy),
-		sdk.NewAttribute("rollup-id", rollupId),
-		sdk.NewAttribute("amount", strconv.FormatUint(totalSupply, 10)),
-		sdk.NewAttribute("denom", rollup.DenomName),
+		rolluptypes.EventTypeTokenLocked,
+		sdk.NewAttribute(rolluptypes.AttributeKeyCreator, rollup.CreatedBy),
+		sdk.NewAttribute(rolluptypes.AttributeKeyRollupId, rollupId),
+		sdk.NewAttribute(sdk.AttributeKeyAmount, strconv.FormatUint(totalSupply, 10)),
+		sdk.NewAttribute(rolluptypes.AttributeKeyDenom, rollup.DenomName),
 	))
 
 	ctx.EventManager().EmitEvent(sdk.NewEvent(
-		"rollup-initialized",
-		sdk.NewAttribute("creator", rollup.CreatedBy),
-		sdk.NewAttribute("rollup-id", rollupId),
-		sdk.NewAttribute("moniker", rollup.Moniker),
-		sdk.NewAttribute("chain-id", rollup.ChainId),
-		sdk.NewAttribute("denom-name", rollup.DenomName),
-		sdk.NewAttribute("da-type", rollup.DaType),
-		sdk.NewAttribute("keys", strings.Join(rollup.Keys, ",")),
-		sdk.NewAttribute("supply", strings.Join(uint64SliceToStringSlice(rollup.Supply), ",")),
-		sdk.NewAttribute("total-supply", strconv.FormatUint(totalSupply, 10)),
-		sdk.NewAttribute("acl-contract-address", rollup.AclContractAddress),
-		sdk.NewAttribute("kms-verifier-address", rollup.KmsVerifierAddress),
-		sdk.NewAttribute("tfhe-executor-address", rollup.TfheExecutorAddress),
-		sdk.NewAttribute("gateway-contract-address", rollup.GatewayContractAddress),
-		sdk.NewAttribute("asc-contract-address", rollup.AscContractAddress),
-		sdk.NewAttribute("relayer-g-address", rollup.RelayerGAddress),
+		rolluptypes.EventTypeRollupInitialized,
+		sdk.NewAttribute(rolluptypes.AttributeKeyCreator, rollup.CreatedBy),
+		sdk.NewAttribute(rolluptypes.AttributeKeyRollupId, rollupId),
+		sdk.NewAttribute(rolluptypes.AttributeKeyMoniker, rollup.Moniker),
+		sdk.NewAttribute(rolluptypes.AttributeKeyChainId, rollup.ChainId),
+		sdk.NewAttribute(rolluptypes.AttributeKeyDenomName, rollup.DenomName),
+		sdk.NewAttribute(rolluptypes.AttributeKeyDaType, rollup.DaType),
+		sdk.NewAttribute(rolluptypes.AttributeKeyKeys, strings.Join(rollup.Keys, ",")),
+		sdk.NewAttribute(rolluptypes.AttributeKeySupply, strings.Join(uint64SliceToStringSlice(rollup.Supply), ",")),
+		sdk.NewAttribute(rolluptypes.AttributeKeyTotalSupply, strconv.FormatUint(totalSupply, 10)),
+		sdk.NewAttribute(rolluptypes.AttributeKeyAclContractAddress, rollup.AclContractAddress),
+		sdk.NewAttribute(rolluptypes.AttributeKeyKmsVerifierAddress, rollup.KmsVerifierAddress),
+		sdk.NewAttribute(rolluptypes.AttributeKeyTfheExecutorAddress, rollup.TfheExecutorAddress),
+		sdk.NewAttribute(rolluptypes.AttributeKeyGatewayContractAddress, rollup.GatewayContractAddress),
+		sdk.NewAttribute(rolluptypes.AttributeKeyAscContractAddress, rollup.AscContractAddress),
+		sdk.NewAttribute(rolluptypes.AttributeKeyRelayerGAddress, rollup.RelayerGAddress),
 	))
 
-	return &types.MsgInitRollupResponse{
+	return &rolluptypes.MsgInitRollupResponse{
 		RollupId: rollupId,
 		Status:   true,
 	}, nil

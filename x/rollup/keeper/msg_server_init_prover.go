@@ -6,7 +6,7 @@ import (
 
 	"cosmossdk.io/store/prefix"
 	bls12381 "github.com/airchains-network/gnark/backend/groth16/bls12-381"
-	"github.com/airchains-network/junction/x/rollup/types"
+	rolluptypes "github.com/airchains-network/junction/x/rollup/types"
 	"github.com/cosmos/cosmos-sdk/runtime"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"google.golang.org/grpc/codes"
@@ -16,11 +16,11 @@ import (
 // InitProver initializes a prover for a specific rollup. It checks if the rollup exists, validates the provided verification key,
 // and ensures that no prover details already exist before storing the new prover information in the database.
 
-func (k msgServer) InitProver(goCtx context.Context, msg *types.MsgInitProver) (*types.MsgInitProverResponse, error) {
+func (k msgServer) InitProver(goCtx context.Context, msg *rolluptypes.MsgInitProver) (*rolluptypes.MsgInitProverResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 	storeAdapter := runtime.KVStoreAdapter(k.storeService.OpenKVStore(ctx))
 
-	rollupDataStore := prefix.NewStore(storeAdapter, types.KeyPrefix(types.RollupDataKey))
+	rollupDataStore := prefix.NewStore(storeAdapter, rolluptypes.KeyPrefix(rolluptypes.RollupDataKey))
 
 	var rollupId = msg.RollupId
 	var proverVerificationKey = msg.ProverVerificationKey
@@ -41,7 +41,7 @@ func (k msgServer) InitProver(goCtx context.Context, msg *types.MsgInitProver) (
 		return nil, status.Error(codes.InvalidArgument, "invalid verification key")
 	}
 
-	var rollup types.RollupMetadata
+	var rollup rolluptypes.RollupMetadata
 	rollupBytes := rollupDataStore.Get([]byte(rollupId))
 	k.cdc.MustUnmarshal(rollupBytes, &rollup)
 	// Prevent overwriting existing prover information by checking if any prover details are already set.
@@ -59,14 +59,14 @@ func (k msgServer) InitProver(goCtx context.Context, msg *types.MsgInitProver) (
 
 	// Emit an event indicating that the prover has been successfully initialized.
 	ctx.EventManager().EmitEvent(sdk.NewEvent(
-		"rollup-prover-initialized",
-		sdk.NewAttribute("rollup-id", rollupId),
-		sdk.NewAttribute("rollup-moniker", rollup.Moniker),
-		sdk.NewAttribute("prover-type", proverType),
-		sdk.NewAttribute("prover-endpoint", proverEndpoint),
+		rolluptypes.EventTypeRollupProverInitialized,
+		sdk.NewAttribute(rolluptypes.AttributeKeyRollupId, rollupId),
+		sdk.NewAttribute(rolluptypes.AttributeKeyRollupMoniker, rollup.Moniker),
+		sdk.NewAttribute(rolluptypes.AttributeKeyProverType, proverType),
+		sdk.NewAttribute(rolluptypes.AttributeKeyProverEndpoint, proverEndpoint),
 	))
 
-	return &types.MsgInitProverResponse{
+	return &rolluptypes.MsgInitProverResponse{
 		Status: true,
 	}, nil
 }
